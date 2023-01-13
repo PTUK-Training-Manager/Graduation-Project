@@ -1,4 +1,4 @@
-# Graduation-Project, Class of 2023, 2nd Semester. 🎓
+# Graduation Project, Class of 2023, 2nd Semester. 🎓
 Students Practical Training Management System 
 
 
