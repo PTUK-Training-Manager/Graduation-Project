@@ -2,7 +2,7 @@
 Students Practical Training Management System 
 
 
-## Team Members: 
+## Team Members
 -
 -
 -
