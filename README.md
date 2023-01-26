@@ -1,6 +1,5 @@
 # Graduation Project, Class of 2023, 2nd Semester. 🎓
-Students Practical Training Management System 
-
+University Training Management Information System
 
 ## Team Members
 -
