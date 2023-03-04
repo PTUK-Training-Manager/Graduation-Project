@@ -25,7 +25,7 @@ import {ImageListItem, Menu, Theme} from '@mui/material';
 import {Avatar} from '@mui/material';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import {AppBarProps} from './AppBarProps';
-import PTUK_Logo from "../../assets/PTUK-Logo.png";
+import PTUK_Logo from "/assets/PTUK-Logo.png";
 
 const drawerWidth = 240;
 
