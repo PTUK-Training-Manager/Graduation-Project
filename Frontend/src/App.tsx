@@ -1,20 +1,9 @@
-import { HashRouter, Route, Routes } from 'react-router-dom';
-import Home from './components/Home';
-import NotFound from './components/NotFound';
 
-export function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+ import CNavbar from "./components/company/CNavbar";
+function App() {
+  return( 
+        <CNavbar />      
   );
 }
 
-export function WrappedApp() {
-  return (
-    <HashRouter>
-      <App />
-    </HashRouter>
-  );
-}
+export default App;
