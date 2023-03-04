@@ -1,0 +1,17 @@
+.bar{
+    background-color: #30ADD1 !important;
+
+}
+  
+.bar .tbar .logout{
+    background-color:#217A94 !important;
+}
+
+.bar .tbar .pside {
+    justify-content:flex-end !important;
+    margin-left:auto !important;
+}
+
+ .side{
+    background-color: #EDF3F6 !important; 
+}
