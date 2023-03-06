@@ -2,16 +2,24 @@
     background-color: #30ADD1 !important;
 
 }
-  
-.bar .tbar .logout{
-    background-color:#217A94 !important;
-}
 
 .bar .tbar .pside {
-    justify-content:flex-end !important;
-    margin-left:auto !important;
+    justify-content:flex-end ;
+    margin-left:auto ;
 }
 
  .side{
-    background-color: #EDF3F6 !important; 
+    background-color: #EDF3F6 ;
+    position: relative ;
+    height: 100% ;
+    top : 0% ;
+} 
+.mail{
+    color: #62686B;
+}
+.badge{
+    color: black ;
+}
+.ptuk{
+    width: 48% !important;
 }
