@@ -1,9 +1,8 @@
 import { Sequelize } from 'sequelize';
 
-const db = new Sequelize('test', 'root', 'haneen', {
-    host:'localhost',
-	dialect: 'mysql'
-	
+const sequelize = new Sequelize('b7otjgdaapqdccyapkty', 'ukcmcuhseldmatbc', 'rzwqAW0y2PuHri21NHpu', {
+    host: 'b7otjgdaapqdccyapkty-mysql.services.clever-cloud.com',
+    dialect: 'mysql',
 });
 
-export default db;
+export default sequelize;
