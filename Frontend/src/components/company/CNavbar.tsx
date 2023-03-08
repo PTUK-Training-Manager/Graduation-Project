@@ -51,6 +51,7 @@ export default function CNavbar() {
           <Box className="pside">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
               <Avatar 
+              sx={{width:56, height:56,}}
               sizes="large"
               alt="avatar"
               src='https://randomuser.me/api/portraits/women/79.jpg'
@@ -96,7 +97,6 @@ export default function CNavbar() {
      sx={{width:drawerWidth , flexShrink:0,
       [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
     }}  >
-      <Toolbar />
           <Box className='side' sx={{ overflow: 'auto' }}>
         <List>
             <ListItem disablePadding sx={{ display: 'block' }}>

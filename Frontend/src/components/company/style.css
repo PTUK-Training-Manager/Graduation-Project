@@ -1,3 +1,8 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 .bar{
     background-color: #30ADD1 !important;
 
@@ -21,5 +26,14 @@
     color: black ;
 }
 .ptuk{
-    width: 48% !important;
+    width: 60% !important;
+}
+.css-ivnu1y-MuiPaper-root-MuiAppBar-root{
+    height: 12.5%;
+}
+.css-l086p4-MuiImageListItem-root .MuiImageListItem-img{
+    padding-top: 1.5%;
+}
+.css-12i7wg6-MuiPaper-root-MuiDrawer-paper{
+    top: 12.5% !important;
 }

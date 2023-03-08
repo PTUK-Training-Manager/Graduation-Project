@@ -1,16 +1,10 @@
-import { Route , Routes } from "react-router-dom";
- import CNavbar from "./components/company/CNavbar";
-import EditTraining from "./components/company/EditTraining";
-function App() {
-  return( 
+import React from 'react'
+import CNavbar from './components/company/CNavbar'
 
-        <>
-        <CNavbar />
-        <Routes>
-        <Route path='EditTraining' element={<EditTraining />}></Route>
-        </Routes>
-       </>     
-  );
+const App = () => {
+  return (
+    <CNavbar />
+  )
 }
 
-export default App;
+export default App
