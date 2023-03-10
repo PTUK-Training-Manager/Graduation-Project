@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useTheme} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { Drawer } from '@mui/material';
 import Toolbar from '@mui/material/Toolbar';
@@ -24,6 +25,7 @@ const drawerWidth = 240;
 
 
 export default function CNavbar() {
+  const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -93,7 +95,7 @@ export default function CNavbar() {
      <Drawer 
      variant="permanent" 
      sx={{width:drawerWidth , flexShrink:0,
-      [`& .MuiDrawer-paper`]: { width: drawerWidth, BoxSizing: 'border-Box' },
+      [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
     }}  >
           <Box className='side' sx={{ overflow: 'auto' }}>
         <List>
@@ -106,10 +108,7 @@ export default function CNavbar() {
                 }}
               >
             
-                <ListItemText primary="Training Requests" />
-                <Badge className='badge' badgeContent={6} max={999}>
-                  <MailIcon className='mail' />
-                </Badge>
+                <ListItemText primary="Submit Request" />
               </ListItemButton>
             </ListItem>
           
@@ -126,7 +125,7 @@ export default function CNavbar() {
                 }}
               >
                
-                <ListItemText primary="Trainers" />
+                <ListItemText primary="Add Company" />
               </ListItemButton>
             </ListItem>
           
@@ -192,25 +191,10 @@ export default function CNavbar() {
                 }}
               >
                
-                <ListItemText primary="Accepted Requests" />
+                <ListItemText primary="Add Student" />
               </ListItemButton>
             </ListItem>
         </List>
-        <Divider />
-        
-        <List>
-            <ListItem disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-              >
-                <ListItemText primary="Edit Training" />
-              </ListItemButton>
-            </ListItem>
-        </List>  
         </Box>
          </Drawer> 
     </Box>
