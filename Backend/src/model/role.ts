@@ -3,10 +3,10 @@ import db from '../config/connection';
 import { EnumType } from 'typescript';
 
 
-interface PermissionAttributes {
-  ID:number,
-  permission:string
-}
+// interface PermissionAttributes {
+//   ID:number,
+//   permission:string
+// }
 
 
 interface RoleAttributes {
