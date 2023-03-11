@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Logout = () => {
+const SubmitRequest = () => {
   return (
     <div>
       
@@ -8,4 +8,5 @@ const Logout = () => {
   )
 }
 
-export default Logout
+export default SubmitRequest
+

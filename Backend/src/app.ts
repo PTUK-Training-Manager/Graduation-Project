@@ -4,7 +4,7 @@ dotenv.config();
 import express from 'express'
 
 const app = express();
-const port = 3000;
+const port = 3001;
 import db from "./config/connection";
 import association  from './model/associations';
 import studentRouter from './routes/student.router';
@@ -21,6 +21,7 @@ association()
 db.sync({force: true})
     .then((value) => {
         console.log('All models were synchronized successfully.');
+        console.log("Test Pushing to Main Branch DIRECTLY");
     })
     .catch((error) => {
         console.error('An error occurred while synchronizing models:', error);

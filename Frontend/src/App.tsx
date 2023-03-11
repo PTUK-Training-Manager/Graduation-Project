@@ -1,9 +1,16 @@
+import CNavbar from './components/company/CNavbar'
+import UNavbar from './components/university/UNavbar'
+import TNavbar from './components/Trainer/TNavbar'
+import SignIn from './components/company/SignIn'
 
- import CNavbar from "./components/company/CNavbar";
-function App() {
-  return( 
-        <CNavbar />      
-  );
+
+const App = () => {
+  return (
+    // <CNavbar />
+    // <UNavbar />
+    // <TNavbar />
+    <SignIn />
+  )
 }
 
-export default App;
+export default App
