@@ -4,7 +4,7 @@ dotenv.config();
 import express from 'express'
 
 const app = express();
-const port = 3000;
+const port = 3001;
 import db from "./config/connection";
 import { assosi } from './model/associations';
 import studentRouter from './routes/student.router';
