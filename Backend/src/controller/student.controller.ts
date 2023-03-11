@@ -13,7 +13,6 @@ class studentController{
 
     async getAll(req: Request, res: Response) {
 		try {
-
 			const records = await Student.findAll({});
 			return res.json(records);
 		} catch (e) {

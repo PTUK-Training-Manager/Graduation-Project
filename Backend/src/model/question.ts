@@ -1,9 +1,9 @@
-import { DataTypes, Model } from 'sequelize';
+import { DataTypes, IntegerDataType, Model } from 'sequelize';
 import db from '../config/connection';
 
 
 interface QuestionAttributes {
-  QuestionID:number,
+  QuestionID:IntegerDataType,
   question:string,
   isMultipleChoice:boolean
 }
@@ -12,7 +12,7 @@ export class Question extends Model<QuestionAttributes> {}
 
 Question.init({
     QuestionID: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },

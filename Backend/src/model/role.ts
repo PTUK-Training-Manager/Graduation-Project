@@ -1,16 +1,10 @@
-import { DataTypes, Model } from 'sequelize';
+import { DataTypes, IntegerDataType, Model } from 'sequelize';
 import db from '../config/connection';
 import { EnumType } from 'typescript';
 
 
-// interface PermissionAttributes {
-//   ID:number,
-//   permission:string
-// }
-
-
 interface RoleAttributes {
-  roleID:number,
+  roleID:IntegerDataType,
   userRole:EnumType
 }
 
@@ -25,13 +19,12 @@ enum userRoleEnum {
 
 Role.init({
   roleID: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
     userRole: {
-    type: DataTypes.ENUM(userRoleEnum.AdministrationRegistration,userRoleEnum.Trainer,userRoleEnum.student,userRoleEnum.superAdmin,userRoleEnum.universityTrainingOfficer),
-    //type: DataTypes.STRING,  
+    type: DataTypes.ENUM(userRoleEnum.AdministrationRegistration,userRoleEnum.Trainer,userRoleEnum.student,userRoleEnum.superAdmin,userRoleEnum.universityTrainingOfficer), 
     allowNull: false
     }},
     {

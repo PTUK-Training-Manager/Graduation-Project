@@ -1,7 +1,7 @@
-import { DataTypes, Model } from 'sequelize';
+import { DataTypes, IntegerDataType, Model } from 'sequelize';
 import db from '../config/connection';
 interface EvaluationAttributes {
-  Id:number,
+  Id:IntegerDataType,
   startTime:Date,
   endTime:Date,
   signed:boolean,
@@ -12,7 +12,7 @@ export class Evaluation extends Model<EvaluationAttributes> {}
 
 Evaluation.init({
   Id: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
