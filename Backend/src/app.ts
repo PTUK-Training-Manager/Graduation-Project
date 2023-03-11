@@ -22,6 +22,7 @@ db.sync({alter: true})
     .then((value) => {
        // assosi()
         console.log('All models were synchronized successfully.');
+        console.log("Test Pushing to Main Branch DIRECTLY");
     })
     .catch((error) => {
         console.error('An error occurred while synchronizing models:', error);
