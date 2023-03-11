@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize';
 
-const sequelize = new Sequelize('b7otjgdaapqdccyapkty', 'ukcmcuhseldmatbc', 'rzwqAW0y2PuHri21NHpu', {
-    host: 'b7otjgdaapqdccyapkty-mysql.services.clever-cloud.com',
+const sequelize = new Sequelize('test', 'root', 'shahd!A2002', {
+    host: 'localhost',
     dialect: 'mysql',
 });
 

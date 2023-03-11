@@ -1,9 +1,8 @@
-import { DataTypes, Model } from 'sequelize';
+import { DataTypes, IntegerDataType, Model } from 'sequelize';
 import db from '../config/connection';
 
-
 interface StudentAttributes {
-  studentId:string,
+  studentId:IntegerDataType,
   studentName:string,
   phoneNumber:string
 }
@@ -12,7 +11,7 @@ interface StudentAttributes {
 
 Student.init({
   studentId: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true
       },

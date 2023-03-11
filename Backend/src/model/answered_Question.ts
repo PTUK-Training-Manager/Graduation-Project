@@ -1,16 +1,16 @@
-import { DataTypes, Model } from 'sequelize';
+import { DataTypes, IntegerDataType, Model } from 'sequelize';
 import db from '../config/connection';
 
 
 interface answered_QuestionAttributes {
-  answered_QuestionID:number
+  answered_QuestionID:IntegerDataType
 }
 
 export class Answered_Question extends Model<answered_QuestionAttributes> {}
 
 Answered_Question.init({
     answered_QuestionID: {
-      type: DataTypes.NUMBER,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     }},

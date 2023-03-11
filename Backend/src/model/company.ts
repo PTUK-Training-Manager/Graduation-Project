@@ -1,8 +1,8 @@
-import { DataTypes, Model } from 'sequelize';
+import { DataTypes, IntegerDataType, Model } from 'sequelize';
 import db from '../config/connection';
 
 interface CompanyAttributes {
-  companyId:string,
+  companyId:IntegerDataType,
   companyName:string,
   phoneNumber:string,
   location:string,
@@ -14,7 +14,7 @@ export class Company extends Model<CompanyAttributes> {}
 
 Company.init({
   companyId: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
