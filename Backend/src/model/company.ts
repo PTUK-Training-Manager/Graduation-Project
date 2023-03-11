@@ -1,41 +1,43 @@
-import { DataTypes, IntegerDataType, Model } from 'sequelize';
-import db from '../config/connection';
+import { DataTypes, IntegerDataType, Model } from "sequelize";
+import db from "../config/connection";
 
 interface CompanyAttributes {
-  companyId:IntegerDataType,
-  companyName:string,
-  phoneNumber:string,
-  location:string,
-  managerName:string,
-
+  companyId: IntegerDataType;
+  companyName: string;
+  phoneNumber: string;
+  location: string;
+  managerName: string;
 }
 
-export class Company extends Model<CompanyAttributes> {}
+export class Company extends Model<CompanyAttributes> { }
 
-Company.init({
-  companyId: {
+Company.init(
+  {
+    companyId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      primaryKey: true
+      primaryKey: true,
     },
     companyName: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     phoneNumber: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
     location: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     managerName: {
       type: DataTypes.STRING,
-      allowNull: false
-    }},
-    {
-    sequelize: db ,
-    modelName: 'Company',
-    timestamps:false 
-    })
+      allowNull: false,
+    },
+  },
+  {
+    sequelize: db,
+    modelName: "Company",
+    timestamps: false,
+  }
+);

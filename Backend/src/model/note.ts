@@ -1,4 +1,4 @@
-import { DataTypes, IntegerDataType, Model } from 'sequelize';
+import { Association, DataTypes, IntegerDataType, Model } from 'sequelize';
 import db from '../config/connection';
 
 
