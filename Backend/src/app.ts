@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv'
 dotenv.config();
-
+import bodyParser from 'body-parser';
 import express from 'express'
 
 const app = express();
@@ -10,18 +10,17 @@ import association  from './model/associations';
 import studentRouter from './routes/student.router';
 import trainerRouter from './routes/trainer.router';
 
-
+app.use(bodyParser.json())
 app.use(express.json());
 app.use("/student", studentRouter);
 app.use("/trainer", trainerRouter);
-
 
 
 association()
 db.sync({force: true})
     .then((value) => {
         console.log('All models were synchronized successfully.');
-        console.log("Test Pushing to Main Branch DIRECTLY");
+        
     })
     .catch((error) => {
         console.error('An error occurred while synchronizing models:', error);
@@ -29,6 +28,6 @@ db.sync({force: true})
 
 app.listen(port, () => {
     console.log(`listening on ${port}`);
-    console.log(process.env.NODE_ENV);
+    //console.log(process.env.HOST);
 })
 

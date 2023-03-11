@@ -7,7 +7,7 @@ class studentController{
 			const record = await Student.create({ ...req.body});
 			return res.json({ record, msg: "Successfully create student" });
 		} catch (e) {
-			return res.json({ msg: "fail to create", status: 500, route: "/create" });
+			return res.json(e);
 		}
 	}
 
