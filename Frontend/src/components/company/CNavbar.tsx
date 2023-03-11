@@ -15,7 +15,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import MailIcon from '@mui/icons-material/Mail';
 import Badge from '@mui/material/Badge';
-import "./style.css";
+import "./cstyle.css";
 import Typography from '@mui/material/Typography';
 import { ImageListItem, Menu } from '@mui/material';
 import { Avatar } from '@mui/material';
@@ -57,7 +57,7 @@ export default function CNavbar() {
               </Avatar>
             </IconButton>
           <Menu
-              sx={{ mt: '45px' }}
+              sx={{ mt: '2.8125rem' }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
