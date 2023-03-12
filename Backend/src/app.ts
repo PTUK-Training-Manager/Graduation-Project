@@ -9,15 +9,20 @@ import db from "./config/connection";
 import association  from './model/associations';
 import studentRouter from './routes/student.router';
 import trainerRouter from './routes/trainer.router';
+import authRouter from './routes/auth.router';
+import userRouter from './routes/user.router';
 
 app.use(bodyParser.json())
 app.use(express.json());
 app.use("/student", studentRouter);
 app.use("/trainer", trainerRouter);
+app.use("/auth",authRouter);
+app.use("/user", userRouter);
 
 
 association()
-db.sync({force: true})
+// db.sync({force: true})
+db.sync()
     .then((value) => {
         console.log('All models were synchronized successfully.');
         

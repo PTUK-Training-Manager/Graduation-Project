@@ -1,34 +1,41 @@
-import express from 'express';
+// import express from 'express';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+// import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
-import { User } from '../model/user';
+import  {User} from '../model/user'
+import { Secret } from 'jsonwebtoken';
 
-interface LoginRequestBody {
-    username: string;
-    password: string;
-  }
-
-
-const handleLogin = async(req:Request <{}, {}, LoginRequestBody> ,res:Response)=>{
-    const { username, password } = req.body ;
-    if (!username || !password) 
-    return res.status(400).json({ 'message': 'Username and password are required.' });
-    const foundUser= await User.findOne({ where: { username } });
-    if (!foundUser) return res.sendStatus(401); 
-    const match = await bcrypt.compare(password, foundUser.password);
-    if (!match) {
-        return res.status(401).json({ error: 'Invalid email or password' });
+// import dotenv from 'dotenv';
+// dotenv.config();
+class authController{
+    async handleLogin (req: Request, res: Response) {
+      try {
+    const user = {...req.body};
+    const record = await User.findByPk(user.username);
+    console.log(user);
+    if (!record) 
+    return res.json("false");
+     else{ 
+     //const match = await bcrypt.compare(user.password,record.password);
+     const match =(user.password==record.password)
+     if (!match) {
+         return res.status(401).json({ error: 'Invalid password' });
       }
-      const accessToken = jwt.sign(
-        { "username": foundUser.username },
-        process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: '1h' }
-    );
-    const refreshToken = jwt.sign(
-        { "username": foundUser.username },
-        process.env.REFRESH_TOKEN_SECRET,
-        { expiresIn: '1d' }
-    );
+      else{
+      const accesstoken= process.env.ACCESS_TOKEN_SECRET?.toString() as Secret;
+      const refreshtoken=process.env.REFRESH_TOKEN_SECRET?.toString() as Secret;
+      const accessToken = jwt.sign({username: record.username }, accesstoken, { expiresIn: '1h' });
+      const refreshToken = jwt.sign({username: record.username },refreshtoken, { expiresIn: '1d' } );
 
+    console.log(refreshToken);
+    return res.json(accessToken);
+    // }
+  }
 }
+      }
+  catch(error){
+    return res.json("erorr");
+  }
+}
+}
+export default new authController()
