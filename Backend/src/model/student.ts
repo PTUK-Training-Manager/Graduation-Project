@@ -4,10 +4,12 @@ import db from '../config/connection';
 interface StudentAttributes {
   studentId:IntegerDataType,
   studentName:string,
-  phoneNumber:string
+  phoneNumber:string,
+  
 }
 
- export class Student extends Model<StudentAttributes> {}
+ export class Student extends Model<StudentAttributes> {
+ }
 
 Student.init({
   studentId: {

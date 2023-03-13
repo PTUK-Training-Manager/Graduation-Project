@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import { Request, Response } from 'express';
 import  {User} from '../model/user'
 import { Secret } from 'jsonwebtoken';
+import { Role } from '../model/role';
 
 // import dotenv from 'dotenv';
 // dotenv.config();
@@ -11,8 +12,14 @@ class authController{
     async handleLogin (req: Request, res: Response) {
       try {
     const user = {...req.body};
-    const record = await User.findByPk(user.username);
+
+
+    const record = await User.findByPk(user.username
+       ,{ include: Role}
+      );
     console.log(user);
+    const roleid=((record as any).RoleId)
+
     if (!record) 
     return res.json("false");
      else{ 
@@ -23,12 +30,20 @@ class authController{
       }
       else{
       const accesstoken= process.env.ACCESS_TOKEN_SECRET?.toString() as Secret;
-      const refreshtoken=process.env.REFRESH_TOKEN_SECRET?.toString() as Secret;
-      const accessToken = jwt.sign({username: record.username }, accesstoken, { expiresIn: '1h' });
-      const refreshToken = jwt.sign({username: record.username },refreshtoken, { expiresIn: '1d' } );
+      // const refreshtoken=process.env.REFRESH_TOKEN_SECRET?.toString() as Secret;
+      const accessToken = jwt.sign({
+        "UserInfo": {
+          username:record.username,
+          roleid: roleid
+      }}, 
+      accesstoken, { expiresIn: '1h' } );
+      // const refreshToken = jwt.sign({username: record.username },refreshtoken, { expiresIn: '1d' } );
 
-    console.log(refreshToken);
+    // console.log(refreshToken);
     return res.json(accessToken);
+    //ضايل نسيف التوكين في اللوكال ستوريج او مكان يعني
+
+    
     // }
   }
 }

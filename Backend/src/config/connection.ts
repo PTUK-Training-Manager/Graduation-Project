@@ -1,7 +1,7 @@
 import { Sequelize } from 'sequelize';
-// import dotenv from 'dotenv';
 import { Secret } from 'jsonwebtoken';
-// dotenv.config();
+
+
 const db=process.env.DB_NAME?.toString() as Secret;
 const username= process.env.DB_USER?.toString() as Secret;
 const password= process.env.DB_PASSWORD?.toString() as Secret;
