@@ -1,34 +1,39 @@
-import { DataTypes, IntegerDataType, Model } from 'sequelize';
+import { DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model } from 'sequelize';
 import db from '../config/connection';
 import { EnumType } from 'typescript';
 
 
-interface RoleAttributes {
-  roleID:IntegerDataType,
-  userRole:EnumType
+// interface RoleAttributes {
+//   roleID:IntegerDataType,
+//   userRole:EnumType
+// }
+
+enum userRoleEnum {
+  superAdmin ,
+  universityTrainingOfficer ,
+  Trainer ,
+  student,
+  AdministrationRegistration,
+}
+export class Role extends Model<InferAttributes<Role>, InferCreationAttributes<Role>> {
+  declare roleID: IntegerDataType;
+  declare userRole: EnumType;
 }
 
-export class Role extends Model<RoleAttributes> {}
-enum userRoleEnum {
-  superAdmin = 'superAdmin',
-  universityTrainingOfficer = 'universityTrainingOfficer',
-  Trainer = 'Trainer',
-  student = 'student',
-  AdministrationRegistration = 'Administration&Registration',
-}
 
 Role.init({
   roleID: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true
-    },
-    userRole: {
-    type: DataTypes.ENUM(userRoleEnum.AdministrationRegistration,userRoleEnum.Trainer,userRoleEnum.student,userRoleEnum.superAdmin,userRoleEnum.universityTrainingOfficer), 
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true
+  },
+  userRole: {
+    type:typeof userRoleEnum,
     allowNull: false
-    }},
-    {
+  }
+},
+  {
     sequelize: db,
     modelName: 'Role',
-    timestamps:false  
-    });
+    timestamps: false
+  });
