@@ -1,13 +1,9 @@
-// import express from 'express';
 import jwt from 'jsonwebtoken';
-// import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 import  {User} from '../model/user'
 import { Secret } from 'jsonwebtoken';
 import { Role } from '../model/role';
 
-// import dotenv from 'dotenv';
-// dotenv.config();
 class authController{
     async handleLogin (req: Request, res: Response) {
       try {

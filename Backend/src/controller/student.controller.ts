@@ -19,6 +19,22 @@ class studentController{
 			return res.json({ msg: "fail to read", status: 500, route: "/read" });
 		}
 	}
+
+	async DeleteStudentById(req: Request, res: Response) {
+		try {
+			let{id}=req.params;
+			// const record = await Student.findByPk(id);
+			const deletedStudent = await Student.destroy({
+				where:{ studentId: id}});
+				if(!deletedStudent)
+				return res.json("something went wrong");
+			return res.json("success");
+			
+		} catch (e) {
+			return res.json({ msg: "fail to read", status: 500, route: "/read" });
+		}
+	}
 }
 
+    
 export default new studentController();

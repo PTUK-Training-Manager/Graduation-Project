@@ -11,6 +11,7 @@ import studentRouter from './routes/student.router';
 import trainerRouter from './routes/trainer.router';
 import authRouter from './routes/auth.router';
 import userRouter from './routes/user.router';
+import rolesRouter from './routes/roles.router';
 
 app.use(bodyParser.json())
 app.use(express.json());
@@ -18,6 +19,7 @@ app.use("/student", studentRouter);
 app.use("/trainer", trainerRouter);
 app.use("/auth",authRouter);
 app.use("/user", userRouter);
+app.use("/Role", rolesRouter);
 
 
 association()
