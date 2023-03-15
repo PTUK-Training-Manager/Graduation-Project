@@ -2,6 +2,8 @@ import * as dotenv from 'dotenv'
 dotenv.config();
 import bodyParser from 'body-parser';
 import express from 'express'
+import cookieParser from 'cookie-parser';
+
 
 const app = express();
 const port = 3001;
@@ -12,8 +14,8 @@ import trainerRouter from './routes/trainer.router';
 import authRouter from './routes/auth.router';
 import userRouter from './routes/user.router';
 import rolesRouter from './routes/roles.router';
-
-app.use(bodyParser.json())
+app.use(cookieParser());
+app.use(bodyParser.json());
 app.use(express.json());
 app.use("/student", studentRouter);
 app.use("/trainer", trainerRouter);
@@ -23,8 +25,8 @@ app.use("/Role", rolesRouter);
 
 
 association()
-db.sync({force: true})
-// db.sync()
+// db.sync({force: true})
+db.sync()
     .then((value) => {
         console.log('All models were synchronized successfully.');
         

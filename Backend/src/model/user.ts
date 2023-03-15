@@ -12,7 +12,7 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
   declare username: string;
   declare email: string;
   declare password: string;
-  declare roleId?:NonAttribute<number>;
+  declare roleId?: number;
 }
 
 User.init({

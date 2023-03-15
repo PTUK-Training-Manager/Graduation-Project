@@ -4,8 +4,7 @@ const verifyRoles = (...allowedRoles:any) => {
     return (req:Request, res:Response, next:NextFunction) => {
         if (!req?.role)
         return res.sendStatus(401);
-
-        const rolesArray = [...allowedRoles];
+        const rolesArray = [...allowedRoles];        
         const result = (rolesArray.includes(req.role));
         if (!result) 
           return res.sendStatus(401);
