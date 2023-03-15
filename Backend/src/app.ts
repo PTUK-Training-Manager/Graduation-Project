@@ -23,8 +23,8 @@ app.use("/Role", rolesRouter);
 
 
 association()
-// db.sync({force: true})
-db.sync()
+db.sync({force: true})
+// db.sync()
     .then((value) => {
         console.log('All models were synchronized successfully.');
         

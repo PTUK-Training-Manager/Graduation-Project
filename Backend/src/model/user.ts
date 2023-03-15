@@ -9,10 +9,10 @@ import db from '../config/connection';
 // }
 
 export class User extends Model<InferAttributes<User>, InferCreationAttributes<User>>{
-  declare username:any;
-  declare email:any;
-  declare password:any;
-  declare RoleId?:NonAttribute<number>;
+  declare username: string;
+  declare email: string;
+  declare password: string;
+  declare roleId?:NonAttribute<number>;
 }
 
 User.init({

@@ -11,7 +11,7 @@ class AuthController {
       const record = await User.findByPk(username
         , { include: Role }
       );
-      const roleId = record?.RoleId
+      const roleId = record?.roleId
 
       if (!record)
       return res.status(401).json({ error: 'User not found' });

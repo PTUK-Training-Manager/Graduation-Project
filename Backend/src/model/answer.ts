@@ -1,16 +1,19 @@
-import { DataTypes, IntegerDataType, Model } from 'sequelize';
+import { DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model } from 'sequelize';
 import db from '../config/connection';
 
 
-interface AnswerAttributes {
-  AnswerID:IntegerDataType,
-  answer:string
+// interface AnswerAttributes {
+//   AnswerID:IntegerDataType,
+//   answer:string
+// }
+
+export class Answer extends Model<InferAttributes<Answer>, InferCreationAttributes<Answer>> {
+ declare answerID: number;
+ declare answer:string;
 }
 
-export class Answer extends Model<AnswerAttributes> {}
-
 Answer.init({
-    AnswerID: {
+    answerID: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true

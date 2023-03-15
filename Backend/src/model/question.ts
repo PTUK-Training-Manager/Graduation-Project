@@ -1,17 +1,23 @@
-import { DataTypes, IntegerDataType, Model } from 'sequelize';
+import { DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
 import db from '../config/connection';
 
 
-interface QuestionAttributes {
-  QuestionID:IntegerDataType,
-  question:string,
-  isMultipleChoice:boolean
+// interface QuestionAttributes {
+//   questionID:IntegerDataType,
+//   question:string,
+//   isMultipleChoice:boolean
+// }
+
+export class Question extends Model<InferAttributes<Question>, InferCreationAttributes<Question>> {
+declare questionID: number;
+declare question:string;
+declare isMultipleChoice: boolean;
+declare roleId?:NonAttribute<number>;
+
 }
 
-export class Question extends Model<QuestionAttributes> {}
-
 Question.init({
-    QuestionID: {
+    questionID: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true

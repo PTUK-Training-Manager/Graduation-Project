@@ -1,15 +1,22 @@
-import { DataTypes, IntegerDataType, Model } from "sequelize";
+import { DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from "sequelize";
 import db from "../config/connection";
 
-interface CompanyAttributes {
-  companyId: IntegerDataType;
-  companyName: string;
-  phoneNumber: string;
-  location: string;
-  managerName: string;
-}
+// interface CompanyAttributes {
+//   companyId: IntegerDataType;
+//   companyName: string;
+//   phoneNumber: string;
+//   location: string;
+//   managerName: string;
+// }
 
-export class Company extends Model<CompanyAttributes> { }
+export class Company extends Model<InferAttributes<Company>, InferCreationAttributes<Company>> {
+ declare companyId: number;
+ declare companyName: string;
+ declare phoneNumber: string;
+ declare location: string;
+ declare managerName: string;
+ declare userName?:NonAttribute<string>;
+ }
 
 Company.init(
   {

@@ -1,6 +1,6 @@
 import { DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model } from 'sequelize';
-import db from '../config/connection';
 import { EnumType } from 'typescript';
+import db from '../config/connection';
 
 
 // interface RoleAttributes {
@@ -9,15 +9,15 @@ import { EnumType } from 'typescript';
 // }
 
 enum userRoleEnum {
-  superAdmin ,
-  universityTrainingOfficer ,
-  Trainer ,
-  student,
-  AdministrationRegistration,
+  superAdmin='superAdmin',
+  universityTrainingOfficer='universityTrainingOfficer' ,
+  Trainer ='trainer',
+  student='student',
+  AdministrationRegistration='administrationRegistration',
 }
 export class Role extends Model<InferAttributes<Role>, InferCreationAttributes<Role>> {
-  declare roleID: IntegerDataType;
-  declare userRole: EnumType;
+  declare roleID: number;
+  declare userRole: typeof userRoleEnum;
 }
 
 
@@ -28,7 +28,7 @@ Role.init({
     primaryKey: true
   },
   userRole: {
-    type:typeof userRoleEnum,
+ type: DataTypes.ENUM(userRoleEnum.superAdmin, userRoleEnum.universityTrainingOfficer, userRoleEnum.Trainer, userRoleEnum.student, userRoleEnum.AdministrationRegistration),
     allowNull: false
   }
 },

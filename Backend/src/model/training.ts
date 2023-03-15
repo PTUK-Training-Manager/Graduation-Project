@@ -1,13 +1,14 @@
-import { DataTypes, IntegerDataType, Model } from 'sequelize';
+import { DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
+import { EnumType } from 'typescript';
 import db from '../config/connection';
 
-export enum TrainingType {
+ enum TrainingType {
   first = 'first',
   second = 'second',
   compound = 'compound',
 }
 
-export enum TrainingStatus {
+enum TrainingStatus {
   pending = 'pending',
   rejected = 'rejected',
   running = 'running',
@@ -16,15 +17,26 @@ export enum TrainingStatus {
   completed = 'completed',
 }
 
-interface RoleAttributes {
-  trainingId: IntegerDataType;
-  type: TrainingType;
-  startDate: Date;
-  endDate: Date;
-  status: TrainingStatus;
-}
+// interface RoleAttributes {
+//   trainingId: IntegerDataType;
+//   type: TrainingType;
+//   startDate: Date;
+//   endDate: Date;
+//   status: TrainingStatus;
+// }
 
-export class Training extends Model<RoleAttributes> {}
+export class Training extends Model<InferAttributes<Training>, InferCreationAttributes<Training>> {
+declare trainingId: number;
+declare type: typeof TrainingType;
+declare startDate: Date;
+declare endDate: Date;
+declare status: typeof TrainingStatus;
+declare studentId?:NonAttribute<string>;
+declare companyId?:NonAttribute<number>;
+declare trainerId?:NonAttribute<number>;
+
+
+}
 
 Training.init(
   {
