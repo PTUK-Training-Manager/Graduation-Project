@@ -17,7 +17,7 @@ enum userRoleEnum {
 }
 export class Role extends Model<InferAttributes<Role>, InferCreationAttributes<Role>> {
   declare roleID: number;
-  declare userRole: typeof userRoleEnum;
+  declare userRole: typeof userRoleEnum; 
 }
 
 
