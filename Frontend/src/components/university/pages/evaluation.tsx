@@ -1,6 +1,6 @@
 import React from 'react'
 
-const SubmitRequest = () => {
+const evaluation = () => {
   return (
     <div>
       
@@ -8,5 +8,4 @@ const SubmitRequest = () => {
   )
 }
 
-export default SubmitRequest
-
+export default evaluation

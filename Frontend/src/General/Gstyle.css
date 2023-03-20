@@ -11,22 +11,21 @@ body{
 
 .bar{
     background-color: #30ADD1 !important;
+    height: 13%;
 }
 
 .ptuk{
-    width: 60% !important;
+    width: 65% !important;
 }
 
 .css-l086p4-MuiImageListItem-root .MuiImageListItem-img{
-    padding-top: 1.5%;
+    padding-top: 4%;
 }
 
-.css-ivnu1y-MuiPaper-root-MuiAppBar-root{
-    height: 12.5% ;
+.pside {
+    justify-content:flex-end ;
+    margin-left:auto ;
+    padding-top:5 ;
 }
 
-.css-sviodz-MuiTypography-root-MuiLink-root{
-    margin-left: 18% !important;
-  }
- 
   
