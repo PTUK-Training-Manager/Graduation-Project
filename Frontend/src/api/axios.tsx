@@ -1,6 +1,6 @@
 import React from 'react'
 
-const AddCompany = () => {
+const axios = () => {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const AddCompany = () => {
   )
 }
 
-export default AddCompany
+export default axios

@@ -20,7 +20,7 @@ import Typography from '@mui/material/Typography';
 import { ImageListItem, Menu } from '@mui/material';
 import { Avatar } from '@mui/material';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-const drawerWidth = 240;
+const drawerWidth = "15rem";
 
 
 export default function CNavbar() {
@@ -49,7 +49,7 @@ export default function CNavbar() {
           <Box className="pside">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
               <Avatar 
-              sx={{width:56, height:56,}}
+              sx={{width:"3.5rem", height:"3.5rem",}}
               sizes="large"
               alt="avatar"
               src='https://randomuser.me/api/portraits/women/79.jpg'
@@ -100,9 +100,9 @@ export default function CNavbar() {
             <ListItem disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
-                  minHeight: 48,
+                  minHeight: "3rem",
                   justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
+                  px: "0.15625rem",
                 }}
               >
             
@@ -120,9 +120,9 @@ export default function CNavbar() {
             <ListItem disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
-                  minHeight: 48,
+                  minHeight: "3rem",
                   justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
+                  px: "0.15625rem",
                 }}
               >
                
@@ -137,9 +137,9 @@ export default function CNavbar() {
             <ListItem disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
-                  minHeight: 48,
+                  minHeight: "3rem",
                   justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
+                  px: "0.15625rem",
                 }}
               >
                
@@ -154,9 +154,9 @@ export default function CNavbar() {
             <ListItem disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
-                  minHeight: 48,
+                  minHeight: "3rem",
                   justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
+                  px: "0.15625rem",
                 }}
               >
                
@@ -170,9 +170,9 @@ export default function CNavbar() {
             <ListItem disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
-                  minHeight: 48,
+                  minHeight: "3rem",
                   justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
+                  px: "0.15625rem",
                 }}
               >
                
@@ -186,9 +186,9 @@ export default function CNavbar() {
             <ListItem disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
-                  minHeight: 48,
+                  minHeight: "3rem",
                   justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
+                  px: "0.15625rem",
                 }}
               >
                
@@ -202,9 +202,9 @@ export default function CNavbar() {
             <ListItem disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
-                  minHeight: 48,
+                  minHeight: "3rem",
                   justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
+                  px: "0.15625rem",
                 }}
               >
                 <ListItemText primary="Edit Training" />
