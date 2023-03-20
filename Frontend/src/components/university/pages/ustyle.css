@@ -1,0 +1,49 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+.bar{
+    background-color: #30ADD1 !important;
+
+}
+
+.bar .tbar .pside {
+    justify-content:flex-end ;
+    margin-left:auto ;
+}
+
+ .side{
+    background-color: #EDF3F6 ;
+    position: relative ;
+    height: 100% ;
+    top : 0% ;
+} 
+.mail{
+    color: #62686B;
+}
+.badge{
+    color: black ;
+}
+.ptuk{
+    width: 60% !important;
+}
+.css-ivnu1y-MuiPaper-root-MuiAppBar-root{
+    height: 12.5%;
+}
+.css-l086p4-MuiImageListItem-root .MuiImageListItem-img{
+    padding-top: 1.5%;
+}
+.css-12i7wg6-MuiPaper-root-MuiDrawer-paper{
+    top: 12.5% !important;
+}
+.css-ivnu1y-MuiPaper-root-MuiAppBar-root{
+    height: 12.5% ;
+}
+.css-1y02qt2-MuiPaper-root {
+margin-left: 650px;
+}
+.css-fjv7c-MuiPaper-root {
+    margin-top: 10%;
+    margin-left: 600px;
+}
