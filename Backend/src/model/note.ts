@@ -1,16 +1,19 @@
-import { Association, DataTypes, IntegerDataType, Model } from 'sequelize';
+import { Association, DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model } from 'sequelize';
 import db from '../config/connection';
 
 
-interface NoteAttributes {
-  NoteID:IntegerDataType,
-  note:string
+// interface NoteAttributes {
+//   NoteID:IntegerDataType,
+//   note:string
+// }
+
+export class Note extends Model<InferAttributes<Note>, InferCreationAttributes<Note>>{
+  declare noteId: number;
+declare note:string;
 }
 
-export class Note extends Model<NoteAttributes> {}
-
 Note.init({
-    NoteID: {
+    noteId: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true

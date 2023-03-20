@@ -1,15 +1,18 @@
-import { DataTypes, IntegerDataType, Model } from 'sequelize';
+import { DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model } from 'sequelize';
 import db from '../config/connection';
 
-interface PermissionAttributes {
-  ID:IntegerDataType,
-  permission:string
+// interface PermissionAttributes {
+//   id:IntegerDataType,
+//   permission:string
+// }
+
+export class Permission extends Model<InferAttributes<Permission>, InferCreationAttributes<Permission>> {
+ declare id: number;
+declare permission:string;
 }
 
-export class Permission extends Model<PermissionAttributes> {}
-
 Permission.init({
-  ID: {
+  id: {
           type: DataTypes.INTEGER,
           autoIncrement: true,
           primaryKey: true,

@@ -1,14 +1,19 @@
 
-import { DataTypes, Model } from 'sequelize';
+import { DataTypes, Model, InferAttributes,InferCreationAttributes, NonAttribute} from 'sequelize';
 import db from '../config/connection';
 
-interface UserAttributes {
-  username:string,
-  email:string,
-  password:string
-}
+// interface UserAttributes {
+//   username:string,
+//   email:string,
+//   password:string
+// }
 
-export class User extends Model<UserAttributes> {}
+export class User extends Model<InferAttributes<User>, InferCreationAttributes<User>>{
+  declare username: string;
+  declare email: string;
+  declare password: string;
+  declare roleId?: number;
+}
 
 User.init({
   username: {

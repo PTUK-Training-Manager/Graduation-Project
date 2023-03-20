@@ -12,47 +12,47 @@ import { Training } from "./training";
 import { User } from "./user";
 
  const association = () => {
-  User.hasOne(Student, { foreignKey: "UserName" });
-  Student.belongsTo(User, { foreignKey: "UserName" });
+  User.hasOne(Student, { foreignKey: "userName" });
+  Student.belongsTo(User, { foreignKey: "userName" });
 
-  User.hasOne(Company, { foreignKey: "UserName" });
-  Company.belongsTo(User, { foreignKey: "UserName" });
+  User.hasOne(Company, { foreignKey: "userName" });
+  Company.belongsTo(User, { foreignKey: "userName" });
 
-  User.hasOne(Trainer, { foreignKey: "UserName" });
-  Trainer.belongsTo(User, { foreignKey: "UserName" });
+  User.hasOne(Trainer, { foreignKey: "userName" });
+  Trainer.belongsTo(User, { foreignKey: "userName" });
 
-  Role.hasMany(User, { foreignKey: "RoleId" });
-  User.belongsTo(Role, { foreignKey: "RoleId" });
+  Role.hasMany(User, { foreignKey: "roleId" });
+  User.belongsTo(Role, { foreignKey: "roleId" });
 
-  Student.hasMany(Training, { foreignKey: "StudentId" });
-  Training.belongsTo(Student, { foreignKey: "StudentId" });
+  Student.hasMany(Training, { foreignKey: "studentId" });
+  Training.belongsTo(Student, { foreignKey: "studentId" });
 
   Company.hasMany(Training, { foreignKey: "companyId" });
   Training.belongsTo(Company, { foreignKey: "companyId" });
 
-  Trainer.hasMany(Training, { foreignKey: "TrainerId" });
-  Training.belongsTo(Trainer, { foreignKey: "TrainerId" });
+  Trainer.hasMany(Training, { foreignKey: "trainerId" });
+  Training.belongsTo(Trainer, { foreignKey: "trainerId" });
 
-  Training.hasMany(Evaluation, { foreignKey: "TrainingId" });
-  Evaluation.belongsTo(Training, { foreignKey: "TrainingId" });
+  Training.hasMany(Evaluation, { foreignKey: "trainingId" });
+  Evaluation.belongsTo(Training, { foreignKey: "trainingId" });
 
-  Training.hasMany(Answered_Question, { foreignKey: "TrainingId" });
-  Answered_Question.belongsTo(Training, { foreignKey: "TrainingId" });
+  Training.hasMany(Answered_Question, { foreignKey: "trainingId" });
+  Answered_Question.belongsTo(Training, { foreignKey: "trainingId" });
 
-  Note.hasOne(Evaluation, { foreignKey: "NoteId" });
-  Evaluation.belongsTo(Note, { foreignKey: "NoteId" });
+  Note.hasOne(Evaluation, { foreignKey: "noteId" });
+  Evaluation.belongsTo(Note, { foreignKey: "noteId" });
 
-  Note.hasOne(Answered_Question, { foreignKey: "NoteId" });
-  Answered_Question.belongsTo(Note, { foreignKey: "NoteId" });
+  Note.hasOne(Answered_Question, { foreignKey: "noteId" });
+  Answered_Question.belongsTo(Note, { foreignKey: "noteId" });
 
-  Question.hasMany(Answered_Question, { foreignKey: "QuestionId" });
-  Answered_Question.belongsTo(Question, { foreignKey: "QuestionId" });
+  Question.hasMany(Answered_Question, { foreignKey: "questionId" });
+  Answered_Question.belongsTo(Question, { foreignKey: "questionId" });
 
-  Answer.hasMany(Answered_Question, { foreignKey: "AnswerId" });
-  Answered_Question.belongsTo(Answer, { foreignKey: "AnswerId" });
+  Answer.hasMany(Answered_Question, { foreignKey: "answerId" });
+  Answered_Question.belongsTo(Answer, { foreignKey: "answerId" });
 
-  Role.hasMany(Question, { foreignKey: "RoleId" });
-  Question.belongsTo(Role, { foreignKey: "RoleId" });
+  Role.hasMany(Question, { foreignKey: "roleId" });
+  Question.belongsTo(Role, { foreignKey: "roleId" });
 
   Company.hasMany(Trainer, { foreignKey: "companyId" });
   Trainer.belongsTo(Company, { foreignKey: "companyId" });

@@ -1,13 +1,21 @@
-import { DataTypes, IntegerDataType, Model } from 'sequelize';
+import { DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
 import db from '../config/connection';
 
-interface TrainerAttributes {
-  trainerId:IntegerDataType,
-  trainerName:string,
-  field:string
-}
+// interface TrainerAttributes {
+//   trainerId:IntegerDataType,
+//   trainerName:string,
+//   field:string
+// }
 
-export class Trainer extends Model<TrainerAttributes> {}
+export class Trainer extends Model<InferAttributes<Trainer>, InferCreationAttributes<Trainer>> {
+  declare trainerId: number;
+ declare trainerName: string;
+ declare field: string;
+ declare userName?:NonAttribute<string>;
+ declare companyId?:NonAttribute<number>;
+
+
+}
 
 Trainer.init({
   trainerId: {
