@@ -14,8 +14,8 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 import Grid from '@mui/material/Grid';
 import Joi from 'joi';
 import { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import axios from '../api/axios';
 import Gnavbar from './Gnavbar';
 
 interface User {

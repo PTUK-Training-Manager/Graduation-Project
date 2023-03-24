@@ -111,7 +111,6 @@ export default function CNavbar() {
               <ListItemButton
                 sx={{
                   minHeight: '3rem',
-                  justifyContent: open ? 'initial' : 'center',
                   px: '0.15625rem',
                 }}
               >
@@ -125,7 +124,6 @@ export default function CNavbar() {
               <ListItemButton
                 sx={{
                   minHeight: '3rem',
-                  justifyContent: open ? 'initial' : 'center',
                   px: '0.15625rem',
                 }}
               >
@@ -139,7 +137,6 @@ export default function CNavbar() {
               <ListItemButton
                 sx={{
                   minHeight: '3rem',
-                  justifyContent: open ? 'initial' : 'center',
                   px: '0.15625rem',
                 }}
               >
@@ -153,7 +150,6 @@ export default function CNavbar() {
               <ListItemButton
                 sx={{
                   minHeight: '3rem',
-                  justifyContent: open ? 'initial' : 'center',
                   px: '0.15625rem',
                 }}
               >
@@ -167,7 +163,6 @@ export default function CNavbar() {
               <ListItemButton
                 sx={{
                   minHeight: '3rem',
-                  justifyContent: open ? 'initial' : 'center',
                   px: '0.15625rem',
                 }}
               >
@@ -181,7 +176,6 @@ export default function CNavbar() {
               <ListItemButton
                 sx={{
                   minHeight: '3rem',
-                  justifyContent: open ? 'initial' : 'center',
                   px: '0.15625rem',
                 }}
               >

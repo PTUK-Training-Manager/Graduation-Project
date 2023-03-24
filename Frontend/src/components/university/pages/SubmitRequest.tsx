@@ -69,7 +69,12 @@ export default function SubmitRequest() {
                     name="semester"
                     select
                     autoFocus
-                  />
+                  >
+                    <MenuItem value="semester-1">Semester One</MenuItem>
+                    <MenuItem value="semester-2">Semester Two</MenuItem>
+                    <MenuItem value="summer">Summer Semester</MenuItem>
+                  </TextField>
+
                   <TextField
                     margin="normal"
                     required
@@ -79,7 +84,12 @@ export default function SubmitRequest() {
                     name="type"
                     select
                     autoFocus
-                  />
+                  >
+                    <MenuItem value="first">First</MenuItem>
+                    <MenuItem value="second">Second</MenuItem>
+                    <MenuItem value="compined">Compined</MenuItem>
+                  </TextField>
+
                   <TextField
                     margin="normal"
                     required
@@ -90,8 +100,9 @@ export default function SubmitRequest() {
                     name="c-name"
                     autoFocus
                   >
-                    <MenuItem value="S">Sara</MenuItem>
-                    <MenuItem value="H">Hala</MenuItem>
+                    <MenuItem value="F">Foothill</MenuItem>
+                    <MenuItem value="E">Exalt</MenuItem>
+                    <MenuItem value="A">ASAL</MenuItem>
                   </TextField>
                   <Button
                     type="submit"

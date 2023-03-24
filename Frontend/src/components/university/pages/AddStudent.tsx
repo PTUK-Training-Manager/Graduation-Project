@@ -31,9 +31,9 @@ export default function AddStudent() {
   return (
     <>
       <UNavbar />
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'flex'}}>
         <Paper
-          sx={{ padding: '50px', margin: '55 auto', marginTop: '10%' }}
+          sx={{ padding: '50px', margin: '55 auto', marginTop: '10%'}}
           elevation={10}
         >
           <Box>
