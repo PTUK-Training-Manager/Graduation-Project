@@ -19,11 +19,11 @@ const App = () => {
      {/* <TNavbar /> */}
      {/* <SignIn /> */}
      {/* {<Gnavbar />} */}
+     {/* { <CurrentTrainee /> } */}
      {/* { <AddStudent /> } */}
      {/* { <AddCompany /> } */}
      {/* { <SubmitRequest /> } */}
      {/* { <CompletedTrainees /> } */}
-     {/* { <CurrentTrainee /> } */}
      { <Search /> }
     </div>
   )

@@ -19,7 +19,7 @@ import axios from '../api/axios';
 import Gnavbar from './Gnavbar';
 
 interface User {
-  email: string;
+  usern: string;
   password: string;
   [key: string]: string; // index signature
 }
@@ -34,19 +34,17 @@ export default function SignIn() {
   // const navigate = useNavigate();
   const [errorList, setErrorList] = useState<ValidationError[]>([]);
   const [user, setUser] = useState<User>({
-    email: '',
+    usern: '',
     password: '',
   });
 
   function getUserData(e: React.ChangeEvent<HTMLInputElement>) {
     const myUser = { ...user };
-    myUser[e.target.name] = e.target.value;
+    myUser[e.target.name] = e.target.value; //
     setUser(myUser);
   }
 
-  async function submitRegister(
-    e: React.FormEvent<HTMLFormElement>
-  ): Promise<void> {
+  async function submitRegister(e: React.FormEvent<HTMLFormElement>): Promise<void> {
     e.preventDefault();
     const result = validationReg(user);
     if (result.error) {

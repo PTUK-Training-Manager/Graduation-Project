@@ -12,6 +12,7 @@ import UNavbar from './UNavbar';
 import Box from '@mui/material/Box';
 import ListItemButton from '@mui/material/ListItemButton';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+import MenuItem from '@mui/material/MenuItem';
 import './ustyle.css';
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
@@ -51,7 +52,7 @@ export default function CurrentTrainne() {
                     <TableCell  sx={{backgroundColor:"white"}} >{row['s-number']}</TableCell>
                     <TableCell  sx={{backgroundColor:"white"}} >{row['s-name']}</TableCell>
                     <TableCell  sx={{backgroundColor:"white"}}>
-                        <ListItemButton>
+                        <ListItemButton >
                           <ManageSearchIcon />
                         </ListItemButton>
                     </TableCell>
