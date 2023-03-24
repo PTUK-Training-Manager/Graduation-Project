@@ -1,9 +1,8 @@
-import express, {Request, Response} from 'express';
+import express from 'express';
+import trainerController from '../controller/trainerController';
 const router = express.Router();
 
-import TrainerRouter from '../controller/trainerController';
-
-router.post('/addTrainer',TrainerRouter.addtrainer);
-router.get('/getAll',TrainerRouter.getAll);
+router.post('/addTrainer',trainerController.addtrainer);
+router.get('/getAll',trainerController.getAll);
 
 export default router;

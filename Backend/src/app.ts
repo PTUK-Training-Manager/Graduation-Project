@@ -3,40 +3,31 @@ dotenv.config();
 import bodyParser from 'body-parser';
 import express from 'express'
 import cookieParser from 'cookie-parser';
-
-
+import morgan from "morgan";
 const app = express();
-const port = 3001;
 import db from "./config/connection";
 import association  from './model/associations';
-import studentRouter from './routes/student.router';
-import trainerRouter from './routes/trainer.router';
-import authRouter from './routes/auth.router';
-import userRouter from './routes/user.router';
-import rolesRouter from './routes/roles.router';
+import router from "./routes";
+
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(express.json());
-app.use("/student", studentRouter);
-app.use("/trainer", trainerRouter);
-app.use("/auth",authRouter);
-app.use("/user", userRouter);
-app.use("/Role", rolesRouter);
+app.use(morgan('dev')); // Create new morgan logger middleware function
 
+const PORT = process.env.PORT || 5000;
+
+app.use('/api/v1', router);
 
 association()
-// db.sync({force: true})
-db.sync()
+db.sync({logging: false})
     .then((value) => {
         console.log('All models were synchronized successfully.');
-        
     })
     .catch((error) => {
         console.error('An error occurred while synchronizing models:', error);
     });
 
-app.listen(port, () => {
-    console.log(`listening on ${port}`);
-    //console.log(process.env.HOST);
+app.listen(PORT, () => {
+    console.log(`Application server is up and running on PORT ${PORT}`);
 })
 
