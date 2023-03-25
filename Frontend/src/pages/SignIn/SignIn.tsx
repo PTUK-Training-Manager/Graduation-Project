@@ -12,19 +12,25 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { AppBar,Toolbar } from '@mui/material';
 import PTUK_Logo from "/assets/PTUK-Logo.png";
-import training from "/assets/training.jpg";
-import "./signIn.css"
+import "./SignIn.css";
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import Grid from '@mui/material/Grid';
+import {signIn} from "./api";
 
+const SignIn: React.FC = () => {
 
-export default function SignIn(): JSX.Element {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
       email: data.get('email'),
       password: data.get('password'),
+    });
+    signIn({
+        username: "s.a.amer1",
+        password: "123"
+    }).then((res) => {
+        console.log(res);
     });
   };
 
@@ -35,7 +41,7 @@ export default function SignIn(): JSX.Element {
         <Toolbar className='tbar'>
         <Box display="flex">
           <ImageListItem>
-          <img className='ptuk' src={PTUK_Logo}></img>
+          <img className='ptuk' alt="ptuk-logo" src={PTUK_Logo}></img>
           </ImageListItem>
         </Box>
             </Toolbar>
@@ -94,7 +100,7 @@ export default function SignIn(): JSX.Element {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2" sx={{textAlign:'center'}}>
+                <Link href="Frontend/src/components/company#" variant="body2" sx={{textAlign:'center'}}>
                   Forgotten your username or password?
                 </Link>
               </Grid>
@@ -107,3 +113,5 @@ export default function SignIn(): JSX.Element {
             </Box>
   );
 }
+
+export default SignIn;
