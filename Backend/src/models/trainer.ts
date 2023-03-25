@@ -7,7 +7,7 @@ import db from '../config/connection';
 //   field:string
 // }
 
-export class Trainer extends Model<InferAttributes<Trainer>, InferCreationAttributes<Trainer>> {
+export default class Trainer extends Model<InferAttributes<Trainer>, InferCreationAttributes<Trainer>> {
   declare trainerId: number;
  declare trainerName: string;
  declare field: string;

@@ -9,7 +9,7 @@ import db from "../config/connection";
 //   managerName: string;
 // }
 
-export class Company extends Model<InferAttributes<Company>, InferCreationAttributes<Company>> {
+export default class Company extends Model<InferAttributes<Company>, InferCreationAttributes<Company>> {
  declare companyId: number;
  declare companyName: string;
  declare phoneNumber: string;

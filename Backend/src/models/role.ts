@@ -15,7 +15,7 @@ enum userRoleEnum {
   student='student',
   AdministrationRegistration='administrationRegistration',
 }
-export class Role extends Model<InferAttributes<Role>, InferCreationAttributes<Role>> {
+export default class Role extends Model<InferAttributes<Role>, InferCreationAttributes<Role>> {
   declare roleID: number;
   declare userRole: typeof userRoleEnum; 
 }

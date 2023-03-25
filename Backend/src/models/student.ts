@@ -8,7 +8,7 @@ import db from '../config/connection';
   
 // }
 
- export class Student extends Model<InferAttributes<Student>, InferCreationAttributes<Student>> {
+ export default class Student extends Model<InferAttributes<Student>, InferCreationAttributes<Student>> {
 declare studentId: string;
 declare studentName:string;
 declare phoneNumber:string;

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import  {User} from '../model/user';
+import  {User} from '../models';
 import bcrypt from 'bcrypt'
   class UserController{
     async addUser (req: Request, res: Response) {

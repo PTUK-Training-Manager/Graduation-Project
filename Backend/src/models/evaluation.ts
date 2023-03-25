@@ -9,7 +9,7 @@ import db from '../config/connection';
 //   skills:string
 // }
 
-export class Evaluation extends Model<InferAttributes<Evaluation>, InferCreationAttributes<Evaluation>>{
+export default class Evaluation extends Model<InferAttributes<Evaluation>, InferCreationAttributes<Evaluation>>{
 declare id: number;
 declare startTime: Date;
 declare endTime: Date;

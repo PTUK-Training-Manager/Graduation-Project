@@ -6,9 +6,14 @@ import cookieParser from 'cookie-parser';
 import morgan from "morgan";
 const app = express();
 import db from "./config/connection";
-import association  from './model/associations';
+import association  from './models/associations';
 import router from "./routes";
+import cors from 'cors';
 
+app.use(cors({
+    // origin: '*://localhost:*/*', // The origin of the client (frontend) that we allow to connect to our API
+    credentials: true, // This allows the session cookie to be sent back and forth from the client (frontend) to the server (backend)
+}));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(express.json());

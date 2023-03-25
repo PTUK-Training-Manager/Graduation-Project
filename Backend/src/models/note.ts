@@ -7,7 +7,7 @@ import db from '../config/connection';
 //   note:string
 // }
 
-export class Note extends Model<InferAttributes<Note>, InferCreationAttributes<Note>>{
+export default class Note extends Model<InferAttributes<Note>, InferCreationAttributes<Note>>{
   declare noteId: number;
 declare note:string;
 }

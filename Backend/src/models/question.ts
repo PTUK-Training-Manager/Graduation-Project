@@ -8,7 +8,7 @@ import db from '../config/connection';
 //   isMultipleChoice:boolean
 // }
 
-export class Question extends Model<InferAttributes<Question>, InferCreationAttributes<Question>> {
+export default class Question extends Model<InferAttributes<Question>, InferCreationAttributes<Question>> {
 declare questionID: number;
 declare question:string;
 declare isMultipleChoice: boolean;

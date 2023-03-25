@@ -6,7 +6,7 @@ import db from '../config/connection';
 //   permission:string
 // }
 
-export class Permission extends Model<InferAttributes<Permission>, InferCreationAttributes<Permission>> {
+export default class Permission extends Model<InferAttributes<Permission>, InferCreationAttributes<Permission>> {
  declare id: number;
 declare permission:string;
 }

@@ -7,7 +7,7 @@ import db from '../config/connection';
 //   answer:string
 // }
 
-export class Answer extends Model<InferAttributes<Answer>, InferCreationAttributes<Answer>> {
+export default class Answer extends Model<InferAttributes<Answer>, InferCreationAttributes<Answer>> {
  declare answerID: number;
  declare answer:string;
 }

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import {Trainer} from '../model/trainer';
+import Trainer from '../models/trainer';
 
 class trainerController{
     async addtrainer(req: Request, res: Response) {

@@ -6,7 +6,7 @@ import db from '../config/connection';
 //   answered_QuestionID:IntegerDataType
 // }
 
-export class Answered_Question extends Model<InferAttributes<Answered_Question>, InferCreationAttributes<Answered_Question>> {
+export default class Answered_Question extends Model<InferAttributes<Answered_Question>, InferCreationAttributes<Answered_Question>> {
   declare answered_QuestionID: number;
   declare trainingId?:NonAttribute<number>;
   declare noteId?:NonAttribute<number>;

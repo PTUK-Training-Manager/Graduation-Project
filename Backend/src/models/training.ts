@@ -25,7 +25,7 @@ enum TrainingStatus {
 //   status: TrainingStatus;
 // }
 
-export class Training extends Model<InferAttributes<Training>, InferCreationAttributes<Training>> {
+export default class Training extends Model<InferAttributes<Training>, InferCreationAttributes<Training>> {
 declare trainingId: number;
 declare type: typeof TrainingType;
 declare startDate: Date;
