@@ -14,8 +14,6 @@ dist
 dist-ssr
 *.local
 
-/dist
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -26,3 +24,20 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+ # testing
+ /coverage
+ /test-reports
+
+# production
+/build
+/dist
+
+#VS code
+settings.json
+
+storybook-static
+
+#Webstorm
+/.run/

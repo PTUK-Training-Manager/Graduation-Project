@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import studentController from '../controller/student.controller';
+import studentController from '../controllers/student.controller';
 import verifyJWT from '../middleWare/verifyJWT';
 import verifyRoles from '../middleWare/verifyRole';
 //,

@@ -1,5 +1,5 @@
 import express from 'express';
-import trainerController from '../controller/trainerController';
+import trainerController from '../controllers/trainerController';
 const router = express.Router();
 
 router.post('/addTrainer',trainerController.addtrainer);
