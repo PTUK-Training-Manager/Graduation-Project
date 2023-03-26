@@ -1,6 +1,6 @@
 import React from 'react'
 
-const CurrentTrainee = () => {
+const evaluation = () => {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const CurrentTrainee = () => {
   )
 }
 
-export default CurrentTrainee
+export default evaluation
