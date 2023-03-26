@@ -1,38 +1,35 @@
-*{
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-body{
+body {
     justify-content: center;
     align-items: center;
 }
 
-.bar{
+.bar {
     background-color: #30ADD1 !important;
     height: 13%;
 }
 
-.ptuk{
+.ptuk {
     width: 65% !important;
 }
 
-.css-l086p4-MuiImageListItem-root .MuiImageListItem-img{
+.css-l086p4-MuiImageListItem-root .MuiImageListItem-img {
     padding-top: 4%;
 }
 
 .pside {
-    justify-content:flex-end ;
-    margin-left:auto ;
-    padding-top:5 ;
+    justify-content: flex-end;
+    margin-left: auto;
+    padding-top: 5px;
 }
 
-<<<<<<<< HEAD:Frontend/src/General/Gstyle.css
-  
-========
-.css-sviodz-MuiTypography-root-MuiLink-root{
+
+.css-sviodz-MuiTypography-root-MuiLink-root {
     margin-left: 18% !important;
 }
 
->>>>>>>> dbace64ebafedb75fd1ecf5b1d603144910010fc:Frontend/src/pages/SignIn/SignIn.css
