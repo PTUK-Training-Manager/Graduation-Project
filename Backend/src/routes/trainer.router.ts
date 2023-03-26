@@ -1,15 +1,8 @@
-import express, {Request, Response} from 'express';
-import {Trainer} from '../model/trainer';
-
+import express from 'express';
+import trainerController from '../controllers/trainerController';
 const router = express.Router();
 
-router.get('/getTrainers', async (req: Request, res: Response) => {
-        try {
-            const records = await Trainer.findAll({});
-            return res.json(records);
-        } catch (e) {
-            return res.json({msg: "fail to read", status: 500, route: "/read"});
-        }
-    });
+router.post('/addTrainer',trainerController.addtrainer);
+router.get('/getAll',trainerController.getAll);
 
 export default router;

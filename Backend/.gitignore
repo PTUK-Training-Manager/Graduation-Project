@@ -1,5 +1,33 @@
-/node_modules
-node_modules/
+# See https://help.github.com/ignore-files/ for more about ignoring files.
 
+# dependencies
+/node_modules
+ssssss
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# yarn cache
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
+
+ # testing
+ /coverage
+ /test-reports
+
+# production
 /build
-build/
+
+#VS code
+settings.json
+
+storybook-static
+
+#Webstorm
+/.run/

@@ -1,7 +1,10 @@
 import CNavbar from './components/company/CNavbar'
-import UNavbar from './components/university/pages/UNavbar'
+// import UNavbar from './components/university/UNavbar'
 import TNavbar from './components/Trainer/TNavbar'
-import SignIn from './General/SignIn'
+import SignIn from "src/pages/SignIn"
+import {queryClient} from "./queryClient";
+import {QueryClientProvider} from "@tanstack/react-query";
+
 import Gnavbar from './General/Gnavbar'
 import Search from './components/university/pages/Search'
 import AddStudent from './components/university/pages/AddStudent'
@@ -13,19 +16,20 @@ import { Route, Routes } from "react-router-dom";
 
 const App = () => {
   return (
-    <div>
-     {/* <CNavbar /> */}
-     {/* <UNavbar /> */}
-     {/* <TNavbar /> */}
-     {/* <SignIn /> */}
-     {/* {<Gnavbar />} */}
-     {/* { <CurrentTrainee /> } */}
-     {/* { <AddStudent /> } */}
-     {/* { <AddCompany /> } */}
-     {/* { <SubmitRequest /> } */}
-     {/* { <CompletedTrainees /> } */}
-     { <Search /> }
-    </div>
+      <QueryClientProvider client={queryClient}>
+        {/* <CNavbar /> */}
+        {/* <UNavbar /> */}
+        {/* <TNavbar /> */}
+        {/* <SignIn /> */}
+        {/* {<Gnavbar />} */}
+        {/* { <CurrentTrainee /> } */}
+        {/* { <AddStudent /> } */}
+        {/* { <AddCompany /> } */}
+        {/* { <SubmitRequest /> } */}
+        {/* { <CompletedTrainees /> } */}
+        {/* { <Search /> } */}
+        <SignIn/>
+      </QueryClientProvider>
   )
 }
 
