@@ -1,0 +1,44 @@
+body {
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-left: 10%;
+}
+.css-ii70sc-MuiTypography-root {
+margin-left: 300px !important;
+}
+.css-md26zr-MuiInputBase-root-MuiOutlinedInput-root{
+    margin-left: 172%;
+    margin-top: 29%;
+    width: 250px;
+}
+
+.css-wjh20t-MuiPagination-ul{
+    /* margin-top: 20px !important; */
+    /* padding-bottom: 5px !important; */
+    background-color: #EDF3F6;
+    border-radius: 15px;
+}
+
+.css-1u3bzj6-MuiFormControl-root-MuiTextField-root{
+    margin-left: 158px !important; 
+    margin-top: 70px !important;
+    width: 268px;
+}
+.css-19qjufr-MuiStack-root>:not(style)+:not(style) {
+    margin-left: -40px !important;
+    margin-top: 86px !important;
+}
+
+.page{
+    /* margin-left: 500px; */
+    justify-content:center;
+    align-items: center;
+    position: relative;
+    padding-bottom: 5px;
+    margin-top: 20px;
+    margin-left: 135px;
+}
+.css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root{
+    justify-content: flex-start !important;
+}
