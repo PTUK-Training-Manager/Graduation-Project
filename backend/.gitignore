@@ -2,7 +2,6 @@
 
 # dependencies
 /node_modules
-ssssss
 .env.local
 .env.development.local
 .env.test.local
@@ -20,6 +19,17 @@ ssssss
  # testing
  /coverage
  /test-reports
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
 
 # production
 /build
