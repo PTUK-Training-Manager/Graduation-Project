@@ -9,9 +9,3 @@ declare global{
         }
     }
 };
-export {};
-
-export interface LoginPayload {
-    username: string,
-    roleId: number 
-}

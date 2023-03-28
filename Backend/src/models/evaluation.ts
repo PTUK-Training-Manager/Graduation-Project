@@ -1,5 +1,5 @@
 import { DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
-import db from '../config/connection';
+import sequelize from "src/config/connection";
 
 // interface EvaluationAttributes {
 //   id:IntegerDataType,
@@ -43,7 +43,7 @@ Evaluation.init({
       allowNull: false
     }},
      {
-      sequelize: db,
+      sequelize,
       modelName: 'Evaluation',
       timestamps:false 
     });

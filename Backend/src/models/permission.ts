@@ -1,5 +1,5 @@
 import { DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model } from 'sequelize';
-import db from '../config/connection';
+import sequelize from "src/config/connection";
 
 // interface PermissionAttributes {
 //   id:IntegerDataType,
@@ -22,7 +22,7 @@ Permission.init({
           allowNull: false,
         },
     }, {
-      sequelize: db,
+      sequelize,
       modelName: 'Permission',
       timestamps:false 
     });

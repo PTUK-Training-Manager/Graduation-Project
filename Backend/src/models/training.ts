@@ -1,6 +1,5 @@
 import { DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
-import { EnumType } from 'typescript';
-import db from '../config/connection';
+import sequelize from "src/config/connection";
 
  enum TrainingType {
   first = 'first',
@@ -16,14 +15,6 @@ enum TrainingStatus {
   submitted = 'submitted',
   completed = 'completed',
 }
-
-// interface RoleAttributes {
-//   trainingId: IntegerDataType;
-//   type: TrainingType;
-//   startDate: Date;
-//   endDate: Date;
-//   status: TrainingStatus;
-// }
 
 export default class Training extends Model<InferAttributes<Training>, InferCreationAttributes<Training>> {
 declare trainingId: number;
@@ -74,7 +65,7 @@ Training.init(
     },
   },
   {
-    sequelize: db,
+    sequelize,
     modelName: 'Training',
     timestamps: false,
   },

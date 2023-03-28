@@ -1,36 +1,54 @@
+import {
+    DataTypes,
+    Model,
+    InferAttributes,
+    InferCreationAttributes,
+    ForeignKey,
+    CreationOptional,
+    HasOneGetAssociationMixin
+} from 'sequelize';
+import sequelize from '../config/connection';
+import Role from "@models/role";
 
-import { DataTypes, Model, InferAttributes,InferCreationAttributes, NonAttribute} from 'sequelize';
-import db from '../config/connection';
 
-// interface UserAttributes {
-//   username:string,
-//   email:string,
-//   password:string
-// }
+export default class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
 
-export default class User extends Model<InferAttributes<User>, InferCreationAttributes<User>>{
-  declare username: string;
-  declare email: string;
-  declare password: string;
-  declare roleId?: number;
+    // declare id: number;
+    // id can be undefined during creation when using `autoIncrement`
+    declare id: CreationOptional<number>;
+    declare username: string;
+    declare email: string;
+    declare password: string;
+    // declare roleId?: number;
+    // foreign keys are automatically added by associations methods (like Project.belongsTo)
+    // by branding them using the `ForeignKey` type, `Project.init` will know it does not need to
+    // display an error if ownerId is missing.
+    declare roleId: ForeignKey<Role['id']>;
+
+    declare getRole: HasOneGetAssociationMixin<Role>
 }
 
 User.init({
-  username: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      primaryKey: true
+    id: {
+        type: DataTypes.INTEGER.UNSIGNED,
+        autoIncrement: true,
+        primaryKey: true
+    },
+    username: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true
     },
     email: {
-      type: DataTypes.STRING,
-      allowNull: false
+        type: DataTypes.STRING,
+        allowNull: false
     },
     password: {
-      type: DataTypes.STRING,
-      allowNull: false
+        type: DataTypes.STRING,
+        allowNull: false
     }
-    }, {
-      sequelize: db,
-      modelName: 'User',
-      timestamps:false 
-    });
+}, {
+    sequelize,
+    modelName: 'User',
+    timestamps: false
+});
