@@ -1,12 +1,14 @@
 import * as dotenv from 'dotenv'
+
 dotenv.config();
 import bodyParser from 'body-parser';
 import express from 'express'
 import cookieParser from 'cookie-parser';
 import morgan from "morgan";
+
 const app = express();
 import db from "./config/connection";
-import association  from './models/associations';
+import association from './models/associations';
 import router from "./routes";
 import cors from 'cors';
 
@@ -23,8 +25,8 @@ const PORT = process.env.PORT || 5000;
 
 app.use('/api/v1', router);
 
-association()
-db.sync({logging: false})
+association();
+db.sync({logging: true, force: false})
     .then((value) => {
         console.log('All models were synchronized successfully.');
     })

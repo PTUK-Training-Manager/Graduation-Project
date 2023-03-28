@@ -1,39 +1,28 @@
-import { DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model } from 'sequelize';
-import { EnumType } from 'typescript';
-import db from '../config/connection';
+import {DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model} from 'sequelize';
+import sequelize from "src/config/connection";
+import {UserRole} from "src/types";
+import {UserRoleEnum} from "src/enums";
+import {USER_ROLES} from "src/constants";
 
-
-// interface RoleAttributes {
-//   roleID:IntegerDataType,
-//   userRole:EnumType
-// }
-
-enum userRoleEnum {
-  superAdmin='superAdmin',
-  universityTrainingOfficer='universityTrainingOfficer' ,
-  Trainer ='trainer',
-  student='student',
-  AdministrationRegistration='administrationRegistration',
-}
 export default class Role extends Model<InferAttributes<Role>, InferCreationAttributes<Role>> {
-  declare roleID: number;
-  declare userRole: typeof userRoleEnum; 
+    declare id: number;
+    declare role: UserRole;
 }
-
 
 Role.init({
-  roleID: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true
-  },
-  userRole: {
- type: DataTypes.ENUM(userRoleEnum.superAdmin, userRoleEnum.universityTrainingOfficer, userRoleEnum.Trainer, userRoleEnum.student, userRoleEnum.AdministrationRegistration),
-    allowNull: false
-  }
-},
-  {
-    sequelize: db,
-    modelName: 'Role',
-    timestamps: false
-  });
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            primaryKey: true
+        },
+        role: {
+            type: DataTypes.ENUM(...USER_ROLES),
+            defaultValue: UserRoleEnum.SUPER_ADMIN,
+            allowNull: false,
+        }
+    },
+    {
+        sequelize,
+        modelName: 'Role',
+        timestamps: false
+    });

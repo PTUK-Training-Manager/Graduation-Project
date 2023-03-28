@@ -1,11 +1,5 @@
 import { DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model } from 'sequelize';
-import db from '../config/connection';
-
-
-// interface AnswerAttributes {
-//   AnswerID:IntegerDataType,
-//   answer:string
-// }
+import sequelize from "src/config/connection";
 
 export default class Answer extends Model<InferAttributes<Answer>, InferCreationAttributes<Answer>> {
  declare answerID: number;
@@ -23,7 +17,7 @@ Answer.init({
     allowNull: false
     }},
     {
-    sequelize: db,
+    sequelize,
     modelName: 'Answer',
     timestamps:false  
     });

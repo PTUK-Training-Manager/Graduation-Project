@@ -1,5 +1,5 @@
 import { DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
-import db from '../config/connection';
+import sequelize from "src/config/connection";
 
 
 // interface answered_QuestionAttributes {
@@ -22,7 +22,7 @@ Answered_Question.init({
       primaryKey: true
     }},
     {
-    sequelize: db,
+    sequelize,
     modelName: 'Answered_Question',
     timestamps:false  
     });

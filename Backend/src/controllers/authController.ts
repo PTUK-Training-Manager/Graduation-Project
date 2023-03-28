@@ -2,15 +2,16 @@ import jwt from 'jsonwebtoken';
 import {Request, Response} from 'express';
 import {Role, User} from "src/models"
 import {Secret} from 'jsonwebtoken';
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt';
 
 class AuthController {
     handleLogin = async (req: Request, res: Response) => {
         try {
             const {username, password} = req.body;
-            const record = await User.findByPk(username
-                , {include: Role}
-            );
+
+            const record = await User.findOne({
+                where: {username},
+            });
 
             if (!record)
                 return res.status(401).json({error: "Username/password do not match"});
@@ -41,6 +42,7 @@ class AuthController {
             return res.status(200).json({
                 message: 'successfully logged in to account',
                 tokenData: payload,
+                // record
             });
         } catch (error) {
             return res.json("erorr");

@@ -1,7 +1,7 @@
 import jwt, { JwtPayload, Secret } from 'jsonwebtoken';
 require('dotenv').config();
 import { Request, Response, NextFunction } from 'express';
-import { LoginPayload } from '../types/';
+import { LoginPayload } from 'src/types';
 
 const verifyJWT = () => {
     return async (req: Request, res: Response, next: NextFunction) => {

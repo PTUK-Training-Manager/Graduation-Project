@@ -1,5 +1,5 @@
 import { DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from "sequelize";
-import db from "../config/connection";
+import sequelize from "src/config/connection";
 
 // interface CompanyAttributes {
 //   companyId: IntegerDataType;
@@ -43,7 +43,7 @@ Company.init(
     },
   },
   {
-    sequelize: db,
+    sequelize,
     modelName: "Company",
     timestamps: false,
   }
