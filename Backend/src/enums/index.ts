@@ -5,3 +5,11 @@ export enum UserRoleEnum {
     STUDENT = "student",
     ADMIN_AND_REGISTRATION = "administration and registration",
 }
+export enum TrainingStatusEnum {
+    pending = 'pending',
+    rejected = 'rejected',
+    running = 'running',
+    canceled = 'canceled',
+    submitted = 'submitted',
+    completed = 'completed',
+  }

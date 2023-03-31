@@ -1,5 +1,9 @@
-import { DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
+import { DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
 import sequelize from "src/config/connection";
+import {TrainingStatus} from "src/types";
+import {TrainingStatusEnum} from "src/enums";
+import {TRAINING_STATUS} from "src/constants";
+import Student from './student';
 
  enum TrainingType {
   first = 'first',
@@ -7,22 +11,22 @@ import sequelize from "src/config/connection";
   compound = 'compound',
 }
 
-enum TrainingStatus {
-  pending = 'pending',
-  rejected = 'rejected',
-  running = 'running',
-  canceled = 'canceled',
-  submitted = 'submitted',
-  completed = 'completed',
-}
+// enum TrainingStatus {
+//   pending = 'pending',
+//   rejected = 'rejected',
+//   running = 'running',
+//   canceled = 'canceled',
+//   submitted = 'submitted',
+//   completed = 'completed',
+// }
 
 export default class Training extends Model<InferAttributes<Training>, InferCreationAttributes<Training>> {
 declare trainingId: number;
 declare type: typeof TrainingType;
 declare startDate: Date;
 declare endDate: Date;
-declare status: typeof TrainingStatus;
-declare studentId?:NonAttribute<string>;
+declare status: TrainingStatus;
+declare studentId: ForeignKey<Student['studentId']>;
 declare companyId?:NonAttribute<number>;
 declare trainerId?:NonAttribute<number>;
 
@@ -43,6 +47,7 @@ Training.init(
         TrainingType.compound,
       ),
       allowNull: false,
+      defaultValue:TrainingStatusEnum.pending
     },
     startDate: {
       type: DataTypes.DATE,
@@ -53,14 +58,7 @@ Training.init(
       allowNull: true,
     },
     status: {
-      type: DataTypes.ENUM(
-        TrainingStatus.canceled,
-        TrainingStatus.completed,
-        TrainingStatus.pending,
-        TrainingStatus.rejected,
-        TrainingStatus.running,
-        TrainingStatus.submitted,
-      ),
+      type: DataTypes.ENUM(...TRAINING_STATUS),
       allowNull: false,
     },
   },
