@@ -1,5 +1,8 @@
-import { DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
+import { DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
 import sequelize from "src/config/connection";
+import Student from './student';
+import CompanyBranch from './companyBranch';
+import Trainer from './trainer';
 
  enum TrainingType {
   first = 'first',
@@ -22,9 +25,9 @@ declare type: typeof TrainingType;
 declare startDate: Date;
 declare endDate: Date;
 declare status: typeof TrainingStatus;
-declare studentId?:NonAttribute<string>;
-declare companyId?:NonAttribute<number>;
-declare trainerId?:NonAttribute<number>;
+declare studentId: ForeignKey<Student['studentId']>;
+declare companyBranchId:ForeignKey<CompanyBranch['id']>;
+declare trainerId:ForeignKey<Trainer['trainerId']>;
 
 
 }
