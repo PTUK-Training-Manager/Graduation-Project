@@ -10,3 +10,4 @@ export { default as Student} from "./student";
 export { default as Trainer} from "./trainer";
 export { default as Training} from "./training";
 export { default as User} from "./user";
+export { default as CompanyBranch} from "./companyBranch";

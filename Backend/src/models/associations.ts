@@ -10,10 +10,14 @@ import {
     Role,
     Trainer,
     Training,
-    User
+    User,
+    CompanyBranch
 } from "src/models";
 
 const association = () => {
+    CompanyBranch.belongsTo(Company, {foreignKey: "companyId"});
+    Company.hasMany(CompanyBranch, {foreignKey: "companyId"});
+
     User.hasOne(Student, {foreignKey: "userName"});
     Student.belongsTo(User, {foreignKey: "userName"});
 
@@ -29,8 +33,8 @@ const association = () => {
     Student.hasMany(Training, {foreignKey: "studentId"});
     Training.belongsTo(Student, {foreignKey: "studentId"});
 
-    Company.hasMany(Training, {foreignKey: "companyId"});
-    Training.belongsTo(Company, {foreignKey: "companyId"});
+    CompanyBranch.hasMany(Training, {foreignKey: "companyBranchId"});
+    Training.belongsTo(CompanyBranch, {foreignKey: "companyBranchId"});
 
     Trainer.hasMany(Training, {foreignKey: "trainerId"});
     Training.belongsTo(Trainer, {foreignKey: "trainerId"});
