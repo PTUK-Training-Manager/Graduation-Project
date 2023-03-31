@@ -14,6 +14,7 @@ import ListItem from '@mui/material/ListItem';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
+import { useLocation, Navigate, Outlet } from "react-router-dom";
 import './ustyle.css';
 import Typography from '@mui/material/Typography';
 import { ImageListItem, Menu } from '@mui/material';
@@ -23,6 +24,7 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 const drawerWidth = 240;
 
 export default function CNavbar() {
+  const location = useLocation();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -35,6 +37,30 @@ export default function CNavbar() {
   };
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+ 
+  const handleClickSR = () => {
+    window.location.href = '/submitRequest';
+  };
+
+  const handleClickAC = () => {
+    window.location.href = '/addCompany';
+  };
+
+  const handleClickCoT = () => {
+    window.location.href = '/completedTrainees';
+  };
+
+  const handleClickCuT = () => {
+    window.location.href = '/currentTrainee';
+  };
+
+  const handleClickS = () => {
+    window.location.href = '/search';
+  };
+
+  const handleClickAS = () => {
+    window.location.href = '/addStudent';
   };
 
   return (
@@ -113,8 +139,10 @@ export default function CNavbar() {
                   minHeight: '3rem',
                   px: '0.15625rem',
                 }}
+                onClick={handleClickSR}
               >
-                <ListItemText primary="Submit Request" />
+                <ListItemText sx={{ml:"2.5rem"}} primary="Submit Request" />
+                
               </ListItemButton>
             </ListItem>
           </List>
@@ -126,8 +154,9 @@ export default function CNavbar() {
                   minHeight: '3rem',
                   px: '0.15625rem',
                 }}
+                onClick={handleClickAC}
               >
-                <ListItemText primary="Add Company" />
+                <ListItemText sx={{ml:"2.5rem"}} primary="Add Company" />
               </ListItemButton>
             </ListItem>
           </List>
@@ -139,8 +168,9 @@ export default function CNavbar() {
                   minHeight: '3rem',
                   px: '0.15625rem',
                 }}
+                onClick={handleClickCuT}
               >
-                <ListItemText primary="Current Trainees" />
+                <ListItemText sx={{ml:"2.5rem"}} primary="Current Trainees" />
               </ListItemButton>
             </ListItem>
           </List>
@@ -152,8 +182,10 @@ export default function CNavbar() {
                   minHeight: '3rem',
                   px: '0.15625rem',
                 }}
+                onClick={handleClickCoT}
               >
-                <ListItemText primary="Completed Trainees" />
+                <ListItemText sx={{ml:"2.5rem"}} primary="Completed Trainees" />
+              
               </ListItemButton>
             </ListItem>
           </List>
@@ -165,8 +197,9 @@ export default function CNavbar() {
                   minHeight: '3rem',
                   px: '0.15625rem',
                 }}
+                onClick={handleClickS}
               >
-                <ListItemText primary="Search" />
+                <ListItemText sx={{ml:"2.5rem"}} primary="Search" />
               </ListItemButton>
             </ListItem>
           </List>
@@ -178,8 +211,9 @@ export default function CNavbar() {
                   minHeight: '3rem',
                   px: '0.15625rem',
                 }}
+                onClick={handleClickAS}
               >
-                <ListItemText primary="Add Student" />
+                <ListItemText sx={{ml:"2.5rem"}} primary="Add Student" />
               </ListItemButton>
             </ListItem>
           </List>

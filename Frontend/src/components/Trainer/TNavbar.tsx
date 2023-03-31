@@ -108,7 +108,7 @@ export default function CNavbar() {
                 }}
               >
             
-                <ListItemText primary="Evaluation Requests" />
+                <ListItemText sx={{ml:"1.5rem"}} primary="Evaluation Requests" />
               </ListItemButton>
             </ListItem>
           
@@ -125,7 +125,7 @@ export default function CNavbar() {
                 }}
               >
                
-                <ListItemText primary="Completed Trainings" />
+                <ListItemText sx={{ml:"1.5rem"}} primary="Completed Trainings" />
               </ListItemButton>
             </ListItem>
           
@@ -142,7 +142,7 @@ export default function CNavbar() {
                 }}
               >
                
-                <ListItemText primary="Current Trainees" />
+                <ListItemText sx={{ml:"1.5rem"}} primary="Current Trainees" />
               </ListItemButton>
             </ListItem>
           
@@ -159,7 +159,7 @@ export default function CNavbar() {
                 }}
               >
                
-                <ListItemText primary="Completed Trainees" />
+                <ListItemText sx={{ml:"1.5rem"}} primary="Completed Trainees" />
               </ListItemButton>
             </ListItem>
         </List>
@@ -174,7 +174,7 @@ export default function CNavbar() {
                   px: 2.5,
                 }}
               >  
-                <ListItemText primary="Search" />
+                <ListItemText sx={{ml:"1.5rem"}} primary="Search" />
               </ListItemButton>
             </ListItem>
         </List>

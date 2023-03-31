@@ -26,7 +26,7 @@ export default function Search() {
         <TextField label="Search"></TextField>
         <SearchIcon />
         <ListItemButton>
-          <AddIcon className='add' sx={{justifyContent:"flex-end !important"}}/>
+          <AddIcon className="add" />
         </ListItemButton>
       </Stack>
       <Stack display="flex">
