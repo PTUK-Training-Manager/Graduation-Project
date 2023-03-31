@@ -16,7 +16,6 @@ import './ct.css';
 export default function CompletedTrainees() {
   return (
     <>
-      <UNavbar />
       <Stack spacing={4} direction="row">
         <TextField
         label="Search"

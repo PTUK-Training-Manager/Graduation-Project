@@ -7,6 +7,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import Layout from './components/Layout';
 import Home from './components/Home';
 import Unauthorized from './components/Unauthorized';
+import evaluation from './components/university/pages/evaluation';
 import RequireAuth from './components/RequireAuth';
 import Search from './components/university/pages/Search';
 import AcceptedRequests from './components/company/pages/AcceptedRequests';
@@ -34,16 +35,17 @@ const Roles = {
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
+              <SubmitRequest />
+
       <Routes>
-        <Route path="/" element={<UNavbar />}></Route>
         {/* <Route element={<RequireAuth allowedRoles={[Roles.UNI_TRAINING_OFFICER]} />} > */}
-        <Route path="/submitRequest" element={<SubmitRequest />}></Route>
+        {/* <Route path="/submitRequest" element={<SubmitRequest />}></Route>
         <Route path="/addCompany" element={<AddCompany />}></Route>
         <Route path="/addStudent" element={<AddStudent />}></Route>
-        {/* <Route path="/completedTrainees" element={<CompletedTrainees />}></Route>
+        <Route path="/completedTrainees" element={<CompletedTrainees />}></Route>
         <Route path="/currentTrainee" element={<CurrentTrainee />}></Route> 
-        <Route path="/search" element={<Search />}></Route>
-        {/* </Route> */}
+        <Route path="/search" element={<Search />}></Route>  */}
+        {/* </Route>
 
        {/* <Route path="/" element={<TNavbar />}></Route> 
         <Route element={<RequireAuth allowedRoles={[Roles.TRAINER]} />} >

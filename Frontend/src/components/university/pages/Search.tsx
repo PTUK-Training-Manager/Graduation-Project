@@ -21,7 +21,6 @@ import './ser.css';
 export default function Search() {
   return (
     <>
-      <UNavbar />
       <Stack spacing={4} direction="row">
         <TextField label="Search"></TextField>
         <SearchIcon />
@@ -30,8 +29,8 @@ export default function Search() {
         </ListItemButton>
       </Stack>
       <Stack display="flex">
-        <Paper sx={{ width: '800px', marginLeft: '160px', mt: 2 }}>
-          <TableContainer sx={{ maxHeight: '450px' }}>
+        <Paper sx={{ width: '50rem', marginLeft: '10rem', mt: 2 }}>
+          <TableContainer sx={{ maxHeight: '28.125rem' }}>
             <Table aria-aria-label="current trainne table" stickyHeader>
               <TableHead>
                 <TableRow className="table-row">
@@ -74,7 +73,13 @@ export default function Search() {
                       {row['type']}
                     </TableCell>
                     <TableCell sx={{ backgroundColor: 'white'}} 
-                    style={{ color: row.status === 'Running' ? 'orange' : row.status === 'Rejected' ? 'red' : row.status === 'Completed' ? 'green' : row.status === 'Accepted' ? 'blue': row.status === 'Pending' ? 'gray' : 'white' }}>
+                    style={{ color: row.status === 'Running' 
+                            ? 'orange' : row.status === 'Rejected'
+                            ? 'red' : row.status === 'Completed' 
+                            ? 'green' : row.status === 'Accepted' 
+                            ? 'blue': row.status === 'Pending' 
+                            ? 'gray' : 'white' }}>
+                              
                       {row['status']}
                     </TableCell>
                     <TableCell sx={{ backgroundColor: 'white' }}>
