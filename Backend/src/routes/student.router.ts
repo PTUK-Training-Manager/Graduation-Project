@@ -1,8 +1,8 @@
 import express from 'express';
 const router = express.Router();
 import studentController from '../controllers/student.controller';
-import verifyJWT from '../middleWare/verifyJWT';
-import verifyRoles from '../middleWare/verifyRole';
+import verifyJWT from '../middlewares/verifyJWT';
+import verifyRoles from '../middlewares/verifyRole';
 //,
 //  router.post('/addStudent',verifyJWT(),verifyRoles(userRoleEnum.student, userRoleEnum.student),studentController.addStudent);
 router.post('/addStudent',verifyJWT(),verifyRoles(3),studentController.addStudent); 

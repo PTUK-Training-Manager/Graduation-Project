@@ -1,6 +1,8 @@
-import { DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
-import { EnumType } from 'typescript';
-import db from '../config/connection';
+import { DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
+import sequelize from "src/config/connection";
+import Student from './student';
+import CompanyBranch from './companyBranch';
+import Trainer from './trainer';
 
  enum TrainingType {
   first = 'first',
@@ -17,23 +19,15 @@ enum TrainingStatus {
   completed = 'completed',
 }
 
-// interface RoleAttributes {
-//   trainingId: IntegerDataType;
-//   type: TrainingType;
-//   startDate: Date;
-//   endDate: Date;
-//   status: TrainingStatus;
-// }
-
 export default class Training extends Model<InferAttributes<Training>, InferCreationAttributes<Training>> {
 declare trainingId: number;
 declare type: typeof TrainingType;
 declare startDate: Date;
 declare endDate: Date;
 declare status: typeof TrainingStatus;
-declare studentId?:NonAttribute<string>;
-declare companyId?:NonAttribute<number>;
-declare trainerId?:NonAttribute<number>;
+declare studentId: ForeignKey<Student['studentId']>;
+declare companyBranchId:ForeignKey<CompanyBranch['id']>;
+declare trainerId:ForeignKey<Trainer['trainerId']>;
 
 
 }
@@ -74,7 +68,7 @@ Training.init(
     },
   },
   {
-    sequelize: db,
+    sequelize,
     modelName: 'Training',
     timestamps: false,
   },

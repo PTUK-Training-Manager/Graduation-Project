@@ -1,5 +1,5 @@
 import { Association, DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model } from 'sequelize';
-import db from '../config/connection';
+import sequelize from "src/config/connection";
 
 
 // interface NoteAttributes {
@@ -23,7 +23,7 @@ Note.init({
     allowNull: false
     }},
     {
-    sequelize: db,
+    sequelize,
     modelName: 'Note',
     timestamps:false  
     });

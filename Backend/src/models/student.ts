@@ -1,40 +1,34 @@
-import { DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
-import db from '../config/connection';
+import {DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute} from 'sequelize';
+import sequelize from "src/config/connection";
 
-// interface StudentAttributes {
-//   studentId:IntegerDataType,
-//   studentName:string,
-//   phoneNumber:string,
-  
-// }
 
- export default class Student extends Model<InferAttributes<Student>, InferCreationAttributes<Student>> {
-declare studentId: string;
-declare studentName:string;
-declare phoneNumber:string;
-declare userName?:NonAttribute<string>;
+export default class Student extends Model<InferAttributes<Student>, InferCreationAttributes<Student>> {
+    declare studentId: string;
+    declare studentName: string;
+    declare phoneNumber: string;
+    declare userName?: NonAttribute<string>;
 
- }
+}
 
 Student.init({
-  studentId: {
+    studentId: {
         type: DataTypes.STRING,
         allowNull: false,
         primaryKey: true
-      },
-      studentName: {
+    },
+    studentName: {
         type: DataTypes.STRING,
         allowNull: false
-      },
-      phoneNumber: {
+    },
+    phoneNumber: {
         type: DataTypes.STRING,
         allowNull: true
-      }
-    }, {
-      sequelize: db,
-      modelName: 'Student',
-      timestamps:false 
-    });
+    }
+}, {
+    sequelize,
+    modelName: 'Student',
+    timestamps: false
+});
 
 
 
