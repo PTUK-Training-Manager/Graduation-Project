@@ -29,10 +29,9 @@ export default function AddCompany() {
 
   return (
     <>
-      <UNavbar />
 
       <Box sx={{ display: 'flex' }}>
-        <Paper sx={{ padding: '32px', marginTop: '10%' }} elevation={10}>
+        <Paper sx={{  padding: '2rem', marginTop: '10%',ml:"40rem" }} elevation={10}>
           <Box>
             <Container component="main" maxWidth="xs">
               <CssBaseline />
