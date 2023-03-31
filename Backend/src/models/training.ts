@@ -1,15 +1,15 @@
 import { DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
 import sequelize from "src/config/connection";
-import {TrainingStatus} from "src/types";
-import {TrainingStatusEnum} from "src/enums";
-import {TRAINING_STATUS} from "src/constants";
+import {TrainingStatus,TrainingType} from "src/types";
+import {TrainingStatusEnum,TrainingTypeEnum} from "src/enums";
+import {TRAINING_STATUS,TRAINING_TYPE} from "src/constants";
 import Student from './student';
 
- enum TrainingType {
-  first = 'first',
-  second = 'second',
-  compound = 'compound',
-}
+//  enum TrainingType {
+//   first = 'first',
+//   second = 'second',
+//   compound = 'compound',
+// }
 
 // enum TrainingStatus {
 //   pending = 'pending',
@@ -22,7 +22,7 @@ import Student from './student';
 
 export default class Training extends Model<InferAttributes<Training>, InferCreationAttributes<Training>> {
 declare trainingId: number;
-declare type: typeof TrainingType;
+declare type: TrainingType;
 declare startDate: Date;
 declare endDate: Date;
 declare status: TrainingStatus;
@@ -41,11 +41,7 @@ Training.init(
       primaryKey: true,
     },
     type: {
-      type: DataTypes.ENUM(
-        TrainingType.first,
-        TrainingType.second,
-        TrainingType.compound,
-      ),
+      type: DataTypes.ENUM(...TRAINING_TYPE),
       allowNull: false,
       defaultValue:TrainingStatusEnum.pending
     },

@@ -13,3 +13,9 @@ export enum TrainingStatusEnum {
     submitted = 'submitted',
     completed = 'completed',
   }
+
+export enum TrainingTypeEnum {
+    first = 'first',
+    second = 'second',
+    compound = 'compound',
+  }

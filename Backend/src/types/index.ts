@@ -13,6 +13,12 @@ export type TrainingStatus =
     | "submitted"
     | "completed";
 
+export type TrainingType=
+    |'first'
+    |'second'
+    |'compound';
+
+
 export interface LoginPayload {
     username: string,
     roleId: number
