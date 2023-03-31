@@ -1,9 +1,13 @@
 import { DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
 import sequelize from "src/config/connection";
+
+
 import {TrainingStatus,TrainingType} from "src/types";
 import {TrainingStatusEnum,TrainingTypeEnum} from "src/enums";
 import {TRAINING_STATUS,TRAINING_TYPE} from "src/constants";
 import Student from './student';
+import CompanyBranch from './companyBranch';
+import Trainer from './trainer';
 
 //  enum TrainingType {
 //   first = 'first',
@@ -25,11 +29,10 @@ declare trainingId: number;
 declare type: TrainingType;
 declare startDate: Date;
 declare endDate: Date;
-declare status: TrainingStatus;
+declare status:  TrainingStatus;
 declare studentId: ForeignKey<Student['studentId']>;
-declare companyId?:NonAttribute<number>;
-declare trainerId?:NonAttribute<number>;
-
+declare companyBranchId:ForeignKey<CompanyBranch['id']>;
+declare trainerId:ForeignKey<Trainer['trainerId']>;
 
 }
 
