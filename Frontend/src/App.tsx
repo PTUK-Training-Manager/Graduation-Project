@@ -49,7 +49,6 @@ const App = () => {
         <Route element={<RequireAuth allowedRoles={[Roles.TRAINER]} />} >
         <Route path="/completedTrainings" element={<CompletedTrainings />}></Route>
         <Route path="/evaluationRequests" element={<EvaluationRequests />}></Route>
-        <Route path="/completedTrainees" element={<CompletedTrainees />}></Route>
         <Route path="/currentTrainee" element={<CurrentTrainee />}></Route> 
         <Route path="/completedTrainees" element={<CompletedTrainees />}></Route>
         <Route path="/search" element={<Search />}></Route>

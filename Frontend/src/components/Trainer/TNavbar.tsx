@@ -37,6 +37,27 @@ export default function CNavbar() {
     setAnchorElUser(null);
   };
 
+  const handleClickCT = () => {
+    window.location.href = '/completedTrainings';
+  };
+
+  const handleClickER = () => {
+    window.location.href = '/evaluationRequests';
+  };
+
+  const handleClickCoT = () => {
+    window.location.href = '/completedTrainees';
+  };
+
+  const handleClickCuT = () => {
+    window.location.href = '/currentTrainee';
+  };
+
+  const handleClickS = () => {
+    window.location.href = '/search';
+  };
+
+
   return (
     
     <Box sx={{ display: 'flex' }}>
@@ -106,6 +127,7 @@ export default function CNavbar() {
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
                 }}
+                onClick={handleClickER}
               >
             
                 <ListItemText sx={{ml:"1.5rem"}} primary="Evaluation Requests" />
@@ -123,6 +145,7 @@ export default function CNavbar() {
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
                 }}
+                onClick={handleClickCT}
               >
                
                 <ListItemText sx={{ml:"1.5rem"}} primary="Completed Trainings" />
@@ -140,6 +163,7 @@ export default function CNavbar() {
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
                 }}
+                onClick={handleClickCuT}
               >
                
                 <ListItemText sx={{ml:"1.5rem"}} primary="Current Trainees" />
@@ -157,6 +181,7 @@ export default function CNavbar() {
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
                 }}
+                onClick={handleClickCoT}
               >
                
                 <ListItemText sx={{ml:"1.5rem"}} primary="Completed Trainees" />
@@ -173,6 +198,7 @@ export default function CNavbar() {
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
                 }}
+                onClick={handleClickS}
               >  
                 <ListItemText sx={{ml:"1.5rem"}} primary="Search" />
               </ListItemButton>

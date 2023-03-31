@@ -35,6 +35,34 @@ export default function CNavbar() {
     setAnchorElUser(null);
   };
 
+  const handleClickTR = () => {
+    window.location.href = '/trainingRequests';
+  };
+
+  const handleClickT = () => {
+    window.location.href = '/trainers';
+  };
+
+  const handleClickCuT = () => {
+    window.location.href = '/currentTrainee';
+  };
+
+  const handleClickS = () => {
+    window.location.href = '/search';
+  };
+
+  const handleClickAR = () => {
+    window.location.href = '/acceptedRequests';
+  };
+
+  const handleClickCoT = () => {
+    window.location.href = '/completedTrainees';
+  };
+
+  const handleClickET = () => {
+    window.location.href = '/editTraining';
+  };
+
   return (
     
     <Box sx={{ display: 'flex' }}>
@@ -104,6 +132,7 @@ export default function CNavbar() {
                   justifyContent: open ? 'initial' : 'center',
                   px: "0.15625rem",
                 }}
+                onClick={handleClickTR}
               >
             
                 <ListItemText sx={{ml:"2rem"}} primary="Training Requests" />
@@ -124,6 +153,7 @@ export default function CNavbar() {
                   justifyContent: open ? 'initial' : 'center',
                   px: "0.15625rem",
                 }}
+                onClick={handleClickT}
               >
                
                 <ListItemText sx={{ml:"2rem"}} primary="Trainers" />
@@ -141,6 +171,7 @@ export default function CNavbar() {
                   justifyContent: open ? 'initial' : 'center',
                   px: "0.15625rem",
                 }}
+                onClick={handleClickCuT}
               >
                
                 <ListItemText sx={{ml:"2rem"}} primary="Current Trainees" />
@@ -158,6 +189,7 @@ export default function CNavbar() {
                   justifyContent: open ? 'initial' : 'center',
                   px: "0.15625rem",
                 }}
+                onClick={handleClickCoT}
               >
                
                 <ListItemText sx={{ml:"2rem"}} primary="Completed Trainees" />
@@ -174,6 +206,7 @@ export default function CNavbar() {
                   justifyContent: open ? 'initial' : 'center',
                   px: "0.15625rem",
                 }}
+                onClick={handleClickS}
               >
                
                 <ListItemText sx={{ml:"2rem"}} primary="Search" />
@@ -190,6 +223,7 @@ export default function CNavbar() {
                   justifyContent: open ? 'initial' : 'center',
                   px: "0.15625rem",
                 }}
+                onClick={handleClickAR}
               >
                
                 <ListItemText sx={{ml:"2rem"}} primary="Accepted Requests" />
@@ -206,6 +240,7 @@ export default function CNavbar() {
                   justifyContent: open ? 'initial' : 'center',
                   px: "0.15625rem",
                 }}
+                onClick={handleClickET}
               >
                 <ListItemText sx={{ml:"2rem"}} primary="Edit Training" />
               </ListItemButton>
