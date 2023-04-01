@@ -15,7 +15,7 @@ export default class User extends Model<InferAttributes<User>, InferCreationAttr
 
     // declare id: number;
     // id can be undefined during creation when using `autoIncrement`
-    declare id: CreationOptional<number>;
+    //declare id: CreationOptional<number>;
     declare username: string;
     declare email: string;
     declare password: string;
@@ -29,15 +29,16 @@ export default class User extends Model<InferAttributes<User>, InferCreationAttr
 }
 
 User.init({
-    id: {
-        type: DataTypes.INTEGER.UNSIGNED,
-        autoIncrement: true,
-        primaryKey: true
-    },
+    // id: {
+    //     type: DataTypes.INTEGER.UNSIGNED,
+    //     autoIncrement: true,
+    //     primaryKey: true
+    // },
     username: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
+        primaryKey: true
     },
     email: {
         type: DataTypes.STRING,

@@ -4,4 +4,5 @@ export enum UserRoleEnum {
     TRAINER = "trainer",
     STUDENT = "student",
     ADMIN_AND_REGISTRATION = "administration and registration",
+    company = "company",
 }

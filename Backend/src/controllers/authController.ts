@@ -8,7 +8,6 @@ class AuthController {
     handleLogin = async (req: Request, res: Response) => {
         try {
             const {username, password} = req.body;
-
             const record = await User.findOne({
                 where: {username},
             });

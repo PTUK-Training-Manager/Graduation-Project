@@ -3,20 +3,22 @@ import {User} from '../models';
 import bcrypt from 'bcrypt'
 
 class UserController {
-    async addUser(req: Request, res: Response) {
-        try {
-            const {username, password, email, roleId} = req.body
+    async addUser(res: Response,username:string,password:string,email:string,saltRounds:number,roleId:number) {
+      //  async addUser(req: Request,res: Response) {   
+     try {
+           // const {username:string, password, email, roleId} = req.body
+            const saltRounds=10
             //const record = await User.create({ ...req.body});
-
-            const saltRounds = 10;
             const hashedPwd = await bcrypt.hash(password, saltRounds);
             const record = await User.create({
                 username,
                 password: hashedPwd,
                 email,
-                roleId
+                roleId 
             });
+            console.log(record)
             return res.json({msg: "Successfully create User"});
+            
         } catch (e) {
             return res.json(e);
         }
