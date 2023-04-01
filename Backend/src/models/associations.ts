@@ -1,7 +1,7 @@
 import {
     Student,
-    Answer,
     AnsweredQuestion,
+    Answer,
     Company,
     Evaluation,
     Note,
@@ -15,17 +15,15 @@ import {
 } from "src/models";
 
 const association = () => {
-    CompanyBranch.belongsTo(Company, {foreignKey: "companyId"});
-    Company.hasMany(CompanyBranch, {foreignKey: "companyId"});
 
-    User.hasOne(Student, {foreignKey: "userName"});
-    Student.belongsTo(User, {foreignKey: "userName"});
+    User.hasOne(Student, {foreignKey: "id"});
+    Student.belongsTo(User, {foreignKey: "id"});
 
-    User.hasOne(Company, {foreignKey: "userName"});
-    Company.belongsTo(User, {foreignKey: "userName"});
+    User.hasOne(Company, {foreignKey: "id"});
+    Company.belongsTo(User, {foreignKey: "id"});
 
-    User.hasOne(Trainer, {foreignKey: "userName"});
-    Trainer.belongsTo(User, {foreignKey: "userName"});
+    User.hasOne(Trainer, {foreignKey: "id"});
+    Trainer.belongsTo(User, {foreignKey: "id"});
 
     Role.hasMany(User, {foreignKey: "roleId"});
     User.belongsTo(Role, {foreignKey: "roleId"});
@@ -48,20 +46,25 @@ const association = () => {
     Note.hasOne(Evaluation, {foreignKey: "noteId"});
     Evaluation.belongsTo(Note, {foreignKey: "noteId"});
 
+
+    Answer.hasMany(AnsweredQuestion, {foreignKey: "answerID"});
+    AnsweredQuestion.belongsTo(Answer, {foreignKey: "answerID"});
+
     Note.hasOne(AnsweredQuestion, {foreignKey: "noteId"});
     AnsweredQuestion.belongsTo(Note, {foreignKey: "noteId"});
+    
+    Question.hasMany(AnsweredQuestion, {foreignKey: "questionID"});
+    AnsweredQuestion.belongsTo(Question, {foreignKey: "questionID"});
 
-    Question.hasMany(AnsweredQuestion, {foreignKey: "questionId"});
-    AnsweredQuestion.belongsTo(Question, {foreignKey: "questionId"});
-
-    Answer.hasMany(AnsweredQuestion, {foreignKey: "answerId"});
-    AnsweredQuestion.belongsTo(Answer, {foreignKey: "answerId"});
 
     Role.hasMany(Question, {foreignKey: "roleId"});
     Question.belongsTo(Role, {foreignKey: "roleId"});
 
     Company.hasMany(Trainer, {foreignKey: "companyId"});
     Trainer.belongsTo(Company, {foreignKey: "companyId"});
+    
+    CompanyBranch.belongsTo(Company, {foreignKey: "companyId"});
+    Company.hasMany(CompanyBranch, {foreignKey: "companyId"});
 
     Role.belongsToMany(Permission, {
         through: "Role-Permission",

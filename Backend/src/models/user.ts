@@ -15,16 +15,16 @@ export default class User extends Model<InferAttributes<User>, InferCreationAttr
 
     // declare id: number;
     // id can be undefined during creation when using `autoIncrement`
-    declare id: CreationOptional<number>;
-    declare username: string;
-    declare email: string;
-    declare password: string;
     // declare roleId?: number;
     // foreign keys are automatically added by associations methods (like Project.belongsTo)
     // by branding them using the `ForeignKey` type, `Project.init` will know it does not need to
     // display an error if ownerId is missing.
+    
+    declare id: CreationOptional<number>;
+    declare username: string;
+    declare email: string;
+    declare password: string;
     declare roleId: ForeignKey<Role['id']>;
-
     declare getRole: HasOneGetAssociationMixin<Role>
 }
 
@@ -37,7 +37,8 @@ User.init({
     username: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
+        primaryKey: true
     },
     email: {
         type: DataTypes.STRING,

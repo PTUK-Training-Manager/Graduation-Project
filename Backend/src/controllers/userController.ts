@@ -3,24 +3,39 @@ import {User} from '../models';
 import bcrypt from 'bcrypt'
 
 class UserController {
-    async addUser(req: Request, res: Response) {
-        try {
-            const {username, password, email, roleId} = req.body
-            //const record = await User.create({ ...req.body});
+    async addUser(res: Response,username:string,password:string,email:string,saltRounds:number,roleId:number) {
+       try {
+              const hashedPwd = await bcrypt.hash(password, saltRounds);
+              const record = await User.create({
+                  username,
+                  password: hashedPwd,
+                  email,
+                  roleId 
+              });
+              return( record.id) as number;
+              
+          } catch (e) {
+              return res.json(e);
+          }
+      }
+    // async addUser(req: Request, res: Response) {
+    //     try {
+    //         const {username, password, email, roleId} = req.body
+    //         //const record = await User.create({ ...req.body});
 
-            const saltRounds = 10;
-            const hashedPwd = await bcrypt.hash(password, saltRounds);
-            const record = await User.create({
-                username,
-                password: hashedPwd,
-                email,
-                roleId
-            });
-            return res.json({msg: "Successfully create User"});
-        } catch (e) {
-            return res.json(e);
-        }
-    }
+    //         const saltRounds = 10;
+    //         const hashedPwd = await bcrypt.hash(password, saltRounds);
+    //         const record = await User.create({
+    //             username,
+    //             password: hashedPwd,
+    //             email,
+    //             roleId
+    //         });
+    //         return res.json({msg: "Successfully create User"});
+    //     } catch (e) {
+    //         return res.json(e);
+    //     }
+    // }
 
     async getAll(req: Request, res: Response) {
         try {

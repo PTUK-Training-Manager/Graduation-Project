@@ -1,5 +1,7 @@
-import { DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
+import { DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
 import sequelize from "src/config/connection";
+import answer from './answer';
+import question from './question';
 
 
 // interface answered_QuestionAttributes {
@@ -10,8 +12,10 @@ export default class Answered_Question extends Model<InferAttributes<Answered_Qu
   declare answered_QuestionID: number;
   declare trainingId?:NonAttribute<number>;
   declare noteId?:NonAttribute<number>;
-  declare questionId?:NonAttribute<number>;
-  declare answerId?:NonAttribute<number>;
+  declare questionId: ForeignKey<question['questionID']>;
+  // declare questionId?:NonAttribute<number>;
+  // declare answerID?:NonAttribute<number>;
+  declare answerID: ForeignKey<answer['answerID']>;
 
 }
 
