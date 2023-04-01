@@ -26,7 +26,7 @@ const PORT = process.env.PORT || 5000;
 app.use('/api/v1', router);
 
 association();
-db.sync({logging: false, alter:true})
+db.sync({logging: false, force:false})
     .then((value) => {
         console.log('All models were synchronized successfully.');
     })

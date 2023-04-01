@@ -1,10 +1,10 @@
 import {Request, Response} from 'express';
-import {CompanyBranch, Training} from "src/models";
+import {CompanyBranch, Student, Training} from "src/models";
 import {TrainingStatusEnum,TrainingTypeEnum} from "src/enums"
 import { Op } from 'sequelize';
 import { TrainingType } from 'src/types';
 
-class submitController {
+class requestController {
     submitRequest = async (req: Request, res: Response) => {
         const studentId=req.body.studentId;
         const type:TrainingType=req.body.type;
@@ -62,13 +62,19 @@ class submitController {
             }
           });
           try {
+            const student= await Student.findOne({
+              where:{studentId: studentId}
+            });
+            if(!student)
+            return res.status(401).json({error: `student ${studentId} not found `}); 
+
             const request= await Training.create({
               type:type,
               status: TrainingStatusEnum.pending,
               studentId: studentId,
               companyBranchId:companyBranch?.id 
             });
-            return res.json({ request, msg: "Successfully create student" });
+            return res.json({ request, msg: "Successfully SUBMITTED RREQUEST" });
           } catch (e) {
             return res.json(e);
           }
@@ -79,5 +85,34 @@ class submitController {
 
 
     }
+
+    viewPendingRequest = async (req: Request, res: Response) => {
+      const record = await Training.findAll({
+        where: {
+          status:TrainingStatusEnum.pending
+        }
+      });
+      return res.json({ record, msg: "pending request" });
+    }
+
+    deleteRequest = async (req: Request, res: Response) => {
+  
+        try {
+          let{id}=req.params;
+          const deletedRequest = await Training.destroy({
+            where:{ trainingId: id}});
+            if(!deletedRequest)
+            return res.json("something went wrong ");
+          return res.json(`traing deleted successfully`);         
+        } catch (e) {
+          return res.json({ msg: "fail to read", status: 500, route: "/read" });
+        }
+      
+    }
+
+
+
+
+
 }
-export default new submitController()
+export default new requestController()
