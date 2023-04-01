@@ -1,13 +1,9 @@
-import { DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model } from 'sequelize';
+import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model } from 'sequelize';
 import sequelize from "src/config/connection";
 
-// interface PermissionAttributes {
-//   id:IntegerDataType,
-//   permission:string
-// }
 
 export default class Permission extends Model<InferAttributes<Permission>, InferCreationAttributes<Permission>> {
- declare id: number;
+ declare id: CreationOptional<number>;
 declare permission:string;
 }
 

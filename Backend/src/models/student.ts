@@ -1,12 +1,13 @@
-import {DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute} from 'sequelize';
+import {DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute} from 'sequelize';
 import sequelize from "src/config/connection";
+import User from './user';
 
 
 export default class Student extends Model<InferAttributes<Student>, InferCreationAttributes<Student>> {
     declare studentId: string;
     declare studentName: string;
     declare phoneNumber: string;
-    declare userName?: NonAttribute<string>;
+    declare userId: ForeignKey<User['id']>;
 
 }
 
@@ -29,6 +30,5 @@ Student.init({
     modelName: 'Student',
     timestamps: false
 });
-
 
 

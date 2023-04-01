@@ -1,22 +1,18 @@
-import { DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
+import { CreationOptional, DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
 import sequelize from "src/config/connection";
-
-// interface EvaluationAttributes {
-//   id:IntegerDataType,
-//   startTime:Date,
-//   endTime:Date,
-//   signed:boolean,
-//   skills:string
-// }
+import {
+  Note,
+  Training
+} from "src/models";
 
 export default class Evaluation extends Model<InferAttributes<Evaluation>, InferCreationAttributes<Evaluation>>{
-declare id: number;
+declare id: CreationOptional<number>;
 declare startTime: Date;
 declare endTime: Date;
 declare signed: boolean;
 declare skills: string;
-declare trainingId?: NonAttribute<number>;
-declare noteId?: NonAttribute<number>; 
+declare trainingId?: ForeignKey<Training['trainingId']>;
+declare noteId?:ForeignKey<Note['noteId']>;
 
 }
 

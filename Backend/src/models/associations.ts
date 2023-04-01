@@ -16,14 +16,14 @@ import {
 
 const association = () => {
 
-    User.hasOne(Student, {foreignKey: "id"});
-    Student.belongsTo(User, {foreignKey: "id"});
+    User.hasOne(Student, {foreignKey: "userId"});
+    Student.belongsTo(User, {foreignKey: "userId"});
 
-    User.hasOne(Company, {foreignKey: "id"});
-    Company.belongsTo(User, {foreignKey: "id"});
+    User.hasOne(Company, {foreignKey: "userId"});
+    Company.belongsTo(User, {foreignKey: "userId"});
 
-    User.hasOne(Trainer, {foreignKey: "id"});
-    Trainer.belongsTo(User, {foreignKey: "id"});
+    User.hasOne(Trainer, {foreignKey: "userId"});
+    Trainer.belongsTo(User, {foreignKey: "userId"});
 
     Role.hasMany(User, {foreignKey: "roleId"});
     User.belongsTo(Role, {foreignKey: "roleId"});

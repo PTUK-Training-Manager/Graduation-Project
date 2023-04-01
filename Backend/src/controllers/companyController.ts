@@ -9,6 +9,7 @@ class companyController {
     this.addCompany = this.addCompany.bind(this);
     this.generateAccount = this.generateAccount.bind(this);
     this.addBranch = this.addBranch.bind(this);
+    this.handleAddBranch=this.handleAddBranch.bind(this);
   }
   async addCompany(req: Request, res: Response) {
     const companyId: number = req.body.companyId;
@@ -19,7 +20,7 @@ class companyController {
     const comp = await company.findByPk(companyId);
 
       if (!comp) {
-      const id = await this.generateAccount(res, companyName, email, location);
+      const id:number = await this.generateAccount(res, companyName, email, location);
       if (!id) 
       return res.json({ msg: "error creating account User" });
     
@@ -27,9 +28,8 @@ class companyController {
       companyId: companyId,
       companyName,
       phoneNumber: req.body.phoneNumber,
-      location,
       managerName: req.body.managerName,
-      id,
+      userId:id
     });
     if (!record) 
     return res.json({ msg: "error creating account Company" });
@@ -41,7 +41,7 @@ class companyController {
   return res.json({ msg: "success" })
 }
 
-  async generateAccount(
+private async generateAccount( 
     res: Response,
     companyName: string,
     email: string,
@@ -66,8 +66,10 @@ class companyController {
     return id as number;
   }
 
-  async addBranch(res: Response,companyId:number,location:string) {
+  private async addBranch(res: Response,companyId:number,location:string) {
+
     const Branch =await CompanyBranch.findOne({ where: {location, companyId } });
+
     if(Branch)
     return res.json({ msg: "Company already exists" });
 
@@ -75,8 +77,21 @@ class companyController {
       location,
       companyId
     })
-    return BranchName
+    if (!BranchName)
+    return res.json({ msg: "error creating Branch" });
+    return res.json({ msg: "success" })
+    }
    
+
+
+async handleAddBranch(req:Request,res: Response) {
+    const companyId:number = req.body.companyId
+    const location:string = req.body.location;
+    
+    await this.addBranch(res,companyId,location)
+    
 }
 }
+
+
 export default new companyController();
