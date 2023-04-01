@@ -8,11 +8,14 @@ interface LandingProps {}
 const LandingPage: FC<LandingProps> = (props) => {
 
   return (
-      <Stack gap={2}>
+      <Stack gap={2} sx={{alignItems: "center"}}>
           <Typography variant="h1">
+              LandingPage
+          </Typography>
+          <Typography variant="h3">
               Public Route 📢
           </Typography>
-          <Typography variant="h2">
+          <Typography variant="h4">
               anyone can access this page 🙂
           </Typography>
       </Stack>

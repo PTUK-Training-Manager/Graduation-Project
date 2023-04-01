@@ -7,13 +7,15 @@ interface HomeProps {
 }
 
 const Home: FC<HomeProps> = (props) => {
-
     return (
-        <Stack gap={2}>
+        <Stack gap={2} sx={{alignItems: "center"}}>
             <Typography variant="h1">
-                Protected Route🔐
+                Home
             </Typography>
             <Typography variant="h2">
+                Protected Route🔐
+            </Typography>
+            <Typography variant="h4">
                 authenticated user required ✅👤
             </Typography>
         </Stack>

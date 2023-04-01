@@ -1,11 +1,9 @@
-import CNavbar from './components/company/CNavbar';
-import Navbar from "./components/Navbar";
-import Sidebar from "./components/Sidebar";
-import TNavbar from './components/Trainer/TNavbar';
-import SignIn from 'src/pages/SignIn';
+import React from 'react';
+// import Navbar from "./components/Navbar";
+// import SignIn from 'src/pages/SignIn';
 import {queryClient} from './queryClient';
 import {QueryClientProvider} from '@tanstack/react-query';
-import Layout from './components/Layout';
+// import Layout from './components/Layout';
 import Home from './components/Home';
 import Unauthorized from './components/Unauthorized';
 import RequireAuth from './components/RequireAuth';
@@ -24,7 +22,8 @@ import CurrentTrainee from './components/university/pages/CurrentTrainee';
 import Missing from './components/Missing';
 import {Route, Routes} from 'react-router-dom';
 import Box from "@mui/material/Box";
-import useStyles from "./styles";
+import Stack from "@mui/material/Stack";
+import AppLayout from "./AppLayout";
 
 const Roles = {
     SUPER_ADMIN: 'super admin',
@@ -36,24 +35,12 @@ const Roles = {
 
 const App = () => {
 
-    const classes = useStyles();
-
     return (
-        <Box
-            sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                background: "antiquewhite",
-                height: "100vh",
-                marginTop: "75px",
-            }}
-            className={classes.root}
-        >
-            <QueryClientProvider client={queryClient}>
-                <Navbar/>
-                <Sidebar/>
-                <SubmitRequest/>
+
+        <QueryClientProvider client={queryClient}>
+                <AppLayout/>
+                {/*<Sidebar/>*/}
+                {/*<SubmitRequest/>*/}
                 {/*     <Routes>*/}
                 {/*         /!*<Route path="/" element={<Navbar/>}></Route>*!/*/}
                 {/*         /!* <Route element={<RequireAuth allowedRoles={[Roles.UNI_TRAINING_OFFICER]} />} > *!/*/}
@@ -86,8 +73,7 @@ const App = () => {
                 {/* </Route> *!/*/}
 
                 {/*     </Routes>*/}
-            </QueryClientProvider>
-        </Box>
+        </QueryClientProvider>
     );
 };
 
