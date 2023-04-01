@@ -3,7 +3,8 @@ export type UserRole =
     | "university training officer"
     | "trainer"
     | "student"
-    | "administration and registration";
+    | "administration and registration"
+    |"company";
 
 export type TrainingStatus =
     | "pending"
