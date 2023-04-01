@@ -68,7 +68,7 @@ class submitController {
               studentId: studentId,
               companyBranchId:companyBranch?.id 
             });
-            return res.json({ request, msg: "Successfully create student" });
+            return res.json({ request, msg: "Successfully SUBMITTED RREQUEST" });
           } catch (e) {
             return res.json(e);
           }
