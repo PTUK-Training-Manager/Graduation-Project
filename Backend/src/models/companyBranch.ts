@@ -18,6 +18,6 @@ export default class CompanyBranch extends Model<InferAttributes<CompanyBranch>,
     }},
     {
     sequelize,
-    modelName: 'Answer',
+    modelName: 'CompanyBranch',
     timestamps:false  
     });

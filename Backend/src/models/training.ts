@@ -1,4 +1,4 @@
-import { DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
+import { CreationOptional, DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
 import sequelize from "src/config/connection";
 
 
@@ -25,14 +25,14 @@ import Trainer from './trainer';
 // }
 
 export default class Training extends Model<InferAttributes<Training>, InferCreationAttributes<Training>> {
-declare trainingId: number;
+declare trainingId: CreationOptional<number>;
 declare type: TrainingType;
-declare startDate: Date;
-declare endDate: Date;
+declare startDate?: Date;
+declare endDate?: Date;
 declare status:  TrainingStatus;
 declare studentId: ForeignKey<Student['studentId']>;
 declare companyBranchId:ForeignKey<CompanyBranch['id']>;
-declare trainerId:ForeignKey<Trainer['trainerId']>;
+declare trainerId?:ForeignKey<Trainer['trainerId']>;
 
 }
 
@@ -46,7 +46,7 @@ Training.init(
     type: {
       type: DataTypes.ENUM(...TRAINING_TYPE),
       allowNull: false,
-      defaultValue:TrainingStatusEnum.pending
+      defaultValue:TrainingTypeEnum.first
     },
     startDate: {
       type: DataTypes.DATE,

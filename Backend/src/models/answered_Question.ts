@@ -1,5 +1,11 @@
-import { DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
+import { CreationOptional, DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
 import sequelize from "src/config/connection";
+import {
+  Answer,
+  Note,
+  Question,
+  Training
+} from "src/models";
 
 
 // interface answered_QuestionAttributes {
@@ -7,16 +13,16 @@ import sequelize from "src/config/connection";
 // }
 
 export default class Answered_Question extends Model<InferAttributes<Answered_Question>, InferCreationAttributes<Answered_Question>> {
-  declare answered_QuestionID: number;
-  declare trainingId?:NonAttribute<number>;
-  declare noteId?:NonAttribute<number>;
-  declare questionId?:NonAttribute<number>;
-  declare answerId?:NonAttribute<number>;
+  declare id: CreationOptional<number>;
+  declare trainingId?: ForeignKey<Training['trainingId']>;
+  declare noteId?:ForeignKey<Note['noteId']>;
+  declare questionId?:ForeignKey<Question['questionId']>;
+  declare answerId?:ForeignKey<Answer['answerId']>;
 
 }
 
 Answered_Question.init({
-    answered_QuestionID: {
+    id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true

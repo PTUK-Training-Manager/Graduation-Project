@@ -1,33 +1,15 @@
 import {Request, Response} from 'express';
-import {Training} from "src/models";
+import {CompanyBranch, Training} from "src/models";
 import {TrainingStatusEnum,TrainingTypeEnum} from "src/enums"
 import { Op } from 'sequelize';
+import { TrainingType } from 'src/types';
 
 class submitController {
     submitRequest = async (req: Request, res: Response) => {
         const studentId=req.body.studentId;
-        const type=req.body.type;
-        
-        // //if student has pending request
-        // var record = await Training.findOne({
-        //   where: {
-        //     studentId: studentId,
-        //     status:TrainingStatusEnum.pending 
-        //   }
-        // });
-        // if (record){
-        //     return res.status(401).json({error: `student ${studentId} has pending request`});
-        // }
-        // //if student has running request
-        // record = await Training.findOne({
-        //     where: {
-        //       studentId: studentId,
-        //       status:TrainingStatusEnum.running 
-        //     }
-        //   });
-        //   if (record){
-        //       return res.status(401).json({error: `student ${studentId} has running request`});
-        //   }
+        const type:TrainingType=req.body.type;
+        const companyId = req.body.companyId;
+        const location = req.body.location;
 
         //to check that student has only one training for a type
         var record = await Training.findOne({
@@ -70,17 +52,32 @@ class submitController {
                 }
               });
            if(record){
-               return res.status(401).json({error: `student ${studentId} has ${record.status} traing `});  
+               return res.status(401).json({error: `student ${studentId} has ${record.type} traing `});  
            }       
            }
+           const companyBranch = await CompanyBranch.findOne({
+            where: {
+              location: location,
+              companyId: companyId,
+            }
+          });
+          try {
+            const request= await Training.create({
+              type:type,
+              status: TrainingStatusEnum.pending,
+              studentId: studentId,
+              companyBranchId:companyBranch?.id 
+            });
+            return res.json({ request, msg: "Successfully create student" });
+          } catch (e) {
+            return res.json(e);
+          }
 
-        //    const request = await Training.create({
-            
-        // });
-
+          
 
 
 
 
     }
 }
+export default new submitController()

@@ -4,6 +4,7 @@ export enum UserRoleEnum {
     TRAINER = "trainer",
     STUDENT = "student",
     ADMIN_AND_REGISTRATION = "administration and registration",
+    Company = "company",
 }
 export enum TrainingStatusEnum {
     pending = 'pending',

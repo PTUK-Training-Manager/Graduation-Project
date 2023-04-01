@@ -5,7 +5,7 @@ import verifyJWT from '../middlewares/verifyJWT';
 import verifyRoles from '../middlewares/verifyRole';
 //,
 //  router.post('/addStudent',verifyJWT(),verifyRoles(userRoleEnum.student, userRoleEnum.student),studentController.addStudent);
-router.post('/addStudent',verifyJWT(),verifyRoles(3),studentController.addStudent); 
+router.post('/addStudent',verifyJWT(),verifyRoles(4),studentController.addStudent); 
 router.get('/getAll',studentController.getAll);
 router.delete('/deleteStudentById/:id',studentController.DeleteStudentById)
 

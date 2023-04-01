@@ -1,4 +1,4 @@
-import { Association, DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model } from 'sequelize';
+import { Association, CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model } from 'sequelize';
 import sequelize from "src/config/connection";
 
 
@@ -8,7 +8,7 @@ import sequelize from "src/config/connection";
 // }
 
 export default class Note extends Model<InferAttributes<Note>, InferCreationAttributes<Note>>{
-  declare noteId: number;
+  declare noteId: CreationOptional<number>;
 declare note:string;
 }
 
