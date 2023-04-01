@@ -7,7 +7,7 @@ import {
   TableCell,
   Paper,
 } from '@mui/material';
-import UNavbar from './UNavbar';
+// import UNavbar from './UNavbar';
 import Box from '@mui/material/Box';
 import AddIcon from '@mui/icons-material/Add';
 import './ustyle.css';
@@ -21,17 +21,16 @@ import './ser.css';
 export default function Search() {
   return (
     <>
-      <UNavbar />
       <Stack spacing={4} direction="row">
         <TextField label="Search"></TextField>
         <SearchIcon />
         <ListItemButton>
-          <AddIcon className='add' sx={{justifyContent:"flex-end !important"}}/>
+          <AddIcon className="add" />
         </ListItemButton>
       </Stack>
       <Stack display="flex">
-        <Paper sx={{ width: '800px', marginLeft: '160px', mt: 2 }}>
-          <TableContainer sx={{ maxHeight: '450px' }}>
+        <Paper sx={{ width: '50rem', marginLeft: '10rem', mt: 2 }}>
+          <TableContainer sx={{ maxHeight: '28.125rem' }}>
             <Table aria-aria-label="current trainne table" stickyHeader>
               <TableHead>
                 <TableRow className="table-row">
@@ -74,7 +73,13 @@ export default function Search() {
                       {row['type']}
                     </TableCell>
                     <TableCell sx={{ backgroundColor: 'white'}} 
-                    style={{ color: row.status === 'Running' ? 'orange' : row.status === 'Rejected' ? 'red' : row.status === 'Completed' ? 'green' : row.status === 'Accepted' ? 'blue': row.status === 'Pending' ? 'gray' : 'white' }}>
+                    style={{ color: row.status === 'Running' 
+                            ? 'orange' : row.status === 'Rejected'
+                            ? 'red' : row.status === 'Completed' 
+                            ? 'green' : row.status === 'Accepted' 
+                            ? 'blue': row.status === 'Pending' 
+                            ? 'gray' : 'white' }}>
+                              
                       {row['status']}
                     </TableCell>
                     <TableCell sx={{ backgroundColor: 'white' }}>
