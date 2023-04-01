@@ -3,5 +3,5 @@ import {SignInRequestBody, SignInResponse} from "../types";
 
 export const signIn = async (body: SignInRequestBody) => {
     const url = "/auth/signin";
-    return axiosInstance.post<SignInResponse>(url, body).then(res => res.data);
+    return  axiosInstance.post<SignInResponse>(url, body).then(res => res.data);
 };

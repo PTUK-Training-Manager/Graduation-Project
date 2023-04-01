@@ -4,15 +4,12 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
-import './ustyle.css';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-// import UNavbar from './UNavbar';
-const drawerWidth = 240;
 
-export default function AddCompany() {
+const AddCompany: React.FC = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -30,8 +27,13 @@ export default function AddCompany() {
   return (
     <>
 
-      <Box sx={{ display: 'flex' }}>
-        <Paper sx={{  padding: '2rem', marginTop: '10%',ml:"40rem" }} elevation={10}>
+<Grid container sx={{
+            display: 'flex',
+            justifyContent: "center",
+            alignItems: "center",
+        }}>    
+            <Paper
+             sx={{padding:4}}>
           <Box>
             <Container component="main" maxWidth="xs">
               <CssBaseline />
@@ -101,7 +103,8 @@ export default function AddCompany() {
             </Container>
           </Box>
         </Paper>
-      </Box>
+      </Grid>
     </>
   );
 }
+export default AddCompany;

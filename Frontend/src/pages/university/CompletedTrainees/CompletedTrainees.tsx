@@ -1,31 +1,27 @@
 import React from 'react';
 import {TableContainer,Table,TableHead,TableBody,TableRow,TableCell,Paper} from '@mui/material';
-// import UNavbar from './UNavbar';
 import Box from '@mui/material/Box';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import PrintIcon from '@mui/icons-material/Print';
 import MenuItem from '@mui/material/MenuItem';
-import './ustyle.css';
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-import './ct.css';
+import Grid from '@mui/material/Grid';
 
-export default function CompletedTrainees() {
+const CompletedTrainees: React.FC = () => {
   return (
     <>
-      <Stack spacing={4} direction="row">
-        <TextField
-        label="Search"
-        >
-        </TextField>
-        <SearchIcon />
-
-      </Stack>
-      <Stack display="flex">
-        <Paper sx={{ width: '800px', marginLeft: '160px', mt:2}}>
+       <Grid container sx={{
+            display: 'flex',
+            justifyContent: "center",
+            alignItems: "center",
+        }}>
+      {/* <Stack display="flex"> */}
+        <Paper  sx={{padding:4}}
+             elevation={10}>
           <TableContainer sx={{ maxHeight: '450px' }}>
             <Table aria-aria-label="current trainne table" stickyHeader>
               <TableHead>
@@ -61,10 +57,11 @@ export default function CompletedTrainees() {
             </Table>
           </TableContainer>
         </Paper>
-        <Stack className="page"  spacing={4} direction="column">
+        {/* <Stack className="page"  spacing={4} direction="column">
             <Pagination count={10} />
-        </Stack>
-      </Stack>
+        </Stack> */}
+      {/* </Stack> */}
+      </Grid>
     </>
   );
 }
@@ -110,3 +107,4 @@ const Trainnes = [
     's-name': 'Shimaa Khadir',
   },
 ];
+export default CompletedTrainees;

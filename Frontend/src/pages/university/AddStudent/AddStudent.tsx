@@ -4,16 +4,13 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
-import './ustyle.css';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-// import UNavbar from './UNavbar';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-const drawerWidth = 240;
 
-export default function AddStudent() {
+const AddStudent: React.FC = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -30,11 +27,13 @@ export default function AddStudent() {
 
   return (
     <>
-      <Box  sx={{ display: 'flex'}}>
-        <Paper
-          sx={{ padding: '3.125rem', margin: '3.4375rem auto', marginTop: '10%',ml:"40rem"}}
-          elevation={10}
-        >
+     <Grid container sx={{
+            display: 'flex',
+            justifyContent: "center",
+            alignItems: "center",
+        }}>    
+            <Paper
+             sx={{padding:4}}>
           <Box>
             <Container component="main" maxWidth="xs">
               <CssBaseline />
@@ -77,7 +76,9 @@ export default function AddStudent() {
             </Container>
           </Box>
         </Paper>
-      </Box>
+      </Grid>
     </>
   );
 }
+
+export default AddStudent;

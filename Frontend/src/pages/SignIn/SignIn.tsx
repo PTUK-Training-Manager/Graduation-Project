@@ -11,8 +11,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { AppBar,Toolbar } from '@mui/material';
-import PTUK_Logo from "/assets/PTUK-Logo.png";
-import "./SignIn.css";
+// import "./SignIn.css";
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import Grid from '@mui/material/Grid';
 import {signIn} from "./api";
@@ -23,30 +22,26 @@ const SignIn: React.FC = () => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
-      email: data.get('email'),
+      username: data.get('username'),
       password: data.get('password'),
     });
     signIn({
-        username: "s.a.amer1",
-        password: "123"
+        username: data.get('username') as string,
+        password: data.get('password') as string
     }).then((res) => {
         console.log(res);
     });
   };
 
   return (
-    <Box sx={{ display: 'flex'}}>
-      <CssBaseline />
-      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} className='bar'>
-        <Toolbar className='tbar'>
-        <Box display="flex">
-          <ImageListItem>
-          <img className='ptuk' alt="ptuk-logo" src={PTUK_Logo}></img>
-          </ImageListItem>
-        </Box>
-            </Toolbar>
-            </AppBar>
-            <Paper sx={{padding:"32px",margin:"55 auto",marginTop:"10%"}} elevation={10}>
+<Grid container sx={{
+            display: 'flex',
+            justifyContent: "center",
+            alignItems: "center",
+        }}>    
+            <Paper
+             sx={{padding:4}}
+             elevation={10}>
          <Box>
             <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -110,7 +105,7 @@ const SignIn: React.FC = () => {
       </Container>
       </Box> 
       </Paper>
-            </Box>
+            </Grid>
   );
 }
 

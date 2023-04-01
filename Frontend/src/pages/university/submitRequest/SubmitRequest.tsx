@@ -5,16 +5,13 @@ import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import MenuItem from '@mui/material/MenuItem';
 import Container from '@mui/material/Container';
-// import './ustyle.css';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-// import UNavbar from './UNavbar';
 
-const drawerWidth = 240;
 
-export default function SubmitRequest() {
+const SubmitRequest: React.FC = () => {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
 
@@ -126,3 +123,5 @@ export default function SubmitRequest() {
         </Grid>
     );
 }
+
+export default SubmitRequest;
