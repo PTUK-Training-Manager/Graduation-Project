@@ -22,8 +22,9 @@ class studentController {
         if (!student) {
             const id: number = await userController.generateAccount(
                 studentName,
-                phoneNumber,
-                email
+                studentId,
+                email,
+				4 // student RoleId in database
             );
             if (!id) return res.json({ msg: "error creating account User" });
 

@@ -16,16 +16,21 @@ class companyController {
         const email: string = req.body.email;
         const location: string = req.body.location;
 
+        //checking if company already exists
         const comp = await company.findByPk(companyId);
 
+        //if company does not exist then create user account
         if (!comp) {
             const id: number = await userController.generateAccount(
                 companyName,
                 location,
-                email
+                email,
+                6 // company roleID in DataBase.
             );
             if (!id) return res.json({ msg: "error creating account User" });
 
+        //after creating user account with role (company), 
+        //create the company account with a foreign key from user (userId)
             const record = await company.create({
                 companyId: companyId,
                 companyName,
@@ -36,10 +41,15 @@ class companyController {
 
             if (!record) return res.json({ msg: "error creating account Company" });
         }
+
+        //the company exists or not and if nothing goes wrong, call add branch function anyway.
         await this.addBranch(res, companyId, location);
     }
+    
 
     private async addBranch(res: Response, companyId: number, location: string) {
+        
+        //check if the Branch already exists
         const Branch = await CompanyBranch.findOne({
             where: { location, companyId },
         });
@@ -47,6 +57,8 @@ class companyController {
         if (Branch)
             return res.json({ msg: "Company and its Branch already exists" });
 
+        //if the Branch does not exist, create it (without creating new user 
+        //account taking into consideration that all branches in one comapy have one user account)
         const BranchName = await CompanyBranch.create({
             location,
             companyId,

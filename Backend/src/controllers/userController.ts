@@ -10,6 +10,10 @@ class UserController {
         this.handleAddUser = this.handleAddUser.bind(this);
     }
 
+
+//making two separate functions for one purpose (I can merge them into one function as 
+//long as the generate account function does not depend on the add user function (not waiting 
+//for certain value to complete the work))
     async addUser(
         username: string,
         password: string,
@@ -27,9 +31,10 @@ class UserController {
         return record.id as number;
     }
     
-    async generateAccount(First: string, Second: string, email: string) {
+    async generateAccount(First: string, Second: string, email: string,roleId: number){
         const first = First.split(" ")[0].toLocaleLowerCase();
         const second = Second.slice(0, 2).toLocaleLowerCase();
+
         const password = crypto.randomBytes(8).toString("hex"); //random string for password
         const username = first + "." + second;
         var suffix = 1;
@@ -42,11 +47,11 @@ class UserController {
                 suffix++;
             }
         }
-        const id = await this.addUser(temp, password, email, 10, 6);
+        const id = await this.addUser(temp, password, email, 10, roleId);
         return id as number;
     }
 
-    async handleAddUser(req: Request, res: Response) {
+    async handleAddUser(req: Request, res: Response) { // I think we should cancel this request!, not completely finished
         try {
             const { username, email, password, roleId } = req.body;
             const saltRounds = 10;
