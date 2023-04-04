@@ -31,7 +31,7 @@ class UserController {
         return record.id as number;
     }
     
-    async generateAccount(First: string, Second: string, email: string,roleId: number){
+    async generateAccount(First: string, Second: string):Promise<{ temp: string; password: string; }>{
         const first = First.split(" ")[0].toLocaleLowerCase();
         const second = Second.slice(0, 2).toLocaleLowerCase();
 
@@ -47,8 +47,8 @@ class UserController {
                 suffix++;
             }
         }
-        const id = await this.addUser(temp, password, email, 10, roleId);
-        return id as number;
+     
+        return {temp,password};
     }
 
     async handleAddUser(req: Request, res: Response) { // I think we should cancel this request!, not completely finished

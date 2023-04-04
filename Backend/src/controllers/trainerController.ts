@@ -2,13 +2,16 @@ import { Request, Response } from "express";
 import Trainer from '../models/trainer';
 
 class trainerController {
+	
+	
+	//same as add student but we need the companyId from the token "to remember"
 	async addtrainer(req: Request, res: Response) {
-		try {
-			const record = await Trainer.create({ ...req.body });
-			return res.json({ record, msg: "Successfully add trainer" });
-		} catch (e) {
-			return res.json(e);
-		}
+		// try {
+		// 	const record = await Trainer.create({ ...req.body });
+		// 	return res.json({ record, msg: "Successfully add trainer" });
+		// } catch (e) {
+		// 	return res.json(e);
+		// }
 	}
 
 	async getAll(req: Request, res: Response) {

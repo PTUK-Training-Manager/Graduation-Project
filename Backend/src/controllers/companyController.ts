@@ -21,16 +21,16 @@ class companyController {
 
         //if company does not exist then create user account
         if (!comp) {
-            const id: number = await userController.generateAccount(
+            const { temp, password } = await userController.generateAccount(
                 companyName,
-                location,
-                email,
-                6 // company roleID in DataBase.
+                location
             );
+            if (!temp) return res.json({ msg: "error creating account User" });
+            const id = await userController.addUser(temp, password, email, 10, 6); // company roleID in DataBase
             if (!id) return res.json({ msg: "error creating account User" });
 
-        //after creating user account with role (company), 
-        //create the company account with a foreign key from user (userId)
+            //after creating user account with role (company),
+            //create the company account with a foreign key from user (userId)
             const record = await company.create({
                 companyId: companyId,
                 companyName,
@@ -45,11 +45,16 @@ class companyController {
         //the company exists or not and if nothing goes wrong, call add branch function anyway.
         await this.addBranch(res, companyId, location);
     }
-    
 
     private async addBranch(res: Response, companyId: number, location: string) {
+        //check if the company already exists
+        const comp = await company.findByPk(companyId);
+
+        //if company does not exist then create user account
+        if (!comp)
+            return res.json({ msg: "the company does not exist" })
         
-        //check if the Branch already exists
+            //check if the Branch already exists
         const Branch = await CompanyBranch.findOne({
             where: { location, companyId },
         });
@@ -57,7 +62,7 @@ class companyController {
         if (Branch)
             return res.json({ msg: "Company and its Branch already exists" });
 
-        //if the Branch does not exist, create it (without creating new user 
+        //if the Branch does not exist, create it (without creating new user
         //account taking into consideration that all branches in one comapy have one user account)
         const BranchName = await CompanyBranch.create({
             location,
