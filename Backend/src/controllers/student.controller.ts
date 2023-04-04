@@ -20,12 +20,12 @@ class studentController {
 		const student = await Student.findByPk(studentId);
 
         if (!student) {
-            const id: number = await userController.generateAccount(
+            const { temp, password } = await userController.generateAccount(
                 studentName,
-                studentId,
-                email,
-				4 // student RoleId in database
+                studentId
             );
+            if (!temp) return res.json({ msg: "error creating account User" });
+            const id = await userController.addUser(temp, password, email, 10, 6); // company roleID in DataBase
             if (!id) return res.json({ msg: "error creating account User" });
 
 			
