@@ -13,7 +13,7 @@ router.use("/student", studentRouter);
 router.use("/trainer", trainerRouter);
 router.use("/auth", authRouter);
 router.use("/user", userRouter);
-router.use("/Role", rolesRouter);
-router.use("/Request", requestRouter);
+router.use("/role", rolesRouter);
+router.use("/request", requestRouter);
 
 export default router;
