@@ -1,22 +1,14 @@
-import { DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from "sequelize";
+import { CreationOptional, DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from "sequelize";
 import sequelize from "src/config/connection";
-
-// interface CompanyAttributes {
-//   companyId: IntegerDataType;
-//   companyName: string;
-//   phoneNumber: string;
-//   location: string;
-//   managerName: string;
-// }
+import User from "./user";
 
 export default class Company extends Model<InferAttributes<Company>, InferCreationAttributes<Company>> {
- declare companyId: number;
- declare companyName: string;
- declare phoneNumber: string;
- declare location: string;
- declare managerName: string;
- declare userName?:NonAttribute<string>;
- }
+  declare companyId: CreationOptional<number>;
+  declare companyName: string;
+  declare phoneNumber: string;
+  declare managerName: string;
+  declare userId: ForeignKey<User['id']>;
+}
 
 Company.init(
   {
@@ -32,10 +24,6 @@ Company.init(
     phoneNumber: {
       type: DataTypes.STRING,
       allowNull: true,
-    },
-    location: {
-      type: DataTypes.STRING,
-      allowNull: false,
     },
     managerName: {
       type: DataTypes.STRING,
