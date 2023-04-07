@@ -5,7 +5,7 @@ export interface SignInRequestBody {
     password: string
 }
 
-interface AccessTokenData {
+export interface AccessTokenData {
     username: string,
     roleId: number,
 }

@@ -50,6 +50,15 @@ const AddCompany: React.FC = () => {
                   Add Company
                 </Typography>
                 <form >
+                <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="company-id"
+                    label="Company Id"
+                    name="company-id"
+                    autoFocus
+                  />
                   <TextField
                     margin="normal"
                     required

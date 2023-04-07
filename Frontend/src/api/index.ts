@@ -1,7 +1,7 @@
 import axios, {AxiosRequestConfig} from 'axios';
 
 const defaultAxiosSettings: AxiosRequestConfig = {
-    withCredentials: false,
+    withCredentials: true,
     headers: {
         Accept: "application/json",
         "Content-Type": "application/json",

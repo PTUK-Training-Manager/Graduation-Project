@@ -13,6 +13,7 @@ const Roles = {
     TRAINER: 'trainer',
     STUDENT: 'student',
     ADMIN_AND_REGISTRATION: 'administration and registration',
+    COMPANY: 'company'
 };
 
 const App = () => {
@@ -21,7 +22,6 @@ const App = () => {
         <>
         <QueryClientProvider client={queryClient}>
         <AppLayout />
-        {/* <SignIn /> */}
         </QueryClientProvider>
         </>
     );

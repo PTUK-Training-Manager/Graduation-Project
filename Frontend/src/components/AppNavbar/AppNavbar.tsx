@@ -16,6 +16,10 @@ import {NAVBAR_HEIGHT, DRAWER_WIDTH} from "src/constants";
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import Stack from "@mui/material/Stack";
+import { useNavigate, Link } from "react-router-dom";
+import { useContext } from "react";
+import AuthContext from "src/context/AuthProvider";
+
 
 interface AppNavbarProps {
     isSidebarOpen: boolean;
@@ -34,8 +38,14 @@ const AppNavbar: FC<AppNavbarProps> = ({isSidebarOpen, setIsSidebarOpen}) => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-
+    
+    const { setAuth } = useContext(AuthContext);
+    const navigate = useNavigate();
     const handleDrawerOpen = () => setIsSidebarOpen((prev) => !prev);
+    const logout = async () => {
+        setAuth({});
+        navigate('/home');
+    }
 
     return (
         <AppBar
@@ -45,11 +55,6 @@ const AppNavbar: FC<AppNavbarProps> = ({isSidebarOpen, setIsSidebarOpen}) => {
                 // backgroundColor: "#30ADD1",
                 backgroundColor: "primary.light",
                 height: NAVBAR_HEIGHT,
-                // Uncomment the below if you want the AppSidebar to be beside the AppBar when opened
-                // ...(isSidebarOpen && {
-                //     width: `calc(100% - ${DRAWER_WIDTH}px)`,
-                //     marginLeft: `${DRAWER_WIDTH}px`,
-                // }),
             }}
         >
             <Toolbar sx={{height: "100%", justifyContent: "space-between"}}>
@@ -102,7 +107,7 @@ const AppNavbar: FC<AppNavbarProps> = ({isSidebarOpen, setIsSidebarOpen}) => {
                                     <ListItemText primary="Profile"></ListItemText>
                                     <AccountBoxIcon/>
                                 </ListItemButton>
-                                <ListItemButton>
+                                <ListItemButton onClick={logout}>
                                     <ListItemText primary="Logout"></ListItemText>
                                     <ExitToAppIcon/>
                                 </ListItemButton>
