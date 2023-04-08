@@ -1,6 +1,6 @@
-import { CreationOptional, DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from "sequelize";
+import { CreationOptional, DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, Model } from "sequelize";
 import sequelize from "src/config/connection";
-import User from "./user";
+import User from "./User";
 
 export default class Company extends Model<InferAttributes<Company>, InferCreationAttributes<Company>> {
   declare id: CreationOptional<number>;

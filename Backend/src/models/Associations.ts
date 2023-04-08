@@ -14,7 +14,7 @@ import {
     CompanyBranch
 } from "src/models";
 
-const association = () => {
+const associations = () => {
 
     User.hasOne(Student, { foreignKey: "userId" });
     Student.belongsTo(User, { foreignKey: "userId" });
@@ -78,4 +78,4 @@ const association = () => {
     });
 };
 
-export default association;
+export default associations;

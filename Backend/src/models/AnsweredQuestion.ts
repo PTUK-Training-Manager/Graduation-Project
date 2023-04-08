@@ -1,4 +1,4 @@
-import { CreationOptional, DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
+import { CreationOptional, DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
 import sequelize from "src/config/connection";
 import {
   Answer,
@@ -8,7 +8,7 @@ import {
 } from "src/models";
 
 
-export default class Answered_Question extends Model<InferAttributes<Answered_Question>, InferCreationAttributes<Answered_Question>> {
+export default class AnsweredQuestion extends Model<InferAttributes<AnsweredQuestion>, InferCreationAttributes<AnsweredQuestion>> {
   declare id: CreationOptional<number>;
   declare trainingId?: ForeignKey<Training['id']>;
   declare noteId?: ForeignKey<Note['id']>;
@@ -17,7 +17,7 @@ export default class Answered_Question extends Model<InferAttributes<Answered_Qu
 
 }
 
-Answered_Question.init({
+AnsweredQuestion.init({
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
