@@ -11,8 +11,8 @@ export default class Evaluation extends Model<InferAttributes<Evaluation>, Infer
   declare endTime: Date;
   declare signed: boolean;
   declare skills: string;
-  declare trainingId?: ForeignKey<Training['trainingId']>;
-  declare noteId?: ForeignKey<Note['noteId']>;
+  declare trainingId: ForeignKey<Training['id']>;
+  declare noteId?: ForeignKey<Note['id']>;
 
 }
 

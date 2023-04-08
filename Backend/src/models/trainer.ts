@@ -4,20 +4,20 @@ import User from './user';
 import Company from './company';
 
 export default class Trainer extends Model<InferAttributes<Trainer>, InferCreationAttributes<Trainer>> {
-  declare trainerId: number;
-  declare trainerName: string;
+  declare id: number;
+  declare name: string;
   declare field: string;
   declare userId: ForeignKey<User['id']>;
-  declare companyId?: ForeignKey<Company['companyId']>;
+  declare companyId?: ForeignKey<Company['id']>;
 }
 
 Trainer.init({
-  trainerId: {
+  id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true
   },
-  trainerName: {
+  name: {
     type: DataTypes.STRING,
     allowNull: false
   },

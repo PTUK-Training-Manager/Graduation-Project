@@ -2,12 +2,12 @@ import { Association, CreationOptional, DataTypes, InferAttributes, InferCreatio
 import sequelize from "src/config/connection";
 
 export default class Note extends Model<InferAttributes<Note>, InferCreationAttributes<Note>>{
-  declare noteId: CreationOptional<number>;
+  declare id: CreationOptional<number>;
   declare note: string;
 }
 
 Note.init({
-  noteId: {
+  id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true

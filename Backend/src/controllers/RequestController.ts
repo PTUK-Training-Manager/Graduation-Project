@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { CompanyBranch, Student, Training } from "src/models";
 import { TrainingStatusEnum, TrainingTypeEnum } from "src/enums"
 import { Op } from 'sequelize';
-import { TrainingType } from 'src/types';
 import student from '@models/student';
 import companyBranch from '@models/companyBranch';
 import company from '@models/company';
@@ -62,7 +61,7 @@ class RequestController {
     });
     try {
       const student = await Student.findOne({
-        where: { studentId: studentId }
+        where: { id: studentId }
       });
       if (!student)
         return res.status(400).json({ error: `student ${studentId} not found ` });
@@ -110,7 +109,7 @@ class RequestController {
     try {
       let { id } = req.params;
       const deletedRequest = await Training.destroy({
-        where: { trainingId: id }
+        where: { id }
       });
       if (!deletedRequest)
         return res.json("something went wrong ");

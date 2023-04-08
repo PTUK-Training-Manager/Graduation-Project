@@ -2,12 +2,12 @@ import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, 
 import sequelize from "src/config/connection";
 
 export default class Answer extends Model<InferAttributes<Answer>, InferCreationAttributes<Answer>> {
-  declare answerId: CreationOptional<number>;
+  declare id: CreationOptional<number>;
   declare answer: string;
 }
 
 Answer.init({
-  answerId: {
+  id: {
     type: DataTypes.INTEGER.UNSIGNED,
     autoIncrement: true,
     primaryKey: true
