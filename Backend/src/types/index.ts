@@ -15,9 +15,9 @@ export type TrainingStatus =
     | "completed";
 
 export type TrainingType=
-    |'first'
-    |'second'
-    |'compound';
+    | "first"
+    | "second"
+    | "compound";
 
 
 export interface LoginPayload {

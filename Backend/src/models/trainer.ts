@@ -3,38 +3,30 @@ import sequelize from "src/config/connection";
 import User from './user';
 import Company from './company';
 
-// interface TrainerAttributes {
-//   trainerId:IntegerDataType,
-//   trainerName:string,
-//   field:string
-// }
-
 export default class Trainer extends Model<InferAttributes<Trainer>, InferCreationAttributes<Trainer>> {
   declare trainerId: number;
- declare trainerName: string;
- declare field: string;
- declare userId: ForeignKey<User['id']>;
- declare companyId?: ForeignKey<Company['companyId']>;
-
-
+  declare trainerName: string;
+  declare field: string;
+  declare userId: ForeignKey<User['id']>;
+  declare companyId: ForeignKey<Company['companyId']>;
 }
 
 Trainer.init({
   trainerId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true
-    },
-    trainerName: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    field: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    }, {
-      sequelize,
-      modelName: 'Trainer',
-      timestamps:false 
-    });
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    primaryKey: true
+  },
+  trainerName: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  field: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+}, {
+  sequelize,
+  modelName: 'Trainer',
+  timestamps: false
+});

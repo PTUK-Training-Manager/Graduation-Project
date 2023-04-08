@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import Trainer from '../models/trainer';
+import Trainer from '@models/trainer';
 
-class trainerController {
+class TrainerController {
 	
 	
 	//same as add student but we need the companyId from the token "to remember"
@@ -24,4 +24,4 @@ class trainerController {
 	}
 }
 
-export default new trainerController();
+export default new TrainerController();

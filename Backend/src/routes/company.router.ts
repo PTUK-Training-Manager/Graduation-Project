@@ -1,8 +1,9 @@
 import express from 'express';
 const router = express.Router();
-import companyController from '@controllers/companyController';
+import CompanyController from '@controllers/companyController';
+const { addCompany, handleAddBranch } = CompanyController
 
-router.post('/addCompany',companyController.addCompany);
-router.post('/addBranch',companyController.handleAddBranch);
+router.post('/company', addCompany);
+router.post('/branch', handleAddBranch);
 
 export default router;

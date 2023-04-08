@@ -10,10 +10,7 @@ import {
 import sequelize from '../config/connection';
 import Role from "@models/role";
 
-
 export default class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
-
-    // declare id: number;
     // id can be undefined during creation when using `autoIncrement`
     declare id: CreationOptional<number>;
     declare username: string;

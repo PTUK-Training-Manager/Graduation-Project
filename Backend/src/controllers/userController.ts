@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { User } from "../models";
+import User from "@models/user";
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 
@@ -10,10 +10,6 @@ class UserController {
         this.handleAddUser = this.handleAddUser.bind(this);
     }
 
-
-//making two separate functions for one purpose (I can merge them into one function as 
-//long as the generate account function does not depend on the add user function (not waiting 
-//for certain value to complete the work))
     async addUser(
         username: string,
         password: string,
@@ -30,10 +26,10 @@ class UserController {
         });
         return record.id as number;
     }
-    
-    async generateAccount(First: string, Second: string):Promise<{ temp: string; password: string; }>{
-        const first = First.split(" ")[0].toLocaleLowerCase();
-        const second = Second.slice(0, 2).toLocaleLowerCase();
+
+    async generateAccount(firstValue: string, secondValue: string): Promise<{ temp: string; password: string; }> {
+        const first = firstValue.split(" ")[0].toLocaleLowerCase();
+        const second = secondValue.slice(0, 2).toLocaleLowerCase();
 
         const password = crypto.randomBytes(8).toString("hex"); //random string for password
         const username = first + "." + second;
@@ -47,8 +43,8 @@ class UserController {
                 suffix++;
             }
         }
-     
-        return {temp,password};
+
+        return { temp, password };
     }
 
     async handleAddUser(req: Request, res: Response) { // I think we should cancel this request!, not completely finished
@@ -77,7 +73,7 @@ class UserController {
         }
     }
 
-    async DeleteUserByPK(req: Request, res: Response) {
+    async deleteUserByPK(req: Request, res: Response) {
         try {
             let { username } = req.params;
             const deletedUser = await User.destroy({

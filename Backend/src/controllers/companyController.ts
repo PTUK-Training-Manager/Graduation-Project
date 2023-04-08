@@ -1,69 +1,57 @@
-import { Request, response, Response } from "express";
-
-import userController from "./userController";
-import company from "../models/company";
+import { Request, Response } from "express";
+import UserController from "./userController";
+import Company from "@models/company";
 import CompanyBranch from "@models/companyBranch";
-class companyController {
+
+class CompanyController {
     constructor() {
         this.addCompany = this.addCompany.bind(this);
         this.addBranch = this.addBranch.bind(this);
         this.handleAddBranch = this.handleAddBranch.bind(this);
     }
 
-    async addCompany(req: Request, res: Response) {
-        const companyId: number = req.body.companyId;
-        const companyName: string = req.body.companyName;
-        const email: string = req.body.email;
-        const location: string = req.body.location;
+    async addCompany(req: ExpressCompany.Request, res: Response) {
+        const {companyId,companyName,email,location,phoneNumber,managerName}= req.body;
 
-        //checking if company already exists
-        const comp = await company.findByPk(companyId);
+        const company = await Company.findByPk(companyId);
 
-        //if company does not exist then create user account
-        if (!comp) {
-            const { temp, password } = await userController.generateAccount(
+        if (!company) {
+            const { temp, password } = await UserController.generateAccount(
                 companyName,
                 location
             );
             if (!temp) return res.json({ msg: "error creating account User" });
-            const id = await userController.addUser(temp, password, email, 10, 6); // company roleID in DataBase
+            const id = await UserController.addUser(temp, password, email, 10, 6); // company roleID in DataBase
             if (!id) return res.json({ msg: "error creating account User" });
 
-            //after creating user account with role (company),
-            //create the company account with a foreign key from user (userId)
-            const record = await company.create({
+            
+            const record = await Company.create({
                 companyId: companyId,
                 companyName,
-                phoneNumber: req.body.phoneNumber,
-                managerName: req.body.managerName,
+                phoneNumber,
+                managerName,
                 userId: id,
             });
 
             if (!record) return res.json({ msg: "error creating account Company" });
         }
 
-        //the company exists or not and if nothing goes wrong, call add branch function anyway.
         await this.addBranch(res, companyId, location);
     }
 
     private async addBranch(res: Response, companyId: number, location: string) {
-        //check if the company already exists
-        const comp = await company.findByPk(companyId);
+        const company = await Company.findByPk(companyId);
 
-        //if company does not exist then create user account
-        if (!comp)
+        if (!company)
             return res.json({ msg: "the company does not exist" })
         
-            //check if the Branch already exists
-        const Branch = await CompanyBranch.findOne({
+        const branch = await CompanyBranch.findOne({
             where: { location, companyId },
         });
 
-        if (Branch)
+        if (branch)
             return res.json({ msg: "Company and its Branch already exists" });
 
-        //if the Branch does not exist, create it (without creating new user
-        //account taking into consideration that all branches in one comapy have one user account)
         const BranchName = await CompanyBranch.create({
             location,
             companyId,
@@ -73,12 +61,11 @@ class companyController {
         return res.json({ msg: "success adding new branch/company" });
     }
 
-    async handleAddBranch(req: Request, res: Response) {
-        const companyId: number = req.body.companyId;
-        const location: string = req.body.location;
-
+    async handleAddBranch(req: ExpressBranch.Request, res: Response) {
+        const {companyId,location}= req.body;
+        
         await this.addBranch(res, companyId, location);
     }
 }
 
-export default new companyController();
+export default new CompanyController();
