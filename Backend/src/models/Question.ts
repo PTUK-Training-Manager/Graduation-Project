@@ -9,7 +9,7 @@ import {
     NonAttribute
 } from 'sequelize';
 import sequelize from "src/config/connection";
-import Role from './role';
+import Role from './Role';
 
 
 export default class Question extends Model<InferAttributes<Question>, InferCreationAttributes<Question>> {

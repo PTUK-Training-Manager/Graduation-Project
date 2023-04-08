@@ -8,7 +8,7 @@ import morgan from "morgan";
 
 const app = express();
 import db from "./config/connection";
-import association from './models/associations';
+import associations from './models/Associations';
 import router from "./routes";
 import cors from 'cors';
 
@@ -25,7 +25,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use('/api/v1', router);
 
-association();
+associations();
 db.sync({logging: false, alter: false})
     .then((value) => {
         console.log('All models were synchronized successfully.');

@@ -8,7 +8,7 @@ import {
     HasOneGetAssociationMixin
 } from 'sequelize';
 import sequelize from '../config/connection';
-import Role from "@models/role";
+import Role from "./Role";
 
 export default class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
     declare id: CreationOptional<number>;

@@ -1,5 +1,5 @@
 import express from 'express';
-import Role from 'src/models/role';
+import Role from 'src/models/Role';
 import {Request, Response} from 'express';
 
 const router = express.Router();

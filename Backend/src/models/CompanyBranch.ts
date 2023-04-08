@@ -1,6 +1,7 @@
 import { CreationOptional, DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, IntegerDataType, Model } from 'sequelize';
 import sequelize from "src/config/connection";
-import Company from './company';
+import Company from './Company';
+
 export default class CompanyBranch extends Model<InferAttributes<CompanyBranch>, InferCreationAttributes<CompanyBranch>> {
   declare id: CreationOptional<number>;
   declare companyId: ForeignKey<Company['id']>;

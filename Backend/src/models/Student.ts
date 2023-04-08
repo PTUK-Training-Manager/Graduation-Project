@@ -1,6 +1,6 @@
 import { DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
 import sequelize from "src/config/connection";
-import User from './user';
+import User from './User';
 
 
 export default class Student extends Model<InferAttributes<Student>, InferCreationAttributes<Student>> {
