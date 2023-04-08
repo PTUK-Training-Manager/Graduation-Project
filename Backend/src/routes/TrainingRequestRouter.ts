@@ -1,5 +1,5 @@
 import express from 'express';
-import RequestController from "@controllers/trainingRequest.controller";
+import RequestController from "@controllers/TrainingRequestController";
 const router = express.Router();
 
 router.post('/request', RequestController.submitRequest);
