@@ -1,6 +1,6 @@
 import express from 'express';
 const router = express.Router();
-import studentController from '../controllers/student.controller';
+import studentController from '../controllers/StudentController';
 import verifyJWT from '../middlewares/verifyJWT';
 import verifyRoles from '../middlewares/verifyRole';
 import { mapUserRoleStringToNum } from "src/enums";
