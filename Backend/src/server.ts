@@ -26,7 +26,7 @@ const PORT = process.env.PORT || 5000;
 app.use('/api/v1', router);
 
 association();
-db.sync({logging: false, force:false})
+db.sync({logging: false, alter: false})
     .then((value) => {
         console.log('All models were synchronized successfully.');
     })
@@ -38,3 +38,4 @@ app.listen(PORT, () => {
     console.log(`Application server is up and running on PORT ${PORT}`);
 })
 
+"trainerize-dev.cqktjf6idptd.me-central-1.rds.amazonaws.com"

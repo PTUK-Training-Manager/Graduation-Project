@@ -10,10 +10,10 @@ import {
 
 export default class Answered_Question extends Model<InferAttributes<Answered_Question>, InferCreationAttributes<Answered_Question>> {
   declare id: CreationOptional<number>;
-  declare trainingId?: ForeignKey<Training['trainingId']>;
-  declare noteId?: ForeignKey<Note['noteId']>;
-  declare questionId?: ForeignKey<Question['questionId']>;
-  declare answerId?: ForeignKey<Answer['answerId']>;
+  declare trainingId?: ForeignKey<Training['id']>;
+  declare noteId?: ForeignKey<Note['id']>;
+  declare questionId: ForeignKey<Question['id']>;
+  declare answerId: ForeignKey<Answer['id']>;
 
 }
 

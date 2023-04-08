@@ -3,7 +3,7 @@ import sequelize from "src/config/connection";
 import Company from './company';
 export default class CompanyBranch extends Model<InferAttributes<CompanyBranch>, InferCreationAttributes<CompanyBranch>> {
   declare id: CreationOptional<number>;
-  declare companyId: ForeignKey<Company['companyId']>;
+  declare companyId: ForeignKey<Company['id']>;
   declare location: string;
 }
 CompanyBranch.init({
