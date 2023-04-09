@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import Trainer from '../models/trainer';
+import Trainer from '../models/Trainer';
 
-class trainerController{
+class trainingController {
     async addtrainer(req: Request, res: Response) {
 		try {
 			const record = await Trainer.create({ ...req.body});
@@ -21,4 +21,4 @@ class trainerController{
 	}
 }
 
-export default new trainerController();
+export default new trainingController();

@@ -5,9 +5,8 @@ declare global{
         interface Request {
             role: number,
             user: any
-            
-            
         }
     }
 };
+
 export {};
