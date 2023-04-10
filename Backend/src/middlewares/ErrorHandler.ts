@@ -1,14 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
+import {ErrorResponse} from 'src/types';
 
-const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
+const errorHandler = (err:ErrorResponse, req: Request, res: Response, next: NextFunction) => {
+    
     console.log("Middleware Error Handling");
-    const errStatus: number = err.statusCode || 500;
+    const errStatus: number = err.code || 500;
     const errMsg: string = err.message || 'Something went wrong';
     res.status(errStatus).json({
         success: false,
         status: errStatus,
         message: errMsg,
-        stack: process.env.NODE_ENV === 'development' ? err.stack : {}
+        // details: " ",
+        data: process.env.NODE_ENV === 'development' ? err.data : {}
     });
 };
 

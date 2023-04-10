@@ -24,3 +24,16 @@ export interface LoginPayload {
     username: string,
     roleId: number
 }
+
+export interface ErrorResponse {
+    code: number;
+    message: string;
+    // details?: string | string[];
+    data?: string;
+  }
+  export interface GeneratedResponse {
+    success:boolean,
+    status:any,
+    message: string,
+    data?: any;
+  }

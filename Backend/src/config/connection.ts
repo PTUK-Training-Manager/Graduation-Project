@@ -9,6 +9,8 @@ const sequelize = new Sequelize(DATABASE, USERNAME, PASSWORD, {
     host: HOST_ENDPOINT,
     dialect: 'mysql',
 });
+
+
  
 
 export default sequelize;

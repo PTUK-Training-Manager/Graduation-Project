@@ -1,15 +1,22 @@
-import express from 'express';
+import express, { NextFunction } from 'express';
 import Role from 'src/models/Role';
 import {Request, Response} from 'express';
+import { GeneratedResponse } from 'src/types';
 
 const router = express.Router();
 
-router.get('/roles', async (req: Request, res: Response) => {
+router.get('/roles', async (req: Request, res: Response,next:NextFunction) => {
     try {
         const records = await Role.findAll({});
-        return res.json(records);
-    } catch (e) {
-        return res.json({msg: "fail to read", status: 500, route: "/read"});
+        let response:GeneratedResponse={
+            success:true,
+            status:res.statusCode,
+            message:"Roles:",
+            data:records
+        }
+        return res.json(response);
+    } catch (err) {
+        next(err);
     }
 });
 

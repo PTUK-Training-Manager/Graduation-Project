@@ -1,7 +1,8 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import {User} from '../models';
 import bcrypt from "bcrypt";
 import crypto from "crypto";
+import { GeneratedResponse } from "src/types";
 
 class UserController {
     constructor() {
@@ -47,7 +48,7 @@ class UserController {
         return { temp, password };
     }
 
-    async handleAddUser(req: Request, res: Response) { // I think we should cancel this request!, not completely finished
+    async handleAddUser(req: Request, res: Response,next:NextFunction) { // I think we should cancel this request!, not completely finished
         try {
             const { username, email, password, roleId } = req.body;
             const saltRounds = 10;
@@ -58,33 +59,47 @@ class UserController {
                 saltRounds,
                 roleId
             );
-            if (id) return res.json({ msg: "Successfully create User" });
-        } catch (e) {
-            return res.json(e);
+            if (id) {
+                let response: GeneratedResponse = {
+                    success: true,
+                    status: res.statusCode,
+                    message:"Successfully create User",
+                    data:id
+                }
+            return res.json(response);
+        }
+        } catch (err) {
+            next(err);
         }
     }
 
-    async getAll(req: Request, res: Response) {
+    async getAll(req: Request, res: Response,next: NextFunction) {
         try {
             const records = await User.findAll({});
-            return res.json(records);
-        } catch (e) {
-            return res.json({ msg: "fail to read", status: 500, route: "/read" });
+            let response: GeneratedResponse = {
+                success: true,
+                status: res.statusCode,
+                message:"Users:",
+                data: records
+            }
+            return res.json(response);
+        } catch (err) {
+           next(err);
         }
     }
 
-    async deleteUserByPK(req: Request, res: Response) {
-        try {
-            let { username } = req.params;
-            const deletedUser = await User.destroy({
-                where: { username: username },
-            });
-            if (!deletedUser) return res.json("something went wrong");
-            return res.json("success");
-        } catch (e) {
-            return res.json({ msg: "fail to read", status: 500, route: "/read" });
-        }
-    }
+    // async deleteUserByPK(req: Request, res: Response) {
+    //     try {
+    //         let { username } = req.params;
+    //         const deletedUser = await User.destroy({
+    //             where: { username: username },
+    //         });
+    //         if (!deletedUser) return res.json("something went wrong");
+    //         return res.json("success");
+    //     } catch (e) {
+    //         return res.json({ msg: "fail to read", status: 500, route: "/read" });
+    //     }
+    // }
 }
 
 export default new UserController();
