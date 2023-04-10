@@ -142,7 +142,7 @@ const AppRoutes: FC<AppRoutesProps> = (props) => {
             </Typography>
           }
         />
- <Route path="/signIn" element={<SignIn getUserData={getUserData}/>} />
+ <Route path="/signIn" element={<SignIn/>} />
 
           <Route element={<RequireAuth allowedRoles={ROLES.university} />} >
           <Route path="/submitRequest" element={<SubmitRequest />} />

@@ -18,12 +18,9 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 
-interface SignInProps {
-  getUserData: () => void;
-}
 
 
-const SignIn: React.FC<SignInProps> = ({ getUserData }) => {
+const SignIn: React.FC= () => {
 
   const { setAuth } = useAuth();
   const [username, setUsername] = useState('');
@@ -64,7 +61,6 @@ const SignIn: React.FC<SignInProps> = ({ getUserData }) => {
       const role = res?.tokenData.roleId;
       setAuth({ username, password, role, accessToken });
       localStorage.setItem('accessToken', JSON.stringify(accessToken)); // store accessToken in localStorage
-      getUserData();
       navigate(from, { replace: true });
 
       }).catch((err) => {
