@@ -26,6 +26,7 @@ export interface LoginPayload {
 }
 
 export interface ErrorResponse {
+    stack?: any;
     code: number;
     message: string;
     // details?: string | string[];
