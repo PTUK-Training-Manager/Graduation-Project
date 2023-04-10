@@ -5,40 +5,38 @@ body {
     margin-left: 10%;
 }
 .css-ii70sc-MuiTypography-root {
-margin-left: 300px !important;
+margin-left: 18.75rem !important;
 }
 .css-md26zr-MuiInputBase-root-MuiOutlinedInput-root{
     margin-left: 172%;
     margin-top: 29%;
-    width: 250px;
+    width: 15.625rem;
 }
 
 .css-wjh20t-MuiPagination-ul{
-    /* margin-top: 20px !important; */
-    /* padding-bottom: 5px !important; */
     background-color: #EDF3F6;
-    border-radius: 15px;
+    border-radius: 0.9375rem;
 }
 
 .css-1u3bzj6-MuiFormControl-root-MuiTextField-root{
-    margin-left: 158px !important; 
-    margin-top: 70px !important;
-    width: 268px;
+    margin-left: 9.875rem !important; 
+    margin-top: 4.375rem !important;
+    width: 16.75rem;
 }
 .css-19qjufr-MuiStack-root>:not(style)+:not(style) {
-    margin-left: -40px !important;
-    margin-top: 86px !important;
+    margin-left: -2.5rem !important;
+    margin-top: 5.375rem !important;
 }
 
 .page{
-    /* margin-left: 500px; */
     justify-content:center;
     align-items: center;
     position: relative;
-    padding-bottom: 5px;
-    margin-top: 20px;
-    margin-left: 135px;
+    padding-bottom: 0.3125rem;
+    margin-top: 1.25rem;
+    margin-left: 8.4375rem;
 }
-.css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root{
-    justify-content: flex-end !important;
+
+.add{
+    margin-left: 34rem ;
 }

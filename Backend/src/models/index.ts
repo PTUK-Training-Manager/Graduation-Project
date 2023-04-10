@@ -10,4 +10,8 @@ export { default as Student } from "./Student";
 export { default as Trainer } from "./Trainer";
 export { default as Training } from "./Training";
 export { default as User } from "./User";
+<<<<<<< HEAD
 export { default as CompanyBranch } from "./CompanyBranch";
+=======
+export { default as CompanyBranch } from "./CompanyBranch";
+>>>>>>> 9067a8ffd1b267c762fddfd6814e126870b74047

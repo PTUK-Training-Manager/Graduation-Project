@@ -8,11 +8,14 @@ interface LandingProps {}
 const Analytics: FC<LandingProps> = (props) => {
 
   return (
-      <Stack gap={2}>
+      <Stack gap={2} sx={{alignItems: "center"}}>
           <Typography variant="h1">
-              Protected Route 🔐
+              Analytics
           </Typography>
-          <Typography variant="h2">
+          <Typography variant="h3">
+              Protected Route🔐
+          </Typography>
+          <Typography variant="h6">
               authenticated user with permission 'analyze' required
           </Typography>
       </Stack>

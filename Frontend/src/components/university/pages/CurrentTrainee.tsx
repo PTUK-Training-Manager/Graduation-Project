@@ -8,7 +8,7 @@ import {
   TableCell,
   Paper,
 } from '@mui/material';
-import UNavbar from './UNavbar';
+// import UNavbar from './UNavbar';
 import Box from '@mui/material/Box';
 import ListItemButton from '@mui/material/ListItemButton';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
@@ -24,7 +24,6 @@ import './ct.css';
 export default function CurrentTrainne() {
   return (
     <>
-      <UNavbar />
       <Stack spacing={4} direction="row">
         <TextField
         label="Search"
@@ -33,8 +32,8 @@ export default function CurrentTrainne() {
         <SearchIcon />
       </Stack>
       <Stack display="flex">
-        <Paper sx={{ width: '800px', marginLeft: '160px', mt:2}}>
-          <TableContainer sx={{ maxHeight: '450px' }}>
+        <Paper sx={{ width: '50rem', marginLeft: '10rem', mt:2}}>
+          <TableContainer sx={{ maxHeight: '28.125rem' }}>
             <Table aria-aria-label="current trainne table" stickyHeader>
               <TableHead>
                 <TableRow className='table-row' >

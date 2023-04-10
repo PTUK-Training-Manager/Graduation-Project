@@ -8,7 +8,7 @@ import morgan from "morgan";
 import ErrorHandler from "./middlewares/ErrorHandler";
 const app = express();
 import db from "./config/connection";
-import association from './models/Associations';
+import associations from './models/Associations';
 import router from "./routes";
 import cors from 'cors';
 
@@ -26,8 +26,8 @@ const PORT = process.env.PORT || 5000;
 app.use('/api/v1', router);
 app.use(ErrorHandler)
 
-association();
-db.sync({logging: false, alter:true})
+associations();
+db.sync({logging: false, alter: false})
     .then((value) => {
         console.log('All models were synchronized successfully.');
     })
@@ -38,3 +38,5 @@ db.sync({logging: false, alter:true})
 app.listen(PORT, () => {
     console.log(`Application server is up and running on PORT ${PORT}`);
 })
+
+"trainerize-dev.cqktjf6idptd.me-central-1.rds.amazonaws.com"

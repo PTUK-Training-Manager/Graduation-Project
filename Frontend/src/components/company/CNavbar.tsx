@@ -35,6 +35,34 @@ export default function CNavbar() {
     setAnchorElUser(null);
   };
 
+  const handleClickTR = () => {
+    window.location.href = '/trainingRequests';
+  };
+
+  const handleClickT = () => {
+    window.location.href = '/trainers';
+  };
+
+  const handleClickCuT = () => {
+    window.location.href = '/currentTrainee';
+  };
+
+  const handleClickS = () => {
+    window.location.href = '/search';
+  };
+
+  const handleClickAR = () => {
+    window.location.href = '/acceptedRequests';
+  };
+
+  const handleClickCoT = () => {
+    window.location.href = '/completedTrainees';
+  };
+
+  const handleClickET = () => {
+    window.location.href = '/editTraining';
+  };
+
   return (
     
     <Box sx={{ display: 'flex' }}>
@@ -104,10 +132,11 @@ export default function CNavbar() {
                   justifyContent: open ? 'initial' : 'center',
                   px: "0.15625rem",
                 }}
+                onClick={handleClickTR}
               >
             
-                <ListItemText primary="Training Requests" />
-                <Badge className='badge' badgeContent={6} max={999}>
+                <ListItemText sx={{ml:"2rem"}} primary="Training Requests" />
+                <Badge sx={{mr:"1rem"}} className='badge' badgeContent={6} max={999}>
                   <MailIcon className='mail' />
                 </Badge>
               </ListItemButton>
@@ -124,9 +153,10 @@ export default function CNavbar() {
                   justifyContent: open ? 'initial' : 'center',
                   px: "0.15625rem",
                 }}
+                onClick={handleClickT}
               >
                
-                <ListItemText primary="Trainers" />
+                <ListItemText sx={{ml:"2rem"}} primary="Trainers" />
               </ListItemButton>
             </ListItem>
           
@@ -141,9 +171,10 @@ export default function CNavbar() {
                   justifyContent: open ? 'initial' : 'center',
                   px: "0.15625rem",
                 }}
+                onClick={handleClickCuT}
               >
                
-                <ListItemText primary="Current Trainees" />
+                <ListItemText sx={{ml:"2rem"}} primary="Current Trainees" />
               </ListItemButton>
             </ListItem>
           
@@ -158,9 +189,10 @@ export default function CNavbar() {
                   justifyContent: open ? 'initial' : 'center',
                   px: "0.15625rem",
                 }}
+                onClick={handleClickCoT}
               >
                
-                <ListItemText primary="Completed Trainees" />
+                <ListItemText sx={{ml:"2rem"}} primary="Completed Trainees" />
               </ListItemButton>
             </ListItem>
         </List>
@@ -174,9 +206,10 @@ export default function CNavbar() {
                   justifyContent: open ? 'initial' : 'center',
                   px: "0.15625rem",
                 }}
+                onClick={handleClickS}
               >
                
-                <ListItemText primary="Search" />
+                <ListItemText sx={{ml:"2rem"}} primary="Search" />
               </ListItemButton>
             </ListItem>
         </List>
@@ -190,9 +223,10 @@ export default function CNavbar() {
                   justifyContent: open ? 'initial' : 'center',
                   px: "0.15625rem",
                 }}
+                onClick={handleClickAR}
               >
                
-                <ListItemText primary="Accepted Requests" />
+                <ListItemText sx={{ml:"2rem"}} primary="Accepted Requests" />
               </ListItemButton>
             </ListItem>
         </List>
@@ -206,8 +240,9 @@ export default function CNavbar() {
                   justifyContent: open ? 'initial' : 'center',
                   px: "0.15625rem",
                 }}
+                onClick={handleClickET}
               >
-                <ListItemText primary="Edit Training" />
+                <ListItemText sx={{ml:"2rem"}} primary="Edit Training" />
               </ListItemButton>
             </ListItem>
         </List>  

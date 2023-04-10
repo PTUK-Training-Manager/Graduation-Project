@@ -9,6 +9,9 @@ export default defineConfig({
         tsconfigPaths(),
         // [...(import.meta.env.PROD ? [] : [eslintPlugin()])]
     ],
+    server: {
+        port: 3000,
+    }
     // test: {
     //   globals: true,
     //   environment: "jsdom",

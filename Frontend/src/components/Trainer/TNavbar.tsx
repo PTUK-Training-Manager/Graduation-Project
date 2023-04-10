@@ -37,6 +37,27 @@ export default function CNavbar() {
     setAnchorElUser(null);
   };
 
+  const handleClickCT = () => {
+    window.location.href = '/completedTrainings';
+  };
+
+  const handleClickER = () => {
+    window.location.href = '/evaluationRequests';
+  };
+
+  const handleClickCoT = () => {
+    window.location.href = '/completedTrainees';
+  };
+
+  const handleClickCuT = () => {
+    window.location.href = '/currentTrainee';
+  };
+
+  const handleClickS = () => {
+    window.location.href = '/search';
+  };
+
+
   return (
     
     <Box sx={{ display: 'flex' }}>
@@ -106,9 +127,10 @@ export default function CNavbar() {
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
                 }}
+                onClick={handleClickER}
               >
             
-                <ListItemText primary="Evaluation Requests" />
+                <ListItemText sx={{ml:"1.5rem"}} primary="Evaluation Requests" />
               </ListItemButton>
             </ListItem>
           
@@ -123,9 +145,10 @@ export default function CNavbar() {
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
                 }}
+                onClick={handleClickCT}
               >
                
-                <ListItemText primary="Completed Trainings" />
+                <ListItemText sx={{ml:"1.5rem"}} primary="Completed Trainings" />
               </ListItemButton>
             </ListItem>
           
@@ -140,9 +163,10 @@ export default function CNavbar() {
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
                 }}
+                onClick={handleClickCuT}
               >
                
-                <ListItemText primary="Current Trainees" />
+                <ListItemText sx={{ml:"1.5rem"}} primary="Current Trainees" />
               </ListItemButton>
             </ListItem>
           
@@ -157,9 +181,10 @@ export default function CNavbar() {
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
                 }}
+                onClick={handleClickCoT}
               >
                
-                <ListItemText primary="Completed Trainees" />
+                <ListItemText sx={{ml:"1.5rem"}} primary="Completed Trainees" />
               </ListItemButton>
             </ListItem>
         </List>
@@ -173,8 +198,9 @@ export default function CNavbar() {
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
                 }}
+                onClick={handleClickS}
               >  
-                <ListItemText primary="Search" />
+                <ListItemText sx={{ml:"1.5rem"}} primary="Search" />
               </ListItemButton>
             </ListItem>
         </List>
