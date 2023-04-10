@@ -1,5 +1,5 @@
 import { Request, Response ,Express} from "express";
-import Student  from "@models/student";
+import {Student} from '../models';
 import UserController from "./userController";
 
 class StudentController {
@@ -23,8 +23,8 @@ class StudentController {
 			if (!id) return res.json({ msg: "error creating account User" });
 
 			const record = await Student.create({
-				studentId,
-				studentName,
+				id:studentId,
+				name:studentName,
 				phoneNumber,
 				userId: id,
 			});
@@ -49,7 +49,7 @@ class StudentController {
 			let { id } = req.params;
 			// const record = await Student.findByPk(id);
 			const deletedStudent = await Student.destroy({
-				where: { studentId: id },
+				where: { id: id },
 			});
 			if (!deletedStudent) return res.json("something went wrong");
 			return res.json("success");

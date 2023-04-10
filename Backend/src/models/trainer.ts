@@ -1,23 +1,23 @@
-import { DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
+import { DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
 import sequelize from "src/config/connection";
-import User from './user';
-import Company from './company';
+import User from './User';
+import Company from './Company';
 
 export default class Trainer extends Model<InferAttributes<Trainer>, InferCreationAttributes<Trainer>> {
-  declare trainerId: number;
-  declare trainerName: string;
+  declare id: number;
+  declare name: string;
   declare field: string;
   declare userId: ForeignKey<User['id']>;
-  declare companyId: ForeignKey<Company['companyId']>;
+  declare companyId?: ForeignKey<Company['id']>;
 }
 
 Trainer.init({
-  trainerId: {
+  id: {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true
   },
-  trainerName: {
+  name: {
     type: DataTypes.STRING,
     allowNull: false
   },

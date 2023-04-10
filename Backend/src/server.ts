@@ -5,10 +5,10 @@ import bodyParser from 'body-parser';
 import express from 'express'
 import cookieParser from 'cookie-parser';
 import morgan from "morgan";
-
+import ErrorHandler from "./middlewares/ErrorHandler";
 const app = express();
 import db from "./config/connection";
-import association from './models/associations';
+import association from './models/Associations';
 import router from "./routes";
 import cors from 'cors';
 
@@ -24,6 +24,7 @@ app.use(morgan('dev')); // Create new morgan logger middleware function
 const PORT = process.env.PORT || 5000;
 
 app.use('/api/v1', router);
+app.use(ErrorHandler)
 
 association();
 db.sync({logging: false, alter:true})

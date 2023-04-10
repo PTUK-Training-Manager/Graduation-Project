@@ -1,23 +1,23 @@
 import { DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
 import sequelize from "src/config/connection";
-import User from './user';
+import User from './User';
 
 
 export default class Student extends Model<InferAttributes<Student>, InferCreationAttributes<Student>> {
-    declare studentId: string;
-    declare studentName: string;
+    declare id: string;
+    declare name: string;
     declare phoneNumber: string;
     declare userId: ForeignKey<User['id']>;
 
 }
 
 Student.init({
-    studentId: {
+    id: {
         type: DataTypes.STRING,
         allowNull: false,
         primaryKey: true
     },
-    studentName: {
+    name: {
         type: DataTypes.STRING,
         allowNull: false
     },

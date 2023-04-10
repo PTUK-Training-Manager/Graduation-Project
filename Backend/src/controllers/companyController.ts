@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import UserController from "./userController";
-import Company from "@models/company";
-import CompanyBranch from "@models/companyBranch";
+import Company from "@models/Company";
+import CompanyBranch from "@models/CompanyBranch";
 
 class CompanyController {
     constructor() {
@@ -26,8 +26,8 @@ class CompanyController {
 
             
             const record = await Company.create({
-                companyId: companyId,
-                companyName,
+                id: companyId,
+                name:companyName,
                 phoneNumber,
                 managerName,
                 userId: id,

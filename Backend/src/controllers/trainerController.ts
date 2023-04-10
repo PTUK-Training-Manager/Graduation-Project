@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import Trainer from '@models/trainer';
+import {Trainer} from '../models';
 
 class TrainerController {
 	

@@ -1,15 +1,14 @@
 import {Sequelize} from 'sequelize';
-import {Secret} from 'jsonwebtoken';
 
+const HOST_ENDPOINT = process.env.DB_HOST_ENDPOINT!,
+    DATABASE = process.env.DB_NAME!,
+    USERNAME = process.env.DB_USER!,
+    PASSWORD = process.env.DB_PASSWORD;
 
-const db = process.env.DB_NAME?.toString() as Secret;
-const username = process.env.DB_USER?.toString() as Secret;
-const password = process.env.DB_PASSWORD?.toString() as Secret;
-
-const sequelize = new Sequelize(db?.toString(), username?.toString(), password?.toString(), {
-    host: process.env.HOST,
+const sequelize = new Sequelize(DATABASE, USERNAME, PASSWORD, {
+    host: HOST_ENDPOINT,
     dialect: 'mysql',
 });
-
+ 
 
 export default sequelize;
