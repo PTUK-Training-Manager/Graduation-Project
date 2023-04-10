@@ -19,7 +19,7 @@ import Stack from "@mui/material/Stack";
 import { useNavigate, Link } from "react-router-dom";
 import { useContext } from "react";
 import AuthContext from "src/context/AuthProvider";
-
+import useAuth from 'src/hooks/useAuth';
 
 interface AppNavbarProps {
     isSidebarOpen: boolean;
@@ -29,6 +29,7 @@ interface AppNavbarProps {
 const AppNavbar: FC<AppNavbarProps> = ({isSidebarOpen, setIsSidebarOpen}) => {
 
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const auth = useContext(AuthContext);
 
     const handleOpenUserMenu = (event: {
         currentTarget: React.SetStateAction<any>;
@@ -77,6 +78,7 @@ const AppNavbar: FC<AppNavbarProps> = ({isSidebarOpen, setIsSidebarOpen}) => {
                         <img src={PTUK_TEXT} style={{filter: `brightness(0) invert(1)`}}></img>
                     </ImageListItem>
                 </Stack>
+
                 <Box>
                     <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
                         <Avatar
@@ -114,7 +116,7 @@ const AppNavbar: FC<AppNavbarProps> = ({isSidebarOpen, setIsSidebarOpen}) => {
                             </Typography>
                         </MenuItem>
                     </Menu>
-                </Box>
+                </Box> 
             </Toolbar>
         </AppBar>
     );

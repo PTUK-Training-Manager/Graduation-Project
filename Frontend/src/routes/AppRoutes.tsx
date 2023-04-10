@@ -20,6 +20,8 @@ const CompletedTrainees = lazy(() => import('src/pages/university/CompletedTrain
 const CurrentTrainees = lazy(() => import('src/pages/university/CurrentTrainees'));
 const Search = lazy(() => import('src/pages/university/Search'));
 const AddStudent = lazy(() => import('src/pages/university/AddStudent'));
+const AddBranch = lazy(() => import('src/pages/university/AddBranch'));
+
 
 { /* company pages */ }
 const AcceptedRequests = lazy(() => import('src/pages/company/AcceptedRequests'));
@@ -90,6 +92,7 @@ const AppRoutes: FC<AppRoutesProps> = (props) => {
         <Route element={<RequireAuth allowedRoles={ROLES.university} />}>
           <Route path="/submitRequest" element={<SubmitRequest />} />
           <Route path="/addCompany" element={<AddCompany />} />
+          <Route path="/addBranch" element={<AddBranch />} />
           <Route path="/completedTrainees" element={<CompletedTrainees />} />
           <Route path="/currentTrainees" element={<CurrentTrainees />} />
           <Route path="/search" element={<Search />} />

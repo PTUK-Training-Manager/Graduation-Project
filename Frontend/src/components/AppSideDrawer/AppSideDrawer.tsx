@@ -21,7 +21,6 @@ interface AppSideDrawerProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   roleId: number | null;
-  handleRouteClick: (routePath: string) => void;
 }
 
 const AppSideDrawer: FC<AppSideDrawerProps> = ({
@@ -77,6 +76,14 @@ const AppSideDrawer: FC<AppSideDrawerProps> = ({
                     <ContactPageIcon />
                   </ListItemIcon>
                   <ListItemText primary="Add company" />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton onClick={() => navigate('/addBranch')}>
+                  <ListItemIcon sx={{ color: grey[100] }}>
+                    <ContactPageIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Add Branch" />
                 </ListItemButton>
               </ListItem>
               <ListItem disablePadding>

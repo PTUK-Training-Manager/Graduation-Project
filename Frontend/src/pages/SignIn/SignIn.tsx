@@ -39,10 +39,6 @@ const SignIn: React.FC= () => {
   }
 }, []);
 
-
-  // useEffect(() => {
-  //   setErrMsg('');
-  // }, [username, password]);
   useEffect(() => {
     if (!formSubmitted) {
       setErrMsg('');
@@ -57,7 +53,7 @@ const SignIn: React.FC= () => {
       setPassword('');
       setErrMsg('Please enter both username and password');
       // clear error message when user starts typing again
-      setTimeout(() => setErrMsg(''), 1500);
+      setTimeout(() => setErrMsg(''), 2000);
       return;
     }
     setUsername('');
@@ -75,11 +71,15 @@ const SignIn: React.FC= () => {
       const accessToken = res?.tokenData;
       const role = res?.tokenData.roleId;
       setAuth({ username, password, role, accessToken });
-      navigate(from, { replace: true });
+      localStorage.setItem('accessToken', JSON.stringify(accessToken)); // store accessToken in localStorage
+      navigate(from + '?success=true', { replace: true });
 
       }).catch((err) => {
        if (err) {
+        setUsername('');
+        setPassword('');
           setErrMsg("! Invalid login, please try again");
+          setTimeout(() => setErrMsg(''), 2000);
       } 
       errRef.current?.focus();
     });

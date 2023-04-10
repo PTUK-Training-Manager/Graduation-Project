@@ -47,7 +47,7 @@ const AddBranch: React.FC = () => {
                 }}
               >
                 <Typography component="h1" variant="h5">
-                  Add Branch
+                  Add Branch 
                 </Typography>
                 <form >
                 <TextField
@@ -83,7 +83,7 @@ const AddBranch: React.FC = () => {
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
                   >
-                   Add Branch
+                    Add Branch
                   </Button>
                   <Grid container>
                     <Grid item xs></Grid>
