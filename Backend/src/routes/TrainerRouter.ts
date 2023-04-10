@@ -1,8 +1,9 @@
 import express from 'express';
 import trainerController from '@controllers/TrainingController';
 const router = express.Router();
+const {addtrainer,getAll}=trainerController
 
-router.post('/addTrainer',trainerController.addtrainer);
-router.get('/getAll',trainerController.getAll);
+router.post('/trainer',addtrainer);
+router.get('/trainers',getAll);
 
 export default router;

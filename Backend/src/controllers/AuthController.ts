@@ -1,11 +1,12 @@
 import jwt from 'jsonwebtoken';
-import {Request, Response} from 'express';
+import {NextFunction, Request, Response} from 'express';
 import {Role, User} from "src/models"
 import {Secret} from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import { GeneratedResponse } from 'src/types';
 
 class AuthController {
-    handleLogin = async (req: Request, res: Response) => {
+    handleLogin = async (req: Request, res: Response,next:NextFunction) => {
         try {
             const {username, password} = req.body;
 
@@ -13,15 +14,25 @@ class AuthController {
                 where: {username},
             });
 
-            if (!record)
-                return res.status(401).json({error: "Username/password do not match"});
-
+            if (!record){
+                let response:GeneratedResponse={
+                    success:false,
+                    status:res.statusCode,
+                    message: "Username/password do not match"
+                }
+                return res.json(response);
+}
             const roleId = record?.roleId;
 
             const match = await bcrypt.compare(password, record.password);
 
             if (!match) {
-                return res.status(401).json({error: "Username/password do not match"});
+                let response:GeneratedResponse={
+                    success:false,
+                    status:res.statusCode,
+                    message:  "Username/password do not match"
+                }
+                return res.json(response);
             }
 
             const accessTokenSecret = <Secret>process.env.ACCESS_TOKEN_SECRET;
@@ -39,13 +50,16 @@ class AuthController {
                 // secure: true // limits the scope of the cookie to "secure" channels.
             });
 
-            return res.status(200).json({
-                message: 'successfully logged in to account',
-                tokenData: payload,
-                // record
-            });
-        } catch (error) {
-            return res.json("erorr");
+            let response:GeneratedResponse={
+
+                success:true,
+                status:res.statusCode,
+                message:'successfully logged in to account',
+                data: payload
+            }
+            return res.json(response);
+        } catch (err) {
+            next(err)
         }
     }
 }
