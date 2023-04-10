@@ -17,11 +17,13 @@ import useAuth from 'src/hooks/useAuth';
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
+
 const SignIn: React.FC = () => {
   const { setAuth } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errMsg, setErrMsg] = useState('');
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -37,12 +39,28 @@ const SignIn: React.FC = () => {
 }, []);
 
 
+  // useEffect(() => {
+  //   setErrMsg('');
+  // }, [username, password]);
   useEffect(() => {
-    setErrMsg('');
-  }, [username, password]);
+    if (!formSubmitted) {
+      setErrMsg('');
+    }
+  }, [username,password,formSubmitted]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setFormSubmitted(true);
+    if (!username || !password) {
+      setUsername('');
+      setPassword('');
+      setErrMsg('Please enter both username and password');
+      // clear error message when user starts typing again
+      setTimeout(() => setErrMsg(''), 1500);
+      return;
+    }
+    setUsername('');
+    setPassword('');
     const data = new FormData(event.currentTarget);
     console.log({
       username: data.get('username'),
@@ -56,12 +74,14 @@ const SignIn: React.FC = () => {
       const accessToken = res?.tokenData;
       const role = res?.tokenData.roleId;
       setAuth({ username, password, role, accessToken });
-      navigate(from, { replace: true });
-
-      }).catch((err) => {
-       if (err) {
-          setErrMsg("! Invalid login, please try again");
-      } 
+      localStorage.setItem('accessToken', JSON.stringify(accessToken)); // store accessToken in localStorage
+      navigate(from + '?success=true', { replace: true });
+    }).catch((err) => {
+        setUsername('');
+        setPassword('');
+        setErrMsg("! Invalid login, please try again");
+         // clear error message when user starts typing again
+        setTimeout(() => setErrMsg(''), 1500);
       errRef.current?.focus();
     });
   };

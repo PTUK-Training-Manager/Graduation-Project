@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 
-const AddCompany: React.FC = () => {
+const AddBranch: React.FC = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -47,7 +47,7 @@ const AddCompany: React.FC = () => {
                 }}
               >
                 <Typography component="h1" variant="h5">
-                  Add Company
+                  Add Branch
                 </Typography>
                 <form >
                 <TextField
@@ -72,28 +72,9 @@ const AddCompany: React.FC = () => {
                     margin="normal"
                     required
                     fullWidth
-                    id="email"
-                    label="E-mail"
-                    type="email"
-                    name="email"
-                    autoFocus
-                  />
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="m-number"
-                    label="Manager Name"
-                    name="m-number"
-                    autoFocus
-                  />
-                  <TextField
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="location"
-                    label="Location"
-                    name="location"
+                    id="branch"
+                    label="Branch"
+                    name="branch"
                     autoFocus
                   />
                   <Button
@@ -102,7 +83,7 @@ const AddCompany: React.FC = () => {
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
                   >
-                    Generate Account
+                   Add Branch
                   </Button>
                   <Grid container>
                     <Grid item xs></Grid>
@@ -116,4 +97,4 @@ const AddCompany: React.FC = () => {
     </>
   );
 }
-export default AddCompany;
+export default AddBranch;

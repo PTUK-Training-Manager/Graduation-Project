@@ -2,7 +2,13 @@ import { useLocation, Navigate, Outlet } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import AppLayout from "src/AppLayout/AppLayout";
 
-const RequireAuth = ({ allowedRoles }: { allowedRoles: number}): JSX.Element =>  {
+
+type RequireAuthProps = {
+  allowedRoles: number;
+  children?: React.ReactNode;
+};
+
+const RequireAuth:React.FC<RequireAuthProps> = ({ allowedRoles,children }: RequireAuthProps) =>  {
   const { auth } = useAuth();
   const location = useLocation();
 

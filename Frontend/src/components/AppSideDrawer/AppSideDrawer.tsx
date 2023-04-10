@@ -15,9 +15,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import SignInState from 'src/pages/SignIn';
 import { signIn } from 'src/pages/SignIn/api';
 import { ROLES } from 'src/routes/AppRoutes';
-import useAuth from "src/hooks/useAuth";
-
-
+import useAuth from 'src/hooks/useAuth';
 
 interface AppSideDrawerProps {
   isOpen: boolean;
@@ -30,7 +28,6 @@ const AppSideDrawer: FC<AppSideDrawerProps> = ({
   isOpen,
   setIsOpen,
   roleId,
-  handleRouteClick
 }) => {
   const theme = useTheme();
 
@@ -39,7 +36,6 @@ const AppSideDrawer: FC<AppSideDrawerProps> = ({
   const navigate = useNavigate();
 
   const handleDrawerClose = () => setIsOpen(false);
- 
 
   return (
     <nav>
@@ -63,6 +59,8 @@ const AppSideDrawer: FC<AppSideDrawerProps> = ({
         <DrawerHeader />{' '}
         {/* Necessary for the drawer content to be below the app bar */}
         <List>
+
+                  {/* University pages which appear in sidebar */}
           {roleId === ROLES.university && (
             <>
               <ListItem disablePadding>
@@ -114,9 +112,10 @@ const AppSideDrawer: FC<AppSideDrawerProps> = ({
                 </ListItemButton>
               </ListItem>
             </>
-          )}
+          )}  
 
-
+           
+                  {/* Company pages which appear in sidebar */}
           {roleId === ROLES.company && (
             <>
               <ListItem disablePadding>
@@ -170,6 +169,29 @@ const AppSideDrawer: FC<AppSideDrawerProps> = ({
             </>
           )}
 
+                            {/* Trainer pages which appear in sidebar */}
+          {roleId === ROLES.trainer && (
+            <>
+              <ListItem disablePadding>
+                <ListItemButton onClick={() => navigate('/evaluationRequests')}>
+                  <ListItemIcon sx={{ color: grey[100] }}>
+                    <ContactPageIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Evaluation Requests" />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton onClick={() => navigate('/completedTrainings')}>
+                  <ListItemIcon sx={{ color: grey[100] }}>
+                    <ContactPageIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Completed Trainings" />
+                </ListItemButton>
+              </ListItem>
+            </>
+          )}
+
+                  {/* General pages which appear in sidebar */}
           <>
             <ListItem disablePadding>
               <ListItemButton onClick={() => navigate('/dashboard')}>

@@ -5,16 +5,8 @@ import Unauthorized from './components/Unauthorized';
 import RequireAuth from './components/RequireAuth';
 import AppLayout from "./AppLayout";
 import SignIn from './pages/SignIn/SignIn';
-import AppNavbar from './components/AppNavbar/AppNavbar';
+import jwtDecode from 'jwt-decode';
 
-const Roles = {
-    SUPER_ADMIN: 'super admin',
-    UNI_TRAINING_OFFICER: 'university training officer',
-    TRAINER: 'trainer',
-    STUDENT: 'student',
-    ADMIN_AND_REGISTRATION: 'administration and registration',
-    COMPANY: 'company'
-};
 
 const App = () => {
 
