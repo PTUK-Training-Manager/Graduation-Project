@@ -3,7 +3,22 @@ export type UserRole =
     | "university training officer"
     | "trainer"
     | "student"
-    | "administration and registration";
+    | "administration and registration"
+    |"company";
+
+export type TrainingStatus =
+    | "pending"
+    | "rejected"
+    | "running"
+    | "canceled"
+    | "submitted"
+    | "completed";
+
+export type TrainingType=
+    |'first'
+    |'second'
+    |'compound';
+
 
 export interface LoginPayload {
     username: string,
