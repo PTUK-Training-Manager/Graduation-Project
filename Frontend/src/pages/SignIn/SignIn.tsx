@@ -18,7 +18,8 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 
-const SignIn: React.FC = () => {
+const SignIn: React.FC= () => {
+
   const { setAuth } = useAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -74,14 +75,12 @@ const SignIn: React.FC = () => {
       const accessToken = res?.tokenData;
       const role = res?.tokenData.roleId;
       setAuth({ username, password, role, accessToken });
-      localStorage.setItem('accessToken', JSON.stringify(accessToken)); // store accessToken in localStorage
-      navigate(from + '?success=true', { replace: true });
-    }).catch((err) => {
-        setUsername('');
-        setPassword('');
-        setErrMsg("! Invalid login, please try again");
-         // clear error message when user starts typing again
-        setTimeout(() => setErrMsg(''), 1500);
+      navigate(from, { replace: true });
+
+      }).catch((err) => {
+       if (err) {
+          setErrMsg("! Invalid login, please try again");
+      } 
       errRef.current?.focus();
     });
   };

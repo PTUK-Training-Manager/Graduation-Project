@@ -1,5 +1,5 @@
 import React, { FC, lazy, Suspense } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes,useNavigate } from 'react-router-dom';
 import RequireAuth from '../components/RequireAuth';
 import Typography from '@mui/material/Typography';
 import BlockUI from 'src/containers/BlockUI';
@@ -64,7 +64,7 @@ const AppRoutes: FC<AppRoutesProps> = (props) => {
   const navigate = useNavigate();
   const handleRouteClick = (routePath: string) => {
     navigate(routePath);
-  };
+  }
   return (
     <Suspense fallback={<BlockUI isBlocked />}>
       <Routes>
@@ -84,8 +84,7 @@ const AppRoutes: FC<AppRoutesProps> = (props) => {
             </Typography>
           }
         />
-
-        <Route path="/signIn" element={<SignIn />} />
+ <Route path="/signIn" element={<SignIn />} />
 
         {/* University Routes */}
         <Route element={<RequireAuth allowedRoles={ROLES.university} />}>
