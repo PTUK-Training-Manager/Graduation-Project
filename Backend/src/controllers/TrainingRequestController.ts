@@ -1,10 +1,21 @@
 import { NextFunction, Request, Response } from 'express';
-import { CompanyBranch, Student, Training, Company } from "src/models";
+import { CompanyBranch, Student, Training, Company, Question, Note, AnsweredQuestion } from "src/models";
 import { TrainingStatusEnum, TrainingTypeEnum } from "src/enums"
 import { Op } from 'sequelize';
 import { GeneratedResponse } from 'src/types';
 
+interface TrainingRequestBody extends Request {
+    body: {
+        role: number;
+        trainingId:number;
+        questionID:number;
+        note:string;
+    }
+}
 class TrainingRequestController {
+    // constructor() {
+    //     this.getQuestions=this.getQuestions.bind(this);
+    // }
     submitRequest = async (req: Request, res: Response, next: NextFunction) => {
         const { studentId, type, companyId, location } = req.body;
         //to check that student has only one training for a type
@@ -167,6 +178,120 @@ class TrainingRequestController {
         }
 
     }
-}
+
+
+    //خليته يرجع البيانات مع اسم الطالب يعني عملت جوين 
+    async submittedStudents(req: Request, res: Response, next: NextFunction) {
+        try {
+           const record = await Training.findOne({
+                where: {
+                    status: TrainingStatusEnum.submitted,
+                },
+                include: [
+                    {
+                        model: Student,
+                        attributes: ['name']
+                    },
+                ]
+            })
+            let response: GeneratedResponse = {
+                success: true,
+                status: res.statusCode,
+                message:"Submitted Students: ",
+                data: record
+            }
+            return res.json(response); 
+        }
+        catch (err) {
+            next(err);
+        }
+    }
+
+    async getQuestions(req: TrainingRequestBody, res: Response, next: NextFunction) {
+        try {
+        const {role}=req.body;
+           const record = await Question.findAll({
+                where: {
+                    roleId: role,
+                }
+            })
+            let response: GeneratedResponse = {
+                success: true,
+                status: res.statusCode,
+                message:"Qustions: ",
+                data: record
+            }
+            return res.json(response); 
+        }
+        catch (err) {
+            next(err);
+        }
+    }
+
+    async submitQuestionsWithAnswers(req: TrainingRequestBody, res: Response, next: NextFunction) {
+        try {
+        const {trainingId,questionID,note}=req.body; 
+
+        //خزن النوت ف جدول النوت
+           const noteid = await Note.create({
+                note: note
+            })
+
+            const answeredQuestion=await AnsweredQuestion.create({
+                trainingId:trainingId,
+                questionId:questionID,
+                noteId:noteid.id
+            })
+
+            await Training.update({status:"completed"},{
+                where:{
+                    id:trainingId
+                }
+            })
+            const record=await Training.findOne({
+                where: {id:trainingId}
+            })
+
+            let response: GeneratedResponse = {
+                success: true,
+                status: res.statusCode,
+                message:"The Training was successfully updated to completed",
+                data: record
+            }
+            return res.json(response); 
+        }
+        catch (err) {
+            next(err);
+        }
+    }
+
+
+  
+
+    async submitTrainingwithoutAnswers(req: Request, res: Response, next: NextFunction) {
+        try {
+            const {trainingId}=req.body; 
+                await Training.update({status:"completed"},{
+                    where:{
+                        id:trainingId
+                    }
+                })
+                const record=await Training.findOne({
+                    where: {id:trainingId}
+                })
+    
+                let response: GeneratedResponse = {
+                    success: true,
+                    status: res.statusCode,
+                    message:"The Training was successfully updated to completed",
+                    data: record
+                }
+                return res.json(response); 
+            }
+            catch (err) {
+                next(err);
+            }
+        }
+    }
 
 export default new TrainingRequestController();

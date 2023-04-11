@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { Student } from '../models';
+import { Student, Training } from '../models';
 import UserController from "./UserController";
 import { GeneratedResponse } from "src/types";
+import { TrainingStatusEnum } from "src/enums";
 interface StudentRequestBody extends Request {
     body: {
         id: string;
@@ -84,6 +85,11 @@ class studentController {
             next(err);
         }
     }
+
+
+    
+
+
 
     // async deleteStudentById(req: Request, res: Response) {
     //     try {
