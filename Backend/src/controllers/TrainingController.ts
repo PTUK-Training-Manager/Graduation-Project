@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import {
     Student,
     AnsweredQuestion,
@@ -6,18 +6,16 @@ import {
     Company,
     Evaluation,
     Note,
-    Permission,
     Question,
-    Role,
     Trainer,
     Training,
-    User,
     CompanyBranch
 } from "@models/index";
 import { fn, col } from "sequelize";
 import { TrainingStatusEnum } from "src/enums";
+import { ButtonHandler, GeneratedResponse } from "src/types";
 class TrainingController {
-     getCompletedTrainings= async(req: Request, res: Response) => {
+     getCompletedTrainings= async(req: Request, res: Response,next: NextFunction) => {
         const completedStudents = await Training.findAll({
             attributes: ['studentId', [fn('COUNT', col('studentId')), 'count']],
             where: {
@@ -32,21 +30,59 @@ class TrainingController {
         });
         return res.json(completedStudents);
     }
-    generateEvaluationForm= async(req:Request, res:Response)=>{
-        const test = Training.findAll({
-            where: { id: 2 },
+     handlegenerateFormButton = async(req:ButtonHandler,res:Response,next: NextFunction)=>{
+        const {index,studentId}=req.body;
+        const trainings = await Training.findAll({where:{studentId,
+            status:TrainingStatusEnum.completed
+        }, attributes:['id']});
+        const trainingId = trainings[index].id;
+        console.log(trainingId);
+        this.generateEvaluationForm(trainingId,req,res,next)
+
+    }
+    generateEvaluationForm= async(trainingId:number,req:Request, res:Response,next: NextFunction)=>{
+        try{
+        const evaluationForm = await Training.findAll({
+            where: { id: `${trainingId}` },
             include: [
               { model: Student },
-              { model: Evaluation },
-              { model: Note },
-              { model: AnsweredQuestion },
-              { model: Question },
-              { model: Role },
-              { model: Answer },
-              { model: Company },
-              { model: Trainer }
+              { model: Evaluation,include: [
+                {
+                    model: Note,
+                    attributes: ['note']
+                }
+            ] },
+              { model: AnsweredQuestion,include:[
+                {
+                    model: Question,
+                    attributes: ['question']
+                }
+                ,{
+                    model: Note,
+                    attributes: ['note']
+                },{
+                    model: Answer,
+                    attributes: ['answer']
+                }
+              ] , attributes:['id']},
+               {model: CompanyBranch,include: [
+                {
+                    model: Company,
+                    attributes: ['name']
+                }],
+            attributes:['location']},
+               { model: Trainer,attributes: ['name']  }
             ]
-          })
+          });
+          let response: GeneratedResponse = {
+            success: true,
+            status: res.statusCode,
+            message: "Evaluation Form",
+            data: evaluationForm
+        }
+          return res.json(response);}catch(err) {
+            next(err);
+          }
     }
   
     
