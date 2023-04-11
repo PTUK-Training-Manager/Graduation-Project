@@ -77,14 +77,14 @@ class TrainingRequestController {
 
     getPendingRequest = async (req: Request, res: Response) => {
         const trainingRequestsRecords = await Training.findAll({
-            attributes: ['trainingId', 'studentId', 'companyBranchId'],
+            attributes: ['id', 'studentId', 'companyBranchId'],
             where: {
                 status: TrainingStatusEnum.pending
             },
             include: [
                 {
                     model: Student,
-                    attributes: ['studentName']
+                    attributes: ['name']
                 },
                 {
                     model: CompanyBranch,
@@ -92,7 +92,7 @@ class TrainingRequestController {
                     include: [
                         {
                             model: Company,
-                            attributes: ['companyName']
+                            attributes: ['name']
                         }
                     ]
                 }
