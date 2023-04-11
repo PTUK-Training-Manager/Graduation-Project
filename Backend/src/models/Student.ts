@@ -32,4 +32,3 @@ Student.init({
 });
 
 
-

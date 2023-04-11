@@ -11,4 +11,6 @@ const sequelize = new Sequelize(DATABASE, USERNAME, PASSWORD, {
 });
 
 
+ 
+
 export default sequelize;

@@ -1,24 +1,40 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import Trainer from '../models/Trainer';
+import { GeneratedResponse } from "src/types";
 
-class trainingController {
-    async addtrainer(req: Request, res: Response) {
+class trainierController {
+	
+	//ما ننساه بده شغل!
+	async addtrainer(req: Request, res: Response,next: NextFunction) {
 		try {
-			const record = await Trainer.create({ ...req.body});
-			return res.json({ record, msg: "Successfully add trainer" });
-		} catch (e) {
-			return res.json(e);
+			const record = await Trainer.create({ ...req.body });
+			let response: GeneratedResponse = {
+				success: true,
+				status: res.statusCode,
+				message:"Successfully add trainer",
+				data: record
+			}
+			return res.json(response);
+		} catch (err) {
+			next(err);
 		}
 	}
 
-    async getAll(req: Request, res: Response) {
+	async getAll(req: Request, res: Response, next: NextFunction) {
 		try {
 			const records = await Trainer.findAll({});
-			return res.json(records);
-		} catch (e) {
-			return res.json({ msg: "fail to read", status: 500, route: "/read" });
+
+			let response: GeneratedResponse = {
+				success: true,
+				status: res.statusCode,
+				message: "Trainers: ",
+				data: records
+			}
+			return res.json(response);
+		} catch (err) {
+			next(err);
 		}
 	}
 }
 
-export default new trainingController();
+export default new trainierController();

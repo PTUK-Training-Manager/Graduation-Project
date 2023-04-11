@@ -11,7 +11,7 @@ const verifyJWT = () => {
             const decoded = jwt.verify(token, secret) as JwtPayload;
             req.user = decoded.username;
             req.role = decoded.roleId;
-            next();
+            return next();
         } catch (error) {
             return res.status(403).json("invalid Token");
         }

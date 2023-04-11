@@ -1,6 +1,6 @@
 import express from 'express';
 
-declare global{
+declare global {
     namespace Express {
         interface Request {
             role: number,
@@ -8,5 +8,4 @@ declare global{
         }
     }
 };
-
-export {};
+export { };
