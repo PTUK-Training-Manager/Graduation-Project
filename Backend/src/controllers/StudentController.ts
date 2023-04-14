@@ -78,6 +78,11 @@ class studentController {
         }
     }
 
+
+    
+
+
+
     // async deleteStudentById(req: Request, res: Response) {
     //     try {
     //         let { id } = req.params;
