@@ -33,7 +33,9 @@ class CompanyController {
                     location
                 );
                
-                const user = await UserController.addUser(temp, password, email, 10, 6); // company roleID in DataBase
+                const user = await UserController.addUser({
+                    username: temp, password, email, saltRounds: 10, roleId: 6
+                }); // company roleID in DataBase
             
                 const record = await Company.create({
                     id,

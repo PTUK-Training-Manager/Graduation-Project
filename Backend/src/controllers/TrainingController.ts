@@ -13,24 +13,36 @@ import {
 } from "../models/index";
 import {fn, col} from "sequelize";
 import {TrainingStatusEnum} from "../enums";
-import {ButtonHandler, GeneratedResponse} from "../types";
+import {ButtonHandler} from "../types";
 
 class TrainingController {
     getCompletedTrainings = async (req: Request, res: Response, next: NextFunction) => {
-        const completedStudents = await Training.findAll({
-            attributes: ['studentId', [fn('COUNT', col('studentId')), 'count']],
-            where: {
-                status: TrainingStatusEnum.completed
-            }, include: [
-                {
-                    model: Student,
-                    attributes: ['name']
-                }]
-            ,
-            group: ['studentId']
-        });
-        return res.json(completedStudents);
+        try {
+            const completedStudents = await Training.findAll({
+                attributes: ['studentId', [fn('COUNT', col('studentId')), 'count']],
+                where: {
+                    status: TrainingStatusEnum.completed
+                }, include: [
+                    {
+                        model: Student,
+                        attributes: ['name']
+                    }]
+                ,
+                group: ['studentId']
+            });
+
+            return res.json({
+                success: true,
+                status: res.statusCode,
+                message: "Completed Trainings",
+                data: completedStudents
+            });
+        }
+        catch (err) {
+            next(err);
+        }
     }
+
     handleGenerateFormButton = async (req: ButtonHandler, res: Response, next: NextFunction) => {
         const {index, studentId} = req.body;
         const trainings = await Training.findAll({
@@ -39,11 +51,15 @@ class TrainingController {
                 status: TrainingStatusEnum.completed
             }, attributes: ['id']
         });
-        const trainingId = trainings[index].id;
-        this.generateEvaluationForm(trainingId, req, res, next);
+
+        req.body.trainingId = trainings[index].id;
+
+        await this.generateEvaluationForm(req, res, next);
     }
-    generateEvaluationForm = async (trainingId: number, req: Request, res: Response, next: NextFunction) => {
+
+    generateEvaluationForm = async (req: ButtonHandler, res: Response, next: NextFunction) => {
         try {
+            const {trainingId} = req.body;
             const evaluationForm = await Training.findAll({
                 where: {id: `${trainingId}`},
                 include: [
@@ -82,19 +98,17 @@ class TrainingController {
                     {model: Trainer, attributes: ['name']}
                 ]
             });
-            let response: GeneratedResponse = {
+
+            return res.json({
                 success: true,
                 status: res.statusCode,
                 message: "Evaluation Form",
                 data: evaluationForm
-            }
-            return res.json(response);
+            });
         } catch (err) {
             next(err);
         }
     }
-
-
 }
 
 export default new TrainingController();

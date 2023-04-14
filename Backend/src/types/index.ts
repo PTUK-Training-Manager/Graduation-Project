@@ -46,5 +46,14 @@ export interface ButtonHandler extends Request {
     body: {
         index: number;
         studentId: string;
+        trainingId?: number;
     }
+}
+
+export interface AddedUser {
+    username: string;
+    password: string;
+    email: string;
+    saltRounds: number,
+    roleId: number
 }

@@ -1,7 +1,7 @@
 import {NextFunction, Request, Response} from "express";
 import {Student} from '../models';
 import UserController from "./UserController";
-import {GeneratedResponse} from "../types";
+import {GeneratedResponse, AddedUser} from "../types";
 
 interface StudentRequestBody extends Request {
     body: {
@@ -36,7 +36,13 @@ class studentController {
 
             const {temp, password} = await UserController.generateAccount(name, phoneNumber);
 
-            const user = await UserController.addUser(temp, password, email, 10, 6); // company roleID in DataBase
+            const user = await UserController.addUser({
+                username: temp,
+                email,
+                password,
+                saltRounds: 10,
+                roleId: 6
+            }); // company roleID in DataBase
 
             const studentRecord = await Student.create({
                 id,
@@ -52,6 +58,7 @@ class studentController {
                     message: "error creating Student account"
                 });
             }
+
             return res.json({
                 success: true,
                 status: res.statusCode,

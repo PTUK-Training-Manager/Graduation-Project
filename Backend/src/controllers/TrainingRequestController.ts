@@ -1,8 +1,8 @@
-import { NextFunction, Request, Response } from 'express';
-import { CompanyBranch, Student, Training, Company, Question, Note, AnsweredQuestion } from "src/models";
-import { TrainingStatusEnum, TrainingTypeEnum } from "src/enums"
-import { Op } from 'sequelize';
-import { GeneratedResponse } from '../types';
+import {NextFunction, Request, Response} from 'express';
+import {CompanyBranch, Student, Training, Company, Question, Note, AnsweredQuestion} from "../models";
+import {TrainingStatusEnum, TrainingTypeEnum} from "../enums"
+import {Op} from 'sequelize';
+import {GeneratedResponse} from '../types';
 
 interface TrainingRequestBody extends Request {
     body: {
@@ -13,90 +13,87 @@ interface TrainingRequestBody extends Request {
         page: number;
     }
 }
-class TrainingRequestController {
-    // constructor() {
-    //     this.getQuestions=this.getQuestions.bind(this);
-    // }
-    submitRequest = async (req: Request, res: Response, next: NextFunction) => {
-        const { studentId, type, companyId, location } = req.body;
-        //to check that student has only one training for a type
-        var record = await Training.findOne({
-            where: {
-                studentId: studentId,
-                type: type,
-                status: {
-                    [Op.notIn]: [TrainingStatusEnum.rejected, TrainingStatusEnum.canceled]
-                }
-            }
-        });
-        if (record) {
-            let response: GeneratedResponse = {
-                success: false,
-                status: res.statusCode,
-                message: `student ${studentId} has ${record.status} traing `,
-                data: record
-            }
-            return res.json(response);
-        }
 
-        //to check that student finished first Training
-        if (type == TrainingTypeEnum.second) {
-            record = await Training.findOne({
+class TrainingRequestController {
+
+    submitRequest = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const {studentId, type, companyId, location} = req.body;
+            //to check that student has only one training for a type
+            let record = await Training.findOne({
                 where: {
                     studentId: studentId,
-                    status: TrainingStatusEnum.submitted,
-                    type: TrainingTypeEnum.first
-                }
-            });
-            if (!record) {
-                let response: GeneratedResponse = {
-                    success: false,
-                    status: res.statusCode,
-                    message: `student ${studentId}  sholud finished first Training  `
-                }
-                return res.json(response);
-            }
-        }
-        if (type == TrainingTypeEnum.compound) {
-            record = await Training.findOne({
-                where: {
-                    studentId: studentId,
-                    [Op.or]: [
-                        { type: TrainingTypeEnum.first },
-                        { type: TrainingTypeEnum.second }
-                    ],
+                    type: type,
                     status: {
                         [Op.notIn]: [TrainingStatusEnum.rejected, TrainingStatusEnum.canceled]
                     }
                 }
             });
+
             if (record) {
-                let response: GeneratedResponse = {
+                return res.json({
                     success: false,
                     status: res.statusCode,
-                    message: `student ${studentId} has ${record.type} traing `,
+                    message: `student ${studentId} has ${record.status} traing `,
                     data: record
+                });
+            }
+
+            // to check that student finished first Training
+            if (type === TrainingTypeEnum.second) {
+                record = await Training.findOne({
+                    where: {
+                        studentId: studentId,
+                        status: TrainingStatusEnum.submitted,
+                        type: TrainingTypeEnum.first
+                    }
+                });
+                if (!record) {
+                    return res.json({
+                        success: false,
+                        status: res.statusCode,
+                        message: `student ${studentId}  sholud finished first Training  `
+                    });
                 }
-                return res.json(response);
             }
-        }
-        const companyBranch = await CompanyBranch.findOne({
-            where: {
-                location: location,
-                companyId: companyId,
+            if (type === TrainingTypeEnum.compound) {
+                record = await Training.findOne({
+                    where: {
+                        studentId: studentId,
+                        [Op.or]: [
+                            {type: TrainingTypeEnum.first},
+                            {type: TrainingTypeEnum.second}
+                        ],
+                        status: {
+                            [Op.notIn]: [TrainingStatusEnum.rejected, TrainingStatusEnum.canceled]
+                        }
+                    }
+                });
+                if (record) {
+                    return res.json({
+                        success: false,
+                        status: res.statusCode,
+                        message: `student ${studentId} has ${record.type} traing `,
+                        data: record
+                    });
+                }
             }
-        });
-        try {
+            const companyBranch = await CompanyBranch.findOne({
+                where: {
+                    location: location,
+                    companyId: companyId,
+                }
+            });
+
             const student = await Student.findOne({
-                where: { id: studentId }
+                where: {id: studentId}
             });
             if (!student) {
-                let response: GeneratedResponse = {
+                return res.json({
                     success: false,
                     status: res.statusCode,
                     message: `student ${studentId} not found `
-                }
-                return res.json(response);
+                });
             }
             const request = await Training.create({
                 type: type,
@@ -104,13 +101,13 @@ class TrainingRequestController {
                 studentId: studentId,
                 companyBranchId: companyBranch?.id
             });
-            let response: GeneratedResponse = {
+
+            return res.json({
                 success: true,
                 status: res.statusCode,
                 message: "Successfully SUBMITTED RREQUEST",
                 data: request
-            }
-            return res.json(response);
+            });
         } catch (err) {
             next(err);
         }
@@ -147,17 +144,16 @@ class TrainingRequestController {
                 data: trainingRequestsRecords
             }
             return res.json(response);
-        }
-        catch (err) {
+        } catch (err) {
             next(err);
         }
     }
 
     deleteRequest = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            let { id } = req.params;
+            let {id} = req.params;
             const deletedRequest = await Training.destroy({
-                where: { id }
+                where: {id}
             });
             if (!deletedRequest) {
                 let response: GeneratedResponse = {
@@ -202,15 +198,14 @@ class TrainingRequestController {
                 data: record
             }
             return res.json(response);
-        }
-        catch (err) {
+        } catch (err) {
             next(err);
         }
     }
 
     async getQuestions(req: TrainingRequestBody, res: Response, next: NextFunction) {
         try {
-            const { role } = req.body;
+            const {role} = req.body;
             const record = await Question.findAll({
                 where: {
                     roleId: role,
@@ -223,15 +218,14 @@ class TrainingRequestController {
                 data: record
             }
             return res.json(response);
-        }
-        catch (err) {
+        } catch (err) {
             next(err);
         }
     }
 
     async submitQuestionsWithAnswers(req: TrainingRequestBody, res: Response, next: NextFunction) {
         try {
-            const { trainingId, questionID, note } = req.body;
+            const {trainingId, questionID, note} = req.body;
 
             //خزن النوت ف جدول النوت
             const noteid = await Note.create({
@@ -244,13 +238,13 @@ class TrainingRequestController {
                 noteId: noteid.id
             })
 
-            await Training.update({ status: "completed" }, {
+            await Training.update({status: "completed"}, {
                 where: {
                     id: trainingId
                 }
             })
             const record = await Training.findOne({
-                where: { id: trainingId }
+                where: {id: trainingId}
             })
 
             let response: GeneratedResponse = {
@@ -260,25 +254,22 @@ class TrainingRequestController {
                 data: record
             }
             return res.json(response);
-        }
-        catch (err) {
+        } catch (err) {
             next(err);
         }
     }
 
 
-
-
     async submitTrainingwithoutAnswers(req: Request, res: Response, next: NextFunction) {
         try {
-            const { trainingId } = req.body;
-            await Training.update({ status: "completed" }, {
+            const {trainingId} = req.body;
+            await Training.update({status: "completed"}, {
                 where: {
                     id: trainingId
                 }
             })
             const record = await Training.findOne({
-                where: { id: trainingId }
+                where: {id: trainingId}
             })
 
             let response: GeneratedResponse = {
@@ -288,8 +279,7 @@ class TrainingRequestController {
                 data: record
             }
             return res.json(response);
-        }
-        catch (err) {
+        } catch (err) {
             next(err);
         }
     }
@@ -302,7 +292,7 @@ class TrainingRequestController {
         const endIndex = startIndex + pageSize;
         let data = await Student.findAll({
             limit: pageSize,
-            offset: (page-1)*pageSize
+            offset: (page - 1) * pageSize
         })
         let response: GeneratedResponse = {
             success: true,

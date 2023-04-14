@@ -1,8 +1,8 @@
-import { NextFunction, Request, Response } from "express";
+import {NextFunction, Request, Response} from "express";
 import {User} from '../models';
 import bcrypt from "bcrypt";
 import crypto from "crypto";
-import { GeneratedResponse } from "../types";
+import {GeneratedResponse, AddedUser} from "../types";
 
 class UserController {
     constructor() {
@@ -11,13 +11,8 @@ class UserController {
         this.handleAddUser = this.handleAddUser.bind(this);
     }
 
-    async addUser(
-        username: string,
-        password: string,
-        email: string,
-        saltRounds: number,
-        roleId: number
-    ) {
+    async addUser(user: AddedUser) {
+        const {username, password, email, saltRounds, roleId} = user;
         const hashedPwd = await bcrypt.hash(password, saltRounds);
         const record = await User.create({
             username,
@@ -35,56 +30,56 @@ class UserController {
         const password = crypto.randomBytes(8).toString("hex"); //random string for password
         const username = first + "." + second;
         var suffix = 1;
-        var record = await User.findOne({ where: { username } });
+        var record = await User.findOne({where: {username}});
         var temp = username;
         if (record) {
             while (record) {
                 temp = username + suffix;
-                record = await User.findOne({ where: { username: temp } });
+                record = await User.findOne({where: {username: temp}});
                 suffix++;
             }
         }
 
-        return { temp, password };
+        return {temp, password};
     }
 
-    async handleAddUser(req: Request, res: Response,next:NextFunction) { // I think we should cancel this request!, not completely finished
+    async handleAddUser(req: Request, res: Response, next: NextFunction) { // I think we should cancel this request!, not completely finished
         try {
-            const { username, email, password, roleId } = req.body;
+            const {username, email, password, roleId} = req.body;
             const saltRounds = 10;
-            const id = await this.addUser(
+            const id = await this.addUser({
                 username,
                 password,
                 email,
                 saltRounds,
                 roleId
-            );
+            });
             if (id) {
                 let response: GeneratedResponse = {
                     success: true,
                     status: res.statusCode,
-                    message:"Successfully create User",
-                    data:id
+                    message: "Successfully create User",
+                    data: id
                 }
-            return res.json(response);
-        }
+                return res.json(response);
+            }
         } catch (err) {
             next(err);
         }
     }
 
-    async getAll(req: Request, res: Response,next: NextFunction) {
+    async getAll(req: Request, res: Response, next: NextFunction) {
         try {
             const records = await User.findAll({});
             let response: GeneratedResponse = {
                 success: true,
                 status: res.statusCode,
-                message:"Users:",
+                message: "Users:",
                 data: records
             }
             return res.json(response);
         } catch (err) {
-           next(err);
+            next(err);
         }
     }
 
