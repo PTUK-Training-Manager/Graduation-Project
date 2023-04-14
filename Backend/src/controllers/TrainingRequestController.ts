@@ -184,7 +184,7 @@ class TrainingRequestController {
     //خليته يرجع البيانات مع اسم الطالب يعني عملت جوين 
     async submittedStudents(req: Request, res: Response, next: NextFunction) {
         try {
-            const record = await Training.findOne({
+            const record = await Training.findAll({
                 where: {
                     status: TrainingStatusEnum.submitted,
                 },
@@ -195,13 +195,12 @@ class TrainingRequestController {
                     },
                 ]
             })
-            let response: GeneratedResponse = {
+            return res.json({
                 success: true,
                 status: res.statusCode,
                 message: "Submitted Students: ",
                 data: record
-            }
-            return res.json(response);
+            });
         }
         catch (err) {
             next(err);
@@ -238,7 +237,7 @@ class TrainingRequestController {
                 note: note
             })
 
-            const answeredQuestion = await AnsweredQuestion.create({
+            await AnsweredQuestion.create({
                 trainingId: trainingId,
                 questionId: questionID,
                 noteId: noteid.id
@@ -249,25 +248,22 @@ class TrainingRequestController {
                     id: trainingId
                 }
             })
+
             const record = await Training.findOne({
                 where: { id: trainingId }
             })
 
-            let response: GeneratedResponse = {
+            return res.json({
                 success: true,
                 status: res.statusCode,
                 message: "The Training was successfully updated to completed",
                 data: record
-            }
-            return res.json(response);
+            });
         }
         catch (err) {
             next(err);
         }
     }
-
-
-
 
     async submitTrainingwithoutAnswers(req: Request, res: Response, next: NextFunction) {
         try {
@@ -281,13 +277,12 @@ class TrainingRequestController {
                 where: { id: trainingId }
             })
 
-            let response: GeneratedResponse = {
+            return res.json({
                 success: true,
                 status: res.statusCode,
                 message: "The Training was successfully updated to completed",
                 data: record
-            }
-            return res.json(response);
+            });
         }
         catch (err) {
             next(err);
