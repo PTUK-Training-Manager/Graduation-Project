@@ -7,7 +7,7 @@ import morgan from "morgan";
 import errorHandler from "./middlewares/errorHandler";
 const app = express();
 import db from "./config/connection";
-import associations from './models/associations';
+import associations from './models/Associations';
 import router from "./routes";
 import cors from 'cors';
 
