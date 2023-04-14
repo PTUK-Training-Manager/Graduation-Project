@@ -177,10 +177,10 @@ class TrainingRequestController {
     }
 
 
-    //خليته يرجع البيانات مع اسم الطالب يعني عملت جوين 
+    //خليته يرجع البيانات مع اسم الطالب يعني عملت جوين
     async submittedStudents(req: Request, res: Response, next: NextFunction) {
         try {
-            const record = await Training.findOne({
+            const record = await Training.findAll({
                 where: {
                     status: TrainingStatusEnum.submitted,
                 },
@@ -191,14 +191,14 @@ class TrainingRequestController {
                     },
                 ]
             })
-            let response: GeneratedResponse = {
+            return res.json({
                 success: true,
                 status: res.statusCode,
                 message: "Submitted Students: ",
                 data: record
-            }
-            return res.json(response);
-        } catch (err) {
+            });
+        }
+        catch (err) {
             next(err);
         }
     }
