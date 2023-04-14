@@ -1,3 +1,4 @@
+import { Request } from "express";
 export type UserRole =
     | "super admin"
     | "university training officer"
@@ -38,3 +39,9 @@ export interface ErrorResponse {
     message: string,
     data?: any;
   }
+export interface ButtonHandler extends Request {
+    body: {
+        index: number;
+        studentId: string;
+    }
+}

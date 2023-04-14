@@ -1,5 +1,5 @@
 import express, { NextFunction } from 'express';
-import Role from 'src/models/Role';
+import Role from '@models/Role';
 import {Request, Response} from 'express';
 import { GeneratedResponse } from 'src/types';
 
