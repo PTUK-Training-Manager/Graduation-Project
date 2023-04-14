@@ -2,10 +2,7 @@ import {Request, Response, NextFunction} from 'express';
 import {ErrorResponse} from '../types';
 import chalk from 'chalk';
 
-interface Options {
-    message?: string;
-}
-const errorHandler = (err: ErrorResponse, req: Request, res: Response, next: NextFunction, options?: Options) => {
+const errorHandler = (err: ErrorResponse, req: Request, res: Response, next: NextFunction) => {
     const errStatus: number = err.code || 500;
     const errMsg: string = err.message || 'Something went wrong';
 
