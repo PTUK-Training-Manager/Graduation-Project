@@ -1,9 +1,8 @@
 import React, {FC, lazy, Suspense} from 'react';
-import {Route, Routes, useNavigate} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import BlockUI from "src/containers/BlockUI";
 import AppLayout from "src/AppLayout";
 import ProtectedRoute from "src/routes/ProtectedRoute";
-import useAccountContext from "src/hooks/useAccountContext";
 
 const LandingPage = lazy(() => import("src/pages/LandingPage"));
 const Admin = lazy(() => import("src/pages/Admin"));

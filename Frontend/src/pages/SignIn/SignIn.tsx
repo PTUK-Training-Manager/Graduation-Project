@@ -15,8 +15,7 @@ import theme from "src/styling/customTheme";
 import AppNavbar from "src/components/AppNavbar";
 import AppSideDrawer from "src/components/AppSideDrawer";
 import useAccountContext from "src/hooks/useAccountContext";
-import {useMemo} from "react";
-import {DRAWER_WIDTH, getContentPaddingLeft} from "src/constants";
+import {getContentPaddingLeft} from "src/constants";
 
 const SignIn: React.FC = () => {
 
