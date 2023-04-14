@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import Trainer from '../models/Trainer';
-import { GeneratedResponse } from "src/types";
+import { GeneratedResponse } from "../types";
 
 class trainierController {
 	

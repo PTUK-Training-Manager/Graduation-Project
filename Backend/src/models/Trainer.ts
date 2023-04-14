@@ -1,5 +1,5 @@
 import { DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
-import sequelize from "src/config/connection";
+import sequelize from "../config/connection";
 import User from './User';
 import Company from './Company';
 

@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import UserController from "./UserController";
-import Company from "@models/Company";
-import CompanyBranch from "@models/CompanyBranch";
-import { GeneratedResponse } from "src/types";
+import Company from "../models/Company";
+import CompanyBranch from "../models/CompanyBranch";
+import { GeneratedResponse } from "../types";
 
 interface CompanyRequestBody extends Request {
     body: {

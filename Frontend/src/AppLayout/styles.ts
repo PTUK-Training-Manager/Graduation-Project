@@ -1,8 +1,7 @@
 import {CSSProperties} from "react";
 import makeStyles from "@mui/styles/makeStyles";
-import {Theme} from "@mui/material/styles";
 import theme from "src/styling/customTheme";
-import {NAVBAR_HEIGHT, DRAWER_WIDTH} from "src/constants";
+import {NAVBAR_HEIGHT} from "src/constants";
 import {grey} from "@mui/material/colors";
 
 const defaultContentArea: CSSProperties = {
@@ -19,7 +18,7 @@ const defaultContentArea: CSSProperties = {
 
 const useStyles = makeStyles(() => ({
     root: {
-        ...theme.mixins.niceScroll()
+        ...theme.mixins.niceScroll(),
     },
     contentArea: {
         ...defaultContentArea,

@@ -12,7 +12,7 @@ import {
     Training,
     User,
     CompanyBranch
-} from "src/models";
+} from "./index";
 
 const associations = () => {
 

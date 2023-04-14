@@ -1,117 +1,99 @@
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import { ImageListItem, Paper } from '@mui/material';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { AppBar,Toolbar } from '@mui/material';
-import PTUK_Logo from "/assets/PTUK-Logo.png";
 import "./SignIn.css";
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import Grid from '@mui/material/Grid';
-import {signIn} from "./api";
+import Stack from '@mui/material/Stack';
+import LoadingButton from '@mui/lab/LoadingButton';
+import {Form, FormikProvider} from "formik";
+import useSignInController from "./hooks/useSignInController";
+import TextFieldWrapper from "src/components/FormsUI/TextField";
+import theme from "src/styling/customTheme";
+import AppNavbar from "src/components/AppNavbar";
+import AppSideDrawer from "src/components/AppSideDrawer";
+import useAccountContext from "src/hooks/useAccountContext";
+import {useMemo} from "react";
+import {DRAWER_WIDTH, getContentPaddingLeft} from "src/constants";
 
 const SignIn: React.FC = () => {
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-    signIn({
-        username: "s.a.amer1",
-        password: "123"
-    }).then((res) => {
-        console.log(res);
-    });
-  };
+    const {formikProps, isLoading} = useSignInController();
 
-  return (
-    <Box sx={{ display: 'flex'}}>
-      <CssBaseline />
-      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }} className='bar'>
-        <Toolbar className='tbar'>
-        <Box display="flex">
-          <ImageListItem>
-          <img className='ptuk' alt="ptuk-logo" src={PTUK_Logo}></img>
-          </ImageListItem>
-        </Box>
-            </Toolbar>
-            </AppBar>
-            <Paper sx={{padding:"32px",margin:"55 auto",marginTop:"10%"}} elevation={10}>
-         <Box>
-            <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            margin:"auto",
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent:"center"
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main',backgroundColor:"#30ADD1 "}}>
-            <LockOpenIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <form onSubmit={handleSubmit} noValidate >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="username"
-              label="Username"
-              name="username"
-              autoComplete="username"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+    const {isSidebarOpen} = useAccountContext();
+
+    const {isValid} = formikProps;
+
+    return (
+        <>
+            <AppNavbar/>
+            <AppSideDrawer/>
+            <Grid container
+                  sx={{
+                      transition: ".25s",
+                      pt: 10,
+                      pb: 4,
+                      paddingLeft: isSidebarOpen ? `${getContentPaddingLeft(isSidebarOpen)}px` : "24px",
+                      bgcolor: theme.palette.grey[200],
+                      height: "100vh",
+                      width: "100%",
+                      justifyContent: "center",
+                      alignItems: "center"
+                  }}
             >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="Frontend/src/components/company#" variant="body2" sx={{textAlign:'center'}}>
-                  Forgotten your username or password?
-                </Link>
-              </Grid>
+                <Paper
+                    elevation={3}
+                    sx={{
+                        justifyContent: "center",
+                        alignItems: "center",
+                        p: 4,
+                        minWidth: {xs: "90%", sm: "60%", md: "40%"}
+                    }}
+                >
+                    <FormikProvider value={formikProps}>
+                        <Form>
+                            <Stack gap={2} alignItems="center">
+                                <Avatar sx={{bgcolor: 'secondary.main', backgroundColor: "primary.main"}}>
+                                    <LockOpenIcon/>
+                                </Avatar>
+                                <Typography component="h1" variant="h5">
+                                    Sign in
+                                </Typography>
+                                <TextFieldWrapper
+                                    name="username"
+                                    label="Username"
+                                />
+                                <TextFieldWrapper
+                                    name="password"
+                                    label="Password"
+                                    type="password"
+                                />
+                                {/*<FormControlLabel*/}
+                                {/*    control={<Checkbox value="remember" color="primary"/>}*/}
+                                {/*    label="Remember me"*/}
+                                {/*/>*/}
+                                <LoadingButton
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    disabled={!isValid}
+                                    loading={isLoading}
+                                    // loadingPosition="start"
+                                >
+                                    Sign In
+                                </LoadingButton>
+                                <Button sx={{textTransform: "none", mt: 1}}>
+                                    Forgotten your username or password?
+                                </Button>
+                            </Stack>
+                        </Form>
+                    </FormikProvider>
+                </Paper>
             </Grid>
-          </form>
-        </Box>
-      </Container>
-      </Box> 
-      </Paper>
-            </Box>
-  );
+        </>
+    );
 }
 
 export default SignIn;

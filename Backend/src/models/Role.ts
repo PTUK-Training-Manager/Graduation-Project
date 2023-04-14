@@ -1,8 +1,8 @@
 import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, IntegerDataType, Model } from 'sequelize';
-import sequelize from "src/config/connection";
-import { UserRole } from "src/types";
-import { UserRoleEnum } from "src/enums";
-import { USER_ROLES } from "src/constants";
+import sequelize from "../config/connection";
+import { UserRole } from "../types";
+import { UserRoleDisplayName } from "../enums";
+import { USER_ROLES } from "../constants";
 
 export default class Role extends Model<InferAttributes<Role>, InferCreationAttributes<Role>> {
     declare id: CreationOptional<number>;
@@ -17,7 +17,7 @@ Role.init({
     },
     role: {
         type: DataTypes.ENUM(...USER_ROLES),
-        defaultValue: UserRoleEnum.SUPER_ADMIN,
+        defaultValue: UserRoleDisplayName.SUPER_ADMIN,
         allowNull: false,
     }
 },

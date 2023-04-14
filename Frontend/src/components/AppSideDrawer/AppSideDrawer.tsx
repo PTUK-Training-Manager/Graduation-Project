@@ -1,31 +1,24 @@
 import React, {FC} from 'react';
-import Drawer, {DrawerProps} from "@mui/material/Drawer";
-import useStyles from "./styles";
+import Drawer from "@mui/material/Drawer";
 import {DRAWER_WIDTH} from "src/constants";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import {useTheme} from '@mui/material/styles';
 import ContactPageIcon from '@mui/icons-material/ContactPage';
 import {grey} from "@mui/material/colors";
 import DrawerHeader from "./DrawerHeader";
 import {useNavigate} from "react-router-dom";
+import useAccountContext from "src/hooks/useAccountContext";
 
-interface AppSideDrawerProps {
-    isOpen: boolean;
-    setIsOpen: (isOpen: boolean) => void;
-}
 
-const AppSideDrawer: FC<AppSideDrawerProps> = ({isOpen, setIsOpen}) => {
-    const theme = useTheme();
 
-    const classes = useStyles();
+const AppSideDrawer: FC = () => {
 
     const navigate = useNavigate();
 
-    const handleDrawerClose = () => setIsOpen(false);
+    const {isSidebarOpen: isOpen} = useAccountContext();
 
 
     return (
@@ -50,7 +43,7 @@ const AppSideDrawer: FC<AppSideDrawerProps> = ({isOpen, setIsOpen}) => {
                 <DrawerHeader/> {/* Necessary for the drawer content to be below the app bar */}
                 <List>
                     <ListItem disablePadding>
-                        <ListItemButton onClick={() => navigate("/home")}>
+                        <ListItemButton onClick={() => navigate("/analytics")}>
                             <ListItemIcon sx={{color: grey[100]}}><ContactPageIcon/></ListItemIcon>
                             <ListItemText primary="Submit Request"/>
                         </ListItemButton>
@@ -62,25 +55,25 @@ const AppSideDrawer: FC<AppSideDrawerProps> = ({isOpen, setIsOpen}) => {
                         </ListItemButton>
                     </ListItem>
                     <ListItem disablePadding>
-                        <ListItemButton onClick={() => navigate("/analytics")}>
+                        <ListItemButton onClick={() => navigate("/dashboard")}>
                             <ListItemIcon sx={{color: grey[100]}}><ContactPageIcon/></ListItemIcon>
                             <ListItemText primary="Current trainees"/>
                         </ListItemButton>
                     </ListItem>
                     <ListItem disablePadding>
-                        <ListItemButton onClick={() => navigate("/dashboard")}>
+                        <ListItemButton onClick={() => navigate("/analytics")}>
                             <ListItemIcon sx={{color: grey[100]}}><ContactPageIcon/></ListItemIcon>
                             <ListItemText primary="Completed trainees"/>
                         </ListItemButton>
                     </ListItem>
                     <ListItem disablePadding>
-                        <ListItemButton onClick={() => navigate("/landing")}>
+                        <ListItemButton onClick={() => navigate("/admin")}>
                             <ListItemIcon sx={{color: grey[100]}}><ContactPageIcon/></ListItemIcon>
                             <ListItemText primary="Search"/>
                         </ListItemButton>
                     </ListItem>
                     <ListItem disablePadding>
-                        <ListItemButton>
+                        <ListItemButton onClick={() => navigate("/dashboard")}>
                             <ListItemIcon sx={{color: grey[100]}}><ContactPageIcon/></ListItemIcon>
                             <ListItemText primary="Add Student"/>
                         </ListItemButton>
