@@ -1,30 +1,53 @@
 import React, {FC, lazy, Suspense} from 'react';
-import {Route, Routes} from "react-router-dom";
-import Typography from "@mui/material/Typography";
+import {Route, Routes, useNavigate} from "react-router-dom";
 import BlockUI from "src/containers/BlockUI";
+import AppLayout from "src/AppLayout";
+import ProtectedRoute from "src/routes/ProtectedRoute";
+import useAccountContext from "src/hooks/useAccountContext";
+
 const LandingPage = lazy(() => import("src/pages/LandingPage"));
 const Admin = lazy(() => import("src/pages/Admin"));
 const Home = lazy(() => import("src/pages/Home"));
 const Analytics = lazy(() => import("src/pages/Analytics"));
 const Dashboard = lazy(() => import("src/pages/Dashboard"));
+const SignIn = lazy(() => import("src/pages/SignIn"));
+const NotFound = lazy(() => import("src/pages/NotFound"));
+const AccessDenied = lazy(() => import("src/pages/AccessDenied"));
 
-interface AppRoutesProps {}
+import {UserRole} from "../constants/auth";
 
-const AppRoutes: FC<AppRoutesProps> = (props) => {
+interface AppRoutesProps {
 
-  return (
-      <Suspense fallback={<BlockUI isBlocked/>}>
-          <Routes>
-              <Route index path="/" element={<Home/>}/>
-              <Route index path="/home" element={<Home/>}/>
-              <Route path="/admin" element={<Admin/>}/>
-              <Route path="/landing" element={<LandingPage/>}/>
-              <Route path="/analytics" element={<Analytics/>}/>
-              <Route path="/dashboard" element={<Dashboard/>}/>
-              <Route path="*" element={<Typography variant="h1" color="error">404</Typography>}/>
-          </Routes>
-      </Suspense>
-  );
+}
+
+const AppRoutes: FC<AppRoutesProps> = () => {
+
+    return (
+        <Suspense fallback={<BlockUI isBlocked/>}>
+            <Routes>
+                <Route path="signin" element={<SignIn/>}/>
+                <Route path="landing" element={<LandingPage/>}/>
+
+                <Route
+                    path="/"
+                    element={<AppLayout/>}
+                >
+                    <Route element={<ProtectedRoute/>}>
+                        <Route index path="/" element={<Home/>}/>
+                        <Route path="dashboard" element={<Dashboard/>}/>
+                        <Route path="analytics" element={<Analytics/>}/>
+                        <Route path="admin" element={<Admin/>}/>
+                    </Route>
+
+                    <Route element={<ProtectedRoute allowedRoles={[UserRole.SuperAdmin]}/>}>
+                    </Route>
+                </Route>
+
+                <Route path="access-denied" element={<AccessDenied/>}/>
+                <Route path="*" element={<NotFound/>}/>
+            </Routes>
+        </Suspense>
+    );
 };
 
 export default AppRoutes;

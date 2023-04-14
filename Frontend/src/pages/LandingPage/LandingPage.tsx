@@ -8,7 +8,7 @@ interface LandingProps {}
 const LandingPage: FC<LandingProps> = (props) => {
 
   return (
-      <Stack gap={2} sx={{alignItems: "center"}}>
+      <Stack gap={2} sx={{alignItems: "center", justifyContent: "center", transform: "translateY(50%)"}}>
           <Typography variant="h1">
               LandingPage
           </Typography>

@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { CompanyBranch, Student, Training, Company, Question, Note, AnsweredQuestion } from "src/models";
 import { TrainingStatusEnum, TrainingTypeEnum } from "src/enums"
 import { Op } from 'sequelize';
-import { GeneratedResponse } from 'src/types';
+import { GeneratedResponse } from '../types';
 
 interface TrainingRequestBody extends Request {
     body: {
@@ -119,14 +119,14 @@ class TrainingRequestController {
     getPendingRequest = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const trainingRequestsRecords = await Training.findAll({
-                attributes: ['trainingId', 'studentId', 'companyBranchId'],
+                attributes: ['id', 'studentId', 'companyBranchId'],
                 where: {
                     status: TrainingStatusEnum.pending
                 },
                 include: [
                     {
                         model: Student,
-                        attributes: ['studentName']
+                        attributes: ['name']
                     },
                     {
                         model: CompanyBranch,
@@ -134,7 +134,7 @@ class TrainingRequestController {
                         include: [
                             {
                                 model: Company,
-                                attributes: ['companyName']
+                                attributes: ['name']
                             }
                         ]
                     }

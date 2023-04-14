@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import {User} from '../models';
 import bcrypt from "bcrypt";
 import crypto from "crypto";
-import { GeneratedResponse } from "src/types";
+import { GeneratedResponse } from "../types";
 
 class UserController {
     constructor() {

@@ -16,7 +16,6 @@ export default class User extends Model<InferAttributes<User>, InferCreationAttr
     declare email: string;
     declare password: string;
     declare roleId: ForeignKey<Role['id']>;
-
     declare getRole: HasOneGetAssociationMixin<Role>
 }
 

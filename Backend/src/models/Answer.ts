@@ -1,5 +1,5 @@
 import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
-import sequelize from "src/config/connection";
+import sequelize from "../config/connection";
 
 export default class Answer extends Model<InferAttributes<Answer>, InferCreationAttributes<Answer>> {
   declare id: CreationOptional<number>;

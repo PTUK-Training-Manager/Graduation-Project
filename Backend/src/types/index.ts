@@ -1,3 +1,5 @@
+import {Request} from "express";
+
 export type UserRole =
     | "super admin"
     | "university training officer"
@@ -14,7 +16,7 @@ export type TrainingStatus =
     | "submitted"
     | "completed";
 
-export type TrainingType=
+export type TrainingType =
     | "first"
     | "second"
     | "compound";
@@ -31,10 +33,18 @@ export interface ErrorResponse {
     message: string;
     // details?: string | string[];
     data?: string;
-  }
-  export interface GeneratedResponse {
-    success:boolean,
-    status:any,
+}
+
+export interface GeneratedResponse {
+    success: boolean,
+    status: any,
     message: string,
     data?: any;
-  }
+}
+
+export interface ButtonHandler extends Request {
+    body: {
+        index: number;
+        studentId: string;
+    }
+}

@@ -1,5 +1,5 @@
 import express from 'express';
-import RequestController from "@controllers/TrainingRequestController";
+import RequestController from "../controllers/TrainingRequestController";
 const router = express.Router();
 const {submitRequest,getPendingRequest,deleteRequest,submittedStudents, getQuestions,submitQuestionsWithAnswers,submitTrainingwithoutAnswers,getRecords}= RequestController
 
