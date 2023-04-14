@@ -7,9 +7,10 @@ import { GeneratedResponse } from 'src/types';
 interface TrainingRequestBody extends Request {
     body: {
         role: number;
-        trainingId:number;
-        questionID:number;
-        note:string;
+        trainingId: number;
+        questionID: number;
+        note: string;
+        page: number;
     }
 }
 class TrainingRequestController {
@@ -183,7 +184,7 @@ class TrainingRequestController {
     //خليته يرجع البيانات مع اسم الطالب يعني عملت جوين 
     async submittedStudents(req: Request, res: Response, next: NextFunction) {
         try {
-           const record = await Training.findOne({
+            const record = await Training.findOne({
                 where: {
                     status: TrainingStatusEnum.submitted,
                 },
@@ -197,10 +198,10 @@ class TrainingRequestController {
             let response: GeneratedResponse = {
                 success: true,
                 status: res.statusCode,
-                message:"Submitted Students: ",
+                message: "Submitted Students: ",
                 data: record
             }
-            return res.json(response); 
+            return res.json(response);
         }
         catch (err) {
             next(err);
@@ -209,8 +210,8 @@ class TrainingRequestController {
 
     async getQuestions(req: TrainingRequestBody, res: Response, next: NextFunction) {
         try {
-        const {role}=req.body;
-           const record = await Question.findAll({
+            const { role } = req.body;
+            const record = await Question.findAll({
                 where: {
                     roleId: role,
                 }
@@ -218,10 +219,10 @@ class TrainingRequestController {
             let response: GeneratedResponse = {
                 success: true,
                 status: res.statusCode,
-                message:"Qustions: ",
+                message: "Qustions: ",
                 data: record
             }
-            return res.json(response); 
+            return res.json(response);
         }
         catch (err) {
             next(err);
@@ -230,35 +231,35 @@ class TrainingRequestController {
 
     async submitQuestionsWithAnswers(req: TrainingRequestBody, res: Response, next: NextFunction) {
         try {
-        const {trainingId,questionID,note}=req.body; 
+            const { trainingId, questionID, note } = req.body;
 
-        //خزن النوت ف جدول النوت
-           const noteid = await Note.create({
+            //خزن النوت ف جدول النوت
+            const noteid = await Note.create({
                 note: note
             })
 
-            const answeredQuestion=await AnsweredQuestion.create({
-                trainingId:trainingId,
-                questionId:questionID,
-                noteId:noteid.id
+            const answeredQuestion = await AnsweredQuestion.create({
+                trainingId: trainingId,
+                questionId: questionID,
+                noteId: noteid.id
             })
 
-            await Training.update({status:"completed"},{
-                where:{
-                    id:trainingId
+            await Training.update({ status: "completed" }, {
+                where: {
+                    id: trainingId
                 }
             })
-            const record=await Training.findOne({
-                where: {id:trainingId}
+            const record = await Training.findOne({
+                where: { id: trainingId }
             })
 
             let response: GeneratedResponse = {
                 success: true,
                 status: res.statusCode,
-                message:"The Training was successfully updated to completed",
+                message: "The Training was successfully updated to completed",
                 data: record
             }
-            return res.json(response); 
+            return res.json(response);
         }
         catch (err) {
             next(err);
@@ -266,32 +267,51 @@ class TrainingRequestController {
     }
 
 
-  
+
 
     async submitTrainingwithoutAnswers(req: Request, res: Response, next: NextFunction) {
         try {
-            const {trainingId}=req.body; 
-                await Training.update({status:"completed"},{
-                    where:{
-                        id:trainingId
-                    }
-                })
-                const record=await Training.findOne({
-                    where: {id:trainingId}
-                })
-    
-                let response: GeneratedResponse = {
-                    success: true,
-                    status: res.statusCode,
-                    message:"The Training was successfully updated to completed",
-                    data: record
+            const { trainingId } = req.body;
+            await Training.update({ status: "completed" }, {
+                where: {
+                    id: trainingId
                 }
-                return res.json(response); 
+            })
+            const record = await Training.findOne({
+                where: { id: trainingId }
+            })
+
+            let response: GeneratedResponse = {
+                success: true,
+                status: res.statusCode,
+                message: "The Training was successfully updated to completed",
+                data: record
             }
-            catch (err) {
-                next(err);
-            }
+            return res.json(response);
+        }
+        catch (err) {
+            next(err);
         }
     }
+
+
+    async getRecords(req: TrainingRequestBody, res: Response, next: NextFunction) {
+        const page = req.body.page
+        const pageSize = 10;
+        const startIndex = (page - 1) * pageSize;
+        const endIndex = startIndex + pageSize;
+        let data = await Student.findAll({
+            limit: pageSize,
+            offset: (page-1)*pageSize
+        })
+        let response: GeneratedResponse = {
+            success: true,
+            status: res.statusCode,
+            message: "Students: ",
+            data: data
+        }
+        return res.json(response);
+    }
+}
 
 export default new TrainingRequestController();
