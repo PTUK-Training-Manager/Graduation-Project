@@ -10,10 +10,11 @@ import {
     Trainer,
     Training,
     CompanyBranch
-} from "@models/index";
+} from "../models/index";
 import { fn, col } from "sequelize";
-import { TrainingStatusEnum } from "src/enums";
-import { ButtonHandler, GeneratedResponse } from "src/types";
+import { TrainingStatusEnum } from "../enums";
+import { ButtonHandler, GeneratedResponse } from "../types";
+
 class TrainingController {
      getCompletedTrainings= async(req: Request, res: Response,next: NextFunction) => {
         const completedStudents = await Training.findAll({

@@ -1,6 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
@@ -10,6 +11,7 @@
     "@types/node": "^18.14.6",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
+    "chalk": "^5.2.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
@@ -28,11 +30,11 @@
     "nodemon": "^2.0.22",
     "ts-alias": "^0.0.7",
     "ts-node": "^10.9.1",
-    "tsconfig-paths": "^4.1.2"
+    "tsconfig-paths": "^4.2.0"
   },
   "scripts": {
     "dev": "nodemon",
-    "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register build/app.js",
+    "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register --esm build/app.js",
     "build": "tsc"
   },
   "author": "",

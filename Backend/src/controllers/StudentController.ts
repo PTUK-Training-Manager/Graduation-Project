@@ -1,7 +1,8 @@
-import { NextFunction, Request, Response } from "express";
-import { Student } from '../models';
+import {NextFunction, Request, Response} from "express";
+import {Student} from '../models';
 import UserController from "./UserController";
-import { GeneratedResponse } from "src/types";
+import {GeneratedResponse} from "../types";
+
 interface StudentRequestBody extends Request {
     body: {
         id: string;
@@ -20,63 +21,55 @@ class studentController {
 
     async addStudent(req: StudentRequestBody, res: Response, next: NextFunction) {
         try {
-            const { id, name, email, phoneNumber } = req.body;
+            const {id, name, email, phoneNumber} = req.body;
 
             const student = await Student.findByPk(id);
 
-            if (!student) {
-                const { temp, password } = await UserController.generateAccount(
-                    name,
-                    phoneNumber,
+            if (student) {
+                return res.json({
+                    success: false,
+                    status: res.statusCode,
+                    message: "student already exists",
+                    data: student
+                })
+            }
 
-                );
-                const user = await UserController.addUser(temp, password, email, 10, 6); // company roleID in DataBase
+            const {temp, password} = await UserController.generateAccount(name, phoneNumber);
 
-                const record = await Student.create({
-                    id,
-                    name: name,
-                    phoneNumber,
-                    userId: user,
+            const user = await UserController.addUser(temp, password, email, 10, 6); // company roleID in DataBase
+
+            const studentRecord = await Student.create({
+                id,
+                name,
+                phoneNumber,
+                userId: user,
+            });
+
+            if (!studentRecord) {
+                return res.json({
+                    success: false,
+                    status: res.statusCode,
+                    message: "error creating Student account"
                 });
-
-                if (!record) {
-                    let response: GeneratedResponse = {
-                        success: false,
-                        status: res.statusCode,
-                        message: "error creating Student account"
-                    }
-                    return res.json(response);
-                }
-                {
-                    let response: GeneratedResponse = {
-                        success: true,
-                        status: res.statusCode,
-                        message: "success adding student",
-                        data: record
-                    }
-                    return res.json(response);
-                }
             }
-            let response: GeneratedResponse = {
-                success: false,
+            return res.json({
+                success: true,
                 status: res.statusCode,
-                message: "student already exists",
-                data: student
-            }
-            return res.json(response);
-        }
-        catch (err) {
+                message: "success adding student",
+                data: studentRecord
+            });
+        } catch (err) {
             next(err);
         }
     }
 
-    async getAll(req: Request, res: Response,next: NextFunction) {
+    async getAll(req: Request, res: Response, next: NextFunction) {
         try {
             const records = await Student.findAll({});
             let response: GeneratedResponse = {
                 success: true,
                 status: res.statusCode,
-                message:"Student: ",
+                message: "Student: ",
                 data: records
             }
             return res.json(response);

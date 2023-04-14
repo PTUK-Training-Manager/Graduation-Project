@@ -8,7 +8,7 @@ import {
     Model,
     NonAttribute
 } from 'sequelize';
-import sequelize from "src/config/connection";
+import sequelize from "../config/connection";
 import Role from './Role';
 
 

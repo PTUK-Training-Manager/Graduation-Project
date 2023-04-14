@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import { CompanyBranch, Student, Training, Company } from "src/models";
-import { TrainingStatusEnum, TrainingTypeEnum } from "src/enums"
+import { CompanyBranch, Student, Training, Company } from "../models";
+import { TrainingStatusEnum, TrainingTypeEnum } from "../enums"
 import { Op } from 'sequelize';
-import { GeneratedResponse } from 'src/types';
+import { GeneratedResponse } from '../types';
 
 class TrainingRequestController {
     submitRequest = async (req: Request, res: Response, next: NextFunction) => {

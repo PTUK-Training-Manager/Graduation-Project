@@ -1,15 +1,15 @@
 import express from 'express';
+
 const router = express.Router();
 import studentController from '../controllers/StudentController';
-import verifyJWT from '../middlewares/verifyJWT';
+import verifyAccessToken from '../middlewares/verifyAccessToken';
 import verifyRoles from '../middlewares/verifyRole';
-import { mapUserRoleStringToNum } from "src/enums";
-const {addStudent,getAll}= studentController
+import {UserRoleEnum} from "../enums";
 
-router.post('/student', verifyJWT(), verifyRoles(mapUserRoleStringToNum.STUDENT),addStudent);
-// router.post('/student',addStudent);
+const {addStudent, getAll} = studentController
+
+router.post('/student', verifyAccessToken, verifyRoles([UserRoleEnum.TRAINER]), addStudent);
 
 router.get('/students', getAll);
-// router.delete('/student/:id', deleteStudentById)
 
 export default router;
