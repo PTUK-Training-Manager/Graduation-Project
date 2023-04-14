@@ -6,7 +6,7 @@ import { GeneratedResponse } from 'src/types';
 
 class TrainingRequestController {
     submitRequest = async (req: Request, res: Response, next: NextFunction) => {
-        const { studentId, type, companyId, location } = req.body;
+        const { studentId, type, companyBranchId} = req.body;
         //to check that student has only one training for a type
         var record = await Training.findOne({
             where: {
@@ -68,12 +68,6 @@ class TrainingRequestController {
                 return res.json(response);
             }
         }
-        const companyBranch = await CompanyBranch.findOne({
-            where: {
-                location: location,
-                companyId: companyId,
-            }
-        });
         try {
             const student = await Student.findOne({
                 where: { id: studentId }
@@ -90,7 +84,7 @@ class TrainingRequestController {
                 type: type,
                 status: TrainingStatusEnum.pending,
                 studentId: studentId,
-                companyBranchId: companyBranch?.id
+                companyBranchId: companyBranchId
             });
             let response: GeneratedResponse = {
                 success: true,
