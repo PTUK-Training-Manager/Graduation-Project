@@ -8,7 +8,7 @@ import authRouter from './AuthRouter';
 import userRouter from './UserRouter';
 import rolesRouter from './RoleRouter';
 import requestRouter from './TrainingRequestRouter';
-import TrainingRouter from './TrainingRouter';
+import trainingRouter from './TrainingRouter';
 import companyRouter from './CompanyRouter';
 
 router.use("/student", studentRouter);
@@ -17,7 +17,7 @@ router.use("/auth", authRouter);
 router.use("/user", userRouter);
 router.use("/role", rolesRouter);
 router.use("/request", requestRouter);
-router.use("/training", TrainingRouter);
+router.use("/training", trainingRouter);
 router.use("/company", companyRouter);
 
 export default router;

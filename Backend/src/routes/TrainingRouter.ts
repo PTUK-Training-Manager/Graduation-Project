@@ -1,8 +1,11 @@
 import express from 'express';
 import trainingController from "../controllers/TrainingController"
+
 const router = express.Router();
 
-router.get('/completedTrainings', trainingController.getCompletedTrainings);
-router.post('/evaluationForm', trainingController.handlegenerateFormButton);
+const {getCompletedTrainings, handleGenerateFormButton} = trainingController;
+
+router.get('/completedTrainings', getCompletedTrainings);
+router.post('/evaluationForm', handleGenerateFormButton);
 
 export default router;
