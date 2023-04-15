@@ -1,66 +1,53 @@
-import React, { FC, useEffect, useState } from 'react';
-import Drawer, { DrawerProps } from '@mui/material/Drawer';
-import useStyles from './styles';
-import { DRAWER_WIDTH } from 'src/constants';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import { useTheme } from '@mui/material/styles';
+import React, {FC} from 'react';
+import Drawer from "@mui/material/Drawer";
+import {DRAWER_WIDTH} from "src/constants";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 import ContactPageIcon from '@mui/icons-material/ContactPage';
-import { grey } from '@mui/material/colors';
-import DrawerHeader from './DrawerHeader';
-import { useNavigate, useLocation } from 'react-router-dom';
-import SignInState from 'src/pages/SignIn';
-import { signIn } from 'src/pages/SignIn/api';
-import { ROLES } from 'src/routes/AppRoutes';
-import useAuth from 'src/hooks/useAuth';
+import {grey} from "@mui/material/colors";
+import DrawerHeader from "./DrawerHeader";
+import {useNavigate} from "react-router-dom";
+import useAccountContext from "src/hooks/useAccountContext";
+import { UserRole } from 'src/constants/auth';
+import { SignInResponse } from 'src/pages/SignIn/api/response.dto';
 
 interface AppSideDrawerProps {
-  isOpen: boolean;
-  setIsOpen: (isOpen: boolean) => void;
-  roleId: number | null;
-}
+    roleId: number | null;
+  }
 
-const AppSideDrawer: FC<AppSideDrawerProps> = ({
-  isOpen,
-  setIsOpen,
-  roleId,
-}) => {
-  const theme = useTheme();
+  const AppSideDrawer: FC<AppSideDrawerProps> = ({
+    roleId,
+  }) => {
 
-  const classes = useStyles();
+    const navigate = useNavigate();
 
-  const navigate = useNavigate();
+    const {isSidebarOpen: isOpen} = useAccountContext();
 
-  const handleDrawerClose = () => setIsOpen(false);
 
-  return (
-    <nav>
-      <Drawer
-        sx={{
-          width: DRAWER_WIDTH,
-          flexShrink: 0, // don't shrink when the window is too small
-          '& .MuiDrawer-paper': {
-            width: DRAWER_WIDTH,
-            boxSizing: 'border-box',
-            // backgroundColor: "#1E1E1E",
-            backgroundColor: grey[800],
-            color: grey[100],
-          },
-          // display: isOpen ? "block" : "none"
-          // transform: !isOpen && `translateX(-100%)`
-        }}
-        variant="persistent"
-        open={isOpen}
-      >
-        <DrawerHeader />{' '}
-        {/* Necessary for the drawer content to be below the app bar */}
-        <List>
-
+    return (
+        <nav>
+            <Drawer
+                sx={{
+                    width: DRAWER_WIDTH,
+                    flexShrink: 0, // don't shrink when the window is too small
+                    '& .MuiDrawer-paper': {
+                        width: DRAWER_WIDTH,
+                        boxSizing: 'border-box',
+                        // backgroundColor: "#1E1E1E",
+                        backgroundColor: grey[800],
+                        color: grey[100],
+                    },
+                }}
+                variant="persistent"
+                open={isOpen}
+            >
+                <DrawerHeader/> {/* Necessary for the drawer content to be below the app bar */}
+                <List>
                   {/* University pages which appear in sidebar */}
-          {roleId === ROLES.university && (
+          {roleId === UserRole.UniTrainingOfficer && (
             <>
               <ListItem disablePadding>
                 <ListItemButton onClick={() => navigate('/submitRequest')}>
@@ -120,10 +107,9 @@ const AppSideDrawer: FC<AppSideDrawerProps> = ({
               </ListItem>
             </>
           )}  
-
            
                   {/* Company pages which appear in sidebar */}
-          {roleId === ROLES.company && (
+          {roleId === UserRole.Company && (
             <>
               <ListItem disablePadding>
                 <ListItemButton onClick={() => navigate('/acceptedRequests')}>
@@ -175,9 +161,8 @@ const AppSideDrawer: FC<AppSideDrawerProps> = ({
               </ListItem>
             </>
           )}
-
                             {/* Trainer pages which appear in sidebar */}
-          {roleId === ROLES.trainer && (
+          {roleId === UserRole.Trainer && (
             <>
               <ListItem disablePadding>
                 <ListItemButton onClick={() => navigate('/evaluationRequests')}>
@@ -197,23 +182,22 @@ const AppSideDrawer: FC<AppSideDrawerProps> = ({
               </ListItem>
             </>
           )}
-
                   {/* General pages which appear in sidebar */}
           <>
             <ListItem disablePadding>
-              <ListItemButton onClick={() => navigate('/dashboard')}>
+              <ListItemButton onClick={() => navigate('Analytics')}>
+                <ListItemIcon sx={{ color: grey[100] }}>
+                  <ContactPageIcon />
+                </ListItemIcon>
+                <ListItemText primary="Analytics" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton onClick={() => navigate('Dashboard')}>
                 <ListItemIcon sx={{ color: grey[100] }}>
                   <ContactPageIcon />
                 </ListItemIcon>
                 <ListItemText primary="Dashboard" />
-              </ListItemButton>
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemButton onClick={() => navigate('/landing')}>
-                <ListItemIcon sx={{ color: grey[100] }}>
-                  <ContactPageIcon />
-                </ListItemIcon>
-                <ListItemText primary="LandingPage" />
               </ListItemButton>
             </ListItem>
           </>
@@ -222,5 +206,4 @@ const AppSideDrawer: FC<AppSideDrawerProps> = ({
     </nav>
   );
 };
-
 export default AppSideDrawer;

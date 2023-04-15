@@ -7,23 +7,25 @@ import {
     TableCell,
     Paper,
   } from '@mui/material';
-  import Box from '@mui/material/Box';
-  import AddIcon from '@mui/icons-material/Add';
-  // import './ustyle.css';
-  import TextField from '@mui/material/TextField';
-  import ListItemButton from '@mui/material/ListItemButton';
-  import SearchIcon from '@mui/icons-material/Search';
-  import Pagination from '@mui/material/Pagination';
-  import Stack from '@mui/material/Stack';
+
   import Grid from '@mui/material/Grid';
+import { getContentPaddingLeft } from 'src/constants';
+import useAccountContext from 'src/hooks/useAccountContext';
   
   const Search: React.FC = () => {
+    const {isSidebarOpen} = useAccountContext();
+
     return (
       <>
       <Grid container sx={{
-              display: 'flex',
-              justifyContent: "center",
-              alignItems: "center",
+             transition: ".25s",
+             pt: 2,
+             paddingLeft: isSidebarOpen ? `${getContentPaddingLeft(isSidebarOpen)}px` : "24px",
+             // height: "100vh",
+             // width: "100%",
+             display: 'flex',
+             justifyContent: "center",
+             alignItems: "center"
           }}>
         {/* <Stack spacing={4} direction="row">
           <TextField label="Search"></TextField>

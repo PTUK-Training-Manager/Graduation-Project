@@ -12,24 +12,22 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import {NAVBAR_HEIGHT, DRAWER_WIDTH} from "src/constants";
+import {NAVBAR_HEIGHT} from "src/constants";
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import Stack from "@mui/material/Stack";
-import { useNavigate, Link } from "react-router-dom";
-import { useContext } from "react";
-import AuthContext from "src/context/AuthProvider";
-import useAuth from 'src/hooks/useAuth';
+import useAccountContext from "src/hooks/useAccountContext";
 
 interface AppNavbarProps {
-    isSidebarOpen: boolean;
-    setIsSidebarOpen:  React.Dispatch<React.SetStateAction<boolean>>;
+    // isSidebarOpen: boolean;
+    // setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const AppNavbar: FC<AppNavbarProps> = ({isSidebarOpen, setIsSidebarOpen}) => {
+const AppNavbar: FC<AppNavbarProps> = () => {
 
     const [anchorElUser, setAnchorElUser] = React.useState(null);
-    const auth = useContext(AuthContext);
+
+    const {user, onLogout, isSidebarOpen, setIsSidebarOpen} = useAccountContext();
 
     const handleOpenUserMenu = (event: {
         currentTarget: React.SetStateAction<any>;
@@ -39,23 +37,25 @@ const AppNavbar: FC<AppNavbarProps> = ({isSidebarOpen, setIsSidebarOpen}) => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-    
-    const { setAuth } = useContext(AuthContext);
-    const navigate = useNavigate();
+
     const handleDrawerOpen = () => setIsSidebarOpen((prev) => !prev);
-    const logout = async () => {
-        setAuth({});
-        navigate('/home');
-    }
+
+    const handleLogout = () => {
+        if (user) onLogout();
+    };
 
     return (
         <AppBar
             position="fixed"
             sx={{
                 zIndex: (theme) => theme.zIndex.drawer + 1,
-                // backgroundColor: "#30ADD1",
                 backgroundColor: "primary.light",
                 height: NAVBAR_HEIGHT,
+                // Uncomment the below if you want the AppSidebar to be beside the AppBar when opened
+                // ...(isSidebarOpen && {
+                //     width: `calc(100% - ${DRAWER_WIDTH}px)`,
+                //     marginLeft: `${DRAWER_WIDTH}px`,
+                // }),
             }}
         >
             <Toolbar sx={{height: "100%", justifyContent: "space-between"}}>
@@ -66,11 +66,14 @@ const AppNavbar: FC<AppNavbarProps> = ({isSidebarOpen, setIsSidebarOpen}) => {
                     edge="start"
                     sx={{width: "52px"}}
                 >
-                    {isSidebarOpen && <ChevronLeftIcon fontSize="small" sx={{marginRight: -0.5,
-                        fontSize: "1rem"}}/>}
-                    <MenuIcon />
+                    {isSidebarOpen && <ChevronLeftIcon fontSize="small" sx={{
+                        marginRight: -0.5,
+                        fontSize: "1rem"
+                    }}/>}
+                    <MenuIcon/>
                 </IconButton>
-                <Stack direction="row" sx={{height: NAVBAR_HEIGHT, alignItems: "baseline", maxWidth: "275px", gap: 1, mb: 0.5 }}>
+                <Stack direction="row"
+                       sx={{height: NAVBAR_HEIGHT, alignItems: "baseline", maxWidth: "275px", gap: 1, mb: 0.5}}>
                     <ImageListItem>
                         <img src={PTUK_CIRCLE} style={{height: 54, width: 54}}></img>
                     </ImageListItem>
@@ -78,48 +81,51 @@ const AppNavbar: FC<AppNavbarProps> = ({isSidebarOpen, setIsSidebarOpen}) => {
                         <img src={PTUK_TEXT} style={{filter: `brightness(0) invert(1)`}}></img>
                     </ImageListItem>
                 </Stack>
-
                 <Box>
-                    <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                        <Avatar
-                            sizes="large"
-                            alt="avatar"
-                            src="https://randomuser.me/api/portraits/women/79.jpg"
-                        ></Avatar>
-                    </IconButton>
-                    <Menu
-                        // sx={{mt: '0.3125rem'}}
-                        id="menu-appbar"
-                        anchorEl={anchorElUser}
-                        anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        open={Boolean(anchorElUser)}
-                        onClose={handleCloseUserMenu}
-                    >
-                        <MenuItem onClick={handleCloseUserMenu}>
-                            <Typography textAlign="center">
-                                <ListItemButton>
-                                    <ListItemText primary="Profile"></ListItemText>
-                                    <AccountBoxIcon/>
-                                </ListItemButton>
-                                <ListItemButton onClick={logout}>
-                                    <ListItemText primary="Logout"></ListItemText>
-                                    <ExitToAppIcon/>
-                                </ListItemButton>
-                            </Typography>
-                        </MenuItem>
-                    </Menu>
-                </Box> 
+                    {user && (
+                        <>
+                            <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+                                <Avatar
+                                    sizes="large"
+                                    alt="avatar"
+                                    src="https://randomuser.me/api/portraits/women/79.jpg"
+                                ></Avatar>
+                            </IconButton><Menu
+                            // sx={{mt: '0.3125rem'}}
+                            id="menu-appbar"
+                            anchorEl={anchorElUser}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            open={Boolean(anchorElUser)}
+                            onClose={handleCloseUserMenu}
+                        >
+                            <MenuItem onClick={handleCloseUserMenu}>
+                                <Typography textAlign="center">
+                                    <ListItemButton>
+                                        <ListItemText primary="Profile"/>
+                                        <AccountBoxIcon/>
+                                    </ListItemButton>
+                                    <ListItemButton onClick={handleLogout}>
+                                        <ListItemText primary="Logout"/>
+                                        <ExitToAppIcon/>
+                                    </ListItemButton>
+                                </Typography>
+                            </MenuItem>
+                        </Menu>
+                        </>
+                    )}
+                </Box>
             </Toolbar>
         </AppBar>
-    );
+    )
+        ;
 };
 
 export default AppNavbar;

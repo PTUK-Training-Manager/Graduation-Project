@@ -10,14 +10,24 @@ import SearchIcon from '@mui/icons-material/Search';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Grid';
+import { getContentPaddingLeft } from 'src/constants';
+import useAccountContext from 'src/hooks/useAccountContext';
 
 const CompletedTrainees: React.FC = () => {
+  const {isSidebarOpen} = useAccountContext();
+
+
   return (
     <>
        <Grid container sx={{
+            transition: ".25s",
+            pt: 2,
+            paddingLeft: isSidebarOpen ? `${getContentPaddingLeft(isSidebarOpen)}px` : "24px",
+            // height: "100vh",
+            // width: "100%",
             display: 'flex',
             justifyContent: "center",
-            alignItems: "center",
+            alignItems: "center"
         }}>
       {/* <Stack display="flex"> */}
         <Paper  sx={{padding:4}}

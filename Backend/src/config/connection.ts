@@ -1,4 +1,6 @@
 import {Sequelize} from 'sequelize';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const HOST_ENDPOINT = process.env.DB_HOST_ENDPOINT!,
     DATABASE = process.env.DB_NAME!,
@@ -9,6 +11,5 @@ const sequelize = new Sequelize(DATABASE, USERNAME, PASSWORD, {
     host: HOST_ENDPOINT,
     dialect: 'mysql',
 });
-
 
 export default sequelize;

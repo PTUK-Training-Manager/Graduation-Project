@@ -9,6 +9,8 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import { getContentPaddingLeft } from 'src/constants';
+import useAccountContext from 'src/hooks/useAccountContext';
 
 const AddStudent: React.FC = () => {
   const theme = useTheme();
@@ -25,13 +27,23 @@ const AddStudent: React.FC = () => {
     setAnchorElUser(null);
   };
 
+  const {isSidebarOpen} = useAccountContext();
+
+
   return (
-    <>
-     <Grid container sx={{
-            display: 'flex',
-            justifyContent: "center",
-            alignItems: "center",
-        }}>    
+    <Grid
+      container
+      sx={{
+        transition: ".25s",
+        pt: 15,
+        paddingLeft: isSidebarOpen ? `${getContentPaddingLeft(isSidebarOpen)}px` : "24px",
+        // height: "100vh",
+        // width: "100%",
+        display: 'flex',
+        justifyContent: "center",
+        alignItems: "center"
+    }}
+    >   
             <Paper
              sx={{padding:4}}>
           <Box>
@@ -77,7 +89,6 @@ const AddStudent: React.FC = () => {
           </Box>
         </Paper>
       </Grid>
-    </>
   );
 }
 

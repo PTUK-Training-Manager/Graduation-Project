@@ -1,13 +1,8 @@
 import axiosInstance from "src/api";
-import {SignInRequestBody, SignInResponse,AccessTokenData} from "../types";
-import { useState } from "react";
+import {SignInRequestBody} from "./request.dto";
+import {SignInResponse} from "./response.dto";
 
 export const signIn = async (body: SignInRequestBody) => {
     const url = "/auth/signin";
-    return await axiosInstance.post<SignInResponse>(url, body,{
-        withCredentials:false,}
-        ).then(res => res.data);
-
-       
+    return axiosInstance.post<SignInResponse>(url, body).then(res => res.data);
 };
-

@@ -1,17 +1,17 @@
-import React, { FC, lazy, Suspense } from 'react';
-import { Route, Routes,useNavigate } from 'react-router-dom';
-import RequireAuth from '../components/RequireAuth';
-import Typography from '@mui/material/Typography';
-import BlockUI from 'src/containers/BlockUI';
+import React, {FC, lazy, Suspense} from 'react';
+import {Route, Routes} from "react-router-dom";
+import BlockUI from "src/containers/BlockUI";
+import AppLayout from "src/AppLayout";
+import ProtectedRoute from "src/routes/ProtectedRoute";
 
-const LandingPage = lazy(() => import('src/pages/LandingPage'));
-const Admin = lazy(() => import('src/pages/Admin'));
-const Home = lazy(() => import('src/pages/Home'));
-const Analytics = lazy(() => import('src/pages/Analytics'));
-const Dashboard = lazy(() => import('src/pages/Dashboard'));
-const Unauthorized = lazy(() => import('src/components/Unauthorized'));
-
-const SignIn = lazy(() => import('src/pages/SignIn'));
+const LandingPage = lazy(() => import("src/pages/LandingPage"));
+const Admin = lazy(() => import("src/pages/Admin"));
+const Home = lazy(() => import("src/pages/Home"));
+const Analytics = lazy(() => import("src/pages/Analytics"));
+const Dashboard = lazy(() => import("src/pages/Dashboard"));
+const SignIn = lazy(() => import("src/pages/SignIn"));
+const NotFound = lazy(() => import("src/pages/NotFound"));
+const AccessDenied = lazy(() => import("src/pages/AccessDenied"));
 
 { /* university pages */ }
 const SubmitRequest = lazy(() => import('src/pages/university/submitRequest'));
@@ -21,7 +21,6 @@ const CurrentTrainees = lazy(() => import('src/pages/university/CurrentTrainees'
 const Search = lazy(() => import('src/pages/university/Search'));
 const AddStudent = lazy(() => import('src/pages/university/AddStudent'));
 const AddBranch = lazy(() => import('src/pages/university/AddBranch'));
-
 
 { /* company pages */ }
 const AcceptedRequests = lazy(() => import('src/pages/company/AcceptedRequests'));
@@ -33,102 +32,59 @@ const TrainingRequest = lazy(() => import('src/pages/company/TrainingRequest'));
 const EvaluationRequests = lazy(() => import('src/pages/trainer/EvaluationRequests'));
 const CompletedTrainings = lazy(() => import('src/pages/trainer/CompletedTrainings'));
 
-{ /*Roles for Actors */ }
-export const ROLES = {
-  university: 4,
-  trainer: 5,
-  company: 6,
-};
+import {UserRole} from "../constants/auth";
 
-interface RouteConfig {
-  path: string;
-  element: JSX.Element;
-  allowedRoles: number;
+interface AppRoutesProps {
+
 }
 
-{ /* Trainer Routes */ }
-const Trainer_ROUTES: RouteConfig[] = [
-  {
-    path: '/evaluationRequests',
-    element: <EvaluationRequests />,
-    allowedRoles: ROLES.trainer,
-  },
-  {
-    path: '/completedTrainings',
-    element: <CompletedTrainings />,
-    allowedRoles: ROLES.trainer,
-  },
-];
+const AppRoutes: FC<AppRoutesProps> = () => {
 
-interface AppRoutesProps {}
+    return (
+        <Suspense fallback={<BlockUI isBlocked/>}>
+            <Routes>
+                <Route path="signin" element={<SignIn/>}/>
+                <Route path="landing" element={<LandingPage/>}/>
 
-const AppRoutes: FC<AppRoutesProps> = (props) => {
-  const navigate = useNavigate();
-  const handleRouteClick = (routePath: string) => {
-    navigate(routePath);
-  }
-  return (
-    <Suspense fallback={<BlockUI isBlocked />}>
-      <Routes>
-        <Route index path="/" element={<Home />} />
-        <Route index path="/home" element={<Home />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/landing" element={<LandingPage />} />
-        <Route path="/analytics" element={<Analytics />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/unauthorized" element={<Unauthorized />} />
+                <Route
+                    path="/"
+                    element={<AppLayout/>}
+                >
+                    <Route element={<ProtectedRoute/>}>
+                        <Route index path="/" element={<Home/>}/>
+                        <Route path="dashboard" element={<Dashboard/>}/>
+                        <Route path="analytics" element={<Analytics/>}/>
+                        <Route path="admin" element={<Admin/>}/>
+                    </Route>
 
-        <Route
-          path="*"
-          element={
-            <Typography variant="h1" color="error">
-              404
-            </Typography>
-          }
-        />
- <Route path="/signIn" element={<SignIn />} />
+                    <Route element={<ProtectedRoute allowedRoles={[UserRole.SuperAdmin]}/>}>
+                    </Route>
 
-        {/* University Routes */}
-        <Route element={<RequireAuth allowedRoles={ROLES.university} />}>
-          <Route path="/submitRequest" element={<SubmitRequest />} />
+              
+                <Route element={<ProtectedRoute allowedRoles={[UserRole.UniTrainingOfficer]}/>}>
+                <Route path="/submitRequest" element={<SubmitRequest />} />
           <Route path="/addCompany" element={<AddCompany />} />
           <Route path="/addBranch" element={<AddBranch />} />
           <Route path="/completedTrainees" element={<CompletedTrainees />} />
           <Route path="/currentTrainees" element={<CurrentTrainees />} />
           <Route path="/search" element={<Search />} />
           <Route path="/addStudent" element={<AddStudent />} />
-        </Route>
+                 </Route>
 
-        {/* Company Routes */}
-        <Route element={<RequireAuth allowedRoles={ROLES.company} />}>
-          <Route path="/acceptedRequests" element={<AcceptedRequests />} />
+                 <Route element={<ProtectedRoute allowedRoles={[UserRole.Company]}/>}>
+                 <Route path="/acceptedRequests" element={<AcceptedRequests />} />
           <Route path="/editTraining" element={<EditTraining />} />
           <Route path="/trainers" element={<Trainers />} />
           <Route path="/trainingRequests" element={<TrainingRequest />} />
-        </Route>
+                 </Route>
 
-        {/* TRainer routes */}
-        {Trainer_ROUTES.map((route) => (
-          <Route
-            key={route.path}
-            path={route.path}
-            element={
-              <RequireAuth allowedRoles={route.allowedRoles}>
-                {route.element}
-              </RequireAuth>
-            }
-          />
-        ))}
-      </Routes>
-    </Suspense>
-  );
+                <Route path="access-denied" element={<AccessDenied/>}/>
+                <Route path="*" element={<NotFound/>}/>
+                </Route>
+
+            </Routes>
+        </Suspense>
+    );
 };
 
 export default AppRoutes;
-
-{
-  /* <Route element={<RequireAuth allowedRoles={ROLES.trainer} />} >
-          <Route path="/evaluationRequests" element={<EvaluationRequests />} />
-          <Route path="/completedTrainings" element={<CompletedTrainings />} />
-          </Route> */
-}

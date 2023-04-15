@@ -1,5 +1,5 @@
 import { DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, IntegerDataType, Model, NonAttribute } from 'sequelize';
-import sequelize from "src/config/connection";
+import sequelize from "../config/connection";
 import User from './User';
 
 
@@ -30,6 +30,5 @@ Student.init({
     modelName: 'Student',
     timestamps: false
 });
-
 
 

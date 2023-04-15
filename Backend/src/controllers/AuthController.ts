@@ -1,11 +1,12 @@
 import jwt from 'jsonwebtoken';
-import {Request, Response} from 'express';
-import {Role, User} from "src/models"
+import {NextFunction, Request, Response} from 'express';
+import {Role, User} from "../models"
 import {Secret} from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import {GeneratedResponse} from '../types';
 
 class AuthController {
-    handleLogin = async (req: Request, res: Response) => {
+    handleLogin = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const {username, password} = req.body;
 
@@ -13,15 +14,24 @@ class AuthController {
                 where: {username},
             });
 
-            if (!record)
-                return res.status(401).json({error: "Username/password do not match"});
-
+            if (!record) {
+                return res.status(401).json({
+                    success: false,
+                    status: res.statusCode,
+                    message: "Username/password do not match"
+                });
+            }
             const roleId = record?.roleId;
 
             const match = await bcrypt.compare(password, record.password);
 
             if (!match) {
-                return res.status(401).json({error: "Username/password do not match"});
+                let response: GeneratedResponse = {
+                    success: false,
+                    status: res.statusCode,
+                    message: "Username/password do not match"
+                }
+                return res.status(401).json(response);
             }
 
             const accessTokenSecret = <Secret>process.env.ACCESS_TOKEN_SECRET;
@@ -40,13 +50,29 @@ class AuthController {
             });
 
             return res.status(200).json({
+                success: true,
+                status: res.statusCode,
                 message: 'successfully logged in to account',
-                tokenData: payload,
-                // record
+                data: payload
             });
-        } catch (error) {
-            return res.json("erorr");
+        } catch (err) {
+            next(err)
         }
+    }
+
+    autoSignInUser = async (req: Request, res: Response, next: NextFunction) => {
+        /**
+         * The program reaches here only if the `validateAccessToken` middleware
+         * function allowed the request to pass to
+         * this point by calling the next() function:
+         */
+
+        return res.json({
+            success: true,
+            status: res.statusCode,
+            message: 'successfully logged in to account',
+            data: req.user // req.user is an object contains the decoded payload from jwt
+        });
     }
 }
 

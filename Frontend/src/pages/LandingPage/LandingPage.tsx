@@ -3,7 +3,6 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import { useLocation } from 'react-router-dom';
-import { Box } from '@mui/material';
 
 interface LandingProps {}
 
@@ -12,9 +11,7 @@ const LandingPage: FC<LandingProps> = (props) => {
     const isSuccess = location.search.includes('success');
     
   return (
-      <Stack gap={2} sx={{alignItems: "center"}}>
-            {isSuccess && 
-            <Box sx={{justifyContent:"center",textAlign:"center",color:"green",fontSize: "2rem"}}>Login successful!</Box>}
+      <Stack gap={2} sx={{alignItems: "center", justifyContent: "center", transform: "translateY(50%)"}}>
           <Typography variant="h1">
               LandingPage
           </Typography>

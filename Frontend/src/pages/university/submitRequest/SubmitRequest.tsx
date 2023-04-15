@@ -9,32 +9,28 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
+import { getContentPaddingLeft } from 'src/constants';
+import useAccountContext from 'src/hooks/useAccountContext';
 
 const SubmitRequest: React.FC = () => {
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
   const [selectedCompany, setSelectedCompany] = React.useState('');
 
-  // Add state variable to keep track of selected company name
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const {isSidebarOpen} = useAccountContext();
 
-  const handleOpenUserMenu = (event: {
-    currentTarget: React.SetStateAction<any>;
-  }): void => {
-    setAnchorElUser(event.currentTarget);
-  };
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
 
   return (
     <Grid
       container
       sx={{
+        transition: ".25s",
+        pt: 2,
+        paddingLeft: isSidebarOpen ? `${getContentPaddingLeft(isSidebarOpen)}px` : "24px",
+        // height: "100vh",
+        // width: "100%",
         display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
+        justifyContent: "center",
+        alignItems: "center"
+    }}
     >
       <Paper sx={{ padding: 4 }} elevation={10}>
         <Container component="main" maxWidth="xs">
