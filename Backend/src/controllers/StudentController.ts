@@ -1,7 +1,7 @@
-import {NextFunction, Request, Response} from "express";
-import {Student} from '../models';
+import { NextFunction, Request, Response } from "express";
+import { Student } from '../models';
 import UserController from "./UserController";
-import {GeneratedResponse, StudentRequestBody} from "../types";
+import { BaseResponse, StudentRequestBody } from "../types";
 
 
 class studentController {
@@ -10,9 +10,9 @@ class studentController {
     //     this.getAll = this.getAll.bind(this);
     // }
 
-    async addStudent(req: StudentRequestBody, res: Response, next: NextFunction) {
+    async addStudent(req: StudentRequestBody, res: Response<BaseResponse>, next: NextFunction) {
         try {
-            const {id, name, email, phoneNumber} = req.body;
+            const { id, name, email, phoneNumber } = req.body;
 
             const student = await Student.findByPk(id);
 
@@ -21,11 +21,11 @@ class studentController {
                     success: false,
                     status: res.statusCode,
                     message: "student already exists",
-                    stack: student
+                    data: student
                 })
             }
 
-            const {temp, password} = await UserController.generateAccount(name, phoneNumber);
+            const { temp, password } = await UserController.generateAccount(name, phoneNumber);
 
             const user = await UserController.addUser({
                 username: temp,
@@ -54,21 +54,21 @@ class studentController {
                 success: true,
                 status: res.statusCode,
                 message: "success adding student",
-                stack: studentRecord
+                data: studentRecord
             });
         } catch (err) {
             next(err);
         }
     }
 
-    async getAll(req: Request, res: Response, next: NextFunction) {
+    async getAll(req: Request, res: Response<BaseResponse>, next: NextFunction) {
         try {
             const records = await Student.findAll({});
             return res.json({
                 success: true,
                 status: res.statusCode,
                 message: "Student: ",
-                stack: records
+                data: records
             });
         } catch (err) {
             next(err);
@@ -76,7 +76,7 @@ class studentController {
     }
 
 
-    
+
 
 
 

@@ -1,4 +1,4 @@
-import {NextFunction, Request, Response} from "express";
+import { NextFunction, Request, Response } from "express";
 import {
     Student,
     AnsweredQuestion,
@@ -11,12 +11,12 @@ import {
     Training,
     CompanyBranch
 } from "../models/index";
-import {fn, col} from "sequelize";
-import {TrainingStatusEnum} from "../enums";
-import {ButtonHandler, TrainingRequestBody} from "../types";
+import { fn, col } from "sequelize";
+import { TrainingStatusEnum } from "../enums";
+import { ButtonHandler, BaseResponse, TrainingRequestBody } from "../types";
 
 class TrainingController {
-    getCompletedTrainings = async (req: Request, res: Response, next: NextFunction) => {
+    getCompletedTrainings = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
         try {
             const completedStudents = await Training.findAll({
                 attributes: ['studentId', [fn('COUNT', col('studentId')), 'count']],
@@ -35,7 +35,7 @@ class TrainingController {
                 success: true,
                 status: res.statusCode,
                 message: "Completed Trainings",
-                stack: completedStudents
+                data: completedStudents
             });
         }
         catch (err) {
@@ -43,8 +43,8 @@ class TrainingController {
         }
     }
 
-    handleGenerateFormButton = async (req: ButtonHandler, res: Response, next: NextFunction) => {
-        const {index, studentId} = req.body;
+    handleGenerateFormButton = async (req: ButtonHandler, res: Response<BaseResponse>, next: NextFunction) => {
+        const { index, studentId } = req.body;
         const trainings = await Training.findAll({
             where: {
                 studentId,
@@ -57,13 +57,13 @@ class TrainingController {
         await this.generateEvaluationForm(req, res, next);
     }
 
-    generateEvaluationForm = async (req: ButtonHandler, res: Response, next: NextFunction) => {
+    generateEvaluationForm = async (req: ButtonHandler, res: Response<BaseResponse>, next: NextFunction) => {
         try {
-            const {trainingId} = req.body;
+            const { trainingId } = req.body;
             const evaluationForm = await Training.findAll({
-                where: {id: `${trainingId}`},
+                where: { id: `${trainingId}` },
                 include: [
-                    {model: Student},
+                    { model: Student },
                     {
                         model: Evaluation, include: [
                             {
@@ -95,7 +95,7 @@ class TrainingController {
                             }],
                         attributes: ['location']
                     },
-                    {model: Trainer, attributes: ['name']}
+                    { model: Trainer, attributes: ['name'] }
                 ]
             });
 
@@ -103,15 +103,15 @@ class TrainingController {
                 success: true,
                 status: res.statusCode,
                 message: "Evaluation Form",
-                stack: evaluationForm
+                data: evaluationForm
             });
         } catch (err) {
             next(err);
         }
     }
 
-     //خليته يرجع البيانات مع اسم الطالب يعني عملت جوين
-     async submittedStudents(req: Request, res: Response, next: NextFunction) {
+    //خليته يرجع البيانات مع اسم الطالب يعني عملت جوين
+    async submittedStudents(req: Request, res: Response<BaseResponse>, next: NextFunction) {
         try {
             const record = await Training.findAll({
                 where: {
@@ -136,9 +136,9 @@ class TrainingController {
         }
     }
 
-    async getQuestions(req: TrainingRequestBody, res: Response, next: NextFunction) {
+    async getQuestions(req: TrainingRequestBody, res: Response<BaseResponse>, next: NextFunction) {
         try {
-            const {role} = req.body;
+            const { role } = req.body;
             const record = await Question.findAll({
                 where: {
                     roleId: role,
@@ -148,54 +148,54 @@ class TrainingController {
                 success: true,
                 status: res.statusCode,
                 message: "Qustions: ",
-                stack: record
+                data: record
             });
         } catch (err) {
             next(err);
         }
     }
 
-    async submitQuestionsWithAnswers(req: TrainingRequestBody, res: Response, next: NextFunction) {
+    async submitQuestionsWithAnswers(req: TrainingRequestBody, res: Response<BaseResponse>, next: NextFunction) {
         try {
-            const {trainingId, questionID, note} = req.body;
+            const { trainingId, questionID, note } = req.body;
 
-            if (note){
-            //خزن النوت ف جدول النوت
-            const noteid = await Note.create({
-                note: note
-            })
+            if (note) {
+                //خزن النوت ف جدول النوت
+                const noteid = await Note.create({
+                    note: note
+                })
 
-            await AnsweredQuestion.create({
-                trainingId: trainingId,
-                questionId: questionID,
-                noteId: noteid.id
-            })
-        }
+                await AnsweredQuestion.create({
+                    trainingId: trainingId,
+                    questionId: questionID,
+                    noteId: noteid.id
+                })
+            }
 
-            await Training.update({status: "completed"}, {
+            await Training.update({ status: "completed" }, {
                 where: {
                     id: trainingId
                 }
             })
-           
+
             const record = await Training.findOne({
-                where: {id: trainingId}
+                where: { id: trainingId }
             })
 
             return res.json({
                 success: true,
                 status: res.statusCode,
                 message: "The Training was successfully updated to completed",
-                stack: record
+                data: record
             });
-            
+
         } catch (err) {
             next(err);
         }
     }
 
 
-    async getRecords(req: TrainingRequestBody, res: Response, next: NextFunction) {
+    async getRecords(req: TrainingRequestBody, res: Response<BaseResponse>, next: NextFunction) {
         const page = req.body.page
         const pageSize = 10;
         const startIndex = (page - 1) * pageSize;
@@ -208,7 +208,7 @@ class TrainingController {
             success: true,
             status: res.statusCode,
             message: "Students: ",
-            stack: data
+            data: data
         });
     }
 }

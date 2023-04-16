@@ -1,30 +1,31 @@
 import jwt from 'jsonwebtoken';
-import {NextFunction, Request, Response} from 'express';
-import {User} from "../models"
-import {Secret} from 'jsonwebtoken';
+import { NextFunction, Request, Response } from 'express';
+import { User } from "../models"
+import { Secret } from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import { BaseResponse } from '/types';
 
 class AuthController {
-    handleLogin = async (req: Request, res: Response, next: NextFunction) => {
+    handleLogin = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
         try {
-            const {username, password} = req.body;
+            const { username, password } = req.body;
 
             const record = await User.findOne({
-                where: {username},
+                where: { username },
             });
 
-            if (!record) 
+            if (!record)
                 return res.status(401).json({
                     success: false,
                     status: res.statusCode,
                     message: "Username/password do not match"
                 });
-            
+
             const roleId = record?.roleId;
 
             const match = await bcrypt.compare(password, record.password);
 
-            if (!match) 
+            if (!match)
                 return res.status(401).json({
                     success: false,
                     status: res.statusCode,
@@ -38,7 +39,7 @@ class AuthController {
                 roleId
             }
 
-            const accessToken = jwt.sign(payload, accessTokenSecret, {expiresIn: '7d'});
+            const accessToken = jwt.sign(payload, accessTokenSecret, { expiresIn: '7d' });
 
             res.status(202).cookie('access-token', accessToken, {
                 maxAge: 7 * 60 * 60 * 24 * 1000,  // = 7 days in milliseconds
@@ -50,14 +51,14 @@ class AuthController {
                 success: true,
                 status: res.statusCode,
                 message: 'successfully logged in to account',
-                stack: payload
+                data: payload
             });
         } catch (err) {
             next(err)
         }
     }
 
-    autoSignInUser = async (req: Request, res: Response, next: NextFunction) => {
+    autoSignInUser = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
         /**
          * The program reaches here only if the `validateAccessToken` middleware
          * function allowed the request to pass to
@@ -68,10 +69,10 @@ class AuthController {
             success: true,
             status: res.statusCode,
             message: 'successfully logged in to account',
-            stack: req.user // req.user is an object contains the decoded payload from jwt
+            data: req.user // req.user is an object contains the decoded payload from jwt
         });
     }
-    logout = async (req: Request, res: Response, next: NextFunction) => {
+    logout = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
         try {
             res.clearCookie('access-token');
             return res.json({

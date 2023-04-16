@@ -1,8 +1,8 @@
-import {NextFunction, Request, Response} from "express";
-import {User} from '../models';
+import { NextFunction, Request, Response } from "express";
+import { User } from '../models';
 import bcrypt from "bcrypt";
 import crypto from "crypto";
-import {AddedUser} from "../types";
+import { AddedUser, BaseResponse } from "../types";
 
 class UserController {
     // constructor() {
@@ -12,7 +12,7 @@ class UserController {
     // }
 
     async addUser(user: AddedUser) {
-        const {username, password, email, saltRounds, roleId} = user;
+        const { username, password, email, saltRounds, roleId } = user;
         const hashedPwd = await bcrypt.hash(password, saltRounds);
         const record = await User.create({
             username,
@@ -30,22 +30,22 @@ class UserController {
         const password = crypto.randomBytes(8).toString("hex"); //random string for password
         const username = first + "." + second;
         var suffix = 1;
-        var record = await User.findOne({where: {username}});
+        var record = await User.findOne({ where: { username } });
         var temp = username;
         if (record) {
             while (record) {
                 temp = username + suffix;
-                record = await User.findOne({where: {username: temp}});
+                record = await User.findOne({ where: { username: temp } });
                 suffix++;
             }
         }
 
-        return {temp, password};
+        return { temp, password };
     }
 
-    async handleAddUser(req: Request, res: Response, next: NextFunction) { // I think we should cancel this request!, not completely finished
+    async handleAddUser(req: Request, res: Response<BaseResponse>, next: NextFunction) { // I think we should cancel this request!, not completely finished
         try {
-            const {username, email, password, roleId} = req.body;
+            const { username, email, password, roleId } = req.body;
             const saltRounds = 10;
             const id = await this.addUser({
                 username,
@@ -59,21 +59,21 @@ class UserController {
                     success: true,
                     status: res.statusCode,
                     message: "Successfully create User",
-                    stack: id
+                    data: id
                 });
         } catch (err) {
             next(err);
         }
     }
 
-    async getAll(req: Request, res: Response, next: NextFunction) {
+    async getAll(req: Request, res: Response<BaseResponse>, next: NextFunction) {
         try {
             const records = await User.findAll({});
             return res.json({
                 success: true,
                 status: res.statusCode,
                 message: "Users:",
-                stack: records
+                data: records
             });
         } catch (err) {
             next(err);
