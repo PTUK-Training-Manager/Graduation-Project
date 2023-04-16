@@ -1,9 +1,8 @@
 import jwt from 'jsonwebtoken';
 import {NextFunction, Request, Response} from 'express';
-import {Role, User} from "../models"
+import {User} from "../models"
 import {Secret} from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import {GeneratedResponse} from '../types';
 
 class AuthController {
     handleLogin = async (req: Request, res: Response, next: NextFunction) => {
@@ -14,25 +13,23 @@ class AuthController {
                 where: {username},
             });
 
-            if (!record) {
+            if (!record) 
                 return res.status(401).json({
                     success: false,
                     status: res.statusCode,
                     message: "Username/password do not match"
                 });
-            }
+            
             const roleId = record?.roleId;
 
             const match = await bcrypt.compare(password, record.password);
 
-            if (!match) {
-                let response: GeneratedResponse = {
+            if (!match) 
+                return res.status(401).json({
                     success: false,
                     status: res.statusCode,
                     message: "Username/password do not match"
-                }
-                return res.status(401).json(response);
-            }
+                });
 
             const accessTokenSecret = <Secret>process.env.ACCESS_TOKEN_SECRET;
 
@@ -53,7 +50,7 @@ class AuthController {
                 success: true,
                 status: res.statusCode,
                 message: 'successfully logged in to account',
-                data: payload
+                stack: payload
             });
         } catch (err) {
             next(err)
@@ -71,7 +68,7 @@ class AuthController {
             success: true,
             status: res.statusCode,
             message: 'successfully logged in to account',
-            data: req.user // req.user is an object contains the decoded payload from jwt
+            stack: req.user // req.user is an object contains the decoded payload from jwt
         });
     }
 }

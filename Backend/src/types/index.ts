@@ -57,3 +57,32 @@ export interface AddedUser {
     saltRounds: number,
     roleId: number
 }
+export interface CompanyRequestBody extends Request {
+    body: {
+        id: number;
+        name: string;
+        phoneNumber: string;
+        email: string;
+        location: string;
+        managerName: string;
+    }
+}
+
+export interface StudentRequestBody extends Request {
+    body: {
+        id: string;
+        name: string;
+        phoneNumber: string;
+        email: string;
+        userId: number;
+    }
+}
+export interface TrainingRequestBody extends Request {
+    body: {
+        role: number;
+        trainingId: number;
+        questionID: number;
+        note: string;
+        page: number;
+    }
+}
