@@ -11,13 +11,15 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { getContentPaddingLeft } from 'src/constants';
 import useAccountContext from 'src/hooks/useAccountContext';
+import { Stack } from '@mui/material';
+import { FormikProvider } from 'formik';
+import { Form } from 'react-router-dom';
+import useSubmitRequestController from './hooks/useSubmitRequestController';
 
 const SubmitRequest: React.FC = () => {
   const [selectedCompany, setSelectedCompany] = React.useState('');
-
   const {isSidebarOpen} = useAccountContext();
-
-
+ 
   return (
     <Grid
       container
@@ -32,41 +34,31 @@ const SubmitRequest: React.FC = () => {
         alignItems: "center"
     }}
     >
-      <Paper sx={{ padding: 4 }} elevation={10}>
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />
-          <Box
-            sx={{
-              margin: 'auto',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
+      <Paper   elevation={10}
+                    sx={{
+                        justifyContent: "center",
+                        alignItems: "center",
+                        p: 4,
+                        minWidth: {xs: "90%", sm: "60%", md: "30%"}
+                    }}>
+                        <form >
+                            <Stack gap={2} alignItems="center">
+       
             <Typography component="h1" variant="h5">
               Submit Request
             </Typography>
-            <form noValidate>
+        
               <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="s-number"
-                // type="number"
+              fullWidth
                 label="Student Number"
-                name="student-number"
+                name="studentId"
                 autoFocus
               />
               <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="semester"
+              fullWidth
                 label="Semester"
                 name="semester"
                 select
-                autoFocus
               >
                 <MenuItem value="semester-1">Semester One</MenuItem>
                 <MenuItem value="semester-2">Semester Two</MenuItem>
@@ -74,14 +66,10 @@ const SubmitRequest: React.FC = () => {
               </TextField>
 
               <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="type"
+               fullWidth
                 label="Type"
                 name="type"
                 select
-                autoFocus
               >
                 <MenuItem value="first">First</MenuItem>
                 <MenuItem value="second">Second</MenuItem>
@@ -89,16 +77,12 @@ const SubmitRequest: React.FC = () => {
               </TextField>
 
               <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="c-name"
+               fullWidth
                 label="Company Name"
                 select
-                name="company-name"
+                name="id"
                 value={selectedCompany}
                 onChange={(e) => setSelectedCompany(e.target.value)} // Update state when company name is selected
-                autoFocus
               >
                 <MenuItem value="F">Foothill</MenuItem>
                 <MenuItem value="E">Exalt</MenuItem>
@@ -106,14 +90,10 @@ const SubmitRequest: React.FC = () => {
               </TextField>
               {selectedCompany && ( // Conditionally render branch dropdown if a company is selected
                 <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="branch"
+                fullWidth
                   label="Branch"
                   select
-                  name="branch"
-                  autoFocus
+                  name="companyBranchId"
                 >
                   <MenuItem value="F">Nablus</MenuItem>
                   <MenuItem value="E">Ramallah</MenuItem>
@@ -128,12 +108,10 @@ const SubmitRequest: React.FC = () => {
               >
                 Submit
               </Button>
-              <Grid container>
-                <Grid item xs></Grid>
-              </Grid>
-            </form>
-          </Box>
-        </Container>
+             
+              </Stack>
+                        </form>
+     
       </Paper>
     </Grid>
   );

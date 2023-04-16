@@ -35,14 +35,13 @@ const SignIn: React.FC = () => {
             <Grid container
                   sx={{
                       transition: ".25s",
-                      pt: 10,
-                      pb: 4,
+                      pt: 17,
+                    //   pb: 4,
                       paddingLeft: isSidebarOpen ? `${getContentPaddingLeft(isSidebarOpen)}px` : "8px",
-                      bgcolor: theme.palette.grey[200],
-                      height: "100vh",
-                      width: "100%",
+                    //   bgcolor: theme.palette.grey[200],
+                    //   height: "100vh",
+                    //   width: "100%",
                       display: 'flex',
-
                       justifyContent: "center",
                       alignItems: "center"
                   }}

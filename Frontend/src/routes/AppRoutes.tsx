@@ -43,6 +43,7 @@ const AppRoutes: FC<AppRoutesProps> = () => {
     return (
         <Suspense fallback={<BlockUI isBlocked/>}>
             <Routes>
+                {/* <Route index path="/" element={<Home/>}/> */}
                 <Route path="signin" element={<SignIn/>}/>
                 <Route path="landing" element={<LandingPage/>}/>
 
@@ -52,7 +53,7 @@ const AppRoutes: FC<AppRoutesProps> = () => {
                 >
                     <Route element={<ProtectedRoute/>}>
                         <Route index path="/" element={<Home/>}/>
-                        <Route path="dashboard" element={<Dashboard/>}/>
+                        <Route path="/" element={<Dashboard/>}/>
                         <Route path="analytics" element={<Analytics/>}/>
                         <Route path="admin" element={<Admin/>}/>
                     </Route>
