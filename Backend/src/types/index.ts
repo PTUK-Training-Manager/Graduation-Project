@@ -1,4 +1,4 @@
-import {Request} from "express";
+import { Request } from "express";
 
 export type UserRole =
     | "super admin"
@@ -84,5 +84,11 @@ export interface TrainingRequestBody extends Request {
         questionID: number;
         note: string;
         page: number;
+    }
+}
+
+export interface BranchRequestBody extends Request {
+    body: {
+        companyId: number;
     }
 }

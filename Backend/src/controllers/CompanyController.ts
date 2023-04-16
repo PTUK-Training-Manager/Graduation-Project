@@ -2,15 +2,10 @@ import { NextFunction, Request, Response } from "express";
 import UserController from "./UserController";
 import Company from "../models/Company";
 import CompanyBranch from "../models/CompanyBranch";
-import { CompanyRequestBody, GeneratedResponse } from "../types";
+import { BranchRequestBody, CompanyRequestBody, GeneratedResponse } from "../types";
 
 
 class CompanyController {
-    // constructor() {
-    //     this.addCompany = this.addCompany.bind(this);
-    //     this.addBranch = this.addBranch.bind(this);
-    //     this.handleAddBranch = this.handleAddBranch.bind(this);
-    // }
 
     async addCompany(req: CompanyRequestBody, res: Response, next: NextFunction) {
         try {
@@ -114,6 +109,42 @@ class CompanyController {
 
         await this.addBranch(res, id, location, next);
     }
+
+    async getCompanies(req: Request, res: Response, next: NextFunction) {
+        try {
+            const companies = await Company.findAll({ attributes: ['id', 'name'] });
+            return res.json({
+                success: true,
+                status: res.statusCode,
+                message: "success retrieve all companies",
+                stack: companies
+            });
+        }
+        catch (err) {
+            next(err);
+        }
+    }
+
+    async getBranches(req: BranchRequestBody, res: Response, next: NextFunction) {
+        try {
+            const companyId = req.body.companyId;
+            console.log(companyId);
+            const locations = await CompanyBranch.findAll({
+                where: { companyId },
+                attributes: ['id', 'location']
+            });
+            return res.json({
+                success: true,
+                status: res.statusCode,
+                message: "success retrieve all branches",
+                stack: locations
+            });
+        } catch (err) {
+            next(err);
+        }
+    }
+
+
 }
 
 export default new CompanyController();
