@@ -140,13 +140,12 @@ class CompanyController {
     async getCompanies(req: Request, res: Response, next: NextFunction) {
         try {
             const companies = await Company.findAll({ attributes: ['id', 'name'] });
-            let response: GeneratedResponse = {
+            return res.json({
                 success: true,
                 status: res.statusCode,
                 message: "success retrieve all companies",
                 data: companies
-            }
-            return res.json(response);
+            });
         }
         catch (err) {
             next(err);
@@ -161,13 +160,12 @@ class CompanyController {
                 where: { companyId },
                 attributes: ['id', 'location']
             });
-            let response: GeneratedResponse = {
+            return res.json({
                 success: true,
                 status: res.statusCode,
                 message: "success retrieve all branches",
                 data: locations
-            }
-            return res.json(response);
+            });
         } catch (err) {
             next(err);
         }
