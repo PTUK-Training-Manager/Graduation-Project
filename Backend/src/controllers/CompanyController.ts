@@ -1,24 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import UserController from "./UserController";
-import Company from "@models/Company";
-import CompanyBranch from "@models/CompanyBranch";
-import { GeneratedResponse } from "src/types";
+import Company from "../models/Company";
+import CompanyBranch from "../models/CompanyBranch";
+import { BranchRequestBody, CompanyRequestBody, GeneratedResponse } from "../types";
 
-interface CompanyRequestBody extends Request {
-    body: {
-        id: number;
-        name: string;
-        phoneNumber: string;
-        email: string;
-        location: string;
-        managerName: string;
-    }
-}
-interface CompanyBody extends Request {
-    body: {
-        companyId: number;
-    }
-}
+
 class CompanyController {
     constructor() {
         this.addCompany = this.addCompany.bind(this);
@@ -37,9 +23,11 @@ class CompanyController {
                     name,
                     location
                 );
-
-                const user = await UserController.addUser(temp, password, email, 10, 6); // company roleID in DataBase
-
+               
+                const user = await UserController.addUser({
+                    username: temp, password, email, saltRounds: 10, roleId: 6
+                }); // company roleID in DataBase
+            
                 const record = await Company.create({
                     id,
                     name: name,
@@ -152,7 +140,7 @@ class CompanyController {
         }
     }
 
-    async getBranches(req: CompanyBody, res: Response, next: NextFunction) {
+    async getBranches(req: BranchRequestBody, res: Response, next: NextFunction) {
         try {
             const companyId = req.body.companyId;
             console.log(companyId);

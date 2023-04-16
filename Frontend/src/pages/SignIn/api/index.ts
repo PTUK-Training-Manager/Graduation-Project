@@ -1,5 +1,6 @@
 import axiosInstance from "src/api";
-import {SignInRequestBody, SignInResponse} from "../types";
+import {SignInRequestBody} from "./request.dto";
+import {SignInResponse} from "./response.dto";
 
 export const signIn = async (body: SignInRequestBody) => {
     const url = "/auth/signin";

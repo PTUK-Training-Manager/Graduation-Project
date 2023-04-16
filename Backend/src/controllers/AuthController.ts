@@ -1,12 +1,12 @@
 import jwt from 'jsonwebtoken';
 import {NextFunction, Request, Response} from 'express';
-import {Role, User} from "src/models"
+import {Role, User} from "../models"
 import {Secret} from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { GeneratedResponse } from 'src/types';
+import {GeneratedResponse} from '../types';
 
 class AuthController {
-    handleLogin = async (req: Request, res: Response,next:NextFunction) => {
+    handleLogin = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const {username, password} = req.body;
 
@@ -14,25 +14,24 @@ class AuthController {
                 where: {username},
             });
 
-            if (!record){
-                let response:GeneratedResponse={
-                    success:false,
-                    status:res.statusCode,
+            if (!record) {
+                return res.status(401).json({
+                    success: false,
+                    status: res.statusCode,
                     message: "Username/password do not match"
-                }
-                return res.json(response);
-}
+                });
+            }
             const roleId = record?.roleId;
 
             const match = await bcrypt.compare(password, record.password);
 
             if (!match) {
-                let response:GeneratedResponse={
-                    success:false,
-                    status:res.statusCode,
-                    message:  "Username/password do not match"
+                let response: GeneratedResponse = {
+                    success: false,
+                    status: res.statusCode,
+                    message: "Username/password do not match"
                 }
-                return res.json(response);
+                return res.status(401).json(response);
             }
 
             const accessTokenSecret = <Secret>process.env.ACCESS_TOKEN_SECRET;
@@ -50,17 +49,30 @@ class AuthController {
                 // secure: true // limits the scope of the cookie to "secure" channels.
             });
 
-            let response:GeneratedResponse={
-
-                success:true,
-                status:res.statusCode,
-                message:'successfully logged in to account',
+            return res.status(200).json({
+                success: true,
+                status: res.statusCode,
+                message: 'successfully logged in to account',
                 data: payload
-            }
-            return res.json(response);
+            });
         } catch (err) {
             next(err)
         }
+    }
+
+    autoSignInUser = async (req: Request, res: Response, next: NextFunction) => {
+        /**
+         * The program reaches here only if the `validateAccessToken` middleware
+         * function allowed the request to pass to
+         * this point by calling the next() function:
+         */
+
+        return res.json({
+            success: true,
+            status: res.statusCode,
+            message: 'successfully logged in to account',
+            data: req.user // req.user is an object contains the decoded payload from jwt
+        });
     }
     logout = async (req: Request, res: Response, next: NextFunction) => {
         try {

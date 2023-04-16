@@ -1,11 +1,11 @@
 import { CreationOptional, DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
-import sequelize from "src/config/connection";
+import sequelize from "../config/connection";
 import {
   Answer,
   Note,
   Question,
   Training
-} from "src/models";
+} from "../models";
 
 
 export default class AnsweredQuestion extends Model<InferAttributes<AnsweredQuestion>, InferCreationAttributes<AnsweredQuestion>> {
