@@ -1,23 +1,14 @@
 import {NextFunction, Request, Response} from "express";
 import {Student} from '../models';
 import UserController from "./UserController";
-import {GeneratedResponse, AddedUser} from "../types";
+import {GeneratedResponse, StudentRequestBody} from "../types";
 
-interface StudentRequestBody extends Request {
-    body: {
-        id: string;
-        name: string;
-        phoneNumber: string;
-        email: string;
-        userId: number;
-    }
-}
 
 class studentController {
-    constructor() {
-        this.addStudent = this.addStudent.bind(this);
-        this.getAll = this.getAll.bind(this);
-    }
+    // constructor() {
+    //     this.addStudent = this.addStudent.bind(this);
+    //     this.getAll = this.getAll.bind(this);
+    // }
 
     async addStudent(req: StudentRequestBody, res: Response, next: NextFunction) {
         try {
@@ -30,7 +21,7 @@ class studentController {
                     success: false,
                     status: res.statusCode,
                     message: "student already exists",
-                    data: student
+                    stack: student
                 })
             }
 
@@ -63,7 +54,7 @@ class studentController {
                 success: true,
                 status: res.statusCode,
                 message: "success adding student",
-                data: studentRecord
+                stack: studentRecord
             });
         } catch (err) {
             next(err);
@@ -73,13 +64,12 @@ class studentController {
     async getAll(req: Request, res: Response, next: NextFunction) {
         try {
             const records = await Student.findAll({});
-            let response: GeneratedResponse = {
+            return res.json({
                 success: true,
                 status: res.statusCode,
                 message: "Student: ",
-                data: records
-            }
-            return res.json(response);
+                stack: records
+            });
         } catch (err) {
             next(err);
         }

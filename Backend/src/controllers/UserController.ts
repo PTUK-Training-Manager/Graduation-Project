@@ -2,14 +2,14 @@ import {NextFunction, Request, Response} from "express";
 import {User} from '../models';
 import bcrypt from "bcrypt";
 import crypto from "crypto";
-import {GeneratedResponse, AddedUser} from "../types";
+import {AddedUser} from "../types";
 
 class UserController {
-    constructor() {
-        this.addUser = this.addUser.bind(this);
-        this.generateAccount = this.generateAccount.bind(this);
-        this.handleAddUser = this.handleAddUser.bind(this);
-    }
+    // constructor() {
+    //     this.addUser = this.addUser.bind(this);
+    //     this.generateAccount = this.generateAccount.bind(this);
+    //     this.handleAddUser = this.handleAddUser.bind(this);
+    // }
 
     async addUser(user: AddedUser) {
         const {username, password, email, saltRounds, roleId} = user;
@@ -54,15 +54,13 @@ class UserController {
                 saltRounds,
                 roleId
             });
-            if (id) {
-                let response: GeneratedResponse = {
+            if (id)
+                return res.json({
                     success: true,
                     status: res.statusCode,
                     message: "Successfully create User",
-                    data: id
-                }
-                return res.json(response);
-            }
+                    stack: id
+                });
         } catch (err) {
             next(err);
         }
@@ -71,13 +69,12 @@ class UserController {
     async getAll(req: Request, res: Response, next: NextFunction) {
         try {
             const records = await User.findAll({});
-            let response: GeneratedResponse = {
+            return res.json({
                 success: true,
                 status: res.statusCode,
                 message: "Users:",
-                data: records
-            }
-            return res.json(response);
+                stack: records
+            });
         } catch (err) {
             next(err);
         }

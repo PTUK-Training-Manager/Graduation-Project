@@ -2,24 +2,10 @@ import { NextFunction, Request, Response } from "express";
 import UserController from "./UserController";
 import Company from "../models/Company";
 import CompanyBranch from "../models/CompanyBranch";
-import { GeneratedResponse } from "../types";
+import { BranchRequestBody, CompanyRequestBody, GeneratedResponse } from "../types";
 
-interface CompanyRequestBody extends Request {
-    body: {
-        id: number;
-        name: string;
-        phoneNumber: string;
-        email: string;
-        location: string;
-        managerName: string;
-    }
-}
+
 class CompanyController {
-    constructor() {
-        this.addCompany = this.addCompany.bind(this);
-        this.addBranch = this.addBranch.bind(this);
-        this.handleAddBranch = this.handleAddBranch.bind(this);
-    }
 
     async addCompany(req: CompanyRequestBody, res: Response, next: NextFunction) {
         try {
@@ -32,11 +18,11 @@ class CompanyController {
                     name,
                     location
                 );
-               
+
                 const user = await UserController.addUser({
                     username: temp, password, email, saltRounds: 10, roleId: 6
                 }); // company roleID in DataBase
-            
+
                 const record = await Company.create({
                     id,
                     name: name,
@@ -45,27 +31,23 @@ class CompanyController {
                     userId: user,
                 });
 
-                if (!record){ 
-                    let response:GeneratedResponse={
-                        success:false,
-                        status:res.statusCode,
-                        message: "error creating account Company" 
-                    }
-                return res.json(response);
-                }
+                if (!record)
+                    return res.json({
+                        success: false,
+                        status: res.statusCode,
+                        message: "error creating account Company"
+                    });
 
                 await this.addBranch(res, id, location, next);
             }
-            else{
-                let response:GeneratedResponse={
-                    success:false,
-                    status:res.statusCode,
+            else
+                return res.json({
+                    success: false,
+                    status: res.statusCode,
                     message: "The Company already exists",
-                    data: company 
-                }
-                return res.json(response)
-            }
-            
+                    stack: company
+                })
+
         }
         catch (error) {
             next(error)
@@ -75,53 +57,47 @@ class CompanyController {
     private async addBranch(res: Response, companyId: number, location: string, next: NextFunction) {
         try {
             const company = await Company.findByPk(companyId);
-            if (!company){
-                let response:GeneratedResponse={
-                    success:false,
-                    status:res.statusCode,
-                    message:"the company does not exist"
-                }
-                return res.json(response)
-        }
+            if (!company)
+                return res.json({
+                    success: false,
+                    status: res.statusCode,
+                    message: "the company does not exist"
+                })
 
             const branch = await CompanyBranch.findOne({
                 where: { location, companyId },
             });
 
-            if (branch){
-            let response:GeneratedResponse={
-                success:false,
-                status:res.statusCode,
-                message: "Company and its Branch already exists" ,
-                data:company
-            }
-                return res.json(response);
-            }
+            if (branch)
+                return res.json({
+                    success: false,
+                    status: res.statusCode,
+                    message: "Company and its Branch already exists",
+                    stack: company
+                });
 
             const BranchName = await CompanyBranch.create({
                 location,
                 companyId,
             });
 
-            if (!BranchName){ 
-                let response:GeneratedResponse={
-                    success:false,
-                    status:res.statusCode,
+            if (!BranchName)
+                return res.json({
+                    success: false,
+                    status: res.statusCode,
                     message: "error adding Branch"
+                });
+
+            return res.json({
+                success: false,
+                status: res.statusCode,
+                message: "success adding new branch/company",
+                stack: {
+                    companyID: company.id,
+                    companyName: company.name,
+                    location: BranchName.location
                 }
-            return res.json(response);
-        }
-        let response:GeneratedResponse={
-            success:false,
-            status:res.statusCode,
-            message: "success adding new branch/company",
-            data: {
-                companyID: company.id,
-                companyName:company.name,
-                location:BranchName.location
-            }
-        }
-            return res.json(response);
+            });
         }
         catch (error) {
             next(error)
@@ -133,6 +109,42 @@ class CompanyController {
 
         await this.addBranch(res, id, location, next);
     }
+
+    async getCompanies(req: Request, res: Response, next: NextFunction) {
+        try {
+            const companies = await Company.findAll({ attributes: ['id', 'name'] });
+            return res.json({
+                success: true,
+                status: res.statusCode,
+                message: "success retrieve all companies",
+                stack: companies
+            });
+        }
+        catch (err) {
+            next(err);
+        }
+    }
+
+    async getBranches(req: BranchRequestBody, res: Response, next: NextFunction) {
+        try {
+            const companyId = req.body.companyId;
+            console.log(companyId);
+            const locations = await CompanyBranch.findAll({
+                where: { companyId },
+                attributes: ['id', 'location']
+            });
+            return res.json({
+                success: true,
+                status: res.statusCode,
+                message: "success retrieve all branches",
+                stack: locations
+            });
+        } catch (err) {
+            next(err);
+        }
+    }
+
+
 }
 
 export default new CompanyController();

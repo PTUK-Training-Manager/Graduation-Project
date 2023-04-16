@@ -41,3 +41,8 @@ export enum TrainingTypeEnum {
     second = 'second',
     compound = 'compound',
 }
+export enum SemesterEnum {
+    first = 'first',
+    second = 'second',
+    summer = 'summer',
+}

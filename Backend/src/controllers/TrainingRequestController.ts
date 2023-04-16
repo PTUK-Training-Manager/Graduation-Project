@@ -4,21 +4,11 @@ import {TrainingStatusEnum, TrainingTypeEnum} from "../enums"
 import {Op} from 'sequelize';
 import {GeneratedResponse} from '../types';
 
-interface TrainingRequestBody extends Request {
-    body: {
-        role: number;
-        trainingId: number;
-        questionID: number;
-        note: string;
-        page: number;
-    }
-}
-
 class TrainingRequestController {
 
     submitRequest = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const {studentId, type, companyId, location} = req.body;
+            const {studentId, type, companyId, location,semester} = req.body;
             //to check that student has only one training for a type
             let record = await Training.findOne({
                 where: {
@@ -35,7 +25,7 @@ class TrainingRequestController {
                     success: false,
                     status: res.statusCode,
                     message: `student ${studentId} has ${record.status} traing `,
-                    data: record
+                    stack: record
                 });
             }
 
@@ -74,7 +64,7 @@ class TrainingRequestController {
                         success: false,
                         status: res.statusCode,
                         message: `student ${studentId} has ${record.type} traing `,
-                        data: record
+                        stack: record
                     });
                 }
             }
@@ -97,6 +87,7 @@ class TrainingRequestController {
             }
             const request = await Training.create({
                 type: type,
+                semester:semester,
                 status: TrainingStatusEnum.pending,
                 studentId: studentId,
                 companyBranchId: companyBranch?.id
@@ -106,7 +97,7 @@ class TrainingRequestController {
                 success: true,
                 status: res.statusCode,
                 message: "Successfully SUBMITTED RREQUEST",
-                data: request
+                stack: request
             });
         } catch (err) {
             next(err);
@@ -137,13 +128,12 @@ class TrainingRequestController {
                     }
                 ]
             });
-            let response: GeneratedResponse = {
+            return res.json({
                 success: true,
                 status: res.statusCode,
                 message: "pending request",
-                data: trainingRequestsRecords
-            }
-            return res.json(response);
+                stack: trainingRequestsRecords
+            });
         } catch (err) {
             next(err);
         }
@@ -155,152 +145,23 @@ class TrainingRequestController {
             const deletedRequest = await Training.destroy({
                 where: {id}
             });
-            if (!deletedRequest) {
-                let response: GeneratedResponse = {
+            if (!deletedRequest)
+                return res.json({
                     success: false,
                     status: res.statusCode,
                     message: "something went wrong ",
-                }
-                return res.json(response);
-            }
-            let response: GeneratedResponse = {
+                });
+
+            return res.json( {
                 success: true,
                 status: res.statusCode,
                 message: `training deleted successfully`,
-                data: deletedRequest
-            }
-            return res.json(response);
+                stack: deletedRequest
+            });
         } catch (err) {
             next(err)
         }
 
-    }
-
-
-    //خليته يرجع البيانات مع اسم الطالب يعني عملت جوين
-    async submittedStudents(req: Request, res: Response, next: NextFunction) {
-        try {
-            const record = await Training.findAll({
-                where: {
-                    status: TrainingStatusEnum.submitted,
-                },
-                include: [
-                    {
-                        model: Student,
-                        attributes: ['name']
-                    },
-                ]
-            })
-            return res.json({
-                success: true,
-                status: res.statusCode,
-                message: "Submitted Students: ",
-                data: record
-            });
-        }
-        catch (err) {
-            next(err);
-        }
-    }
-
-    async getQuestions(req: TrainingRequestBody, res: Response, next: NextFunction) {
-        try {
-            const {role} = req.body;
-            const record = await Question.findAll({
-                where: {
-                    roleId: role,
-                }
-            })
-            let response: GeneratedResponse = {
-                success: true,
-                status: res.statusCode,
-                message: "Qustions: ",
-                data: record
-            }
-            return res.json(response);
-        } catch (err) {
-            next(err);
-        }
-    }
-
-    async submitQuestionsWithAnswers(req: TrainingRequestBody, res: Response, next: NextFunction) {
-        try {
-            const {trainingId, questionID, note} = req.body;
-
-            //خزن النوت ف جدول النوت
-            const noteid = await Note.create({
-                note: note
-            })
-
-            const answeredQuestion = await AnsweredQuestion.create({
-                trainingId: trainingId,
-                questionId: questionID,
-                noteId: noteid.id
-            })
-
-            await Training.update({status: "completed"}, {
-                where: {
-                    id: trainingId
-                }
-            })
-            const record = await Training.findOne({
-                where: {id: trainingId}
-            })
-
-            let response: GeneratedResponse = {
-                success: true,
-                status: res.statusCode,
-                message: "The Training was successfully updated to completed",
-                data: record
-            }
-            return res.json(response);
-        } catch (err) {
-            next(err);
-        }
-    }
-
-
-    async submitTrainingwithoutAnswers(req: Request, res: Response, next: NextFunction) {
-        try {
-            const {trainingId} = req.body;
-            await Training.update({status: "completed"}, {
-                where: {
-                    id: trainingId
-                }
-            })
-            const record = await Training.findOne({
-                where: {id: trainingId}
-            })
-
-            let response: GeneratedResponse = {
-                success: true,
-                status: res.statusCode,
-                message: "The Training was successfully updated to completed",
-                data: record
-            }
-            return res.json(response);
-        } catch (err) {
-            next(err);
-        }
-    }
-
-
-    async getRecords(req: TrainingRequestBody, res: Response, next: NextFunction) {
-        const page = req.body.page
-        const pageSize = 10;
-        const startIndex = (page - 1) * pageSize;
-        const endIndex = startIndex + pageSize;
-        let data = await Student.findAll({
-            limit: pageSize,
-            offset: (page - 1) * pageSize
-        })
-        let response: GeneratedResponse = {
-            success: true,
-            status: res.statusCode,
-            message: "Students: ",
-            data: data
-        }
-        return res.json(response);
     }
 }
 
