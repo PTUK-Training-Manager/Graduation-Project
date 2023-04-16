@@ -62,6 +62,18 @@ class AuthController {
             next(err)
         }
     }
+    logout = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            res.clearCookie('access-token');
+            return res.json({
+                success: true,
+                status: res.statusCode,
+                message: "Successfully logout",
+            });
+        } catch (err) {
+            next(err);
+        }
+    }
 }
 
 export default new AuthController()
