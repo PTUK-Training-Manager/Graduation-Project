@@ -15,6 +15,30 @@ interface TrainingRequestBody extends Request {
 }
 
 class TrainingRequestController {
+<<<<<<< HEAD
+    submitRequest = async (req: Request, res: Response, next: NextFunction) => {
+        const { studentId, type, companyBranchId} = req.body;
+        //to check that student has only one training for a type
+        var record = await Training.findOne({
+            where: {
+                studentId: studentId,
+                type: type,
+                status: {
+                    [Op.notIn]: [TrainingStatusEnum.rejected, TrainingStatusEnum.canceled]
+                }
+            }
+        });
+        if (record) {
+            let response: GeneratedResponse = {
+                success: false,
+                status: res.statusCode,
+                message: `student ${studentId} has ${record.status} traing `,
+                data: record
+            }
+            return res.json(response);
+        }
+=======
+>>>>>>> 12d0297e8978d7a087a5d6a22612ff4067de530d
 
     submitRequest = async (req: Request, res: Response, next: NextFunction) => {
         try {
@@ -56,6 +80,10 @@ class TrainingRequestController {
                     });
                 }
             }
+<<<<<<< HEAD
+        }
+        try {
+=======
             if (type === TrainingTypeEnum.compound) {
                 record = await Training.findOne({
                     where: {
@@ -85,6 +113,7 @@ class TrainingRequestController {
                 }
             });
 
+>>>>>>> 12d0297e8978d7a087a5d6a22612ff4067de530d
             const student = await Student.findOne({
                 where: {id: studentId}
             });
@@ -99,7 +128,7 @@ class TrainingRequestController {
                 type: type,
                 status: TrainingStatusEnum.pending,
                 studentId: studentId,
-                companyBranchId: companyBranch?.id
+                companyBranchId: companyBranchId
             });
 
             return res.json({

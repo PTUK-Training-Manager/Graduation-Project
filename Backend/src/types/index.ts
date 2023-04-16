@@ -1,4 +1,4 @@
-import {Request} from "express";
+import { Request } from "express";
 
 export type UserRole =
     | "super admin"
@@ -56,4 +56,19 @@ export interface AddedUser {
     email: string;
     saltRounds: number,
     roleId: number
+}
+export interface CompanyRequestBody extends Request {
+    body: {
+        id: number;
+        name: string;
+        phoneNumber: string;
+        email: string;
+        location: string;
+        managerName: string;
+    }
+}
+export interface BranchRequestBody extends Request {
+    body: {
+        companyId: number;
+    }
 }
