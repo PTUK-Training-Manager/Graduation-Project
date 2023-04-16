@@ -21,6 +21,10 @@ export type TrainingType =
     | "second"
     | "compound";
 
+export type SemesterType =
+    | "first"
+    | "second"
+    | "summer";
 
 export interface LoginPayload {
     username: string,
