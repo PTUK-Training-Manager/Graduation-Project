@@ -5,34 +5,10 @@ import {Op} from 'sequelize';
 import {GeneratedResponse} from '../types';
 
 class TrainingRequestController {
-<<<<<<< HEAD
-    submitRequest = async (req: Request, res: Response, next: NextFunction) => {
-        const { studentId, type, companyBranchId} = req.body;
-        //to check that student has only one training for a type
-        var record = await Training.findOne({
-            where: {
-                studentId: studentId,
-                type: type,
-                status: {
-                    [Op.notIn]: [TrainingStatusEnum.rejected, TrainingStatusEnum.canceled]
-                }
-            }
-        });
-        if (record) {
-            let response: GeneratedResponse = {
-                success: false,
-                status: res.statusCode,
-                message: `student ${studentId} has ${record.status} traing `,
-                data: record
-            }
-            return res.json(response);
-        }
-=======
->>>>>>> 12d0297e8978d7a087a5d6a22612ff4067de530d
 
     submitRequest = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const {studentId, type, companyId, location} = req.body;
+            const {studentId, type, companyId, location,semester} = req.body;
             //to check that student has only one training for a type
             let record = await Training.findOne({
                 where: {
@@ -70,10 +46,6 @@ class TrainingRequestController {
                     });
                 }
             }
-<<<<<<< HEAD
-        }
-        try {
-=======
             if (type === TrainingTypeEnum.compound) {
                 record = await Training.findOne({
                     where: {
@@ -103,7 +75,6 @@ class TrainingRequestController {
                 }
             });
 
->>>>>>> 12d0297e8978d7a087a5d6a22612ff4067de530d
             const student = await Student.findOne({
                 where: {id: studentId}
             });
@@ -116,9 +87,10 @@ class TrainingRequestController {
             }
             const request = await Training.create({
                 type: type,
+                semester:semester,
                 status: TrainingStatusEnum.pending,
                 studentId: studentId,
-                companyBranchId: companyBranchId
+                companyBranchId: companyBranch?.id
             });
 
             return res.json({
