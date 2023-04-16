@@ -26,7 +26,7 @@ app.use('/api/v1', router);
 app.use(errorHandler);
 
 associations();
-db.sync({logging: false, force: true})
+db.sync({logging: false})
     .then((value) => {
         console.log('All models were synchronized successfully.');
     })
