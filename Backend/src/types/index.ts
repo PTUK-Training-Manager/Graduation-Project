@@ -67,6 +67,26 @@ export interface CompanyRequestBody extends Request {
         managerName: string;
     }
 }
+
+export interface StudentRequestBody extends Request {
+    body: {
+        id: string;
+        name: string;
+        phoneNumber: string;
+        email: string;
+        userId: number;
+    }
+}
+export interface TrainingRequestBody extends Request {
+    body: {
+        role: number;
+        trainingId: number;
+        questionID: number;
+        note: string;
+        page: number;
+    }
+}
+
 export interface BranchRequestBody extends Request {
     body: {
         companyId: number;

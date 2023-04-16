@@ -6,11 +6,6 @@ import { BranchRequestBody, CompanyRequestBody, GeneratedResponse } from "../typ
 
 
 class CompanyController {
-    constructor() {
-        this.addCompany = this.addCompany.bind(this);
-        this.addBranch = this.addBranch.bind(this);
-        this.handleAddBranch = this.handleAddBranch.bind(this);
-    }
 
     async addCompany(req: CompanyRequestBody, res: Response, next: NextFunction) {
         try {
@@ -23,11 +18,11 @@ class CompanyController {
                     name,
                     location
                 );
-               
+
                 const user = await UserController.addUser({
                     username: temp, password, email, saltRounds: 10, roleId: 6
                 }); // company roleID in DataBase
-            
+
                 const record = await Company.create({
                     id,
                     name: name,
@@ -36,26 +31,22 @@ class CompanyController {
                     userId: user,
                 });
 
-                if (!record) {
-                    let response: GeneratedResponse = {
+                if (!record)
+                    return res.json({
                         success: false,
                         status: res.statusCode,
                         message: "error creating account Company"
-                    }
-                    return res.json(response);
-                }
+                    });
 
                 await this.addBranch(res, id, location, next);
             }
-            else {
-                let response: GeneratedResponse = {
+            else
+                return res.json({
                     success: false,
                     status: res.statusCode,
                     message: "The Company already exists",
-                    data: company
-                }
-                return res.json(response)
-            }
+                    stack: company
+                })
 
         }
         catch (error) {
@@ -66,53 +57,47 @@ class CompanyController {
     private async addBranch(res: Response, companyId: number, location: string, next: NextFunction) {
         try {
             const company = await Company.findByPk(companyId);
-            if (!company) {
-                let response: GeneratedResponse = {
+            if (!company)
+                return res.json({
                     success: false,
                     status: res.statusCode,
                     message: "the company does not exist"
-                }
-                return res.json(response)
-            }
+                })
 
             const branch = await CompanyBranch.findOne({
                 where: { location, companyId },
             });
 
-            if (branch) {
-                let response: GeneratedResponse = {
+            if (branch)
+                return res.json({
                     success: false,
                     status: res.statusCode,
                     message: "Company and its Branch already exists",
-                    data: company
-                }
-                return res.json(response);
-            }
+                    stack: company
+                });
 
             const BranchName = await CompanyBranch.create({
                 location,
                 companyId,
             });
 
-            if (!BranchName) {
-                let response: GeneratedResponse = {
+            if (!BranchName)
+                return res.json({
                     success: false,
                     status: res.statusCode,
                     message: "error adding Branch"
-                }
-                return res.json(response);
-            }
-            let response: GeneratedResponse = {
-                success: true,
+                });
+
+            return res.json({
+                success: false,
                 status: res.statusCode,
                 message: "success adding new branch/company",
-                data: {
+                stack: {
                     companyID: company.id,
                     companyName: company.name,
                     location: BranchName.location
                 }
-            }
-            return res.json(response);
+            });
         }
         catch (error) {
             next(error)
@@ -132,7 +117,7 @@ class CompanyController {
                 success: true,
                 status: res.statusCode,
                 message: "success retrieve all companies",
-                data: companies
+                stack: companies
             });
         }
         catch (err) {
@@ -152,7 +137,7 @@ class CompanyController {
                 success: true,
                 status: res.statusCode,
                 message: "success retrieve all branches",
-                data: locations
+                stack: locations
             });
         } catch (err) {
             next(err);

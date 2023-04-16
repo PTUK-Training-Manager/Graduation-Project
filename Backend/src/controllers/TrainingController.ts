@@ -13,7 +13,7 @@ import {
 } from "../models/index";
 import {fn, col} from "sequelize";
 import {TrainingStatusEnum} from "../enums";
-import {ButtonHandler} from "../types";
+import {ButtonHandler, TrainingRequestBody} from "../types";
 
 class TrainingController {
     getCompletedTrainings = async (req: Request, res: Response, next: NextFunction) => {
@@ -35,7 +35,7 @@ class TrainingController {
                 success: true,
                 status: res.statusCode,
                 message: "Completed Trainings",
-                data: completedStudents
+                stack: completedStudents
             });
         }
         catch (err) {
@@ -103,11 +103,113 @@ class TrainingController {
                 success: true,
                 status: res.statusCode,
                 message: "Evaluation Form",
-                data: evaluationForm
+                stack: evaluationForm
             });
         } catch (err) {
             next(err);
         }
+    }
+
+     //خليته يرجع البيانات مع اسم الطالب يعني عملت جوين
+     async submittedStudents(req: Request, res: Response, next: NextFunction) {
+        try {
+            const record = await Training.findAll({
+                where: {
+                    status: TrainingStatusEnum.submitted,
+                },
+                include: [
+                    {
+                        model: Student,
+                        attributes: ['name']
+                    },
+                ]
+            })
+            return res.json({
+                success: true,
+                status: res.statusCode,
+                message: "Submitted Students: ",
+                data: record
+            });
+        }
+        catch (err) {
+            next(err);
+        }
+    }
+
+    async getQuestions(req: TrainingRequestBody, res: Response, next: NextFunction) {
+        try {
+            const {role} = req.body;
+            const record = await Question.findAll({
+                where: {
+                    roleId: role,
+                }
+            })
+            return res.json({
+                success: true,
+                status: res.statusCode,
+                message: "Qustions: ",
+                stack: record
+            });
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    async submitQuestionsWithAnswers(req: TrainingRequestBody, res: Response, next: NextFunction) {
+        try {
+            const {trainingId, questionID, note} = req.body;
+
+            if (note){
+            //خزن النوت ف جدول النوت
+            const noteid = await Note.create({
+                note: note
+            })
+
+            await AnsweredQuestion.create({
+                trainingId: trainingId,
+                questionId: questionID,
+                noteId: noteid.id
+            })
+        }
+
+            await Training.update({status: "completed"}, {
+                where: {
+                    id: trainingId
+                }
+            })
+           
+            const record = await Training.findOne({
+                where: {id: trainingId}
+            })
+
+            return res.json({
+                success: true,
+                status: res.statusCode,
+                message: "The Training was successfully updated to completed",
+                stack: record
+            });
+            
+        } catch (err) {
+            next(err);
+        }
+    }
+
+
+    async getRecords(req: TrainingRequestBody, res: Response, next: NextFunction) {
+        const page = req.body.page
+        const pageSize = 10;
+        const startIndex = (page - 1) * pageSize;
+        const endIndex = startIndex + pageSize;
+        let data = await Student.findAll({
+            limit: pageSize,
+            offset: (page - 1) * pageSize
+        })
+        return res.json({
+            success: true,
+            status: res.statusCode,
+            message: "Students: ",
+            stack: data
+        });
     }
 }
 
