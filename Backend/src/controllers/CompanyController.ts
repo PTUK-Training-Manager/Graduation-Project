@@ -2,12 +2,12 @@ import { NextFunction, Request, Response } from "express";
 import UserController from "./UserController";
 import Company from "../models/Company";
 import CompanyBranch from "../models/CompanyBranch";
-import { BranchRequestBody, CompanyRequestBody, GeneratedResponse } from "../types";
+import { BranchRequestBody, CompanyRequestBody, BaseResponse } from "../types";
 
 
 class CompanyController {
 
-    async addCompany(req: CompanyRequestBody, res: Response, next: NextFunction) {
+    async addCompany(req: CompanyRequestBody, res: Response<BaseResponse>, next: NextFunction) {
         try {
             const { id, name, email, location, phoneNumber, managerName } = req.body;
 
@@ -45,7 +45,7 @@ class CompanyController {
                     success: false,
                     status: res.statusCode,
                     message: "The Company already exists",
-                    stack: company
+                    data: company
                 })
 
         }
@@ -54,7 +54,7 @@ class CompanyController {
         }
     }
 
-    private async addBranch(res: Response, companyId: number, location: string, next: NextFunction) {
+    private async addBranch(res: Response<BaseResponse>, companyId: number, location: string, next: NextFunction) {
         try {
             const company = await Company.findByPk(companyId);
             if (!company)
@@ -73,7 +73,7 @@ class CompanyController {
                     success: false,
                     status: res.statusCode,
                     message: "Company and its Branch already exists",
-                    stack: company
+                    data: company
                 });
 
             const BranchName = await CompanyBranch.create({
@@ -92,7 +92,7 @@ class CompanyController {
                 success: false,
                 status: res.statusCode,
                 message: "success adding new branch/company",
-                stack: {
+                data: {
                     companyID: company.id,
                     companyName: company.name,
                     location: BranchName.location
@@ -110,14 +110,14 @@ class CompanyController {
         await this.addBranch(res, id, location, next);
     }
 
-    async getCompanies(req: Request, res: Response, next: NextFunction) {
+    async getCompanies(req: Request, res: Response<BaseResponse>, next: NextFunction) {
         try {
             const companies = await Company.findAll({ attributes: ['id', 'name'] });
             return res.json({
                 success: true,
                 status: res.statusCode,
                 message: "success retrieve all companies",
-                stack: companies
+                data: companies
             });
         }
         catch (err) {
@@ -125,7 +125,7 @@ class CompanyController {
         }
     }
 
-    async getBranches(req: BranchRequestBody, res: Response, next: NextFunction) {
+    async getBranches(req: BranchRequestBody, res: Response<BaseResponse>, next: NextFunction) {
         try {
             const companyId = req.body.companyId;
             console.log(companyId);
@@ -137,7 +137,7 @@ class CompanyController {
                 success: true,
                 status: res.statusCode,
                 message: "success retrieve all branches",
-                stack: locations
+                data: locations
             });
         } catch (err) {
             next(err);

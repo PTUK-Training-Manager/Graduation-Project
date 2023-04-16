@@ -1,14 +1,14 @@
-import {NextFunction, Request, Response} from 'express';
-import {CompanyBranch, Student, Training, Company, Question, Note, AnsweredQuestion} from "../models";
-import {TrainingStatusEnum, TrainingTypeEnum} from "../enums"
-import {Op} from 'sequelize';
-import {GeneratedResponse} from '../types';
+import { NextFunction, Request, Response } from 'express';
+import { CompanyBranch, Student, Training, Company, Question, Note, AnsweredQuestion } from "../models";
+import { TrainingStatusEnum, TrainingTypeEnum } from "../enums"
+import { Op } from 'sequelize';
+import { BaseResponse } from '../types';
 
 class TrainingRequestController {
 
-    submitRequest = async (req: Request, res: Response, next: NextFunction) => {
+    submitRequest = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
         try {
-            const {studentId, type, companyId, location,semester} = req.body;
+            const { studentId, type, companyId, location, semester } = req.body;
             //to check that student has only one training for a type
             let record = await Training.findOne({
                 where: {
@@ -25,7 +25,7 @@ class TrainingRequestController {
                     success: false,
                     status: res.statusCode,
                     message: `student ${studentId} has ${record.status} traing `,
-                    stack: record
+                    data: record
                 });
             }
 
@@ -51,8 +51,8 @@ class TrainingRequestController {
                     where: {
                         studentId: studentId,
                         [Op.or]: [
-                            {type: TrainingTypeEnum.first},
-                            {type: TrainingTypeEnum.second}
+                            { type: TrainingTypeEnum.first },
+                            { type: TrainingTypeEnum.second }
                         ],
                         status: {
                             [Op.notIn]: [TrainingStatusEnum.rejected, TrainingStatusEnum.canceled]
@@ -64,7 +64,7 @@ class TrainingRequestController {
                         success: false,
                         status: res.statusCode,
                         message: `student ${studentId} has ${record.type} traing `,
-                        stack: record
+                        data: record
                     });
                 }
             }
@@ -76,7 +76,7 @@ class TrainingRequestController {
             });
 
             const student = await Student.findOne({
-                where: {id: studentId}
+                where: { id: studentId }
             });
             if (!student) {
                 return res.json({
@@ -87,7 +87,7 @@ class TrainingRequestController {
             }
             const request = await Training.create({
                 type: type,
-                semester:semester,
+                semester: semester,
                 status: TrainingStatusEnum.pending,
                 studentId: studentId,
                 companyBranchId: companyBranch?.id
@@ -97,14 +97,14 @@ class TrainingRequestController {
                 success: true,
                 status: res.statusCode,
                 message: "Successfully SUBMITTED RREQUEST",
-                stack: request
+                data: request
             });
         } catch (err) {
             next(err);
         }
     }
 
-    getPendingRequest = async (req: Request, res: Response, next: NextFunction) => {
+    getPendingRequest = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
         try {
             const trainingRequestsRecords = await Training.findAll({
                 attributes: ['id', 'studentId', 'companyBranchId'],
@@ -132,18 +132,18 @@ class TrainingRequestController {
                 success: true,
                 status: res.statusCode,
                 message: "pending request",
-                stack: trainingRequestsRecords
+                data: trainingRequestsRecords
             });
         } catch (err) {
             next(err);
         }
     }
 
-    deleteRequest = async (req: Request, res: Response, next: NextFunction) => {
+    deleteRequest = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
         try {
-            let {id} = req.params;
+            let { id } = req.params;
             const deletedRequest = await Training.destroy({
-                where: {id}
+                where: { id }
             });
             if (!deletedRequest)
                 return res.json({
@@ -152,11 +152,11 @@ class TrainingRequestController {
                     message: "something went wrong ",
                 });
 
-            return res.json( {
+            return res.json({
                 success: true,
                 status: res.statusCode,
                 message: `training deleted successfully`,
-                stack: deletedRequest
+                data: deletedRequest
             });
         } catch (err) {
             next(err)
