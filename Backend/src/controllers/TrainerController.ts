@@ -1,17 +1,17 @@
 import { NextFunction, Request, Response } from "express";
 import Trainer from '../models/Trainer';
-import { GeneratedResponse } from "../types";
+import { BaseResponse } from "../types";
 
 class trainierController {
-	
+
 	//ما ننساه بده شغل!
-	async addtrainer(req: Request, res: Response,next: NextFunction) {
+	async addtrainer(req: Request, res: Response, next: NextFunction) {
 		try {
 			const record = await Trainer.create({ ...req.body });
-			let response: GeneratedResponse = {
+			let response: BaseResponse = {
 				success: true,
 				status: res.statusCode,
-				message:"Successfully add trainer",
+				message: "Successfully add trainer",
 				data: record
 			}
 			return res.json(response);
@@ -24,7 +24,7 @@ class trainierController {
 		try {
 			const records = await Trainer.findAll({});
 
-			let response: GeneratedResponse = {
+			let response: BaseResponse = {
 				success: true,
 				status: res.statusCode,
 				message: "Trainers: ",

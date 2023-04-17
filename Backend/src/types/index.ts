@@ -31,17 +31,13 @@ export interface LoginPayload {
     roleId: number
 }
 
-export interface ErrorResponse {
-    stack?: any;
-    code: number;
-    message: string;
-    // details?: string | string[];
-    data?: string;
+export interface BaseErrorResponse extends BaseResponse {
+    stack?: string;
 }
 
-export interface GeneratedResponse {
+export interface BaseResponse {
     success: boolean,
-    status: any,
+    status: number,
     message: string,
     data?: any;
 }
