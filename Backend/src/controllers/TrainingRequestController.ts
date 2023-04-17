@@ -8,7 +8,7 @@ class TrainingRequestController {
 
     submitRequest = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
         try {
-            const { studentId, type, companyId, location, semester } = req.body;
+            const { studentId, type, semester, companyBranchId } = req.body;
             //to check that student has only one training for a type
             let record = await Training.findOne({
                 where: {
@@ -68,12 +68,6 @@ class TrainingRequestController {
                     });
                 }
             }
-            const companyBranch = await CompanyBranch.findOne({
-                where: {
-                    location: location,
-                    companyId: companyId,
-                }
-            });
 
             const student = await Student.findOne({
                 where: { id: studentId }
@@ -90,7 +84,7 @@ class TrainingRequestController {
                 semester: semester,
                 status: TrainingStatusEnum.pending,
                 studentId: studentId,
-                companyBranchId: companyBranch?.id
+                companyBranchId: companyBranchId
             });
 
             return res.json({
