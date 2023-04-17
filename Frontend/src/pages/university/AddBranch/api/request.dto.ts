@@ -1,4 +1,4 @@
 export interface AddBranchRequestBody {
-    id: string;
+    companyId: string;
     location: string;
 }

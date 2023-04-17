@@ -1,8 +1,8 @@
 export interface AddCompanyRequestBody {
     id: string;
     name: string;
-    phoneNumber: string;
     email: string;
     location: string;
+    phoneNumber: string;
     managerName: string;
   }

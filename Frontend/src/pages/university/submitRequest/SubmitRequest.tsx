@@ -15,55 +15,43 @@ import { Stack } from '@mui/material';
 import { FormikProvider } from 'formik';
 import { Form } from 'react-router-dom';
 import useSubmitRequestController from './hooks/useSubmitRequestController';
+import { LoadingButton } from '@mui/lab';
+import TextFieldWrapper from 'src/components/FormsUI/TextField';
 
 const SubmitRequest: React.FC = () => {
   const [selectedCompany, setSelectedCompany] = React.useState('');
-  const {isSidebarOpen} = useAccountContext();
+  const { isSidebarOpen } = useAccountContext();
+  const { formikProps, isLoading } = useSubmitRequestController();
+  const { isValid } = formikProps;
  
   return (
+    <>
     <Grid
       container
       sx={{
         transition: ".25s",
         pt: 2,
         paddingLeft: isSidebarOpen ? `${getContentPaddingLeft(isSidebarOpen)}px` : "24px",
-        // height: "100vh",
-        // width: "100%",
         display: 'flex',
         justifyContent: "center",
         alignItems: "center"
     }}
     >
-      <Paper   elevation={10}
+      <Paper elevation={10}
                     sx={{
                         justifyContent: "center",
                         alignItems: "center",
                         p: 4,
                         minWidth: {xs: "90%", sm: "60%", md: "30%"}
                     }}>
-                        <form >
-                            <Stack gap={2} alignItems="center">
-       
-            <Typography component="h1" variant="h5">
-              Submit Request
-            </Typography>
+                       <FormikProvider value={formikProps}>
+            <form>
+              <Stack gap={2} alignItems="center">
+                <Typography component="h1" variant="h5">
+                  Submit Request
+                </Typography>
         
-              <TextField
-              fullWidth
-                label="Student Number"
-                name="studentId"
-                autoFocus
-              />
-              <TextField
-              fullWidth
-                label="Semester"
-                name="semester"
-                select
-              >
-                <MenuItem value="semester-1">Semester One</MenuItem>
-                <MenuItem value="semester-2">Semester Two</MenuItem>
-                <MenuItem value="summer">Summer Semester</MenuItem>
-              </TextField>
+                <TextFieldWrapper label="Student Number" name="studentId" autoFocus />
 
               <TextField
                fullWidth
@@ -74,6 +62,16 @@ const SubmitRequest: React.FC = () => {
                 <MenuItem value="first">First</MenuItem>
                 <MenuItem value="second">Second</MenuItem>
                 <MenuItem value="compined">Compined</MenuItem>
+              </TextField>
+              <TextField
+              fullWidth
+                label="Semester"
+                name="semester"
+                select
+              >
+                <MenuItem value="semester-1">Semester One</MenuItem>
+                <MenuItem value="semester-2">Semester Two</MenuItem>
+                <MenuItem value="summer">Summer Semester</MenuItem>
               </TextField>
 
               <TextField
@@ -100,21 +98,21 @@ const SubmitRequest: React.FC = () => {
                   <MenuItem value="A">Jenin</MenuItem>
                 </TextField>
               )}
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
-                Submit
-              </Button>
-             
+               <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  // disabled={!isValid}
+                  // loading={isLoading}
+                >
+                 Submit
+                </Button>
               </Stack>
-                        </form>
-     
-      </Paper>
-    </Grid>
+            </form>
+          </FormikProvider>
+        </Paper>
+      </Grid>
+    </>
   );
 };
-
 export default SubmitRequest;

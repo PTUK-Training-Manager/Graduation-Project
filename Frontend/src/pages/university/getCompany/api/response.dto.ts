@@ -1,10 +1,10 @@
 import {BaseResponse} from "src/types";
 
 export interface AccessTokenData {
-    companyId: string;
-    location: number;
+    id: string;
+    name: string;
 }
 
-export interface AddBranchResponse extends BaseResponse {
+export interface getCompanyResponse extends BaseResponse {
     data: AccessTokenData;
 }
