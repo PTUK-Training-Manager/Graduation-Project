@@ -7,6 +7,7 @@ import useSnackbar from "src/hooks/useSnackbar";
 import useAccountContext from "src/hooks/useAccountContext";
 import {AxiosBaseError} from "src/types";
 import extractErrorMessage from "src/utils/extractErrorMessage";
+import { useState } from "react";
 
 interface useSignInAPIProps {
 }
@@ -28,7 +29,7 @@ const useSignInController = () => {
         validateOnMount: true,
     });
 
-    const {mutate, isLoading, error} = useMutation(
+    const {mutate, isLoading} = useMutation(
         SignInQueryKey,
         signIn,
         {
@@ -48,3 +49,11 @@ const useSignInController = () => {
 };
 
 export default useSignInController;
+function setUsername(arg0: string) {
+    throw new Error("Function not implemented.");
+}
+
+function setPassword(arg0: string) {
+    throw new Error("Function not implemented.");
+}
+

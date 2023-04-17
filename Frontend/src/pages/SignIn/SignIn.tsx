@@ -3,7 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import "./SignIn.css";
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
@@ -16,6 +15,8 @@ import AppNavbar from "src/components/AppNavbar";
 import AppSideDrawer from "src/components/AppSideDrawer";
 import useAccountContext from "src/hooks/useAccountContext";
 import {getContentPaddingLeft} from "src/constants";
+import { FormControlLabel, Checkbox } from '@mui/material';
+
 
 const SignIn: React.FC = () => {
 
@@ -28,31 +29,32 @@ const SignIn: React.FC = () => {
     return (
         <>
             <AppNavbar/>
-            <AppSideDrawer/>
+            <AppSideDrawer roleId={null}/>
             <Grid container
                   sx={{
                       transition: ".25s",
-                      pt: 10,
-                      pb: 4,
-                      paddingLeft: isSidebarOpen ? `${getContentPaddingLeft(isSidebarOpen)}px` : "24px",
-                      bgcolor: theme.palette.grey[200],
-                      height: "100vh",
-                      width: "100%",
+                      pt: 17,
+                    //   pb: 4,
+                      paddingLeft: isSidebarOpen ? `${getContentPaddingLeft(isSidebarOpen)}px` : "8px",
+                    //   bgcolor: theme.palette.grey[200],
+                    //   height: "100vh",
+                    //   width: "100%",
+                      display: 'flex',
                       justifyContent: "center",
                       alignItems: "center"
                   }}
             >
                 <Paper
-                    elevation={3}
+                    elevation={10}
                     sx={{
                         justifyContent: "center",
                         alignItems: "center",
                         p: 4,
-                        minWidth: {xs: "90%", sm: "60%", md: "40%"}
+                        minWidth: {xs: "90%", sm: "60%", md: "30%"}
                     }}
                 >
                     <FormikProvider value={formikProps}>
-                        <Form>
+                        <Form >
                             <Stack gap={2} alignItems="center">
                                 <Avatar sx={{bgcolor: 'secondary.main', backgroundColor: "primary.main"}}>
                                     <LockOpenIcon/>
@@ -69,10 +71,11 @@ const SignIn: React.FC = () => {
                                     label="Password"
                                     type="password"
                                 />
-                                {/*<FormControlLabel*/}
-                                {/*    control={<Checkbox value="remember" color="primary"/>}*/}
-                                {/*    label="Remember me"*/}
-                                {/*/>*/}
+                                <FormControlLabel
+                  control={<Checkbox value="remember" color="primary" />}
+                  label="Remember me"
+                />
+                        
                                 <LoadingButton
                                     type="submit"
                                     fullWidth

@@ -3,6 +3,8 @@ import AppRoutes from "src/routes";
 import Snackbar from "./containers/Snackbar";
 import useVerifyAccessToken from "src/hooks/useVerifyAccessToken";
 import BlockUI from "src/containers/BlockUI";
+import AppLayout from './AppLayout/AppLayout';
+import SignIn from './pages/SignIn/SignIn';
 
 const App = () => {
 
