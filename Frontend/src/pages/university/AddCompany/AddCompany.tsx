@@ -21,8 +21,6 @@ const AddCompany: React.FC = () => {
         container
         sx={{
           transition: '.25s',
-          pt:2,
-          // pb: 4,
           paddingLeft: isSidebarOpen
             ? `${getContentPaddingLeft(isSidebarOpen)}px`
             : '8px',
@@ -36,7 +34,7 @@ const AddCompany: React.FC = () => {
           sx={{
             justifyContent: 'center',
             alignItems: 'center',
-            p: 4,
+            p: 3.5,
             minWidth: { xs: '90%', sm: '60%', md: '30%' },
           }}
         >
@@ -49,9 +47,11 @@ const AddCompany: React.FC = () => {
 
                 <TextFieldWrapper label="Company Id" name="id" autoFocus />
                 <TextFieldWrapper label="Company Name" name="name" />
+                <TextFieldWrapper label="Phone Number" name="phoneNumber" />
                 <TextFieldWrapper label="E-mail" type="email" name="email" />
-                <TextFieldWrapper label="Manager Name" name="managerName" />
                 <TextFieldWrapper label="Location" name="location" />
+                <TextFieldWrapper label="Manager Name" name="managerName" />
+
                 <LoadingButton
                   type="submit"
                   fullWidth

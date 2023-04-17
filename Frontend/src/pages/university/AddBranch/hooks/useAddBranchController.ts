@@ -1,5 +1,5 @@
 import {useMutation} from "@tanstack/react-query";
-import {addCompany} from "../api";
+import {addBranch} from "../api";
 import {useFormik} from "formik";
 import {validationSchema} from "../schema";
 import {INITIAL_FORM_STATE} from "../constants";
@@ -8,12 +8,12 @@ import useAccountContext from "src/hooks/useAccountContext";
 import {AxiosBaseError} from "src/types";
 import extractErrorMessage from "src/utils/extractErrorMessage";
 
-interface useAddCompanyAPIProps {
+interface useAddBranchAPIProps {
 }
 
-const AddCompanyQueryKey = ["addCompany"];
+const AddBranchQueryKey = ["addBranch"];
 
-const useAddCompanyController = () => {
+const useAddBranchController = () => {
 
     const {showSnackbar} = useSnackbar();
 
@@ -28,17 +28,17 @@ const useAddCompanyController = () => {
     });
 
     const {mutate, isLoading, error} = useMutation(
-        AddCompanyQueryKey,
-        addCompany,
+        AddBranchQueryKey,
+        addBranch,
         {
             onSuccess: (data) => {
-                const {id,name,phoneNumber,managerName,location,email} = data?.data;
+                const {id,location} = data?.data;
                 // onLogin({username, roleId}, {shouldNavigate: true});
-                showSnackbar({severity: "success", message: "Adding Company successfull"});
+                showSnackbar({severity: "success", message: "Adding Branch successfull"});
             },
             onError: (error: AxiosBaseError) => {
                 const errorMessage = extractErrorMessage(error);
-                showSnackbar({severity: "error", message: errorMessage ?? "Error in Adding Company"});
+                showSnackbar({severity: "error", message: errorMessage ?? "Error in Adding Branch"});
             }
         }
     );
@@ -46,4 +46,4 @@ const useAddCompanyController = () => {
     return {formikProps, mutate, isLoading};
 };
 
-export default useAddCompanyController;
+export default useAddBranchController;

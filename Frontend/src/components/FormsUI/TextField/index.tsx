@@ -4,6 +4,7 @@ import {useField} from "formik";
 
 type TextFieldWrapperProps = Omit<TextFieldProps, "name"> & {
     name: string;
+    options?: { value: string; label: string }[];
 }
 const TextFieldWrapper: FC<TextFieldWrapperProps> = ({name, ...rest}) => {
 

@@ -16,8 +16,6 @@ import AppSideDrawer from "src/components/AppSideDrawer";
 import useAccountContext from "src/hooks/useAccountContext";
 import {getContentPaddingLeft} from "src/constants";
 import { FormControlLabel, Checkbox } from '@mui/material';
-import { signIn } from './api';
-import { useNavigate, useLocation } from 'react-router-dom';
 
 
 const SignIn: React.FC = () => {
