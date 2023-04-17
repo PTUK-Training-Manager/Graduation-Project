@@ -33,7 +33,7 @@ const useAddCompanyController = () => {
         {
             onSuccess: (data) => {
                 const {id,name,phoneNumber,managerName,location,email} = data?.data;
-                // onLogin({username, roleId}, {shouldNavigate: true});
+                console.log(data.data)
                 showSnackbar({severity: "success", message: "Adding Company successfull"});
             },
             onError: (error: AxiosBaseError) => {

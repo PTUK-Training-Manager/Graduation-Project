@@ -21,11 +21,7 @@ const AddBranch: React.FC = () => {
       <Grid
         container
         sx={{
-          transition: '.25s',
           pt: 15,
-          paddingLeft: isSidebarOpen
-            ? `${getContentPaddingLeft(isSidebarOpen)}px`
-            : '8px',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
@@ -46,7 +42,7 @@ const AddBranch: React.FC = () => {
                 <Typography component="h1" variant="h5">
                   Add Branch
                 </Typography>
-
+          
                 <TextField
                 fullWidth
                 label="Company Name"

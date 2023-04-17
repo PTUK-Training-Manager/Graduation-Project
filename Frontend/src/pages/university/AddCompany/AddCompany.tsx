@@ -20,10 +20,9 @@ const AddCompany: React.FC = () => {
       <Grid
         container
         sx={{
-          transition: '.25s',
-          paddingLeft: isSidebarOpen
-            ? `${getContentPaddingLeft(isSidebarOpen)}px`
-            : '8px',
+          // paddingLeft: isSidebarOpen
+          //   ? `${getContentPaddingLeft(isSidebarOpen)}px`
+          //   : '8px',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
@@ -39,7 +38,7 @@ const AddCompany: React.FC = () => {
           }}
         >
           <FormikProvider value={formikProps}>
-            <form>
+            <Form>
               <Stack gap={2} alignItems="center">
                 <Typography component="h1" variant="h5">
                   Add Company
@@ -62,7 +61,7 @@ const AddCompany: React.FC = () => {
                   Generate Account
                 </LoadingButton>
               </Stack>
-            </form>
+            </Form>
           </FormikProvider>
         </Paper>
       </Grid>

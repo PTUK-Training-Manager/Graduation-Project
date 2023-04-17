@@ -29,7 +29,7 @@ const useSignInController = () => {
         validateOnMount: true,
     });
 
-    const {mutate, isLoading, error} = useMutation(
+    const {mutate, isLoading} = useMutation(
         SignInQueryKey,
         signIn,
         {
