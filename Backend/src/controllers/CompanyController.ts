@@ -4,13 +4,17 @@ import Company from "../models/Company";
 import CompanyBranch from "../models/CompanyBranch";
 import { BranchRequestBody, CompanyRequestBody, BaseResponse } from "../types";
 
-
 class CompanyController {
 
-    async addCompany(req: CompanyRequestBody, res: Response<BaseResponse>, next: NextFunction) {
-        try {
-            const { id, name, email, location, phoneNumber, managerName } = req.body;
+    constructor() {
+            this.addCompany=this.addCompany.bind(this);
+            this.handleAddBranch=this.handleAddBranch.bind(this);
+        }
 
+
+    async addCompany(req: CompanyRequestBody, res: Response<BaseResponse>, next: NextFunction) {
+        const { id, name, email, location, phoneNumber, managerName } = req.body;
+        try {
             const company = await Company.findByPk(id);
 
             if (!company) {
@@ -19,16 +23,16 @@ class CompanyController {
                     location
                 );
 
-                const user = await UserController.addUser({
+                const userId = await UserController.addUser({
                     username: temp, password, email, saltRounds: 10, roleId: 6
                 }); // company roleID in DataBase
 
                 const record = await Company.create({
                     id,
-                    name: name,
+                    name,
                     phoneNumber,
                     managerName,
-                    userId: user,
+                    userId,
                 });
 
                 if (!record)
@@ -38,7 +42,8 @@ class CompanyController {
                         message: "error creating account Company"
                     });
 
-                await this.addBranch(res, id, location, next);
+                 await this.addBranch(res, id, location, next);
+    
             }
             else
                 return res.json({
@@ -54,9 +59,10 @@ class CompanyController {
         }
     }
 
-    private async addBranch(res: Response<BaseResponse>, companyId: number, location: string, next: NextFunction) {
+    async addBranch(res: Response<BaseResponse>, id: number, location: string, next: NextFunction) {
         try {
-            const company = await Company.findByPk(companyId);
+            console.log(location,id)
+            const company = await Company.findByPk(id);
             if (!company)
                 return res.json({
                     success: false,
@@ -64,11 +70,11 @@ class CompanyController {
                     message: "the company does not exist"
                 })
 
-            const branch = await CompanyBranch.findOne({
-                where: { location, companyId },
+            const branchRecord = await CompanyBranch.findOne({
+                where: { location, companyId:id },
             });
 
-            if (branch)
+            if (branchRecord)
                 return res.json({
                     success: false,
                     status: res.statusCode,
@@ -76,12 +82,12 @@ class CompanyController {
                     data: company
                 });
 
-            const BranchName = await CompanyBranch.create({
+            const branch = await CompanyBranch.create({
                 location,
-                companyId,
+                companyId:id,
             });
 
-            if (!BranchName)
+            if (!branch)
                 return res.json({
                     success: false,
                     status: res.statusCode,
@@ -89,13 +95,13 @@ class CompanyController {
                 });
 
             return res.json({
-                success: false,
+                success: true,
                 status: res.statusCode,
                 message: "success adding new branch/company",
                 data: {
                     companyID: company.id,
                     companyName: company.name,
-                    location: BranchName.location
+                    location: branch.location
                 }
             });
         }
@@ -143,8 +149,6 @@ class CompanyController {
             next(err);
         }
     }
-
-
 }
 
 export default new CompanyController();
