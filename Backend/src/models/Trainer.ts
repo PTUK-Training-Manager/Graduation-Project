@@ -1,10 +1,10 @@
-import { DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
+import { CreationOptional, DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
 import sequelize from "../config/connection";
 import User from './User';
 import Company from './Company';
 
 export default class Trainer extends Model<InferAttributes<Trainer>, InferCreationAttributes<Trainer>> {
-  declare id: number;
+  declare id: CreationOptional<number>;
   declare name: string;
   declare field: string;
   declare userId: ForeignKey<User['id']>;
@@ -14,7 +14,7 @@ export default class Trainer extends Model<InferAttributes<Trainer>, InferCreati
 Trainer.init({
   id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    autoIncrement: true,
     primaryKey: true
   },
   name: {

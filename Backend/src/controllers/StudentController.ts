@@ -28,7 +28,7 @@ class studentController {
                 email,
                 password,
                 saltRounds: 10,
-                roleId: 6
+                roleId: 3
             }); // company roleID in DataBase
 
             const studentRecord = await Student.create({

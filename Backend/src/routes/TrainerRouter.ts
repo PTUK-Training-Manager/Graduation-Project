@@ -1,9 +1,9 @@
 import express from 'express';
-import trainerController from '../controllers/TrainerController';
+import TrainierController from '../controllers/TrainerController';
+import verifyAccessToken from '../middlewares/verifyAccessToken';
 const router = express.Router();
-const {addtrainer,getAll}=trainerController
-
-router.post('/trainer',addtrainer);
+const {addtrainer,getAll}=TrainierController
+router.post('/trainer',verifyAccessToken,addtrainer);
 router.get('/trainers',getAll);
 
 export default router;

@@ -23,6 +23,7 @@ class CompanyController {
                     location
                 );
 
+                console.log(password);
                 const userId = await UserController.addUser({
                     username: temp, password, email, saltRounds: 10, roleId: 6
                 }); // company roleID in DataBase
@@ -61,7 +62,6 @@ class CompanyController {
 
     async addBranch(res: Response<BaseResponse>, id: number, location: string, next: NextFunction) {
         try {
-            console.log(location,id)
             const company = await Company.findByPk(id);
             if (!company)
                 return res.json({

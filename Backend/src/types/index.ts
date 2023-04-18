@@ -92,3 +92,12 @@ export interface BranchRequestBody extends Request {
         companyId: number;
     }
 }
+export interface TrainerRequestBody extends Request {
+    body: {
+        name: string;
+        email:string;
+        field: string;
+        username:string;
+        password:string;
+    }
+}
