@@ -211,6 +211,16 @@ class TrainingController {
             data: data
         });
     }
+
+    getRunningTrainings = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
+        try {
+            
+        
+        }catch (err) {
+
+        }
+
+    }
 }
 
 export default new TrainingController();
