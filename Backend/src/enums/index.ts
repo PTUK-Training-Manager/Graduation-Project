@@ -34,6 +34,7 @@ export enum TrainingStatusEnum {
     canceled = 'canceled',
     submitted = 'submitted',
     completed = 'completed',
+    accepted = 'accepted'
 }
 
 export enum TrainingTypeEnum {

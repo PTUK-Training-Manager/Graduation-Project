@@ -14,7 +14,8 @@ export type TrainingStatus =
     | "running"
     | "canceled"
     | "submitted"
-    | "completed";
+    | "completed"
+    | "accepted";
 
 export type TrainingType =
     | "first"

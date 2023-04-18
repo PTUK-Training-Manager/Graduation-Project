@@ -27,6 +27,7 @@ class UserController {
         const second = secondValue.slice(0, 2).toLocaleLowerCase();
 
         const password = crypto.randomBytes(8).toString("hex"); //random string for password
+        console.log(password);
         const username = first + "." + second;
         var suffix = 1;
         var record = await User.findOne({ where: { username } });
