@@ -5,63 +5,63 @@ import UserController from "./UserController";
 
 class TrainierController {
 
-	addtrainer=async (req: TrainerRequestBody, res: Response<BaseResponse>, next: NextFunction)=> {
+	addtrainer = async (req: TrainerRequestBody, res: Response<BaseResponse>, next: NextFunction) => {
 		try {
-			const {name,email, field, status,username, password}= req.body;
+			const { name, email, field, status, username, password } = req.body;
 
 			const user = await User.findOne({
-				where: {username}
+				where: { username }
 			})
 
-            if (user) {
-                return res.json({
-                    success: false,
-                    status: res.statusCode,
-                    message: "trainer already exists || invalid username",
-                    data: user
-                })
-            }
+			if (user) {
+				return res.json({
+					success: false,
+					status: res.statusCode,
+					message: "trainer already exists || invalid username",
+					data: user
+				})
+			}
 			const TrainerUserid = await UserController.addUser({
-                username,
-                email,
-                password,
-                saltRounds: 10,
-                roleId: 3
-            }); // Trainer roleID in DataBase
+				username,
+				email,
+				password,
+				saltRounds: 10,
+				roleId: 3
+			}); // Trainer roleID in DataBase
 
 
 
 			const Username = req.user.username;
-            const companyUser = await User.findOne({
-                where: { username:Username },
-                attributes: ['id']
-            });
-            const companyUserId = companyUser?.id;
+			const companyUser = await User.findOne({
+				where: { username: Username },
+				attributes: ['id']
+			});
+			const companyUserId = companyUser?.id;
 
 			const company = await Company.findOne({
-                where: { userId:companyUserId },
-                attributes: ['id']
-            });
-            const companyId = company?.id;
+				where: { userId: companyUserId },
+				attributes: ['id']
+			});
+			const companyId = company?.id;
 
 
-		
+
 
 			const trainerRecord = await Trainer.create({
-                name,
-                field,
+				name,
+				field,
 				status,
-                userId: TrainerUserid,
+				userId: TrainerUserid,
 				companyId
-            });
-
-			if(!trainerRecord)
-			return res.json({
-				success: false,
-				status: res.statusCode,
-				message: "error creating Trainer account"
 			});
-		
+
+			if (!trainerRecord)
+				return res.json({
+					success: false,
+					status: res.statusCode,
+					message: "error creating Trainer account"
+				});
+
 			return res.json({
 				success: true,
 				status: res.statusCode,
@@ -73,7 +73,7 @@ class TrainierController {
 		}
 	}
 
-	getAll=async (req: TrainerRequestBody, res: Response<BaseResponse>, next: NextFunction)=> {
+	getAll = async (req: TrainerRequestBody, res: Response<BaseResponse>, next: NextFunction) => {
 		try {
 			const records = await Trainer.findAll({});
 			return res.json({
@@ -87,31 +87,31 @@ class TrainierController {
 		}
 	}
 
-	getMyTrainers=async (req: TrainerRequestBody, res: Response<BaseResponse>, next: NextFunction)=>{
+	getMyTrainers = async (req: TrainerRequestBody, res: Response<BaseResponse>, next: NextFunction) => {
 
 		try {
 
 
 
-			
+
 			const Username = req.user.username;
-            const companyUser = await User.findOne({
-                where: { username:Username },
-                attributes: ['id']
-            });
-            const companyUserId = companyUser?.id;
+			const companyUser = await User.findOne({
+				where: { username: Username },
+				attributes: ['id']
+			});
+			const companyUserId = companyUser?.id;
 
 			const company = await Company.findOne({
-                where: { userId:companyUserId },
-                attributes: ['id']
-            });
-            const companyId = company?.id;
-			console.log(Username,companyUserId,companyId)
+				where: { userId: companyUserId },
+				attributes: ['id']
+			});
+			const companyId = company?.id;
+			console.log(Username, companyUserId, companyId)
 
 
 
 			const records = await Trainer.findAll({
-				where:{companyId}
+				where: { companyId }
 			});
 			return res.json({
 				success: true,
@@ -125,9 +125,57 @@ class TrainierController {
 
 	}
 
-	editTrainerData=async (req: TrainerRequestBody, res: Response<BaseResponse>, next: NextFunction)=>{
-	
-		const {id,field}=req.body;
+	editTrainerData = async (req: TrainerRequestBody, res: Response<BaseResponse>, next: NextFunction) => {
+
+		const { id, field } = req.body;
+		try {
+
+			await Trainer.update({ field },
+				{
+					where: { id }
+				});
+			const trainerRecord = await Trainer.findByPk(id)
+			if (trainerRecord)
+				res.json({
+					success: true,
+					status: res.statusCode,
+					message: "successfully updated trainers field",
+					data: trainerRecord
+				})
+
+			res.json({
+				success: false,
+				status: res.statusCode,
+				message: "something went wrong"
+			})
+		} catch (err) {
+			next(err);
+		}
+	}
+
+	deleteTrainer = async (req: TrainerRequestBody, res: Response<BaseResponse>, next: NextFunction) => {
+		try {
+			const id = req.body.id
+			const trainerRecord= await Trainer.destroy({
+				where: { id }
+			})
+			if(trainerRecord)
+			res.json({
+				success: true,
+				status: res.statusCode,
+				message: "successfully deleted trainer",
+				data: trainerRecord
+			})
+			res.json({
+				success: false,
+				status: res.statusCode,
+				message: "something went wrong"
+			})
+
+		}
+		catch (err) {
+			next(err);
+		}
 	}
 }
 
