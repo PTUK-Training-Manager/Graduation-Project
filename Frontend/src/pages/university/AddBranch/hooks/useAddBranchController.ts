@@ -27,13 +27,12 @@ const useAddBranchController = () => {
         validateOnMount: true,
     });
 
-    const {mutate, isLoading, error} = useMutation(
+    const {mutate, isLoading} = useMutation(
         AddBranchQueryKey,
         addBranch,
         {
             onSuccess: (data) => {
-                const {id,location} = data?.data;
-                // onLogin({username, roleId}, {shouldNavigate: true});
+                console.log(data.data);
                 showSnackbar({severity: "success", message: "Adding Branch successfull"});
             },
             onError: (error: AxiosBaseError) => {

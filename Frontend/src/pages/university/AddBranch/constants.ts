@@ -1,4 +1,4 @@
 export const INITIAL_FORM_STATE = {
-    id: "",
+    companyId: "",
     location: ""
 }

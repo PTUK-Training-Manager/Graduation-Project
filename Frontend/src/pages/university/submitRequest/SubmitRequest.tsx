@@ -31,7 +31,6 @@ const SubmitRequest: React.FC = () => {
       sx={{
         transition: ".25s",
         pt: 2,
-        paddingLeft: isSidebarOpen ? `${getContentPaddingLeft(isSidebarOpen)}px` : "24px",
         display: 'flex',
         justifyContent: "center",
         alignItems: "center"

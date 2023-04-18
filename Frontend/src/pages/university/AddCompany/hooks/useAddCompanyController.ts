@@ -32,7 +32,6 @@ const useAddCompanyController = () => {
         addCompany,
         {
             onSuccess: (data) => {
-                const {id,name,phoneNumber,managerName,location,email} = data?.data;
                 console.log(data.data)
                 showSnackbar({severity: "success", message: "Adding Company successfull"});
             },

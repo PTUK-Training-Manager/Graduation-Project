@@ -5,15 +5,13 @@ import Paper from '@mui/material/Paper';
 import { getContentPaddingLeft } from 'src/constants';
 import useAccountContext from 'src/hooks/useAccountContext';
 import { LoadingButton } from '@mui/lab';
-import { MenuItem, Stack, TextField } from '@mui/material';
-import { FormikProvider } from 'formik';
+import { Button, MenuItem, Stack, TextField } from '@mui/material';
+import { Form, FormikProvider } from 'formik';
 import TextFieldWrapper from 'src/components/FormsUI/TextField';
 import useAddBranchController from './hooks/useAddBranchController';
 
 const AddBranch: React.FC = () => {
-  const { isSidebarOpen } = useAccountContext();
   const { formikProps, isLoading } = useAddBranchController();
-  const { isValid } = formikProps;
   
   
   return (
@@ -37,36 +35,27 @@ const AddBranch: React.FC = () => {
           }}
         >
           <FormikProvider value={formikProps}>
-            <form>
+            <Form>
               <Stack gap={2} alignItems="center">
                 <Typography component="h1" variant="h5">
                   Add Branch
                 </Typography>
           
-                <TextField
-                fullWidth
-                label="Company Name"
-                select
-                name="companyId"
-                >
-                  <MenuItem value="F">Nablus</MenuItem>
-                  <MenuItem value="E">Ramallah</MenuItem>
-                  <MenuItem value="A">Jenin</MenuItem>
-                </TextField>
-                
+               
+                <TextFieldWrapper label="Company Name" name="companyId" />
                 <TextFieldWrapper label="Location" name="location" />
 
-                <LoadingButton
+                <Button
                   type="submit"
                   fullWidth
                   variant="contained"
                   // disabled={!isValid}
-                  loading={isLoading}
+                  // loading={isLoading}
                 >
                   Generate Account
-                </LoadingButton>
+                </Button>
               </Stack>
-            </form>
+            </Form>
           </FormikProvider>
         </Paper>
       </Grid>
