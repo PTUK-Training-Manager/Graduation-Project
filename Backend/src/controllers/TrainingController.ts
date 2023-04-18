@@ -381,10 +381,10 @@ class TrainingController {
                 id: trainingId
             }
         });
-        this.editTrainer(req, res, next);
+        this.changeTrainer(req, res, next);
     }
 
-    editTrainer = async (req: editTrainerRequestBody, res: Response<BaseResponse>, next: NextFunction) => {
+    changeTrainer = async (req: editTrainerRequestBody, res: Response<BaseResponse>, next: NextFunction) => {
         try {
             const { trainingId, trainerId } = req.body;
             Training.update({ trainerId }, {
