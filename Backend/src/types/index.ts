@@ -88,6 +88,13 @@ export interface TrainingRequestBody extends Request {
     }
 }
 
+export interface editTrainerRequestBody extends Request {
+    body: {
+        trainingId: number;
+        trainerId: number;
+    }
+}
+
 export interface BranchRequestBody extends Request {
     body: {
         companyId: number;

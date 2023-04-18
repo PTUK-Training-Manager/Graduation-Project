@@ -9,28 +9,70 @@ import {
     Question,
     Trainer,
     Training,
-    CompanyBranch
+    CompanyBranch,
+    User
 } from "../models/index";
-import { fn, col } from "sequelize";
-import { TrainingStatusEnum } from "../enums";
-import { ButtonHandler, BaseResponse, TrainingRequestBody } from "../types";
+import { fn, col, Op } from "sequelize";
+import { TrainingStatusEnum, UserRoleEnum } from "../enums";
+import { ButtonHandler, BaseResponse, TrainingRequestBody, editTrainerRequestBody } from "../types";
 
 class TrainingController {
     getCompletedTrainings = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
         try {
-            const completedStudents = await Training.findAll({
-                attributes: ['studentId', [fn('COUNT', col('studentId')), 'count']],
-                where: {
-                    status: TrainingStatusEnum.completed
-                }, include: [
-                    {
-                        model: Student,
-                        attributes: ['name']
-                    }]
-                ,
-                group: ['studentId']
-            });
-
+            const roleId = req.user.roleId;
+            let completedStudents: Training[] = [];
+            if (UserRoleEnum.UNI_TRAINING_OFFICER == roleId) {
+                completedStudents = await Training.findAll({
+                    attributes: ['studentId', [fn('COUNT', col('studentId')), 'count']],
+                    where: {
+                        status: TrainingStatusEnum.completed
+                    }, include: [
+                        {
+                            model: Student,
+                            attributes: ['name']
+                        }]
+                    ,
+                    group: ['studentId']
+                });
+            } else if (UserRoleEnum.Company == roleId) {
+                const username = req.user.username;
+                const user = await User.findOne({
+                    where: { username },
+                    attributes: ['id']
+                });
+                const userId = user?.id;
+                const company = await Company.findOne({
+                    where: { userId },
+                    attributes: ['id']
+                });
+                const companyId = company?.id;
+                const companyBranches = await CompanyBranch.findAll({
+                    where: { companyId },
+                    attributes: ['id']
+                });
+                const branchesId = companyBranches.map(obj => obj.id);
+                completedStudents = await Training.findAll({
+                    where: {
+                        status: TrainingStatusEnum.completed,
+                        companyBranchId: { [Op.in]: branchesId }
+                    },
+                    attributes: ['id', 'studentId', 'companyBranchId', 'trainerId'],
+                    include: [
+                        {
+                            model: Student,
+                            attributes: ['name']
+                        },
+                        {
+                            model: CompanyBranch,
+                            attributes: ['location']
+                        },
+                        {
+                            model: Trainer,
+                            attributes: ['name']
+                        },
+                    ]
+                });
+            }
             return res.json({
                 success: true,
                 status: res.statusCode,
@@ -51,9 +93,7 @@ class TrainingController {
                 status: TrainingStatusEnum.completed
             }, attributes: ['id']
         });
-
         req.body.trainingId = trainings[index].id;
-
         await this.generateEvaluationForm(req, res, next);
     }
 
@@ -194,7 +234,6 @@ class TrainingController {
         }
     }
 
-
     async getRecords(req: TrainingRequestBody, res: Response<BaseResponse>, next: NextFunction) {
         const page = req.body.page
         const pageSize = 10;
@@ -212,15 +251,175 @@ class TrainingController {
         });
     }
 
-    getRunningTrainings = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
+    getAcceptedTrainings = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
         try {
-            
-        
-        }catch (err) {
+            const username = req.user.username;
+            const user = await User.findOne({
+                where: { username },
+                attributes: ['id']
+            });
+            const userId = user?.id;
+            const company = await Company.findOne({
+                where: { userId },
+                attributes: ['id']
+            });
+            const companyId = company?.id;
+            const companyBranches = await CompanyBranch.findAll({
+                where: { companyId },
+                attributes: ['id']
+            });
+            const branchesId = companyBranches.map(obj => obj.id);
+            const acceptedTrainings = await Training.findAll({
+                where: {
+                    status: TrainingStatusEnum.accepted,
+                    companyBranchId: { [Op.in]: branchesId }
+                },
+                attributes: ['id', 'studentId', 'companyBranchId'],
+                include: [
+                    {
+                        model: Student,
+                        attributes: ['name']
+                    },
+                    {
+                        model: CompanyBranch,
+                        attributes: ['location']
+                    }]
+            });
+            return res.json({
+                success: true,
+                status: res.statusCode,
+                message: `acceptedRequests: `,
+                data: acceptedTrainings
+            });
+
+        } catch (err) {
 
         }
-
     }
+
+    getRunningTrainings = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
+        try {
+            //can i make fumction return branch id array instead of repeating code
+            const roleId = req.user.roleId;
+            let runningTrainings: Training[] = [];
+            if (roleId == UserRoleEnum.Company) {
+                const username = req.user.username;
+                const user = await User.findOne({
+                    where: { username },
+                    attributes: ['id']
+                });
+                const userId = user?.id;
+                const company = await Company.findOne({
+                    where: { userId },
+                    attributes: ['id']
+                });
+                const companyId = company?.id;
+                const companyBranches = await CompanyBranch.findAll({
+                    where: { companyId },
+                    attributes: ['id']
+                });
+                const branchesId = companyBranches.map(obj => obj.id);
+                runningTrainings = await Training.findAll({
+                    where: {
+                        status: TrainingStatusEnum.running,
+                        companyBranchId: { [Op.in]: branchesId }
+                    },
+                    attributes: ['id', 'studentId', 'companyBranchId', 'trainerId'],
+                    include: [
+                        {
+                            model: Student,
+                            attributes: ['name']
+                        },
+                        {
+                            model: CompanyBranch,
+                            attributes: ['location']
+                        },
+                        {
+                            model: Trainer,
+                            attributes: ['name']
+                        },
+                    ]
+                });
+            } else if (roleId == UserRoleEnum.UNI_TRAINING_OFFICER) {
+                runningTrainings = await Training.findAll({
+                    where: {
+                        status: TrainingStatusEnum.running
+                    },
+                    attributes: ['id', 'studentId', 'companyBranchId'],
+                    include: [
+                        {
+                            model: Student,
+                            attributes: ['name']
+                        },
+                        {
+                            model: CompanyBranch, include: [
+                                {
+                                    model: Company,
+                                    attributes: ['name']
+                                }],
+                            attributes: ['location']
+                        },
+                    ]
+                });
+
+            }
+            return res.json({
+                success: true,
+                status: res.statusCode,
+                message: `running Requests: `,
+                data: runningTrainings
+            });
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    joinTrainingWithTrainer = async (req: editTrainerRequestBody, res: Response, next: NextFunction) => {
+        const trainingId = req.body.trainingId;
+        Training.update({ status: TrainingStatusEnum.running }, {
+            where: {
+                id: trainingId
+            }
+        });
+        this.editTrainer(req, res, next);
+    }
+
+    editTrainer = async (req: editTrainerRequestBody, res: Response<BaseResponse>, next: NextFunction) => {
+        try {
+            const { trainingId, trainerId } = req.body;
+            Training.update({ trainerId }, {
+                where: {
+                    id: trainingId
+                }
+            });
+            return res.json({
+                success: true,
+                status: res.statusCode,
+                message: `trainer updated successfully`
+            });
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    cancleTraining = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
+        try {
+            let { id } = req.params;
+            Training.update({ status: TrainingStatusEnum.canceled }, {
+                where: {
+                    id
+                }
+            });
+            return res.json({
+                success: true,
+                status: res.statusCode,
+                message: `training canceled`
+            });
+        } catch (err) {
+            next(err);
+        }
+    }
+
 }
 
 export default new TrainingController();
