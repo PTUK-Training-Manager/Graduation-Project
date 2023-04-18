@@ -5,10 +5,6 @@ import { BaseResponse, StudentRequestBody } from "../types";
 
 
 class studentController {
-    // constructor() {
-    //     this.addStudent = this.addStudent.bind(this);
-    //     this.getAll = this.getAll.bind(this);
-    // }
 
     async addStudent(req: StudentRequestBody, res: Response<BaseResponse>, next: NextFunction) {
         try {
@@ -76,23 +72,19 @@ class studentController {
     }
 
 
-
-
-
-
-    // async deleteStudentById(req: Request, res: Response) {
-    //     try {
-    //         let { id } = req.params;
-    //         // const record = await Student.findByPk(id);
-    //         const deletedStudent = await Student.destroy({
-    //             where: { id: id },
-    //         });
-    //         if (!deletedStudent) return res.json("something went wrong");
-    //         return res.json("success");
-    //     } catch (e) {
-    //         return res.json({ msg: "fail to read", status: 500, route: "/read" });
-    //     }
-    // }
+    async deleteStudentById(req: Request, res: Response) {
+        try {
+            let {id} = req.params;
+            // const record = await Student.findByPk(id);
+            const deletedStudent = await Student.destroy({
+                where: { id},
+            });
+            if (!deletedStudent) return res.json("something went wrong");
+            return res.json("success");
+        } catch (e) {
+            return res.json({ msg: "fail to read", status: 500, route: "/read" });
+        }
+    }
 }
 
 export default new studentController();

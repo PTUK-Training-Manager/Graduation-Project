@@ -9,9 +9,9 @@ export const mapUserRoleToDisplayName = {
 
 export enum UserRole {
     SuperAdmin = 1,
-    UniTrainingOfficer = 2,
+    UniTrainingOfficer = 4,
     Trainer = 3,
-    Student = 4,
+    Student = 2,
     AdminAndRegistration = 5,
     Company = 6
 }

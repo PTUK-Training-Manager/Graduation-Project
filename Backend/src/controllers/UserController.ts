@@ -5,11 +5,10 @@ import crypto from "crypto";
 import { AddedUser, BaseResponse } from "../types";
 
 class UserController {
-    // constructor() {
-    //     this.addUser = this.addUser.bind(this);
-    //     this.generateAccount = this.generateAccount.bind(this);
-    //     this.handleAddUser = this.handleAddUser.bind(this);
-    // }
+    constructor() {
+        this.generateAccount = this.generateAccount.bind(this);
+        this.handleAddUser = this.handleAddUser.bind(this);
+    }
 
     async addUser(user: AddedUser) {
         const { username, password, email, saltRounds, roleId } = user;
@@ -69,7 +68,7 @@ class UserController {
 
     async getAll(req: Request, res: Response<BaseResponse>, next: NextFunction) {
         try {
-            const records = await User.findAll({});
+            const records = await User.findAll();
             return res.json({
                 success: true,
                 status: res.statusCode,
@@ -81,18 +80,18 @@ class UserController {
         }
     }
 
-    // async deleteUserByPK(req: Request, res: Response) {
-    //     try {
-    //         let { username } = req.params;
-    //         const deletedUser = await User.destroy({
-    //             where: { username: username },
-    //         });
-    //         if (!deletedUser) return res.json("something went wrong");
-    //         return res.json("success");
-    //     } catch (e) {
-    //         return res.json({ msg: "fail to read", status: 500, route: "/read" });
-    //     }
-    // }
+    async deleteUserByPK(req: Request, res: Response) {
+        try {
+            let { username } = req.params;
+            const deletedUser = await User.destroy({
+                where: {username },
+            });
+            if (!deletedUser) return res.json("something went wrong");
+            return res.json("success");
+        } catch (e) {
+            return res.json({ msg: "fail to read", status: 500, route: "/read" });
+        }
+    }
 }
 
 export default new UserController();

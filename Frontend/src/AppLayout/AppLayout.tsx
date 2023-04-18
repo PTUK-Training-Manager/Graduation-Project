@@ -7,17 +7,15 @@ import {Outlet} from "react-router-dom";
 import useAccountContext from "src/hooks/useAccountContext";
 import {getContentPaddingLeft} from "src/constants";
 
-
-// TODO:: Use styled() instead of makeStyles()
 const AppLayout: FC = () => {
 
     const classes = useStyles();
-    const {isSidebarOpen} = useAccountContext();
+    const {isSidebarOpen,user} = useAccountContext();
 
     return (
         <>
             <AppNavbar/>
-            <AppSideDrawer/>
+            {user && <AppSideDrawer roleId={user.roleId}/>}
             <Grid container className={classes.contentArea} style={{
                 paddingLeft: isSidebarOpen ? `${getContentPaddingLeft(isSidebarOpen)}px` : "24px",
             }}>
