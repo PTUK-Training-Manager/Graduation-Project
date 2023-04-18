@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { CompanyBranch, Student, Training, Company, Question, Note, AnsweredQuestion } from "../models";
+import { CompanyBranch, Student, Training, Company, User } from "../models";
 import { TrainingStatusEnum, TrainingTypeEnum } from "../enums"
 import { Op } from 'sequelize';
 import { BaseResponse } from '../types';
@@ -157,6 +157,90 @@ class TrainingRequestController {
         }
 
     }
+
+    getTrainingRequest = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
+        try {
+            const username = req.user.username;
+            const user = await User.findOne({
+                where: { username },
+                attributes: ['id']
+            });
+            const userId = user?.id;
+            const company = await Company.findOne({
+                where: { userId },
+                attributes: ['id']
+            });
+            const companyId = company?.id;
+            const companyBranches = await CompanyBranch.findAll({
+                where: { companyId },
+                attributes: ['id']
+            });
+            const branchesId = companyBranches.map(obj => obj.id);
+            const trainingRequests = await Training.findAll({
+                where: {
+                    status: TrainingStatusEnum.pending,
+                    companyBranchId: { [Op.in]: branchesId }
+                },
+                attributes: ['id', 'type', 'studentId', 'companyBranchId'],
+                include: [
+                    {
+                        model: Student,
+                        attributes: ['name']
+                    },
+                    {
+                        model: CompanyBranch,
+                        attributes: ['location']
+                    }]
+            });
+            return res.json({
+                success: true,
+                status: res.statusCode,
+                message: `training requests: `,
+                data: trainingRequests
+            });
+
+        }
+        catch (err) {
+            next(err);
+        }
+    }
+
+    acceptTrainingRequest = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
+        try {
+            let { id } = req.params;
+            Training.update({ status: TrainingStatusEnum.accepted }, {
+                where: {
+                    id
+                }
+            });
+            return res.json({
+                success: true,
+                status: res.statusCode,
+                message: `training accepted `
+            });
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    rejectTrainingRequest = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
+        try {
+            let { id } = req.params;
+            Training.update({ status: TrainingStatusEnum.rejected }, {
+                where: {
+                    id
+                }
+            });
+            return res.json({
+                success: true,
+                status: res.statusCode,
+                message: `training rejected `
+            });
+        } catch (err) {
+            next(err);
+        }
+    }
+
 }
 
 export default new TrainingRequestController();
