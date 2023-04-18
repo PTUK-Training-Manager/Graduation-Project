@@ -46,3 +46,7 @@ export enum SemesterEnum {
     second = 'second',
     summer = 'summer',
 }
+export enum TrainerStatusEnum{
+    working ='working',
+    disabled= 'disabled',
+}

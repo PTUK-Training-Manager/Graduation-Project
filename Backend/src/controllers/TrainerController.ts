@@ -5,9 +5,9 @@ import UserController from "./UserController";
 
 class TrainierController {
 
-	async addtrainer(req: TrainerRequestBody, res: Response<BaseResponse>, next: NextFunction) {
+	addtrainer=async (req: TrainerRequestBody, res: Response<BaseResponse>, next: NextFunction)=> {
 		try {
-			const {name,email, field, username, password}= req.body;
+			const {name,email, field, status,username, password}= req.body;
 
 			const user = await User.findOne({
 				where: {username}
@@ -50,6 +50,7 @@ class TrainierController {
 			const trainerRecord = await Trainer.create({
                 name,
                 field,
+				status,
                 userId: TrainerUserid,
 				companyId
             });
@@ -72,7 +73,7 @@ class TrainierController {
 		}
 	}
 
-	async getAll(req: TrainerRequestBody, res: Response<BaseResponse>, next: NextFunction) {
+	getAll=async (req: TrainerRequestBody, res: Response<BaseResponse>, next: NextFunction)=> {
 		try {
 			const records = await Trainer.findAll({});
 			return res.json({
@@ -84,6 +85,49 @@ class TrainierController {
 		} catch (err) {
 			next(err);
 		}
+	}
+
+	getMyTrainers=async (req: TrainerRequestBody, res: Response<BaseResponse>, next: NextFunction)=>{
+
+		try {
+
+
+
+			
+			const Username = req.user.username;
+            const companyUser = await User.findOne({
+                where: { username:Username },
+                attributes: ['id']
+            });
+            const companyUserId = companyUser?.id;
+
+			const company = await Company.findOne({
+                where: { userId:companyUserId },
+                attributes: ['id']
+            });
+            const companyId = company?.id;
+			console.log(Username,companyUserId,companyId)
+
+
+
+			const records = await Trainer.findAll({
+				where:{companyId}
+			});
+			return res.json({
+				success: true,
+				status: res.statusCode,
+				message: "Trainers: ",
+				data: records
+			});
+		} catch (err) {
+			next(err);
+		}
+
+	}
+
+	editTrainerData=async (req: TrainerRequestBody, res: Response<BaseResponse>, next: NextFunction)=>{
+	
+		const {id,field}=req.body;
 	}
 }
 

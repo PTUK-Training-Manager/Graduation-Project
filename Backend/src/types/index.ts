@@ -26,6 +26,10 @@ export type SemesterType =
     | "second"
     | "summer";
 
+export type TrainerStatus =
+    | "working"
+    | "disabled";
+
 export interface LoginPayload {
     username: string,
     roleId: number
@@ -94,9 +98,11 @@ export interface BranchRequestBody extends Request {
 }
 export interface TrainerRequestBody extends Request {
     body: {
+        id:number;
         name: string;
         email:string;
         field: string;
+        status:TrainerStatus
         username:string;
         password:string;
     }

@@ -6,4 +6,5 @@ const {addtrainer,getAll}=TrainierController
 router.post('/trainer',verifyAccessToken,addtrainer);
 router.get('/trainers',getAll);
 
+
 export default router;
