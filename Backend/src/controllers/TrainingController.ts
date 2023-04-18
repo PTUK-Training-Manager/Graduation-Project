@@ -172,7 +172,7 @@ class TrainingController {
                 })
             }
 
-            await Training.update({ status: "completed" }, {
+            await Training.update({ status: TrainingStatusEnum.completed }, {
                 where: {
                     id: trainingId
                 }
