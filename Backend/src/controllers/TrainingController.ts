@@ -155,7 +155,63 @@ class TrainingController {
         }
     }
 
-   
+    submitQuestions = async (req: SubmitBody, res: Response<BaseResponse>, next: NextFunction) => {
+        try {
+            const { trainingId, arrayData } = req.body
+
+            const promises:Promise<AnsweredQuestion|Note>[] =[]
+
+            for(let i=0;i< arrayData.length;i++) {
+                let currentData=arrayData[i]
+               
+                
+                if (currentData.note) {
+                    //خزن النوت ف جدول النوت
+                    const noteRecord= await Note.create({
+                        note:currentData.note
+                    })
+
+                const answeredQuestionPromise= AnsweredQuestion.create({
+                    trainingId,
+                    questionId:currentData.questionId,
+                    answerId:currentData.answerId,
+                    noteId:noteRecord.id
+                })
+                promises.push(answeredQuestionPromise)
+            }
+            else{
+                const answeredQuestionPromise= AnsweredQuestion.create({
+                    trainingId,
+                    questionId:currentData.questionId,
+                    answerId:currentData.answerId
+                })
+                 promises.push(answeredQuestionPromise)
+            }
+            };
+
+            await Promise.all(promises)
+
+            await Training.update({ status: TrainingStatusEnum.completed }, {
+                where: {
+                    id: trainingId
+                }
+            })
+
+            const record = await Training.findOne({
+                where: { id: trainingId }
+            })
+
+            return res.json({
+                success: true,
+                status: res.statusCode,
+                message: "The Training was successfully updated to completed",
+                data: record
+            });
+
+        } catch (err) {
+            next(err);
+        }
+    }
 
     // async getRecords(req: TrainingRequestBody, res: Response<BaseResponse>, next: NextFunction) {
     //     const page = req.body.page
