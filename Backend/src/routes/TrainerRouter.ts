@@ -2,10 +2,12 @@ import express from 'express';
 import TrainierController from '../controllers/TrainerController';
 import verifyAccessToken from '../middlewares/verifyAccessToken';
 const router = express.Router();
-const {addtrainer,getAll,editTrainerData,disableTrainer}=TrainierController
-router.post('/trainer',verifyAccessToken,addtrainer);
+const {addtrainer,getAll,updateTrainer,deactivateTrainer}=TrainierController
 router.get('/trainers',getAll);
-router.put('/trainer',editTrainerData)
-router.delete('/trainer',disableTrainer)
+
+router.use(verifyAccessToken)
+router.post('/trainer',addtrainer);
+router.patch('/trainer', updateTrainer)
+router.delete('/trainer',deactivateTrainer)
 
 export default router;

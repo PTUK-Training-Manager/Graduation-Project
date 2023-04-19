@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { Student } from '../models';
 import UserController from "./UserController";
 import { BaseResponse, StudentRequestBody } from "../types";
+import { UserRoleEnum } from "../enums";
 
 
 class studentController {
@@ -28,7 +29,7 @@ class studentController {
                 email,
                 password,
                 saltRounds: 10,
-                roleId: 3
+                roleId: UserRoleEnum.STUDENT
             }); // company roleID in DataBase
 
             const studentRecord = await Student.create({
