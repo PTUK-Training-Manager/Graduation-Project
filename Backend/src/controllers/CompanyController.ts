@@ -3,6 +3,7 @@ import UserController from "./UserController";
 import Company from "../models/Company";
 import CompanyBranch from "../models/CompanyBranch";
 import { BranchRequestBody, CompanyRequestBody, BaseResponse } from "../types";
+import { UserRoleEnum } from "../enums";
 
 class CompanyController {
 
@@ -22,9 +23,8 @@ class CompanyController {
                     name,
                     location
                 );
-
                 const userId = await UserController.addUser({
-                    username: temp, password, email, saltRounds: 10, roleId: 6
+                    username: temp, password, email, saltRounds: 10, roleId: UserRoleEnum.Company
                 }); // company roleID in DataBase
 
                 const record = await Company.create({
@@ -61,7 +61,6 @@ class CompanyController {
 
     async addBranch(res: Response<BaseResponse>, id: number, location: string, next: NextFunction) {
         try {
-            console.log(location,id)
             const company = await Company.findByPk(id);
             if (!company)
                 return res.json({

@@ -27,6 +27,10 @@ export type SemesterType =
     | "second"
     | "summer";
 
+export type TrainerStatus =
+    | "active"
+    | "inactive";
+
 export interface LoginPayload {
     username: string,
     roleId: number
@@ -80,7 +84,7 @@ export interface StudentRequestBody extends Request {
 }
 export interface TrainingRequestBody extends Request {
     body: {
-        role: number;
+        roleId: number;
         trainingId: number;
         questionID: number;
         note: string;
@@ -92,4 +96,33 @@ export interface BranchRequestBody extends Request {
     body: {
         companyId: number;
     }
+}
+export interface TrainerRequestBody extends Request {
+    body: {
+        id: number;
+        name: string;
+        email: string;
+        field: string;
+        username: string;
+        password: string;
+    }
+}
+
+interface MyJson {
+    questionId: number;
+    answerId: number;
+    note: string;
+}
+export interface SubmitBody extends Request {
+    body: {
+        trainingId: number
+        arrayData: MyJson[];
+    }
+}
+
+export interface AddedRecord {
+    trainingId: number;
+    questionId: number;
+    answerId?: number;
+    noteId?: number;
 }

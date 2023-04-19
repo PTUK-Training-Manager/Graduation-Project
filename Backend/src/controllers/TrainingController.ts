@@ -13,7 +13,7 @@ import {
 } from "../models/index";
 import { fn, col } from "sequelize";
 import { TrainingStatusEnum } from "../enums";
-import { ButtonHandler, BaseResponse, TrainingRequestBody } from "../types";
+import { ButtonHandler, BaseResponse, TrainingRequestBody, SubmitBody, AddedRecord } from "../types";
 
 class TrainingController {
     getCompletedTrainings = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
@@ -138,10 +138,10 @@ class TrainingController {
 
     async getQuestions(req: TrainingRequestBody, res: Response<BaseResponse>, next: NextFunction) {
         try {
-            const { role } = req.body;
+            const { roleId } = req.body;
             const record = await Question.findAll({
                 where: {
-                    roleId: role,
+                    roleId,
                 }
             })
             return res.json({
@@ -155,62 +155,24 @@ class TrainingController {
         }
     }
 
-    async submitQuestionsWithAnswers(req: TrainingRequestBody, res: Response<BaseResponse>, next: NextFunction) {
-        try {
-            const { trainingId, questionID, note } = req.body;
+   
 
-            if (note) {
-                //خزن النوت ف جدول النوت
-                const noteid = await Note.create({
-                    note: note
-                })
-
-                await AnsweredQuestion.create({
-                    trainingId: trainingId,
-                    questionId: questionID,
-                    noteId: noteid.id
-                })
-            }
-
-            await Training.update({ status: TrainingStatusEnum.completed }, {
-                where: {
-                    id: trainingId
-                }
-            })
-
-            const record = await Training.findOne({
-                where: { id: trainingId }
-            })
-
-            return res.json({
-                success: true,
-                status: res.statusCode,
-                message: "The Training was successfully updated to completed",
-                data: record
-            });
-
-        } catch (err) {
-            next(err);
-        }
-    }
-
-
-    async getRecords(req: TrainingRequestBody, res: Response<BaseResponse>, next: NextFunction) {
-        const page = req.body.page
-        const pageSize = 10;
-        const startIndex = (page - 1) * pageSize;
-        const endIndex = startIndex + pageSize;
-        let data = await Student.findAll({
-            limit: pageSize,
-            offset: (page - 1) * pageSize
-        })
-        return res.json({
-            success: true,
-            status: res.statusCode,
-            message: "Students: ",
-            data: data
-        });
-    }
+    // async getRecords(req: TrainingRequestBody, res: Response<BaseResponse>, next: NextFunction) {
+    //     const page = req.body.page
+    //     const pageSize = 10;
+    //     const startIndex = (page - 1) * pageSize;
+    //     const endIndex = startIndex + pageSize;
+    //     let data = await Student.findAll({
+    //         limit: pageSize,
+    //         offset: (page - 1) * pageSize
+    //     })
+    //     return res.json({
+    //         success: true,
+    //         status: res.statusCode,
+    //         message: "Students: ",
+    //         data: data
+    //     });
+    // }
 }
 
 export default new TrainingController();

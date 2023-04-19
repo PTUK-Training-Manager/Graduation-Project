@@ -2,7 +2,7 @@ import { CreationOptional, DataTypes, ForeignKey, InferAttributes, InferCreation
 import sequelize from "../config/connection";
 import { SemesterType, TrainingStatus, TrainingType } from "../types";
 import { SemesterEnum, TrainingTypeEnum } from "../enums";
-import { Semester_Type, TRAINING_STATUS, TRAINING_TYPE, } from "../constants";
+import { SEMESTER_TYPES, TRAINING_STATUS, TRAINING_TYPE, } from "../constants";
 import Student from './Student';
 import CompanyBranch from './CompanyBranch';
 import Trainer from './Trainer';
@@ -33,7 +33,7 @@ Training.init(
             defaultValue: TrainingTypeEnum.first
         },
         semester: {
-            type: DataTypes.ENUM(...Semester_Type),
+            type: DataTypes.ENUM(...SEMESTER_TYPES),
             allowNull: true,
         },
         startDate: {
