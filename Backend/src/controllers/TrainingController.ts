@@ -159,81 +159,53 @@ class TrainingController {
         try {
             const { trainingId, arrayData } = req.body
 
+            const promises:Promise<AnsweredQuestion|Note>[] =[]
 
-            const promises:Promise<AnsweredQuestion>[] =[]
             for(let i=0;i< arrayData.length;i++) {
                 let currentData=arrayData[i]
-                console.log(currentData)
-                // const note = jsonObject.note
-                let answerId = Number(arrayData[i].answerId)
-                let questionId = Number(arrayData[i].questionId)
+               
+                
+                if (currentData.note) {
+                    //خزن النوت ف جدول النوت
+                    const noteRecord= await Note.create({
+                        note:currentData.note
+                    })
 
- 
-                const answeredQuestionPromise= await AnsweredQuestion.create({
+                const answeredQuestionPromise= AnsweredQuestion.create({
+                    trainingId,
+                    questionId:currentData.questionId,
+                    answerId:currentData.answerId,
+                    noteId:noteRecord.id
+                })
+                promises.push(answeredQuestionPromise)
+            }
+            else{
+                const answeredQuestionPromise= AnsweredQuestion.create({
                     trainingId,
                     questionId:currentData.questionId,
                     answerId:currentData.answerId
                 })
- 
-                // promises.push(answeredQuestionPromise)
-            //     if (note!= null) {
-                    
-            //         //خزن النوت ف جدول النوت
-            //         const noteRecord = await Note.create({
-            //             note
-            //         })
-
-            //         if (jsonObject.answerID!= null) {
-            //             console.log("note & answerID ")
-            //             await AnsweredQuestion.create({
-            //                 trainingId,
-            //                 questionId,
-            //                 answerId,
-            //                 noteId: noteRecord.id
-            //             })
-            //         }
-            //         else {
-            //             console.log("note ")
-            //             await AnsweredQuestion.create({
-            //                 trainingId,
-            //                 questionId,
-            //                 noteId: noteRecord.id
-            //             })
-            //         }
-            //     } 
-            //     else {
-                   
-            //         if (jsonObject.answerID!= null){
-            //             console.log("answerID")
-            //             await AnsweredQuestion.create({
-            //                 trainingId,
-            //                 questionId,
-            //                 answerId,
-            //             })
-            //         }
-
-            //     }
-
+                 promises.push(answeredQuestionPromise)
+            }
             };
 
-            // await Promise.all(promises)
-            // console.log(promises)
+            await Promise.all(promises)
 
-            // await Training.update({ status: TrainingStatusEnum.completed }, {
-            //     where: {
-            //         id: trainingId
-            //     }
-            // })
+            await Training.update({ status: TrainingStatusEnum.completed }, {
+                where: {
+                    id: trainingId
+                }
+            })
 
-            // const record = await Training.findOne({
-            //     where: { id: trainingId }
-            // })
+            const record = await Training.findOne({
+                where: { id: trainingId }
+            })
 
             return res.json({
                 success: true,
                 status: res.statusCode,
                 message: "The Training was successfully updated to completed",
-                // data: record
+                data: record
             });
 
         } catch (err) {
