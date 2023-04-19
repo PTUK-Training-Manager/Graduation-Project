@@ -138,10 +138,10 @@ class TrainingController {
 
     async getQuestions(req: TrainingRequestBody, res: Response<BaseResponse>, next: NextFunction) {
         try {
-            const { role } = req.body;
+            const {roleId } = req.body;
             const record = await Question.findAll({
                 where: {
-                    roleId: role,
+                 roleId,
                 }
             })
             return res.json({

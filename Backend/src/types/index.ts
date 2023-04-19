@@ -84,7 +84,7 @@ export interface StudentRequestBody extends Request {
 }
 export interface TrainingRequestBody extends Request {
     body: {
-        role: number;
+        roleId: number;
         trainingId: number;
         questionID: number;
         note: string;
