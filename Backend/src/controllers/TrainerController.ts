@@ -1,7 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { BaseResponse, TrainerRequestBody } from "../types";
-import { Trainer, Company, User } from "../models";
+import { Trainer, Company, User, Training } from "../models";
 import UserController from "./UserController";
+import { TrainerStatusEnum, TrainingStatusEnum } from "../enums";
+import { Op } from "sequelize";
 
 class TrainierController {
 
@@ -136,14 +138,14 @@ class TrainierController {
 				});
 			const trainerRecord = await Trainer.findByPk(id)
 			if (trainerRecord)
-				res.json({
+				return res.json({
 					success: true,
 					status: res.statusCode,
 					message: "successfully updated trainers field",
 					data: trainerRecord
 				})
 
-			res.json({
+			return res.json({
 				success: false,
 				status: res.statusCode,
 				message: "something went wrong"
@@ -153,20 +155,38 @@ class TrainierController {
 		}
 	}
 
-	deleteTrainer = async (req: TrainerRequestBody, res: Response<BaseResponse>, next: NextFunction) => {
+	disableTrainer = async (req: TrainerRequestBody, res: Response<BaseResponse>, next: NextFunction) => {
 		try {
 			const id = req.body.id
-			const trainerRecord= await Trainer.destroy({
-				where: { id }
+			const trainingRecords = await Training.findOne({
+				where: {[Op.and]:{
+					trainerId: id,
+					status:TrainingStatusEnum.running
+				}}
 			})
-			if(trainerRecord)
-			res.json({
-				success: true,
-				status: res.statusCode,
-				message: "successfully deleted trainer",
-				data: trainerRecord
-			})
-			res.json({
+			if (trainingRecords)
+				return res.json({
+					success: false,
+					status: res.statusCode,
+					message: "Trainer linked with trainees, Cant be deleted",
+					data: trainingRecords
+				})
+
+
+			await Trainer.update({ status: TrainerStatusEnum.disabled },
+				{
+					where: { id }
+				});
+			const trainerRecord = await Trainer.findByPk(id)
+
+			if (trainerRecord)
+				return res.json({
+					success: true,
+					status: res.statusCode,
+					message: "successfully disabled trainer",
+					data: trainerRecord
+				})
+			return res.json({
 				success: false,
 				status: res.statusCode,
 				message: "something went wrong"
@@ -177,6 +197,9 @@ class TrainierController {
 			next(err);
 		}
 	}
+
+
+	
 }
 
 export default new TrainierController();
