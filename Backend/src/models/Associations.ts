@@ -47,14 +47,14 @@ const associations = () => {
     Evaluation.belongsTo(Note, { foreignKey: "noteId" });
 
 
-    Answer.hasMany(AnsweredQuestion, { foreignKey: "answerID" });
-    AnsweredQuestion.belongsTo(Answer, { foreignKey: "answerID" });
+    Answer.hasMany(AnsweredQuestion, { foreignKey: "answerId" });
+    AnsweredQuestion.belongsTo(Answer, { foreignKey: "answerId" });
 
     Note.hasOne(AnsweredQuestion, { foreignKey: "noteId" });
     AnsweredQuestion.belongsTo(Note, { foreignKey: "noteId" });
 
-    Question.hasMany(AnsweredQuestion, { foreignKey: "questionID" });
-    AnsweredQuestion.belongsTo(Question, { foreignKey: "questionID" });
+    Question.hasMany(AnsweredQuestion, { foreignKey: "questionId" });
+    AnsweredQuestion.belongsTo(Question, { foreignKey: "questionId" });
 
 
     Role.hasMany(Question, { foreignKey: "roleId" });
