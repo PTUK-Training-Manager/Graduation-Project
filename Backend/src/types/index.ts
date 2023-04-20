@@ -92,6 +92,13 @@ export interface TrainingRequestBody extends Request {
     }
 }
 
+export interface EditTrainerRequestBody extends Request {
+    body: {
+        trainingId: number;
+        trainerId: number;
+    }
+}
+
 export interface BranchRequestBody extends Request {
     body: {
         companyId: number;
@@ -125,4 +132,10 @@ export interface AddedRecord {
     questionId: number;
     answerId?: number;
     noteId?: number;
+}
+export interface ChangeTrainingStatusBody extends Request {
+    body: {
+        trainingId: number;
+        status: TrainingStatus;
+    }
 }
