@@ -2,7 +2,7 @@ import express from 'express';
 import trainingController from "../controllers/TrainingController"
 import verifyAccessToken from '../middlewares/verifyAccessToken';
 const router = express.Router();
-const { cancleTraining, changeTrainer, joinTrainingWithTrainer, getCompletedTrainings, getAcceptedTrainings, handleGenerateFormButton, submittedStudents, getQuestions, submitQuestionsWithAnswers, getRecords, getRunningTrainings } = trainingController;
+const { cancleTraining, changeTrainer, joinTrainingWithTrainer, getCompletedTrainings, getAcceptedTrainings, handleGenerateFormButton, submittedStudents, getQuestions, getRunningTrainings } = trainingController;
 
 router.post('/joinTrainingWithTrainer', joinTrainingWithTrainer);
 router.post('/editTrainer', changeTrainer);
