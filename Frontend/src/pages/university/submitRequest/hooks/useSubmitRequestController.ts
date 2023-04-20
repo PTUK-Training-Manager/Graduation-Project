@@ -4,7 +4,6 @@ import {useFormik} from "formik";
 import {validationSchema} from "../schema";
 import {INITIAL_FORM_STATE} from "../constants";
 import useSnackbar from "src/hooks/useSnackbar";
-import useAccountContext from "src/hooks/useAccountContext";
 import {AxiosBaseError} from "src/types";
 import extractErrorMessage from "src/utils/extractErrorMessage";
 
@@ -17,8 +16,6 @@ const useSubmitRequestController = () => {
 
     const {showSnackbar} = useSnackbar();
 
-    const {onLogin} = useAccountContext();
-
     const formikProps = useFormik({
         initialValues: INITIAL_FORM_STATE,
         onSubmit: (values) => {
@@ -28,14 +25,16 @@ const useSubmitRequestController = () => {
         validateOnMount: true,
     });
 
-    const {mutate, isLoading, error} = useMutation(
+    const {mutate, isLoading } = useMutation(
         SubmitRequestQueryKey,
         submitRequest,
         {
             onSuccess: (data) => {
-                // const {username, roleId} = data?.data;
-                // onLogin({username, roleId}, {shouldNavigate: true});
-                showSnackbar({severity: "success", message: "Adding Company successfull"});
+                console.log(data.data);
+                if(data.data==true)
+                showSnackbar({severity: "success", message: data.message});
+                else if(data.success==false)
+                showSnackbar({severity: "warning", message: data.message});
             },
             onError: (error: AxiosBaseError) => {
                 const errorMessage = extractErrorMessage(error);

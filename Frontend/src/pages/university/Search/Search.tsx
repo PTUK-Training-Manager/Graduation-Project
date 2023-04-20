@@ -52,7 +52,7 @@ import useAccountContext from 'src/hooks/useAccountContext';
                       Company Name
                     </TableCell>
                     <TableCell sx={{ backgroundColor: '#EDF3F6' }}>
-                      Type{' '}
+                      Type
                     </TableCell>
                     <TableCell sx={{ backgroundColor: '#EDF3F6' }}>
                       Status

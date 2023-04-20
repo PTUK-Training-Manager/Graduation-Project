@@ -22,8 +22,9 @@ const useSignInController = () => {
 
     const formikProps = useFormik({
         initialValues: INITIAL_FORM_STATE,
-        onSubmit: (values) => {
+        onSubmit: (values,{ resetForm }) => {
             mutate(values);
+            resetForm();
         },
         validationSchema,
         validateOnMount: true,
@@ -36,7 +37,7 @@ const useSignInController = () => {
             onSuccess: (data) => {
                 const {username, roleId} = data?.data;
                 onLogin({username, roleId}, {shouldNavigate: true});
-                showSnackbar({severity: "success", message: "Signed in successfully"});
+                showSnackbar({severity: "success", message: data.message});
             },
             onError: (error: AxiosBaseError) => {
                 const errorMessage = extractErrorMessage(error);

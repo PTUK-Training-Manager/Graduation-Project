@@ -1,11 +1,12 @@
 import {BaseResponse} from "src/types";
 
 export interface AccessTokenData {
-    studentId: string;
+    id: string;
     type: string;
     semester: string;
-    companyId: string;
-    location: string;
+    status: string;
+    studentId: string;
+    companyBranchId: string;
   }
 
   export interface SubmitRequestResponse extends BaseResponse {

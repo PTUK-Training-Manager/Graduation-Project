@@ -58,6 +58,14 @@ interface AppSideDrawerProps {
                 </ListItemButton>
               </ListItem>
               <ListItem disablePadding>
+                <ListItemButton onClick={() => navigate('/pendingRequests')}>
+                  <ListItemIcon sx={{ color: grey[100] }}>
+                    <ContactPageIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Pending Requests" />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
                 <ListItemButton onClick={() => navigate('/addCompany')}>
                   <ListItemIcon sx={{ color: grey[100] }}>
                     <ContactPageIcon />

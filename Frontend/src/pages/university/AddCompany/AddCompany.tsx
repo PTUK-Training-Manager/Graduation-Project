@@ -2,8 +2,6 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import { getContentPaddingLeft } from 'src/constants';
-import useAccountContext from 'src/hooks/useAccountContext';
 import useAddCompanyController from './hooks/useAddCompanyController';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Form, FormikProvider } from 'formik';
@@ -11,7 +9,6 @@ import TextFieldWrapper from 'src/components/FormsUI/TextField';
 import Stack from '@mui/material/Stack';
 
 const AddCompany: React.FC = () => {
-  const { isSidebarOpen } = useAccountContext();
   const { formikProps, isLoading } = useAddCompanyController();
   const { isValid } = formikProps;
 
@@ -20,9 +17,6 @@ const AddCompany: React.FC = () => {
       <Grid
         container
         sx={{
-          // paddingLeft: isSidebarOpen
-          //   ? `${getContentPaddingLeft(isSidebarOpen)}px`
-          //   : '8px',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',

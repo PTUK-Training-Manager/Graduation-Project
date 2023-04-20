@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   TableContainer,
   Table,
@@ -7,121 +7,133 @@ import {
   TableRow,
   TableCell,
   Paper,
+  Typography,
 } from '@mui/material';
-import Box from '@mui/material/Box';
-import ListItemButton from '@mui/material/ListItemButton';
-import ManageSearchIcon from '@mui/icons-material/ManageSearch';
-import MenuItem from '@mui/material/MenuItem';
-import TextField from '@mui/material/TextField';
-import SearchIcon from '@mui/icons-material/Search';
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
-import Grid from '@mui/material/Grid';
-import { getContentPaddingLeft } from 'src/constants';
-import useAccountContext from 'src/hooks/useAccountContext';
+import { useDemoData } from '@mui/x-data-grid-generator';
+import MuiPagination from '@mui/material/Pagination';
+import { TablePaginationProps } from '@mui/material/TablePagination';
 
+import useAccountContext from 'src/hooks/useAccountContext';
+import Box from '@mui/material/Box';
+import { DataGrid, GridPagination, GridToolbar, gridClasses, gridPageCountSelector, useGridApiContext, useGridSelector } from '@mui/x-data-grid';
+import './CurrentTrainees.css';
+
+
+function Pagination({
+  page,
+  onPageChange,
+  className,
+}: Pick<TablePaginationProps, 'page' | 'onPageChange' | 'className'>) {
+  const apiRef = useGridApiContext();
+  const pageCount = useGridSelector(apiRef, gridPageCountSelector);
+
+  return (
+    <MuiPagination
+      color="primary"
+      className={className}
+      count={pageCount}
+      page={page + 1}
+      onChange={(event, newPage) => {
+        onPageChange(event as any, newPage - 1);
+      }}
+    />
+  );
+}
+
+function CustomPagination(props: any) {
+  return <GridPagination ActionsComponent={Pagination} {...props} />;
+}
 
 const CurrentTrainees: React.FC = () => {
   const {isSidebarOpen} = useAccountContext();
-
+const [pageSize,setPageSize] = useState(10);
   return (
     <>
-    <Grid container sx={{
-           transition: ".25s",
-           pt: 2,
-           paddingLeft: isSidebarOpen ? `${getContentPaddingLeft(isSidebarOpen)}px` : "24px",
-           // height: "100vh",
-           // width: "100%",
-           display: 'flex',
-           justifyContent: "center",
-           alignItems: "center"
-        }}>
-      {/* <Stack spacing={4} direction="row">
-        <TextField
-        label="Search"
-        >
-        </TextField>
-        <SearchIcon />
-      </Stack> */}
-      {/* <Stack display="flex"> */}
-        <Paper  sx={{padding: 4}}
-                elevation={10}>
-          <TableContainer sx={{ maxHeight: '28.125rem' }}>
-            <Table aria-aria-label="current trainne table" stickyHeader>
-              <TableHead>
-                <TableRow className='table-row' >
-                  <TableCell  sx={{backgroundColor:"#EDF3F6"}} sortDirection="asc">Student Number</TableCell>
-                  <TableCell  sx={{backgroundColor:"#EDF3F6"}} >Student Name</TableCell>
-                  <TableCell  sx={{backgroundColor:"#EDF3F6"}} >Progress Form</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {Trainnes.map((row) => (
-                  <TableRow
-                    key={row['s-number']}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  >
-                    <TableCell  sx={{backgroundColor:"white"}} >{row['s-number']}</TableCell>
-                    <TableCell  sx={{backgroundColor:"white"}} >{row['s-name']}</TableCell>
-                    <TableCell  sx={{backgroundColor:"white"}}>
-                        <ListItemButton >
-                          <ManageSearchIcon />
-                        </ListItemButton>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
-        {/* <Stack className="page"  spacing={4} direction="column">
-            <Pagination count={10} />
-        </Stack> */}
-      {/* </Stack> */}
-      </Grid>
+ 
+  <DataGrid className='dataGrid' 
+  sx={{
+    boxShadow: 10,
+    border: 1,
+    borderColor: '#cacaca',
+    '& .MuiDataGrid-cell:hover': {
+      color: 'primary.main',
+      
+    },
+  }}
+  
+   columns={columns} 
+   rows={rows}
+    getRowId={row=>row['SNumber']}
+    initialState={{
+      pagination: { paginationModel: { pageSize: 30 } },
+    }}
+    pageSizeOptions={[10, 20, 30]}
+    slots={{
+      toolbar: GridToolbar,
+      pagination: CustomPagination,
+
+    }}
+   />
+
     </>
   );
 }
-const Trainnes = [
+const columns=[
+  { field: 'SNumber', headerName: 'Student Number', width: 220,headerclassName: 'ctrainees '},
+  { field: 'SName', headerName: 'Student Name', width: 220,flex:.5,headerclassName: 'ctrainees' },
+  { field: 'progForm', headerName: 'Progress Form', 
+  minwidth: 150,
+  flex:.3,
+  headerClassName:'ctrainees',
+    filterable:false,
+    sortable:false,
+  },
+
+]
+const rows = [
+  { SNumber: 201910213, 
+    SName: 'Sara Zebdeh'
+  },
+
   {
-    's-number': '201910213',
-    's-name': 'Sara Zebdeh',
+    SNumber: '201910213',
+    SName: 'Sara Zebdeh',
   },
   {
-    's-number': '201910135',
-    's-name': 'Hannen Thiab',
+    SNumber : 201910135,
+    SName: 'Hannen Thiab',
   },
   {
-    's-number': '201910790',
-    's-name': 'Hla Madi',
+    SNumber: 201910790,
+    SName: 'Hla Madi',
   },
   {
-    's-number': '201910124',
-    's-name': 'Shahd Amer',
+    SNumber: 201910124,
+    SName: 'Shahd Amer',
   },
   {
-    's-number': '202010310',
-    's-name': 'Shahd Amer',
+    SNumber: 202010310,
+    SName: 'Shahd Amer',
   },
   {
-    's-number': '201810652',
-    's-name': 'Mohammad Hajar',
+    SNumber: 201810652,
+    SName: 'Mohammad Hajar',
   },
   {
-    's-number': '202111322',
-    's-name': 'Ali Jaber',
+    SNumber: 202111322,
+    SName: 'Ali Jaber',
   },
   {
-    's-number': '201810194',
-    's-name': 'Sondos Asad',
+    SNumber: 201810194,
+    SName: 'Sondos Asad',
   },
   {
-    's-number': '201911150',
-    's-name': 'Roua Qashoo',
+    SNumber: 201911150,
+    SName: 'Roua Qashoo',
   },
   {
-    's-number': '201810216',
-    's-name': 'Shimaa Khadir',
+    SNumber: 201810216,
+    SName: 'Shimaa Khadir',
   },
 ];
 export default CurrentTrainees;

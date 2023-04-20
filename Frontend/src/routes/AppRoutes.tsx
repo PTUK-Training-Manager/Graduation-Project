@@ -15,6 +15,7 @@ const AccessDenied = lazy(() => import("src/pages/AccessDenied"));
 
 { /* university pages */ }
 const SubmitRequest = lazy(() => import('src/pages/university/submitRequest'));
+const PendingRequets = lazy(() => import('src/pages/university/PendingRequests'));
 const AddCompany = lazy(() => import('src/pages/university/AddCompany'));
 const CompletedTrainees = lazy(() => import('src/pages/university/CompletedTrainees'));
 const CurrentTrainees = lazy(() => import('src/pages/university/CurrentTrainees'));
@@ -64,6 +65,7 @@ const AppRoutes: FC<AppRoutesProps> = () => {
               
                 <Route element={<ProtectedRoute allowedRoles={[UserRole.UniTrainingOfficer]}/>}>
                 <Route path="/submitRequest" element={<SubmitRequest />} />
+                <Route path="/pendingRequests" element={<PendingRequets />} />
           <Route path="/addCompany" element={<AddCompany />} />
           <Route path="/addBranch" element={<AddBranch />} />
           <Route path="/completedTrainees" element={<CompletedTrainees />} />

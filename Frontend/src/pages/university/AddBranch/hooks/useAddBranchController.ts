@@ -20,8 +20,9 @@ const useAddBranchController = () => {
 
     const formikProps = useFormik({
         initialValues: INITIAL_FORM_STATE,
-        onSubmit: (values) => {
+        onSubmit: (values,{ resetForm }) => {
             mutate(values);
+            resetForm();
         },
         validationSchema,
         validateOnMount: true,
@@ -33,7 +34,10 @@ const useAddBranchController = () => {
         {
             onSuccess: (data) => {
                 console.log(data.data);
-                showSnackbar({severity: "success", message: "Adding Branch successfull"});
+                if(data.success==true)
+                showSnackbar({severity: "success", message: data.message});
+                else if(data.success==false)
+                showSnackbar({severity: "warning", message: data.message});
             },
             onError: (error: AxiosBaseError) => {
                 const errorMessage = extractErrorMessage(error);
