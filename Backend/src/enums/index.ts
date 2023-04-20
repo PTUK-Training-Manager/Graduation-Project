@@ -34,6 +34,7 @@ export enum TrainingStatusEnum {
     canceled = 'canceled',
     submitted = 'submitted',
     completed = 'completed',
+    accepted = 'accepted'
 }
 
 export enum TrainingTypeEnum {
@@ -45,4 +46,8 @@ export enum SemesterEnum {
     first = 'first',
     second = 'second',
     summer = 'summer',
+}
+export enum TrainerStatusEnum{
+    active ='active',
+    inactive= 'inactive',
 }

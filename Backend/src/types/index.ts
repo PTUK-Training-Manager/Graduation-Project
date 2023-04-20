@@ -14,7 +14,8 @@ export type TrainingStatus =
     | "running"
     | "canceled"
     | "submitted"
-    | "completed";
+    | "completed"
+    | "accepted";
 
 export type TrainingType =
     | "first"
@@ -25,6 +26,10 @@ export type SemesterType =
     | "first"
     | "second"
     | "summer";
+
+export type TrainerStatus =
+    | "active"
+    | "inactive";
 
 export interface LoginPayload {
     username: string,
@@ -79,7 +84,7 @@ export interface StudentRequestBody extends Request {
 }
 export interface TrainingRequestBody extends Request {
     body: {
-        role: number;
+        roleId: number;
         trainingId: number;
         questionID: number;
         note: string;
@@ -87,8 +92,50 @@ export interface TrainingRequestBody extends Request {
     }
 }
 
+export interface EditTrainerRequestBody extends Request {
+    body: {
+        trainingId: number;
+        trainerId: number;
+    }
+}
+
 export interface BranchRequestBody extends Request {
     body: {
         companyId: number;
+    }
+}
+export interface TrainerRequestBody extends Request {
+    body: {
+        id: number;
+        name: string;
+        email: string;
+        field: string;
+        username: string;
+        password: string;
+    }
+}
+
+interface MyJson {
+    questionId: number;
+    answerId: number;
+    note: string;
+}
+export interface SubmitBody extends Request {
+    body: {
+        trainingId: number
+        arrayData: MyJson[];
+    }
+}
+
+export interface AddedRecord {
+    trainingId: number;
+    questionId: number;
+    answerId?: number;
+    noteId?: number;
+}
+export interface ChangeTrainingStatusBody extends Request {
+    body: {
+        trainingId: number;
+        status: TrainingStatus;
     }
 }
