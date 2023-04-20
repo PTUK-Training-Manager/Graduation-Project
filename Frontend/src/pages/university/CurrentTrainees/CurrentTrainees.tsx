@@ -1,23 +1,11 @@
-import React, { useMemo, useState } from 'react';
-import {
-  TableContainer,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
-  Paper,
-  Typography,
-} from '@mui/material';
-import { useDemoData } from '@mui/x-data-grid-generator';
+import React, { useEffect, useMemo, useState } from 'react';
 import MuiPagination from '@mui/material/Pagination';
 import { TablePaginationProps } from '@mui/material/TablePagination';
-
-import useAccountContext from 'src/hooks/useAccountContext';
-import Box from '@mui/material/Box';
 import { DataGrid, GridPagination, GridToolbar, gridClasses, gridPageCountSelector, useGridApiContext, useGridSelector } from '@mui/x-data-grid';
 import './CurrentTrainees.css';
-
+import ClearIcon from '@mui/icons-material/Clear';
+import { getCurrentTrainees } from './api';
+import { IconButton } from '@mui/material';
 
 function Pagination({
   page,
@@ -43,10 +31,65 @@ function Pagination({
 function CustomPagination(props: any) {
   return <GridPagination ActionsComponent={Pagination} {...props} />;
 }
+interface Row {
+  id: string;
+studentId: string;
+companyBranchId: string;
+Student: {
+  name: string;
+};
+CompanyBranch: {
+  location: string;
+  Company: {
+    name: string;
+  };
+};
+}
 
 const CurrentTrainees: React.FC = () => {
-  const {isSidebarOpen} = useAccountContext();
-const [pageSize,setPageSize] = useState(10);
+  const [data,setData] = useState<Row[]>([]);
+  
+  useEffect(() => {
+    getCurrentTrainees()
+    .then((result) => {
+      setData(result.data);
+      console.log(result.data)
+    })
+    .catch((error) => console.log(error));
+  }, []);  
+
+  const columns=[
+    { field: 'id', headerName: 'Training Id', width: 150},
+    { field: 'studentId', headerName: 'Student Number', width: 220},
+    { field: 'studentName', headerName: 'Student Name', width: 220,flex:.5},
+    { field: 'companyName', headerName: 'Company Name', width: 220,flex:.5},
+    {
+      field: 'progForm',
+      headerName: 'Progress Form',
+      minwidth: 150,
+      flex: 0.3,
+      headerClassName: 'ctrainees',
+      filterable: false,
+      sortable: false,
+      renderCell: (params: { id: any; }) => (
+       <IconButton
+       aria-label='progress form'
+       >
+        <ClearIcon />
+       </IconButton>
+      ),
+    },
+  
+  ]
+  
+  const rows = data.map((row) => ({
+    id: row.id,
+    studentId: row.studentId,
+    studentName: row.Student.name,
+    companyName: row.CompanyBranch.Company.name,
+  })
+  )
+
   return (
     <>
  
@@ -63,7 +106,7 @@ const [pageSize,setPageSize] = useState(10);
   
    columns={columns} 
    rows={rows}
-    getRowId={row=>row['SNumber']}
+    getRowId={row=>row['id']}
     initialState={{
       pagination: { paginationModel: { pageSize: 30 } },
     }}
@@ -78,62 +121,5 @@ const [pageSize,setPageSize] = useState(10);
     </>
   );
 }
-const columns=[
-  { field: 'SNumber', headerName: 'Student Number', width: 220,headerclassName: 'ctrainees '},
-  { field: 'SName', headerName: 'Student Name', width: 220,flex:.5,headerclassName: 'ctrainees' },
-  { field: 'progForm', headerName: 'Progress Form', 
-  minwidth: 150,
-  flex:.3,
-  headerClassName:'ctrainees',
-    filterable:false,
-    sortable:false,
-  },
 
-]
-const rows = [
-  { SNumber: 201910213, 
-    SName: 'Sara Zebdeh'
-  },
-
-  {
-    SNumber: '201910213',
-    SName: 'Sara Zebdeh',
-  },
-  {
-    SNumber : 201910135,
-    SName: 'Hannen Thiab',
-  },
-  {
-    SNumber: 201910790,
-    SName: 'Hla Madi',
-  },
-  {
-    SNumber: 201910124,
-    SName: 'Shahd Amer',
-  },
-  {
-    SNumber: 202010310,
-    SName: 'Shahd Amer',
-  },
-  {
-    SNumber: 201810652,
-    SName: 'Mohammad Hajar',
-  },
-  {
-    SNumber: 202111322,
-    SName: 'Ali Jaber',
-  },
-  {
-    SNumber: 201810194,
-    SName: 'Sondos Asad',
-  },
-  {
-    SNumber: 201911150,
-    SName: 'Roua Qashoo',
-  },
-  {
-    SNumber: 201810216,
-    SName: 'Shimaa Khadir',
-  },
-];
 export default CurrentTrainees;

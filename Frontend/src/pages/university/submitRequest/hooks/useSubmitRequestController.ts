@@ -31,7 +31,7 @@ const useSubmitRequestController = () => {
         {
             onSuccess: (data) => {
                 console.log(data.data);
-                if(data.data==true)
+                if(data.success==true)
                 showSnackbar({severity: "success", message: data.message});
                 else if(data.success==false)
                 showSnackbar({severity: "warning", message: data.message});
