@@ -14,7 +14,8 @@ import {
 } from "../models/index";
 import { fn, col, Op } from "sequelize";
 import { TrainingStatusEnum, UserRoleEnum } from "../enums";
-import { ButtonHandler, BaseResponse, TrainingRequestBody, SubmitBody, AddedRecord, editTrainerRequestBody } from "../types";
+import { ButtonHandler, BaseResponse, TrainingRequestBody, SubmitBody, AddedRecord, EditTrainerRequestBody, ChangeTrainingStatusBody } from "../types";
+import { getBranchedIds } from "../utils";
 
 class TrainingController {
     getCompletedTrainings = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
@@ -35,22 +36,7 @@ class TrainingController {
                     group: ['studentId']
                 });
             } else if (UserRoleEnum.Company == roleId) {
-                const username = req.user.username;
-                const user = await User.findOne({
-                    where: { username },
-                    attributes: ['id']
-                });
-                const userId = user?.id;
-                const company = await Company.findOne({
-                    where: { userId },
-                    attributes: ['id']
-                });
-                const companyId = company?.id;
-                const companyBranches = await CompanyBranch.findAll({
-                    where: { companyId },
-                    attributes: ['id']
-                });
-                const branchesId = companyBranches.map(obj => obj.id);
+                const branchesId = await  getBranchedIds(req.user.username);
                 completedStudents = await Training.findAll({
                     where: {
                         status: TrainingStatusEnum.completed,
@@ -178,7 +164,7 @@ class TrainingController {
 
     async getQuestions(req: TrainingRequestBody, res: Response<BaseResponse>, next: NextFunction) {
         try {
-            const { roleId } = req.body;
+            const roleId  = req.user.roleId;
             const record = await Question.findAll({
                 where: {
                     roleId,
@@ -272,22 +258,7 @@ class TrainingController {
 
     getAcceptedTrainings = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
         try {
-            const username = req.user.username;
-            const user = await User.findOne({
-                where: { username },
-                attributes: ['id']
-            });
-            const userId = user?.id;
-            const company = await Company.findOne({
-                where: { userId },
-                attributes: ['id']
-            });
-            const companyId = company?.id;
-            const companyBranches = await CompanyBranch.findAll({
-                where: { companyId },
-                attributes: ['id']
-            });
-            const branchesId = companyBranches.map(obj => obj.id);
+            const branchesId = await  getBranchedIds(req.user.username);
             const acceptedTrainings = await Training.findAll({
                 where: {
                     status: TrainingStatusEnum.accepted,
@@ -318,26 +289,10 @@ class TrainingController {
 
     getRunningTrainings = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
         try {
-            //can i make fumction return branch id array instead of repeating code
             const roleId = req.user.roleId;
             let runningTrainings: Training[] = [];
             if (roleId == UserRoleEnum.Company) {
-                const username = req.user.username;
-                const user = await User.findOne({
-                    where: { username },
-                    attributes: ['id']
-                });
-                const userId = user?.id;
-                const company = await Company.findOne({
-                    where: { userId },
-                    attributes: ['id']
-                });
-                const companyId = company?.id;
-                const companyBranches = await CompanyBranch.findAll({
-                    where: { companyId },
-                    attributes: ['id']
-                });
-                const branchesId = companyBranches.map(obj => obj.id);
+                const branchesId = await  getBranchedIds(req.user.username);
                 runningTrainings = await Training.findAll({
                     where: {
                         status: TrainingStatusEnum.running,
@@ -393,20 +348,15 @@ class TrainingController {
         }
     }
 
-    joinTrainingWithTrainer = async (req: editTrainerRequestBody, res: Response, next: NextFunction) => {
-        const trainingId = req.body.trainingId;
-        Training.update({ status: TrainingStatusEnum.running }, {
-            where: {
-                id: trainingId
-            }
-        });
-        this.changeTrainer(req, res, next);
-    }
-
-    changeTrainer = async (req: editTrainerRequestBody, res: Response<BaseResponse>, next: NextFunction) => {
+    assignTrainer = async (req: EditTrainerRequestBody, res: Response<BaseResponse>, next: NextFunction) => {
         try {
             const { trainingId, trainerId } = req.body;
-            Training.update({ trainerId }, {
+            await Training.update({ status: TrainingStatusEnum.running }, {
+                where: {
+                    id: trainingId
+                }
+            });
+            await Training.update({ trainerId }, {
                 where: {
                     id: trainingId
                 }
@@ -421,18 +371,18 @@ class TrainingController {
         }
     }
 
-    cancleTraining = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
+    changeTrainingStatus = async (req: ChangeTrainingStatusBody, res: Response<BaseResponse>, next: NextFunction) => {
         try {
-            let { id } = req.params;
-            Training.update({ status: TrainingStatusEnum.canceled }, {
+            let { trainingId,status } = req.body;
+            await Training.update({ status }, {
                 where: {
-                    id
+                    id: trainingId
                 }
             });
             return res.json({
                 success: true,
                 status: res.statusCode,
-                message: `training canceled`
+                message: `training ${status} successfully`
             });
         } catch (err) {
             next(err);

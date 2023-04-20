@@ -205,42 +205,6 @@ class TrainingRequestController {
         }
     }
 
-    acceptTrainingRequest = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
-        try {
-            let { id } = req.params;
-            Training.update({ status: TrainingStatusEnum.accepted }, {
-                where: {
-                    id
-                }
-            });
-            return res.json({
-                success: true,
-                status: res.statusCode,
-                message: `training accepted `
-            });
-        } catch (err) {
-            next(err);
-        }
-    }
-
-    rejectTrainingRequest = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
-        try {
-            let { id } = req.params;
-            Training.update({ status: TrainingStatusEnum.rejected }, {
-                where: {
-                    id
-                }
-            });
-            return res.json({
-                success: true,
-                status: res.statusCode,
-                message: `training rejected `
-            });
-        } catch (err) {
-            next(err);
-        }
-    }
-
 }
 
 export default new TrainingRequestController();
