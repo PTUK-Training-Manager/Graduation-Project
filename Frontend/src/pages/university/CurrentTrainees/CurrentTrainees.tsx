@@ -59,7 +59,6 @@ const CurrentTrainees: React.FC = () => {
   }, []);  
 
   const columns=[
-    { field: 'id', headerName: 'Training Id', width: 150},
     { field: 'studentId', headerName: 'Student Number', width: 220},
     { field: 'studentName', headerName: 'Student Name', width: 220,flex:.5},
     { field: 'companyName', headerName: 'Company Name', width: 220,flex:.5},

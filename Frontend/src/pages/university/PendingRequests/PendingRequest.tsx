@@ -106,7 +106,6 @@ const PendingRequest: React.FC = () => {
   };
 
   const columns=[
-    { field: 'id', headerName: 'Training Id', width: 150},
     { field: 'studentId', headerName: 'Student Number', width: 220},
     { field: 'studentName', headerName: 'Student Name', width: 220,flex:.5},
     { field: 'companyName', headerName: 'Company Name', width: 220,flex:.5},
@@ -120,7 +119,7 @@ const PendingRequest: React.FC = () => {
       [x: string]: any; id: any; 
 }) => (
   <>
-  <IconButton color="error" aria-label="delete request"   onClick={() => handleDeleteClick(params.row.id)}
+  <IconButton sx={{ml:3.5}} color="error" aria-label="delete request"   onClick={() => handleDeleteClick(params.row.id)}
 >
     <ClearIcon />
   </IconButton>
