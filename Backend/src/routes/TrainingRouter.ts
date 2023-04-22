@@ -2,7 +2,7 @@ import express from 'express';
 import trainingController from "../controllers/TrainingController"
 import verifyAccessToken from '../middlewares/verifyAccessToken';
 const router = express.Router();
-const { getAllTrainings,changeTrainingStatus, assignTrainer, getCompletedTrainings, getAcceptedTrainings, handleGenerateFormButton, submittedStudents, getQuestions, getRunningTrainings } = trainingController;
+const { getAllTrainings, changeTrainingStatus, assignTrainer, getCompletedTrainings, getAcceptedTrainings, handleGenerateFormButton, submittedStudents, getQuestions, getRunningTrainings } = trainingController;
 
 
 router.patch('/assignTrainer', assignTrainer);

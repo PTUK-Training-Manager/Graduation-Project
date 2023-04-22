@@ -47,13 +47,13 @@ export enum SemesterEnum {
     second = 'second',
     summer = 'summer',
 }
-export enum TrainerStatusEnum{
-    active ='active',
-    inactive= 'inactive',
+export enum TrainerStatusEnum {
+    active = 'active',
+    inactive = 'inactive',
 }
 
-export enum EvaluationStatusEnum{
-    pending ='pending',
-    signed ='signed',
+export enum EvaluationStatusEnum {
+    pending = 'pending',
+    signed = 'signed',
     rejected = 'rejected'
 }

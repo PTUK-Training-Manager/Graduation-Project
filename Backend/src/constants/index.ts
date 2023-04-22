@@ -1,5 +1,5 @@
-import {UserRole, TrainingStatus, TrainingType, SemesterType,TrainerStatus,EvaluationType} from "../types";
-import {UserRoleDisplayName, TrainingStatusEnum, TrainingTypeEnum, UserRoleEnum, SemesterEnum,TrainerStatusEnum, EvaluationStatusEnum} from "../enums";
+import { UserRole, TrainingStatus, TrainingType, SemesterType, TrainerStatus, EvaluationType } from "../types";
+import { UserRoleDisplayName, TrainingStatusEnum, TrainingTypeEnum, UserRoleEnum, SemesterEnum, TrainerStatusEnum, EvaluationStatusEnum } from "../enums";
 
 export const USER_ROLES: UserRole[] = Object.values(UserRoleDisplayName);
 export const USER_ROLES_IDS = Object.values(UserRoleEnum).filter(Number) as number[];

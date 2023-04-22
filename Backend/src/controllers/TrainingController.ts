@@ -59,7 +59,7 @@ class TrainingController {
                         },
                     ]
                 });
-            }else if (roleId == UserRoleEnum.TRAINER) {
+            } else if (roleId == UserRoleEnum.TRAINER) {
                 const trainingIds = await getTrainingIds(req.user.username);
                 completedTrainings = await Training.findAll({
                     where: {
@@ -364,7 +364,7 @@ class TrainingController {
                         },
                     ]
                 });
-            }else if (roleId == UserRoleEnum.TRAINER) {
+            } else if (roleId == UserRoleEnum.TRAINER) {
                 const trainingIds = await getTrainingIds(req.user.username);
                 runningTrainings = await Training.findAll({
                     where: {
@@ -477,7 +477,7 @@ class TrainingController {
                         },
                     ]
                 });
-            }else if (roleId == UserRoleEnum.TRAINER) {
+            } else if (roleId == UserRoleEnum.TRAINER) {
                 const trainingIds = await getTrainingIds(req.user.username);
                 trainings = await Training.findAll({
                     where: {

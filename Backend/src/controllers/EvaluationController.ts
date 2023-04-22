@@ -7,9 +7,9 @@ import {
     User,
     Trainer
 } from "../models/index";
-import { fn, col, Op} from "sequelize";
+import { fn, col, Op } from "sequelize";
 import { EvaluationStatusEnum, TrainingTypeEnum } from "../enums";
-import {  BaseResponse, ProgressFormBody, ProgressFormWithHours, RejectEvaluationBody } from "../types";
+import { BaseResponse, ProgressFormBody, ProgressFormWithHours, RejectEvaluationBody } from "../types";
 import { getTrainingIds } from "../utils";
 
 class EvaluationController {
@@ -67,32 +67,33 @@ class EvaluationController {
         }
     }
 
-    getPendingEvaluations= async(req:Request, res:Response<BaseResponse>, next:NextFunction ) => {
-        try{
+    getPendingEvaluations = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
+        try {
             const username = req.user.username;
-            
+
             const trainingIds = await getTrainingIds(username);
             const pendingEvaluations = await Evaluation.findAll({
-                where:{
-                status: EvaluationStatusEnum.pending,
-                trainingId: { [Op.in]: trainingIds }
+                where: {
+                    status: EvaluationStatusEnum.pending,
+                    trainingId: { [Op.in]: trainingIds }
                 }
             });
             return res.json({
                 success: true,
                 status: res.statusCode,
                 message: "pending evaluations",
-                data: pendingEvaluations});
+                data: pendingEvaluations
+            });
 
-        }catch (err) {
+        } catch (err) {
             next(err);
         }
     }
 
-    signEvaluation = async (req:Request, res:Response<BaseResponse>, next:NextFunction)=>{     
+    signEvaluation = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
         try {
-            const {id} = req.params;
-            await Evaluation.update({ status:EvaluationStatusEnum.signed }, {
+            const { id } = req.params;
+            await Evaluation.update({ status: EvaluationStatusEnum.signed }, {
                 where: {
                     id
                 }
@@ -108,12 +109,12 @@ class EvaluationController {
 
     }
 
-    rejectEvaluation = async (req:RejectEvaluationBody, res:Response<BaseResponse>, next:NextFunction)=>{     
+    rejectEvaluation = async (req: RejectEvaluationBody, res: Response<BaseResponse>, next: NextFunction) => {
         try {
-            const {id,note} = req.body;     
-            const noteRecoed = await Note.create({note});
-            const noteId= noteRecoed.id;
-            await Evaluation.update({ status:EvaluationStatusEnum.rejected, rejectId:noteId }, {
+            const { id, note } = req.body;
+            const noteRecoed = await Note.create({ note });
+            const noteId = noteRecoed.id;
+            await Evaluation.update({ status: EvaluationStatusEnum.rejected, rejectId: noteId }, {
                 where: {
                     id
                 }

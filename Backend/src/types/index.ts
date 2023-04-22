@@ -148,18 +148,20 @@ export interface ProgressFormBody extends Request {
 }
 
 export interface ProgressFormWithHours {
-    totalHours:number;
+    totalHours: number;
     achievedHours: number;
-    progressForm : Evaluation[];
+    progressForm: Evaluation[];
 }
 
-export type EvaluationType= 
+export type EvaluationType =
     'pending'
-    |'signed'
-    |'rejected';
+    | 'signed'
+    | 'rejected';
 
-export interface RejectEvaluationBody extends Request{
-    body: {id:number,
-    note:string}
+export interface RejectEvaluationBody extends Request {
+    body: {
+        id: number,
+        note: string
+    }
 }
 
