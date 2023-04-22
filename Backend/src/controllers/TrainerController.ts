@@ -4,7 +4,7 @@ import { Trainer, Company, User, Training } from "../models";
 import UserController from "./UserController";
 import { TrainerStatusEnum, TrainingStatusEnum, UserRoleEnum } from "../enums";
 import { Op } from "sequelize";
-const {addUser} =UserController
+const { addUser } = UserController
 class TrainierController {
 
 	addtrainer = async (req: TrainerRequestBody, res: Response<BaseResponse>, next: NextFunction) => {
@@ -52,7 +52,7 @@ class TrainierController {
 			const trainerRecord = await Trainer.create({
 				name,
 				field,
-				status:TrainerStatusEnum.active,
+				status: TrainerStatusEnum.active,
 				userId: trainerUserId,
 				companyId
 			});
@@ -82,16 +82,16 @@ class TrainierController {
 		}
 	}
 
-	getMyTrainers = async (req:Request, res: Response<BaseResponse>, next: NextFunction) => {
+	getMyTrainers = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
 
 		try {
 
 
 
 
-			const username  = req.user.username;
+			const username = req.user.username;
 			const companyUser = await User.findOne({
-				where: { username: username  },
+				where: { username: username },
 				attributes: ['id']
 			});
 			const companyUserId = companyUser?.id;
@@ -101,7 +101,7 @@ class TrainierController {
 				attributes: ['id']
 			});
 			const companyId = company?.id;
-			console.log(username , companyUserId, companyId)
+			console.log(username, companyUserId, companyId)
 
 
 
@@ -120,7 +120,7 @@ class TrainierController {
 
 	}
 
-	updateTrainer = async (req:Request<unknown, unknown, {id: number,field:string}>, res: Response<BaseResponse>, next: NextFunction) => {
+	updateTrainer = async (req: Request<unknown, unknown, { id: number, field: string }>, res: Response<BaseResponse>, next: NextFunction) => {
 
 		const { id, field } = req.body;
 		try {
@@ -148,14 +148,16 @@ class TrainierController {
 		}
 	}
 
-	deactivateTrainer = async (req: Request<unknown, unknown, {id: number}>, res: Response<BaseResponse>, next: NextFunction) => {
+	deactivateTrainer = async (req: Request<unknown, unknown, { id: number }>, res: Response<BaseResponse>, next: NextFunction) => {
 		try {
 			const id = req.body;
 			const trainingRecords = await Training.findAll({
-				where: {[Op.and]:{
-					trainerId: id,
-					status:TrainingStatusEnum.running
-				}}
+				where: {
+					[Op.and]: {
+						trainerId: id,
+						status: TrainingStatusEnum.running
+					}
+				}
 			})
 			if (trainingRecords)
 				return res.json({

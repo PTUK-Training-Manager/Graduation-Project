@@ -4,16 +4,20 @@ import {
   Note,
   Training
 } from "src/models";
+import { EvaluationType } from '../types';
+import { EVALUATION_STATUS } from '../constants';
+import { EvaluationStatusEnum } from '../enums';
 
 export default class Evaluation extends Model<InferAttributes<Evaluation>, InferCreationAttributes<Evaluation>>{
   declare id: CreationOptional<number>;
   declare startTime: Date;
   declare endTime: Date;
-  declare signed: boolean;
+  declare status: EvaluationType;
+  // declare status: string;
   declare skills: string;
   declare trainingId: ForeignKey<Training['id']>;
   declare noteId?: ForeignKey<Note['id']>;
-
+  declare rejectId?: ForeignKey<Note['id']>;
 }
 
 Evaluation.init({
@@ -23,16 +27,16 @@ Evaluation.init({
     primaryKey: true
   },
   startTime: {
-    type: DataTypes.DATE,
+    type: DataTypes.TIME,
     allowNull: false
   },
   endTime: {
-    type: DataTypes.DATE,
+    type: DataTypes.TIME,
     allowNull: true
   },
-  signed: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: false
+  status: {
+    type: DataTypes.ENUM(...EVALUATION_STATUS),
+    defaultValue: EvaluationStatusEnum.pending
   },
   skills: {
     type: DataTypes.STRING,
