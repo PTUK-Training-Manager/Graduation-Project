@@ -46,6 +46,9 @@ const associations = () => {
     Note.hasOne(Evaluation, { foreignKey: "noteId" });
     Evaluation.belongsTo(Note, { foreignKey: "noteId" });
 
+    Note.hasOne(Evaluation, { foreignKey: "rejectId" });
+    Evaluation.belongsTo(Note, { foreignKey: "rejectId" });
+
 
     Answer.hasMany(AnsweredQuestion, { foreignKey: "answerId" });
     AnsweredQuestion.belongsTo(Answer, { foreignKey: "answerId" });

@@ -10,6 +10,7 @@ import rolesRouter from './RoleRouter';
 import requestRouter from './TrainingRequestRouter';
 import trainingRouter from './TrainingRouter';
 import companyRouter from './CompanyRouter';
+import evaluationRouter from "./EvaluationRouter";
 
 router.use("/student", studentRouter);
 router.use("/trainer", trainerRouter);
@@ -19,5 +20,6 @@ router.use("/role", rolesRouter);
 router.use("/request", requestRouter);
 router.use("/training", trainingRouter);
 router.use("/company", companyRouter);
+router.use("/evaluation", evaluationRouter);
 
 export default router;
