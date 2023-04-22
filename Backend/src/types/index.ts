@@ -1,4 +1,5 @@
 import { Request } from "express";
+import { Evaluation } from "/models";
 
 export type UserRole =
     | "super admin"
@@ -51,7 +52,7 @@ export interface ButtonHandler extends Request {
     body: {
         index: number;
         studentId: string;
-        trainingId?: number;
+        trainingId: number;
     }
 }
 
@@ -139,3 +140,26 @@ export interface ChangeTrainingStatusBody extends Request {
         status: TrainingStatus;
     }
 }
+
+export interface ProgressFormBody extends Request {
+    body: {
+        trainingId: number;
+    }
+}
+
+export interface ProgressFormWithHours {
+    totalHours:number;
+    achievedHours: number;
+    progressForm : Evaluation[];
+}
+
+export type EvaluationType= 
+    'pending'
+    |'signed'
+    |'rejected';
+
+export interface RejectEvaluationBody extends Request{
+    body: {id:number,
+    note:string}
+}
+

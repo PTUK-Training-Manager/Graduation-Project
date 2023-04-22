@@ -51,3 +51,9 @@ export enum TrainerStatusEnum{
     active ='active',
     inactive= 'inactive',
 }
+
+export enum EvaluationStatusEnum{
+    pending ='pending',
+    signed ='signed',
+    rejected = 'rejected'
+}
