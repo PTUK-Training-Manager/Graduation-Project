@@ -1,4 +1,4 @@
-import { CreationOptional, DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
+import { CreationOptional, DATEONLY, DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
 import sequelize from "../config/connection";
 import { SemesterType, TrainingStatus, TrainingType } from "../types";
 import { SemesterEnum, TrainingTypeEnum } from "../enums";
@@ -37,11 +37,11 @@ Training.init(
             allowNull: true,
         },
         startDate: {
-            type: DataTypes.DATE,
+            type: DATEONLY,
             allowNull: true,
         },
         endDate: {
-            type: DataTypes.DATE,
+            type: DATEONLY,
             allowNull: true,
         },
         status: {
