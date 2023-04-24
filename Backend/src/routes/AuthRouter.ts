@@ -7,6 +7,7 @@ const {handleLogin,logout, autoSignInUser} = authController;
 
 router.post('/login', handleLogin);
 router.get("/verifyAccessToken", verifyAccessToken, autoSignInUser);
-router.get('/logout',logout);
+router.use(verifyAccessToken);
+router.post('/logout',logout);
 
 export default router;
