@@ -150,7 +150,7 @@ class TrainierController {
 
 	deactivateTrainer = async (req: Request<unknown, unknown, { id: number }>, res: Response<BaseResponse>, next: NextFunction) => {
 		try {
-			const id = req.body;
+			const {id} = req.body;
 			const trainingRecords = await Training.findAll({
 				where: {
 					[Op.and]: {
@@ -158,7 +158,7 @@ class TrainierController {
 						status: TrainingStatusEnum.running
 					}
 				}
-			})
+			}) 
 			if (trainingRecords)
 				return res.json({
 					success: false,
