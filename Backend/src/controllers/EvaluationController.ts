@@ -33,7 +33,10 @@ class EvaluationController {
         try {
             const trainingId = req.body.trainingId;
             const progressForm = await Evaluation.findAll({
-                where: { trainingId },
+                where: {
+                    trainingId,
+                    status: EvaluationStatusEnum.signed
+                },
                 include: [
                     {
                         model: Note,

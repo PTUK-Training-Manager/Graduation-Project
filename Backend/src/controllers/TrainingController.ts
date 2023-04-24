@@ -13,8 +13,8 @@ import {
     CompanyBranch,
     User
 } from "../models/index";
-import { fn, col, Op } from "sequelize";
-import { TrainingStatusEnum, UserRoleEnum, TrainingTypeEnum } from "../enums";
+import { fn, col, Op, literal, Sequelize } from "sequelize";
+import { TrainingStatusEnum, UserRoleEnum, TrainingTypeEnum, EvaluationStatusEnum } from "../enums";
 import { ButtonHandler, BaseResponse, TrainingRequestBody, SubmitBody, AddedRecord, EditTrainerRequestBody, ChangeTrainingStatusBody, ProgressFormBody, ProgressFormWithHours } from "../types";
 import { getBranchedIds, getTrainingIds } from "../utils";
 
@@ -120,12 +120,15 @@ class TrainingController {
                 include: [
                     { model: Student },
                     {
-                        model: Evaluation, include: [
+                        model: Evaluation,
+                        include: [
                             {
                                 model: Note,
-                                attributes: ['note']
+                                attributes: ['note'],
+
                             }
-                        ]
+                        ],
+                        where: { status: EvaluationStatusEnum.signed }
                     },
                     {
                         model: AnsweredQuestion, include: [
@@ -143,7 +146,8 @@ class TrainingController {
                         ], attributes: ['id']
                     },
                     {
-                        model: CompanyBranch, include: [
+                        model: CompanyBranch,
+                        include: [
                             {
                                 model: Company,
                                 attributes: ['name']
@@ -394,7 +398,16 @@ class TrainingController {
 
     assignTrainer = async (req: EditTrainerRequestBody, res: Response<BaseResponse>, next: NextFunction) => {
         try {
+
             const { trainingId, trainerId } = req.body;
+            const training = await Training.findByPk(trainingId);
+            if(training?.status==TrainingStatusEnum.accepted){
+                await Training.update({ startDate:fn('CURDATE') }, {
+                    where: {
+                        id: trainingId
+                    }
+                });
+            }
             await Training.update({ status: TrainingStatusEnum.running }, {
                 where: {
                     id: trainingId
@@ -408,7 +421,7 @@ class TrainingController {
             return res.json({
                 success: true,
                 status: res.statusCode,
-                message: `trainer updated successfully`
+                message: `trainer updated successfully `
             });
         } catch (err) {
             next(err);
