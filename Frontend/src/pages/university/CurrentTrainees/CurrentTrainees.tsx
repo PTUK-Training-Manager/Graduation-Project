@@ -3,7 +3,7 @@ import MuiPagination from '@mui/material/Pagination';
 import { TablePaginationProps } from '@mui/material/TablePagination';
 import { DataGrid, GridPagination, GridToolbar, gridClasses, gridPageCountSelector, useGridApiContext, useGridSelector } from '@mui/x-data-grid';
 import './CurrentTrainees.css';
-import ClearIcon from '@mui/icons-material/Clear';
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import { getCurrentTrainees } from './api';
 import { IconButton } from '@mui/material';
 
@@ -72,9 +72,10 @@ const CurrentTrainees: React.FC = () => {
       sortable: false,
       renderCell: (params: { id: any; }) => (
        <IconButton
+       sx={{ml:3.5}}
        aria-label='progress form'
        >
-        <ClearIcon />
+        <ManageSearchIcon sx={{color:"#820000"}} className='manage-icon'/>
        </IconButton>
       ),
     },

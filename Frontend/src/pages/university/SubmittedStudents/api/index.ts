@@ -3,6 +3,7 @@ import { BaseResponse } from "src/types";
 
 export interface AccessTokenData {
   id: string;
+  trainerId: string;
   studentId: string;
   companyBranchId: string;
   startDate: string;
@@ -13,20 +14,14 @@ export interface AccessTokenData {
   Student: {
     name: string;
   };
-  CompanyBranch: {
-    location: string;
-    Company: {
-      name: string;
-    };
-  };
 }
 
-export interface GetAllTrainingsResponse extends BaseResponse {
+export interface GetSubmittedStudentsResponse extends BaseResponse {
   data: AccessTokenData[];
 }
 
-export const getAllTrainings = async (): Promise<GetAllTrainingsResponse> => {
-  const url = "/training/trainings";
-  const response = await axiosInstance.get<GetAllTrainingsResponse>(url);
+export const getSubmittedStudents = async (): Promise<GetSubmittedStudentsResponse> => {
+  const url = "/training/submittedStudents";
+  const response = await axiosInstance.get<GetSubmittedStudentsResponse>(url);
   return response.data;
 };

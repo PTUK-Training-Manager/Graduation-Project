@@ -10,7 +10,10 @@
  
  }
  
- .manage-icon {
-    font-size: 1.5em;
+ .edit-icon {
+    font-size: 1em;
   }
-    
+    .clear{
+        font-size: 1.5em;
+
+    }

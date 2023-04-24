@@ -2,10 +2,10 @@ import React, { useEffect, useMemo, useState } from 'react';
 import MuiPagination from '@mui/material/Pagination';
 import { TablePaginationProps } from '@mui/material/TablePagination';
 import { DataGrid, GridPagination, GridToolbar, gridClasses, gridPageCountSelector, useGridApiContext, useGridSelector } from '@mui/x-data-grid';
-import './CurrentTrainees.css';
-import ManageSearchIcon from '@mui/icons-material/ManageSearch';
-import { getCurrentTrainees } from './api';
-import { IconButton } from '@mui/material';
+import './SubmittedStudents.css';
+import { getSubmittedStudents } from './api';
+import { IconButton, } from '@mui/material';
+import NoteAltIcon from '@mui/icons-material/NoteAlt';
 
 function Pagination({
   page,
@@ -33,25 +33,24 @@ function CustomPagination(props: any) {
 }
 interface Row {
   id: string;
+  trainerId: string;
   studentId: string;
   companyBranchId: string;
+  startDate: string;
+  endDate: string;
+  semester: string;
+  status: string;
+  type: string;
   Student: {
     name: string;
   };
-  CompanyBranch: {
-    location: string;
-  };
-  Trainer: {
-    name: string;
-  };
-  trainerId: string
 }
 
-const CurrentTrainees: React.FC = () => {
+const SubmittedStudents: React.FC = () => {
   const [data,setData] = useState<Row[]>([]);
   
   useEffect(() => {
-    getCurrentTrainees()
+    getSubmittedStudents()
     .then((result) => {
       setData(result.data);
       console.log(result.data)
@@ -62,12 +61,9 @@ const CurrentTrainees: React.FC = () => {
   const columns=[
     { field: 'studentId', headerName: 'Student Number', width: 220},
     { field: 'studentName', headerName: 'Student Name', width: 220,flex:.5},
-    { field: 'companyBranch', headerName: 'Company Branch', width: 220,flex:.5},
-    { field: 'trainerName', headerName: 'Trainer', width: 220,flex:.5},
-
     {
-      field: 'progForm',
-      headerName: 'Progress Form',
+      field: 'evaluationForm',
+      headerName: 'Evaluation Form',
       minwidth: 150,
       flex: 0.3,
       headerClassName: 'ctrainees',
@@ -78,26 +74,26 @@ const CurrentTrainees: React.FC = () => {
        sx={{ml:3.5}}
        aria-label='progress form'
        >
-        <ManageSearchIcon sx={{color:"#820000"}} className='manage-icon'/>
+        <NoteAltIcon sx={{color:"#820000"}} className='edit-icon'/>
        </IconButton>
       ),
     },
-  
-  ]
-  
-  const rows = data.map((row) => ({
+  ];
+
+ const rows = data.map((row) => ({
     id: row.id,
     studentId: row.studentId,
     studentName: row.Student.name,
-    companyBranch: row.CompanyBranch.location,
-    trainerName: row.Trainer.name,
-    Trainer: row.Trainer,
-    Student: row.Student,
-    trainerId: row.trainerId,
+    type: row.type,
+    semester: row.semester,
+    status: row.status,
+    startDate: row.startDate,
+    endDate: row.endDate,
+    Student: row.Student,    
     companyBranchId: row.companyBranchId,
+    trainerId: row.trainerId
   })
   )
-
   return (
     <>
  
@@ -130,4 +126,4 @@ const CurrentTrainees: React.FC = () => {
   );
 }
 
-export default CurrentTrainees;
+export default SubmittedStudents;

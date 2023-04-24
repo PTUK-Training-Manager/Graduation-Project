@@ -66,6 +66,14 @@ interface AppSideDrawerProps {
                 </ListItemButton>
               </ListItem>
               <ListItem disablePadding>
+                <ListItemButton onClick={() => navigate('/submittedStudents')}>
+                  <ListItemIcon sx={{ color: grey[100] }}>
+                    <ContactPageIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Submitted Students" />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
                 <ListItemButton onClick={() => navigate('/addCompany')}>
                   <ListItemIcon sx={{ color: grey[100] }}>
                     <ContactPageIcon />
@@ -133,6 +141,14 @@ interface AppSideDrawerProps {
                     <ContactPageIcon />
                   </ListItemIcon>
                   <ListItemText primary="Training Requests" />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton onClick={() => navigate('/ccurrentTrainees')}>
+                  <ListItemIcon sx={{ color: grey[100] }}>
+                    <ContactPageIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Current trainees" />
                 </ListItemButton>
               </ListItem>
               <ListItem disablePadding>

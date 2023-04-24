@@ -81,7 +81,7 @@ const CompletedTrainees: React.FC = () => {
           printIcons.push(
             <Tooltip title={"Progress Form 1"}>
               <IconButton sx={{ml:3.5}} aria-label={"form 1"}>
-                <PrintIcon sx={{color:"#FF7900"}} className='print-icon' />
+                <PrintIcon sx={{color:"#820000"}} className='print-icon' />
               </IconButton>
             </Tooltip>
           );
@@ -89,7 +89,7 @@ const CompletedTrainees: React.FC = () => {
           printIcons.push(
             <Tooltip key={i} title={`Progress Form ${i + 1}`}>
               <IconButton aria-label={`form ${i + 1}`}>
-                <PrintIcon color='primary' className='print-icon' />
+                <PrintIcon sx={{color:"#820000"}} className='print-icon' />
               </IconButton>
             </Tooltip>
           );

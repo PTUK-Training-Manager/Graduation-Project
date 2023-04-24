@@ -66,19 +66,6 @@ const PendingRequest: React.FC = () => {
     .catch((error) => console.log(error));
   }, []);  
 
-  // const deleteRequest = (id: string) => {
-  //   deleteRquest(id)
-  //     .then((result) => {
-  //       if (result.success === true) {
-  //         showSnackbar({ severity: "success", message: result.message });
-  //         setData((prevData) => prevData.filter((row) => row.id !== id));
-  //       } else if (result.success === false) {
-  //         showSnackbar({ severity: "warning", message: result.message });
-  //       }
-  //     })
-  //     .catch((error) => console.log(error));
-  // };
-
   const handleDeleteRequest = () => {
     deleteRquest(deleteId)
       .then((result) => {

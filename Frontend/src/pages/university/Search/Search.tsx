@@ -1,14 +1,20 @@
 //                       <TableCell sx={{ backgroundColor: 'white'}} 
-//                       style={{ color: row.status === 'Running' 
-//                               ? 'orange' : row.status === 'Rejected'
-//                               ? 'red' : row.status === 'Completed' 
-//                               ? 'green' : row.status === 'Accepted' 
-//                               ? 'blue': row.status === 'Pending' 
-//                               ? 'gray' : 'white' }}>
+//                      
                                 
 // 
 
-import React, { useEffect, useState } from 'react';
+
+
+
+
+  
+  
+
+  
+
+ 
+
+  import React, { useEffect, useState } from 'react';
 
 import MuiPagination from '@mui/material/Pagination';
 import { TablePaginationProps } from '@mui/material/TablePagination';
@@ -20,9 +26,10 @@ import {
   useGridApiContext,
   useGridSelector,
 } from '@mui/x-data-grid';
-import './Search.css'
-import { getAllStudents } from './api';
-import useSnackbar from 'src/hooks/useSnackbar';
+import './search.css'
+import { getAllTrainings } from './api';
+import { TableCell } from '@mui/material';
+
 
 
 function Pagination({
@@ -51,18 +58,32 @@ function CustomPagination(props: any) {
 }
 
 interface Row {
-id: string;
-name: string;
-phoneNumber: string;
-userId: string;
+  id: string;
+  studentId: string;
+  companyBranchId: string;
+  startDate: string;
+  endDate: string;
+  semester: string;
+  status: string;
+  type: string;
+  Student: {
+    name: string;
+  };
+  CompanyBranch: {
+    location: string;
+    Company: {
+      name: string;
+    };
+  };
 }
 
 const Search: React.FC = () => {
 
   const [data,setData] = useState<Row[]>([]);
-  
+
+
   useEffect(() => {
-    getAllStudents()
+    getAllTrainings()
     .then((result) => {
       setData(result.data);
       console.log(result.data)
@@ -73,16 +94,53 @@ const Search: React.FC = () => {
   const columns=[
     { field: 'studentId', headerName: 'Student Number', width: 220},
     { field: 'studentName', headerName: 'Student Name', width: 220,flex:.5},
-    { field: 'phoneNumber', headerName: 'Phone Number', width: 220,flex:.5},
-    { field: 'userId', headerName: 'User Id'},
+    { field: 'companyName', headerName: 'Company Name', width: 220,flex:.5},
+    { field: 'companyBranch', headerName: 'Company Branch', width: 220,flex:.5},
+    { field: 'type', headerName: 'Type', width: 220,flex:.5},
+    { field: 'semester', headerName: 'Semester', width: 220,flex:.5},
+    { field: 'status', headerName: 'Status', width: 220,flex:.5,
+    renderCell: (params: { row: Row }) => {
+      const status = params.row.status;
+      let color = 'white';
+      if (status === 'running') {
+        color = 'orange';
+      } else if (status === "accepted") {
+        color = 'blue';
+      } else if (status === "completed") {
+        color = 'green';
+      }else if (status === "pending") {
+        color = 'gray';
+      }
+      else if (status === "rejected") {
+        color = 'red';
+      }
+      return (
+        <TableCell sx={{ color: color }}>
+          {params.row.status}
+        </TableCell>
+                                   
+      )
+    },
+  },
+    { field: 'startDate', headerName: 'Start Date', width: 220,flex:.5},
+    { field: 'endDate', headerName: 'End Date', width: 220,flex:.5},
   ];
 
-  const rows = data.map((row) => ({
+ const rows = data.map((row) => ({
     id: row.id,
-    studentId: row.id,
-    studentName: row.name,
-    phoneNumber: row.phoneNumber,
-    userId: row.userId,
+    studentId: row.studentId,
+    studentName: row.Student.name,
+    companyName: row.CompanyBranch.Company.name,
+    companyBranch: row.CompanyBranch.location,
+    type: row.type,
+    semester: row.semester,
+    status: row.status,
+    startDate: row.startDate,
+    endDate: row.endDate,
+    Student: row.Student,    
+    CompanyBranch: row.CompanyBranch,
+    Company: row.CompanyBranch.Company,
+    companyBranchId: row.companyBranchId
   })
   )
 
@@ -100,11 +158,11 @@ const Search: React.FC = () => {
         }}
         columns={columns}
         rows={rows}
-        getRowId={(row) => row['studentId']}
+        getRowId={(row) => row['id']}
         initialState={{
           pagination: { paginationModel: { pageSize: 30 } },
         }}
-        pageSizeOptions={[5, 10, 15, 20, 25, 30]}
+        pageSizeOptions={[10, 20, 30]}
         slots={{
           toolbar: GridToolbar,
           pagination: CustomPagination,
@@ -114,4 +172,5 @@ const Search: React.FC = () => {
   );
 };
 
+ 
 export default Search;

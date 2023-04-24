@@ -22,12 +22,17 @@ const CurrentTrainees = lazy(() => import('src/pages/university/CurrentTrainees'
 const Search = lazy(() => import('src/pages/university/Search'));
 const AddStudent = lazy(() => import('src/pages/university/AddStudent'));
 const AddBranch = lazy(() => import('src/pages/university/AddBranch'));
+const SubmittedStudents = lazy(() => import('src/pages/university/SubmittedStudents'));
+
 
 { /* company pages */ }
 const AcceptedRequests = lazy(() => import('src/pages/company/AcceptedRequests'));
 const EditTraining = lazy(() => import('src/pages/company/EditTraining'));
 const Trainers = lazy(() => import('src/pages/company/Trainers'));
 const TrainingRequest = lazy(() => import('src/pages/company/TrainingRequest'));
+const CompanyCurrentTrainees = lazy(() => import('src/pages/company/CurrentTrainees'));
+
+
 
 { /* trainer pages */ }
 const EvaluationRequests = lazy(() => import('src/pages/trainer/EvaluationRequests'));
@@ -69,14 +74,18 @@ const AppRoutes: FC<AppRoutesProps> = () => {
           <Route path="/addCompany" element={<AddCompany />} />
           <Route path="/addBranch" element={<AddBranch />} />
           <Route path="/completedTrainees" element={<CompletedTrainees />} />
+          <Route path="/submittedStudents" element={<SubmittedStudents />} />
           <Route path="/currentTrainees" element={<CurrentTrainees />} />
           <Route path="/search" element={<Search />} />
           <Route path="/addStudent" element={<AddStudent />} />
                  </Route>
 
+             
+
                  <Route element={<ProtectedRoute allowedRoles={[UserRole.Company]}/>}>
                  <Route path="/acceptedRequests" element={<AcceptedRequests />} />
           <Route path="/editTraining" element={<EditTraining />} />
+          <Route path="/ccurrentTrainees" element={<CompanyCurrentTrainees />} />
           <Route path="/trainers" element={<Trainers />} />
           <Route path="/trainingRequests" element={<TrainingRequest />} />
                  </Route>
