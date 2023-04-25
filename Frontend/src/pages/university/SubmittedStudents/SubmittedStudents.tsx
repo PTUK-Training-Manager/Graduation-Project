@@ -59,13 +59,12 @@ const SubmittedStudents: React.FC = () => {
   }, []);  
 
   const columns=[
-    { field: 'studentId', headerName: 'Student Number', width: 220},
-    { field: 'studentName', headerName: 'Student Name', width: 220,flex:.5},
+    { field: 'studentId', headerName: 'Student Number', width: 400,flex:.3},
+    { field: 'studentName', headerName: 'Student Name', width: 400,flex:.3},
     {
       field: 'evaluationForm',
       headerName: 'Evaluation Form',
-      minwidth: 150,
-      flex: 0.3,
+      width: 400,
       headerClassName: 'ctrainees',
       filterable: false,
       sortable: false,

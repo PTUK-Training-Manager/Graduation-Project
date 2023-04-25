@@ -2,28 +2,50 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import useAddCompanyController from './hooks/useAddCompanyController';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { Autocomplete } from '@mui/material';
 import { Form, FormikProvider } from 'formik';
+import { getCompany } from 'src/getCompany/index';
 import TextFieldWrapper from 'src/components/FormsUI/TextField';
+import useAddBranchFormController from './hooks/useAddBranchFormController';
 import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import { useEffect, useState } from 'react';
 
-const AddCompany: React.FC = () => {
-  const { formikProps, isLoading } = useAddCompanyController();
+interface CompanyOption {
+  id: string;
+  name: string;
+}
+const AddBranchForm: React.FC = () => {
+  const { formikProps, isLoading } = useAddBranchFormController();
   const { isValid } = formikProps;
+
+  const [companyOptions, setCompanyOptions] =  useState<CompanyOption[]>([]);
+  useEffect(() => {
+    getCompany().then((res) => {
+      if (res.success) {
+      const options= res.data.map((company) => ({
+        id: company.id.toString(),
+        name: company.name,
+      }))as CompanyOption[];
+      setCompanyOptions(options);
+    }
+    });
+  }, []);
 
   return (
     <>
       <Grid
         container
         sx={{
+          height:'100vh',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
         }}
       >
         <Paper
-          elevation={10}
+          elevation={5}
           sx={{
             justifyContent: 'center',
             alignItems: 'center',
@@ -35,15 +57,23 @@ const AddCompany: React.FC = () => {
             <Form>
               <Stack gap={2} alignItems="center">
                 <Typography component="h1" variant="h5">
-                  Add Company
+                  Add Branch
                 </Typography>
 
-                <TextFieldWrapper label="Company Id" name="id" autoFocus />
-                <TextFieldWrapper label="Company Name" name="name" />
-                <TextFieldWrapper label="Phone Number" name="phoneNumber" />
-                <TextFieldWrapper label="E-mail" type="email" name="email" />
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={companyOptions}
+                  getOptionLabel={(option) => option.name}
+                  onChange={(event, newValue) => {
+                    formikProps.setFieldValue('id', newValue?.id || '');
+                  }}
+                  sx={{ width: '100%' }} 
+                  renderInput={(params) => (
+                    <TextField name="id" {...params} label="Company Name" />
+                  )}
+                />
                 <TextFieldWrapper label="Location" name="location" />
-                <TextFieldWrapper label="Manager Name" name="managerName" />
 
                 <LoadingButton
                   type="submit"
@@ -62,4 +92,4 @@ const AddCompany: React.FC = () => {
     </>
   );
 };
-export default AddCompany;
+export default AddBranchForm;

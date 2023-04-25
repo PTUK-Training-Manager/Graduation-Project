@@ -1,21 +1,4 @@
-//                       <TableCell sx={{ backgroundColor: 'white'}} 
-//                      
-                                
-// 
-
-
-
-
-
-  
-  
-
-  
-
- 
-
-  import React, { useEffect, useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
 import MuiPagination from '@mui/material/Pagination';
 import { TablePaginationProps } from '@mui/material/TablePagination';
 import {
@@ -26,11 +9,9 @@ import {
   useGridApiContext,
   useGridSelector,
 } from '@mui/x-data-grid';
-import './search.css'
+import './AllTrainings.css';
 import { getAllTrainings } from './api';
 import { TableCell } from '@mui/material';
-
-
 
 function Pagination({
   page,
@@ -77,56 +58,62 @@ interface Row {
   };
 }
 
-const Search: React.FC = () => {
-
-  const [data,setData] = useState<Row[]>([]);
-
+const AllTrainings: React.FC = () => {
+  const [data, setData] = useState<Row[]>([]);
 
   useEffect(() => {
     getAllTrainings()
-    .then((result) => {
-      setData(result.data);
-      console.log(result.data)
-    })
-    .catch((error) => console.log(error));
-  }, []);  
+      .then((result) => {
+        setData(result.data);
+        console.log(result.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
-  const columns=[
-    { field: 'studentId', headerName: 'Student Number', width: 220},
-    { field: 'studentName', headerName: 'Student Name', width: 220,flex:.5},
-    { field: 'companyName', headerName: 'Company Name', width: 220,flex:.5},
-    { field: 'companyBranch', headerName: 'Company Branch', width: 220,flex:.5},
-    { field: 'type', headerName: 'Type', width: 220,flex:.5},
-    { field: 'semester', headerName: 'Semester', width: 220,flex:.5},
-    { field: 'status', headerName: 'Status', width: 220,flex:.5,
-    renderCell: (params: { row: Row }) => {
-      const status = params.row.status;
-      let color = 'white';
-      if (status === 'running') {
-        color = 'orange';
-      } else if (status === "accepted") {
-        color = 'blue';
-      } else if (status === "completed") {
-        color = 'green';
-      }else if (status === "pending") {
-        color = 'gray';
-      }
-      else if (status === "rejected") {
-        color = 'red';
-      }
-      return (
-        <TableCell sx={{ color: color }}>
-          {params.row.status}
-        </TableCell>
-                                   
-      )
+  const columns = [
+    { field: 'studentId', headerName: 'Student Number', width: 220, flex: 0.5 },
+    { field: 'studentName', headerName: 'Student Name', width: 220, flex: 0.5 },
+    { field: 'companyName', headerName: 'Company Name', width: 220, flex: 0.5 },
+    {
+      field: 'companyBranch',
+      headerName: 'Company Branch',
+      width: 220,
+      flex: 0.5,
     },
-  },
-    { field: 'startDate', headerName: 'Start Date', width: 220,flex:.5},
-    { field: 'endDate', headerName: 'End Date', width: 220,flex:.5},
+    { field: 'type', headerName: 'Type', width: 220, flex: 0.5 },
+    { field: 'semester', headerName: 'Semester', width: 220, flex: 0.5 },
+    {
+      field: 'status',
+      headerName: 'Status',
+      width: 220,
+      flex: 0.5,
+      renderCell: (params: { row: Row }) => {
+        const status = params.row.status;
+        let color = 'white';
+        if (status === 'running') {
+          color = 'orange';
+        } else if (status === 'accepted') {
+          color = 'blue';
+        } else if (status === 'completed') {
+          color = 'green';
+        } else if (status === 'pending') {
+          color = 'gray';
+        } else if (status === 'rejected') {
+          color = 'red';
+        } else if (status === 'submitted') {
+          color = '#82CD47';
+        } else if (status === 'canceled') {
+          color = 'red';
+        }
+
+        return <TableCell sx={{ color: color }}>{params.row.status}</TableCell>;
+      },
+    },
+    { field: 'startDate', headerName: 'Start Date', width: 220, flex: 0.5 },
+    { field: 'endDate', headerName: 'End Date', width: 220, flex: 0.5 },
   ];
 
- const rows = data.map((row) => ({
+  const rows = data.map((row) => ({
     id: row.id,
     studentId: row.studentId,
     studentName: row.Student.name,
@@ -137,12 +124,11 @@ const Search: React.FC = () => {
     status: row.status,
     startDate: row.startDate,
     endDate: row.endDate,
-    Student: row.Student,    
+    Student: row.Student,
     CompanyBranch: row.CompanyBranch,
     Company: row.CompanyBranch.Company,
-    companyBranchId: row.companyBranchId
-  })
-  )
+    companyBranchId: row.companyBranchId,
+  }));
 
   return (
     <>
@@ -172,5 +158,4 @@ const Search: React.FC = () => {
   );
 };
 
- 
-export default Search;
+export default AllTrainings;

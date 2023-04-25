@@ -1,47 +1,44 @@
 import {useMutation} from "@tanstack/react-query";
-import {signIn} from "../api";
+import {submitRequest} from "../api";
 import {useFormik} from "formik";
 import {validationSchema} from "../schema";
 import {INITIAL_FORM_STATE} from "../constants";
 import useSnackbar from "src/hooks/useSnackbar";
-import useAccountContext from "src/hooks/useAccountContext";
 import {AxiosBaseError} from "src/types";
 import extractErrorMessage from "src/utils/extractErrorMessage";
-import { useState } from "react";
 
-interface useSignInAPIProps {
+interface useSubmitRequestAPIProps {
 }
 
-const SignInQueryKey = ["signIn"];
+const SubmitRequestQueryKey = ["submitRequest"];
 
-const useSignInController = () => {
+const useTrainingRequestFormController = () => {
 
     const {showSnackbar} = useSnackbar();
 
-    const {onLogin} = useAccountContext();
-
     const formikProps = useFormik({
         initialValues: INITIAL_FORM_STATE,
-        onSubmit: (values,{ resetForm }) => {
+        onSubmit: (values) => {
             mutate(values);
-            resetForm();
         },
         validationSchema,
         validateOnMount: true,
     });
 
-    const {mutate, isLoading} = useMutation(
-        SignInQueryKey,
-        signIn,
+    const {mutate, isLoading } = useMutation(
+        SubmitRequestQueryKey,
+        submitRequest,
         {
             onSuccess: (data) => {
-                const {username, roleId} = data?.data;
-                onLogin({username, roleId}, {shouldNavigate: true});
+                console.log(data.data);
+                if(data.success==true)
                 showSnackbar({severity: "success", message: data.message});
+                else if(data.success==false)
+                showSnackbar({severity: "warning", message: data.message});
             },
             onError: (error: AxiosBaseError) => {
                 const errorMessage = extractErrorMessage(error);
-                showSnackbar({severity: "error", message: errorMessage ?? "Error signing in"});
+                showSnackbar({severity: "error", message: errorMessage ?? "Error in Adding Company"});
             }
         }
     );
@@ -49,12 +46,4 @@ const useSignInController = () => {
     return {formikProps, mutate, isLoading};
 };
 
-export default useSignInController;
-function setUsername(arg0: string) {
-    throw new Error("Function not implemented.");
-}
-
-function setPassword(arg0: string) {
-    throw new Error("Function not implemented.");
-}
-
+export default useTrainingRequestFormController;

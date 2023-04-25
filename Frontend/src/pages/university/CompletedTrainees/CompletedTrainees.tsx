@@ -56,19 +56,20 @@ const CompletedTrainees: React.FC = () => {
     {
       field: 'studentId',
       headerName: 'Student Number',
-      width: 220
+      width: 400,
+      flex:.3,
     },
     {
       field: 'studentName',
       headerName: 'Student Name',
-      width: 220,
-      flex: 0.5
+      width: 400,
+      flex:.3,
     },
     {
-      field: 'progForm',
-      headerName: 'Progress Form',
-      minWidth: 150,
-      flex: 0.3,
+      field: 'evalForm',
+      headerName: 'Evaluation Form',
+      width: 400,
+      flex:.3,
       headerClassName: 'ctrainees',
       filterable: false,
       sortable: false,

@@ -1,5 +1,5 @@
 import {useMutation} from "@tanstack/react-query";
-import {addBranch} from "../api";
+import {signIn} from "../api";
 import {useFormik} from "formik";
 import {validationSchema} from "../schema";
 import {INITIAL_FORM_STATE} from "../constants";
@@ -7,16 +7,18 @@ import useSnackbar from "src/hooks/useSnackbar";
 import useAccountContext from "src/hooks/useAccountContext";
 import {AxiosBaseError} from "src/types";
 import extractErrorMessage from "src/utils/extractErrorMessage";
+import { useState } from "react";
 
-interface useAddBranchAPIProps {
+interface useSignInAPIProps {
 }
 
-const AddBranchQueryKey = ["addBranch"];
+const SignInQueryKey = ["signIn"];
 
-const useAddBranchController = () => {
+const useLoginController = () => {
 
     const {showSnackbar} = useSnackbar();
 
+    const {onLogin} = useAccountContext();
 
     const formikProps = useFormik({
         initialValues: INITIAL_FORM_STATE,
@@ -29,19 +31,17 @@ const useAddBranchController = () => {
     });
 
     const {mutate, isLoading} = useMutation(
-        AddBranchQueryKey,
-        addBranch,
+        SignInQueryKey,
+        signIn,
         {
             onSuccess: (data) => {
-                console.log(data.data);
-                if(data.success==true)
+                const {username, roleId} = data?.data;
+                onLogin({username, roleId}, {shouldNavigate: true});
                 showSnackbar({severity: "success", message: data.message});
-                else if(data.success==false)
-                showSnackbar({severity: "warning", message: data.message});
             },
             onError: (error: AxiosBaseError) => {
                 const errorMessage = extractErrorMessage(error);
-                showSnackbar({severity: "error", message: errorMessage ?? "Error in Adding Branch"});
+                showSnackbar({severity: "error", message: errorMessage ?? "Error signing in"});
             }
         }
     );
@@ -49,4 +49,12 @@ const useAddBranchController = () => {
     return {formikProps, mutate, isLoading};
 };
 
-export default useAddBranchController;
+export default useLoginController;
+function setUsername(arg0: string) {
+    throw new Error("Function not implemented.");
+}
+
+function setPassword(arg0: string) {
+    throw new Error("Function not implemented.");
+}
+

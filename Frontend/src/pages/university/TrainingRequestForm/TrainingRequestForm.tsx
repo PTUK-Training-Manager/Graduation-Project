@@ -14,7 +14,7 @@ import {
   Stack,
 } from '@mui/material';
 import { Form, FormikProvider } from 'formik';
-import useSubmitRequestController from './hooks/useSubmitRequestController';
+import useTrainingRequestFormController from './hooks/useTrainingRequestFormController';
 import { LoadingButton } from '@mui/lab';
 import TextFieldWrapper from 'src/components/FormsUI/TextField';
 import { useEffect, useState } from 'react';
@@ -29,9 +29,9 @@ interface BranchOption {
   location: string;
 }
 
-const SubmitRequest: React.FC = () => {
+const TrainingRequestForm: React.FC = () => {
   const [selectedCompany, setSelectedCompany] = React.useState('');
-  const { formikProps, isLoading } = useSubmitRequestController();
+  const { formikProps, isLoading } = useTrainingRequestFormController();
   const { isValid } = formikProps;
 
   const [companyOptions, setCompanyOptions] = useState<CompanyOption[]>([]);
@@ -71,8 +71,7 @@ const SubmitRequest: React.FC = () => {
       <Grid
         container
         sx={{
-          transition: '.25s',
-          pt: 2,
+          height:'100vh',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
@@ -177,4 +176,4 @@ const SubmitRequest: React.FC = () => {
     </>
   );
 };
-export default SubmitRequest;
+export default TrainingRequestForm;

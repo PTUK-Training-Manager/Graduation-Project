@@ -40,7 +40,6 @@ const Home: FC<HomeProps> = (props) => {
             <Typography variant="h1">
                 Home
             </Typography>
-            {/* <Button variant="contained" size="large" onClick={() => navigate("/signIn")}>SignIn</Button> */}
             <Typography variant="h2">
                 Protected Route🔐
             </Typography>

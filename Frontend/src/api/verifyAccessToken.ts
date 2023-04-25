@@ -1,5 +1,5 @@
 import axiosInstance from "src/api/index";
-import {SignInResponse} from "src/pages/SignIn/api/response.dto";
+import {SignInResponse} from "src/pages/Login/api/response.dto";
 
 const verifyAccessToken = async () => {
     const url = "/auth/verifyAccessToken";

@@ -12,7 +12,7 @@ interface useAddCompanyAPIProps {
 
 const AddCompanyQueryKey = ["addCompany"];
 
-const useAddCompanyController = () => {
+const useAddCompanyFormController = () => {
 
     const {showSnackbar} = useSnackbar();
 
@@ -49,4 +49,4 @@ const useAddCompanyController = () => {
     return {formikProps, mutate, isLoading};
 };
 
-export default useAddCompanyController;
+export default useAddCompanyFormController;
