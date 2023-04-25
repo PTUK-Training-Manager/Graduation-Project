@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import MuiPagination from '@mui/material/Pagination';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import CloseIcon from '@mui/icons-material/Close';
+import { Feed } from '@mui/icons-material';
 import { TablePaginationProps } from '@mui/material/TablePagination';
 import {
   DataGrid,
@@ -12,7 +18,8 @@ import {
 import './CurrentTrainees.css';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import { getCurrentTrainees } from './api';
-import { IconButton } from '@mui/material';
+import { Accordion, Dialog, IconButton, Slide, Tab, Tabs } from '@mui/material';
+import { TransitionProps } from '@mui/material/transitions';
 
 function Pagination({
   page,
@@ -39,6 +46,15 @@ function CustomPagination(props: any) {
   return <GridPagination ActionsComponent={Pagination} {...props} />;
 }
 
+const Transition = React.forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement;
+  },
+  ref: React.Ref<unknown>
+) {
+  return <Slide direction="left" ref={ref} {...props} />;
+});
+
 interface Row {
   id: string;
   studentId: string;
@@ -56,6 +72,21 @@ interface Row {
 
 const CurrentTrainees: React.FC = () => {
   const [data, setData] = useState<Row[]>([]);
+
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState('one');
+
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
 
   useEffect(() => {
     getCurrentTrainees()
@@ -79,8 +110,16 @@ const CurrentTrainees: React.FC = () => {
       filterable: false,
       sortable: false,
       renderCell: (params: { id: any }) => (
-        <IconButton sx={{ ml: 3.5 }} aria-label="progress form">
-          <ManageSearchIcon sx={{ color: '#820000' }} className="manage-icon" />
+        <IconButton sx={{ ml: 3.5 }} aria-label="progress form" onClick={() => handleClickOpen()}>
+          {/* <ManageSearchIcon sx={{ color: '#820000' }} className="manage-icon" /> */}
+          <Feed
+                  sx={{
+                    backgroundColor: '#255983',
+                    borderRadius: '5px',
+                    color: '#ecf1f1',
+                    className:"manage-icon"
+                  }}
+                />
         </IconButton>
       ),
     },
@@ -117,6 +156,67 @@ const CurrentTrainees: React.FC = () => {
           pagination: CustomPagination,
         }}
       />
+
+<Dialog
+        fullScreen
+        open={open}
+        onClose={handleClose}
+        TransitionComponent={Transition}
+      >
+        <IconButton
+          edge="start"
+          color="inherit"
+          onClick={handleClose}
+          aria-label="close"
+        >
+          <CloseIcon />
+        </IconButton>
+        <div>
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1a-content"
+          id="panel1a-header"
+        >
+          <Typography>WEEK 1</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+        <Tabs
+  value={value}
+  onChange={handleChange}
+  textColor="secondary"
+  indicatorColor="secondary"
+  aria-label="secondary tabs example"
+>
+  <Tab value="one" label="Item One" 
+  
+  
+  
+  />
+  <Tab value="two" label="Note" />
+  
+</Tabs>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel2a-content"
+          id="panel2a-header"
+        >
+          <Typography>Accordion 2</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+            malesuada lacus ex, sit amet blandit leo lobortis eget.
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+     
+    </div>
+      </Dialog>
+
     </>
   );
 };
