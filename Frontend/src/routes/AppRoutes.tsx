@@ -75,7 +75,7 @@ const AppRoutes: FC<AppRoutesProps> = () => {
         <Route path="/" element={<AppLayout />}>
           <Route element={<ProtectedRoute />}>
             <Route index path="/" element={<Home />} />
-            <Route path="/" element={<Dashboard />} />
+            <Route path="Dashboard" element={<Dashboard />} />
             <Route path="analytics" element={<Analytics />} />
             <Route path="admin" element={<Admin />} />
           </Route>

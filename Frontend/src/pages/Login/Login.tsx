@@ -32,14 +32,11 @@ const Login: React.FC = () => {
         container
         sx={{
           transition: '.25s',
-          pt: 17,
-          //   pb: 4,
           paddingLeft: isSidebarOpen
             ? `${getContentPaddingLeft(isSidebarOpen)}px`
             : '8px',
           //   bgcolor: theme.palette.grey[200],
-          //   height: "100vh",
-          //   width: "100%",
+            height: "100vh",
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
