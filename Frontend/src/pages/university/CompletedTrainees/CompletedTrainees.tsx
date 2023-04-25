@@ -1,120 +1,143 @@
-import React from 'react';
-import {TableContainer,Table,TableHead,TableBody,TableRow,TableCell,Paper} from '@mui/material';
-import Box from '@mui/material/Box';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
+import React, { useEffect, useMemo, useState } from 'react';
+import MuiPagination from '@mui/material/Pagination';
+import { TablePaginationProps } from '@mui/material/TablePagination';
+import { DataGrid, GridPagination, GridToolbar, gridClasses, gridPageCountSelector, useGridApiContext, useGridSelector } from '@mui/x-data-grid';
+import './CompletedTrainees.css';
 import PrintIcon from '@mui/icons-material/Print';
-import MenuItem from '@mui/material/MenuItem';
-import TextField from '@mui/material/TextField';
-import SearchIcon from '@mui/icons-material/Search';
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
-import Grid from '@mui/material/Grid';
-import { getContentPaddingLeft } from 'src/constants';
-import useAccountContext from 'src/hooks/useAccountContext';
+import { IconButton, Tooltip } from '@mui/material';
+import { getCompletedTrainees } from './api';
+
+interface Row {
+  studentId: string;
+  Student: {
+    name: string;
+  };
+  count: string;
+}
+
+function Pagination({
+  page,
+  onPageChange,
+  className,
+}: Pick<TablePaginationProps, 'page' | 'onPageChange' | 'className'>) {
+  const apiRef = useGridApiContext();
+  const pageCount = useGridSelector(apiRef, gridPageCountSelector);
+
+  return (
+    <MuiPagination
+      color="primary"
+      className={className}
+      count={pageCount}
+      page={page + 1}
+      onChange={(event, newPage) => {
+        onPageChange(event as any, newPage - 1);
+      }}
+    />
+  );
+}
+
+function CustomPagination(props: any) {
+  return <GridPagination ActionsComponent={Pagination} {...props} />;
+}
 
 const CompletedTrainees: React.FC = () => {
-  const {isSidebarOpen} = useAccountContext();
+  const [data, setData] = useState<Row[]>([]);
 
+  useEffect(() => {
+    getCompletedTrainees()
+      .then((result) => {
+        setData(result.data);
+        console.log(result.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
+  const columns = [
+    {
+      field: 'studentId',
+      headerName: 'Student Number',
+      width: 400,
+      flex:.3,
+    },
+    {
+      field: 'studentName',
+      headerName: 'Student Name',
+      width: 400,
+      flex:.3,
+    },
+    {
+      field: 'evalForm',
+      headerName: 'Evaluation Form',
+      width: 400,
+      flex:.3,
+      headerClassName: 'ctrainees',
+      filterable: false,
+      sortable: false,
+      renderCell: (params: { row: Row }) => {
+        const count = parseInt(params.row.count);
+        const printIcons = [];
+
+        for (let i = 0; i < count; i++) {
+          if(count==1)
+          printIcons.push(
+            <Tooltip title={"Progress Form 1"}>
+              <IconButton sx={{ml:3.5}} aria-label={"form 1"}>
+                <PrintIcon sx={{color:"#820000"}} className='print-icon' />
+              </IconButton>
+            </Tooltip>
+          );
+          else
+          printIcons.push(
+            <Tooltip key={i} title={`Progress Form ${i + 1}`}>
+              <IconButton aria-label={`form ${i + 1}`}>
+                <PrintIcon sx={{color:"#820000"}} className='print-icon' />
+              </IconButton>
+            </Tooltip>
+          );
+        }
+
+        return (
+          <>
+            {printIcons}
+          </>
+        );
+      }
+    }
+  ];
+
+  const rows = data.map((row) => ({
+      studentId: row.studentId,
+      studentName: row.Student.name,
+      count: row.count,
+      Student: row.Student,    
+  }));
 
   return (
     <>
-       <Grid container sx={{
-            transition: ".25s",
-            pt: 2,
-            paddingLeft: isSidebarOpen ? `${getContentPaddingLeft(isSidebarOpen)}px` : "24px",
-            // height: "100vh",
-            // width: "100%",
-            display: 'flex',
-            justifyContent: "center",
-            alignItems: "center"
-        }}>
-      {/* <Stack display="flex"> */}
-        <Paper  sx={{padding:4}}
-             elevation={10}>
-          <TableContainer sx={{ maxHeight: '450px' }}>
-            <Table aria-aria-label="current trainne table" stickyHeader>
-              <TableHead>
-                <TableRow className='table-row' >
-                  <TableCell  sx={{backgroundColor:"#EDF3F6"}} sortDirection="asc">Student Number</TableCell>
-                  <TableCell  sx={{backgroundColor:"#EDF3F6"}} >Student Name</TableCell>
-                  <TableCell  sx={{backgroundColor:"#EDF3F6"}} >Evaluation Forms</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {Trainnes.map((row) => (
-                  <TableRow
-                    key={row['s-number']}
-                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                  >
-                    <TableCell  sx={{backgroundColor:"white"}} >{row['s-number']}</TableCell>
-                    <TableCell  sx={{backgroundColor:"white"}} >{row['s-name']}</TableCell>
-                    <TableCell  sx={{backgroundColor:"white"}}>
-                      <MenuItem>
-                        <ListItemButton>
-                          <PrintIcon />
-                          <ListItemText primary="1"></ListItemText>
-                        </ListItemButton>
-                        <ListItemButton>
-                          <PrintIcon />
-                          <ListItemText primary="2"></ListItemText>
-                        </ListItemButton>
-                      </MenuItem>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
-        {/* <Stack className="page"  spacing={4} direction="column">
-            <Pagination count={10} />
-        </Stack> */}
-      {/* </Stack> */}
-      </Grid>
+      <DataGrid
+        className="dataGrid"
+        sx={{
+          boxShadow: 10,
+          border: 1,
+          borderColor: '#cacaca',
+          '& .MuiDataGrid-cell:hover': {
+            color: 'primary.main'
+          }
+        }}
+        columns={columns}
+        rows={rows}
+        getRowId={(row) => row['studentId']}
+        initialState={{
+          pagination: { paginationModel: { pageSize: 30 } },
+        }}
+        pageSizeOptions={[10, 20, 30]}
+        slots={{
+          toolbar: GridToolbar,
+          pagination: CustomPagination,
+        }}
+      />
     </>
   );
-}
-const Trainnes = [
-  {
-    's-number': '201910213',
-    's-name': 'Sara Zebdeh',
-  },
-  {
-    's-number': '201910135',
-    's-name': 'Hannen Thiab',
-  },
-  {
-    's-number': '201910790',
-    's-name': 'Hla Madi',
-  },
-  {
-    's-number': '201910124',
-    's-name': 'Shahd Amer',
-  },
-  {
-    's-number': '202010310',
-    's-name': 'Shahd Amer',
-  },
-  {
-    's-number': '201810652',
-    's-name': 'Mohammad Hajar',
-  },
-  {
-    's-number': '202111322',
-    's-name': 'Ali Jaber',
-  },
-  {
-    's-number': '201810194',
-    's-name': 'Sondos Asad',
-  },
-  {
-    's-number': '201911150',
-    's-name': 'Roua Qashoo',
-  },
-  {
-    's-number': '201810216',
-    's-name': 'Shimaa Khadir',
-  },
-];
+};
+
 export default CompletedTrainees;

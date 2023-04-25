@@ -20,7 +20,7 @@ const ProtectedRoute: FC<PropsWithChildren<ProtectedRouteProps>> = ({
 
     const {user} = useAccountContext();
 
-    if (!user) return <Navigate to="/signin" replace state={{from: location.pathname}}/>;
+    if (!user) return <Navigate to="/login" replace state={{from: location.pathname}}/>;
 
     if (allowedRoles && !allowedRoles?.includes(user.roleId))
         return <Navigate to="/access-denied" replace state={{from: location.pathname}}/>;

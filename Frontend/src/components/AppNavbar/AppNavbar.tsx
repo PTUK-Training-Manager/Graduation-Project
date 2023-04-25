@@ -107,16 +107,10 @@ const AppNavbar: FC<AppNavbarProps> = () => {
                             onClose={handleCloseUserMenu}
                         >
                             <MenuItem onClick={handleCloseUserMenu}>
-                                <Typography textAlign="center">
-                                    <ListItemButton>
-                                        <ListItemText primary="Profile"/>
-                                        <AccountBoxIcon/>
-                                    </ListItemButton>
                                     <ListItemButton onClick={handleLogout}>
                                         <ListItemText primary="Logout"/>
                                         <ExitToAppIcon/>
                                     </ListItemButton>
-                                </Typography>
                             </MenuItem>
                         </Menu>
                         </>
