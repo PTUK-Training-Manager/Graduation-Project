@@ -246,7 +246,7 @@ class TrainingController {
 
             await Promise.all(promises)
 
-            await Training.update({ status: TrainingStatusEnum.completed }, {
+            await Training.update({ status: TrainingStatusEnum.completed , endDate:fn('CURDATE')}, {
                 where: {
                     id: trainingId
                 }

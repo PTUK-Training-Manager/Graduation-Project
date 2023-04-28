@@ -86,9 +86,6 @@ class TrainierController {
 
 		try {
 
-
-
-
 			const username = req.user.username;
 			const companyUser = await User.findOne({
 				where: { username: username },
@@ -101,13 +98,20 @@ class TrainierController {
 				attributes: ['id']
 			});
 			const companyId = company?.id;
-			console.log(username, companyUserId, companyId)
+			// // console.log(username, companyUserId, companyId)
 
 
+			// const {companyId}= req.body;
 
 			const records = await Trainer.findAll({
-				where: { companyId }
-			});
+				where: {
+					[Op.and]: {
+						companyId,
+						status: TrainerStatusEnum.active
+					 }
+					}
+			}); 
+			 
 			return res.json({
 				success: true,
 				status: res.statusCode,
@@ -159,7 +163,7 @@ class TrainierController {
 					}
 				}
 			}) 
-			if (trainingRecords)
+			if (trainingRecords.length > 0)
 				return res.json({
 					success: false,
 					status: res.statusCode,
