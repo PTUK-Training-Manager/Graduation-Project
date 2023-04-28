@@ -4,7 +4,9 @@ import theme from "src/styling/customTheme";
 const useStyles = makeStyles(() => ({
     root: {
         alignItems: "center",
-        // ...theme.mixins.toolbar,
+        backgroundColor: "antiquewhite",
+        height: `calc(100vh - ${theme.mixins.toolbar.height}px)`,
+        justifyContent: "center",
     },
     img: {
         width: 300,

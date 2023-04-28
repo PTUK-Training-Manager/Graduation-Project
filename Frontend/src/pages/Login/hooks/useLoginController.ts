@@ -1,5 +1,5 @@
 import {useMutation} from "@tanstack/react-query";
-import {signIn} from "../api";
+import {login} from "../api";
 import {useFormik} from "formik";
 import {validationSchema} from "../schema";
 import {INITIAL_FORM_STATE} from "../constants";
@@ -7,12 +7,8 @@ import useSnackbar from "src/hooks/useSnackbar";
 import useAccountContext from "src/hooks/useAccountContext";
 import {AxiosBaseError} from "src/types";
 import extractErrorMessage from "src/utils/extractErrorMessage";
-import { useState } from "react";
 
-interface useSignInAPIProps {
-}
-
-const SignInQueryKey = ["signIn"];
+const LoginQueryKey = ["Login"];
 
 const useLoginController = () => {
 
@@ -31,8 +27,8 @@ const useLoginController = () => {
     });
 
     const {mutate, isLoading} = useMutation(
-        SignInQueryKey,
-        signIn,
+        LoginQueryKey,
+        login,
         {
             onSuccess: (data) => {
                 const {username, roleId} = data?.data;
@@ -41,7 +37,7 @@ const useLoginController = () => {
             },
             onError: (error: AxiosBaseError) => {
                 const errorMessage = extractErrorMessage(error);
-                showSnackbar({severity: "error", message: errorMessage ?? "Error signing in"});
+                showSnackbar({severity: "error", message: errorMessage ?? "Error logging in"});
             }
         }
     );
@@ -50,11 +46,3 @@ const useLoginController = () => {
 };
 
 export default useLoginController;
-function setUsername(arg0: string) {
-    throw new Error("Function not implemented.");
-}
-
-function setPassword(arg0: string) {
-    throw new Error("Function not implemented.");
-}
-

@@ -12,7 +12,8 @@ const errorHandler = (err: BaseErrorResponse, req: Request, res: Response<BaseEr
         success: false,
         status: errStatus,
         message: errMsg,
-        stack: err.stack
+        stack: err.stack,
+        origin: req.headers.origin,
     });
 };
 

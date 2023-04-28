@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { FC } from 'react';
+import Box from '@mui/material/Box';
 
-const TrainingRequest = () => {
-  return (
-    <div>
-      TrainingRequest
-    </div>
-  )
-}
+interface TrainingRequestsProps {}
 
-export default TrainingRequest
+const TrainingRequests: FC<TrainingRequestsProps> = (props) => {
+
+    return (
+        <Box>TrainingRequests</Box>
+    );
+};
+
+export default TrainingRequests;

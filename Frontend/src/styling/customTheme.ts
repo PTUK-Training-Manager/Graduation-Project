@@ -1,34 +1,17 @@
 import {createTheme} from '@mui/material/styles';
 import customMixins from "./mixins";
-import {grey} from "@mui/material/colors";
+import {lightBlue} from "@mui/material/colors";
 
 const customTheme = createTheme({
     mixins: customMixins,
-    // palette: {
-    //     primary: {
-    //         main: '#1976d2'
-    //     },
-    //     success: {
-    //         main: '#4caf50'
-    //     }
-    // },
-    // typography: {
-    //     fontSize: 16,
-    //     h3: {
-    //         fontWeight: 700,
-    //         fontSize: '2.2rem'
-    //     },
-    //     h4: {
-    //         fontWeight: 700,
-    //         fontSize: '1.75rem'
-    //     },
-    //     h5: {
-    //         fontWeight: 500
-    //     },
-    //     h6: {
-    //         fontWeight: 500
-    //     }
-    // }
+    palette: {
+        appMenu: {
+            menuBackground: "#1E1E1E",
+            menuItemLeftBorder: "rgba(225,245,250,0.14)",
+            menuItemSelectedColor: lightBlue[500],
+            menuItemSelectedBackground: "rgba(225,245,250,0.24)",
+        },
+    },
 });
 
 export default customTheme;

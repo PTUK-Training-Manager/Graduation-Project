@@ -13,7 +13,7 @@ const defaultContentArea: CSSProperties = {
     height: `calc(100% - ${NAVBAR_HEIGHT}px)`,
     transition: ".25s",
     backgroundColor: grey[50],
-    padding: theme.spacing(3),
+    // padding: theme.spacing(3),
 };
 
 const useStyles = makeStyles(() => ({
@@ -23,7 +23,7 @@ const useStyles = makeStyles(() => ({
     contentArea: {
         ...defaultContentArea,
         ...theme.mixins.niceScroll(),
-        padding: theme.spacing(3),
+        // padding: theme.spacing(3),
         justifyContent: "center",
         alignItems: "center",
     }

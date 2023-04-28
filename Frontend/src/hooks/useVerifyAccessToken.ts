@@ -17,19 +17,21 @@ const useVerifyAccessToken = () => {
     const {data} = useQuery(
         ["verifyAccessToken"],
         verifyAccessToken, {
+            retry: false, // don't retry if the API call fails
             onSuccess: ({data}) => {
-                console.log(data);
+                // console.log(data);
                 onLogin(data);
             },
             onError: (error: AxiosBaseError) => {
-                console.log(error);
+                // console.log(error);
                 onLogout();
                 const errorMessage = extractErrorMessage(error);
-                showSnackbar({severity: "error", message: errorMessage ?? "Invalid Access Token"});
+                if (window.location.pathname !== "/login")
+                    showSnackbar({severity: "error", message: errorMessage ?? "Invalid Access Token"});
             },
             onSettled: () => {
                 setIsVerifying(false);
-            }
+            },
         });
 
     return {data, isVerifying};

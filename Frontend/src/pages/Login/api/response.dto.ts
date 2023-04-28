@@ -5,6 +5,6 @@ export interface AccessTokenData {
     roleId: number;
 }
 
-export interface SignInResponse extends BaseResponse {
+export interface LoginResponse extends BaseResponse {
     data: AccessTokenData;
 }
