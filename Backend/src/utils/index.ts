@@ -4,9 +4,10 @@ import {
     CompanyBranch,
     User,
     Trainer,
-    Training
+    Training,
+    Student
 } from "../models/index";
-export const getBranchedIds = async (username: string) => { //get branches for company
+export const getBranchesIds = async (username: string) => { //get branches for company
     const user = await User.findOne({
         where: { username },
         attributes: ['id']
@@ -21,8 +22,8 @@ export const getBranchedIds = async (username: string) => { //get branches for c
         where: { companyId },
         attributes: ['id']
     });
-    const branchesId = companyBranches.map(obj => obj.id);
-    return branchesId;
+    const branchesIds = companyBranches.map(obj => obj.id);
+    return branchesIds;
 }
 
 export const getTrainingIds = async (username: string) => { //get trainings for trainer
@@ -43,4 +44,17 @@ export const getTrainingIds = async (username: string) => { //get trainings for 
     });
     const trainingIds = trainings.map(obj => obj.id);
     return trainingIds;
+}
+export const getStudentId = async (username: string) => { //get trainings for trainer
+            const user = await User.findOne({
+                where: { username },
+                attributes: ['id']
+            });
+            const userId = user?.id;
+            const student = await Student.findOne({
+                where: { userId },
+                attributes: ['id']
+            });
+            const studentId = student?.id;
+            return studentId;
 }

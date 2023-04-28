@@ -17,7 +17,6 @@ export default class Evaluation extends Model<InferAttributes<Evaluation>, Infer
   declare skills: string;
   declare trainingId: ForeignKey<Training['id']>;
   declare noteId?: ForeignKey<Note['id']>;
-  declare rejectId?: ForeignKey<Note['id']>;
 }
 
 Evaluation.init({

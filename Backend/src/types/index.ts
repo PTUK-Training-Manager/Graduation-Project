@@ -166,3 +166,26 @@ export interface RejectEvaluationBody extends Request {
     }
 }
 
+
+export interface SubmitEvaluationBody extends Request {
+    body: {
+        startTime: string,
+        startTimeType:string,
+        endTime: string,
+        endTimeType:string
+        skills: string,
+        note: string,
+        trainingId: number
+    }
+}
+
+export interface EditEvaluationBody extends Request {
+    body: {
+        id:number,
+        skills?:string,
+        noteId?:number,
+        note?:string,
+        startTime?:Date,
+        endTime?:Date
+    }
+}

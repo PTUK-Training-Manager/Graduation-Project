@@ -5,28 +5,32 @@ import {
     Note,
     Training,
     User,
-    Trainer
+    Trainer,
+    Student
 } from "../models/index";
 import { fn, col, Op } from "sequelize";
-import { EvaluationStatusEnum, TrainingTypeEnum } from "../enums";
-import { BaseResponse, ProgressFormBody, ProgressFormWithHours, RejectEvaluationBody } from "../types";
+import { EvaluationStatusEnum, TrainingStatusEnum, TrainingTypeEnum } from "../enums";
+import { BaseResponse, EditEvaluationBody, ProgressFormBody, ProgressFormWithHours, RejectEvaluationBody, SubmitEvaluationBody } from "../types";
 import { getTrainingIds } from "../utils";
+
 
 class EvaluationController {
     calcHours = async (trainingId: number) => {
-        const durations = await Evaluation.findAll({
+        const evaluationRecords = await Evaluation.findAll({
             attributes: [
                 [fn('TIMEDIFF', col('endTime'), col('startTime')), 'duration'],
             ],
-            where: { trainingId }
+            where: { trainingId,
+                    status:EvaluationStatusEnum.signed }
         });
-        let totalDuration: Duration = moment.duration();
-        for (let i = 0; i < durations.length; i++) {
-            const duration = durations[i].get('duration') as string;
-            const time = moment.duration(duration);
-            totalDuration = totalDuration.add(time);
-        }
-        return totalDuration.asHours();
+        const totalDuration = evaluationRecords
+            .map(ev => ev.get("duration") as string)
+            .reduce((total, curr) => {
+                const currentDur = moment.duration(curr);
+                return total + currentDur.asHours();
+            }, 0);
+
+        return totalDuration;
     }
 
     generateProgressForm = async (req: ProgressFormBody, res: Response<BaseResponse>, next: NextFunction) => {
@@ -36,13 +40,7 @@ class EvaluationController {
                 where: {
                     trainingId,
                     status: EvaluationStatusEnum.signed
-                },
-                include: [
-                    {
-                        model: Note,
-                        attributes: ['note']
-                    }
-                ]
+                }
             });
             const achievedHours = await this.calcHours(trainingId);
             const training = await Training.findByPk(trainingId);
@@ -117,7 +115,7 @@ class EvaluationController {
             const { id, note } = req.body;
             const noteRecoed = await Note.create({ note });
             const noteId = noteRecoed.id;
-            await Evaluation.update({ status: EvaluationStatusEnum.rejected, rejectId: noteId }, {
+            await Evaluation.update({ status: EvaluationStatusEnum.rejected, noteId}, {
                 where: {
                     id
                 }
@@ -131,6 +129,129 @@ class EvaluationController {
             next(err);
         }
 
+    }
+
+    convert12to24 =(time:string):string=>{
+        const [hours, minutes, seconds] = time.split(':');
+        const hours24= parseInt(hours)+12;
+        const minutes24= parseInt(minutes);
+        const seconds24= parseInt(seconds);
+        return `${hours24}:${minutes24}:${seconds24}`;
+    }
+
+    submitEvaluation = async (req: SubmitEvaluationBody, res: Response<BaseResponse>, next: NextFunction) => {
+    try {
+    let {startTime,startTimeType,endTime,endTimeType,skills,trainingId}=req.body;
+        if (startTimeType === 'pm')
+            startTime=this.convert12to24(startTime);
+        if (endTimeType=== 'pm')
+            endTime=this.convert12to24(endTime);
+        const evaluation = await Evaluation.create({
+            startTime: startTime as unknown as Date,
+            endTime: endTime as unknown as Date,
+            skills,
+            trainingId,
+            status: EvaluationStatusEnum.pending,
+        });
+
+        return res.json({
+            success: true,
+            status: res.statusCode,
+            message: `evaluation created successfully`,
+            data:evaluation
+        });
+
+}catch(err){
+    next(err)
+}
+
+    }
+
+    editEvaluation = async (req:EditEvaluationBody,res:Response<BaseResponse>,next:NextFunction)=>{
+        try{
+            const {id,skills,startTime,endTime} = req.body;
+            if(!skills&&!startTime&&!endTime){
+                return res.json({
+                    success: true,
+                    status: res.statusCode,
+                    message: "There is nothing to update",
+                });
+            }
+            if(skills){
+                await Evaluation.update({skills},
+                    {where:{id}});
+            }
+            if(startTime){
+                await Evaluation.update({startTime},
+                    {where:{id}});
+            }
+            if(endTime){
+                await Evaluation.update({endTime},
+                    {where:{id}});
+            }
+
+            await Evaluation.update({status:EvaluationStatusEnum.pending},
+                {where:{id}});
+
+            return res.json({
+                success: true,
+                status: res.statusCode,
+                message: "The Evaluation successfully updated and submitted to trainer ",
+            });
+        }catch(err){
+            next(err);
+        }
+    }
+
+    getRejectedEvaluations = async (req: Request, res: Response,next:NextFunction)=>{
+        try{
+            const username = req.user.username;
+            const user = await User.findOne({
+                where: { username },
+                attributes: ['id']
+            });
+            const userId = user?.id;
+            const student = await Student.findOne({
+                where: { userId },
+                attributes: ['id']
+            });
+            const studentId = student?.id;
+            const training = await Training.findOne({
+                where: { studentId,
+                status:TrainingStatusEnum.running },
+                attributes: ['id'],
+            });
+            const trainingId = training?.id;
+            if(!trainingId){
+                return res.json({
+                    success: true,
+                    status: res.statusCode,
+                    message: "you have no running Trainings",
+                });
+            }
+
+            const rejectedEvaluations = await Evaluation.findAll({
+                where: {
+                    trainingId,
+                    status: EvaluationStatusEnum.rejected
+                },
+                include: [
+                    {
+                        model: Note,
+                        attributes: ['note'],
+                    }
+                ]
+            });
+            return res.json({
+                success: true,
+                status: res.statusCode,
+                message: " ",
+                data:rejectedEvaluations
+            });
+
+        }catch(err){
+            next(err);
+        }
     }
 
 }
