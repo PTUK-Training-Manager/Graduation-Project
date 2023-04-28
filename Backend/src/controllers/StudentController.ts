@@ -3,6 +3,13 @@ import { Student } from '../models';
 import UserController from "./UserController";
 import { BaseResponse, StudentRequestBody } from "../types";
 import { UserRoleEnum } from "../enums";
+import {
+    Company,
+    CompanyBranch,
+    User,
+    Trainer,
+    Training
+} from "../models/index";
 
 
 class studentController {
@@ -75,10 +82,10 @@ class studentController {
 
     async deleteStudentById(req: Request, res: Response) {
         try {
-            let {id} = req.params;
+            let { id } = req.params;
             // const record = await Student.findByPk(id);
             const deletedStudent = await Student.destroy({
-                where: { id},
+                where: { id },
             });
             if (!deletedStudent) return res.json("something went wrong");
             return res.json("success");

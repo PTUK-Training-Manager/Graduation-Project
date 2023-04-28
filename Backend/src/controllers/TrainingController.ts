@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import moment, { Duration } from 'moment';
 import {
     Student,
     AnsweredQuestion,
@@ -16,7 +15,7 @@ import {
 import { fn, col, Op, literal, Sequelize } from "sequelize";
 import { TrainingStatusEnum, UserRoleEnum, TrainingTypeEnum, EvaluationStatusEnum } from "../enums";
 import { ButtonHandler, BaseResponse, TrainingRequestBody, SubmitBody, AddedRecord, EditTrainerRequestBody, ChangeTrainingStatusBody, ProgressFormBody, ProgressFormWithHours } from "../types";
-import { getBranchedIds, getTrainingIds } from "../utils";
+import { getBranchesIds, getStudentId, getTrainingIds } from "../utils";
 
 class TrainingController {
     getCompletedTrainings = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
@@ -37,7 +36,7 @@ class TrainingController {
                     group: ['studentId']
                 });
             } else if (UserRoleEnum.Company == roleId) {
-                const branchesId = await getBranchedIds(req.user.username);
+                const branchesId = await getBranchesIds(req.user.username);
                 completedTrainings = await Training.findAll({
                     where: {
                         status: TrainingStatusEnum.completed,
@@ -102,8 +101,8 @@ class TrainingController {
                 await this.generateEvaluationForm(req, res, next);
             else {
                 const index = req.body.index;
-                console.log(trainings);
                 req.body.trainingId = trainings[index].id;
+                console.log(trainings[index].id);
                 await this.generateEvaluationForm(req, res, next);
             }
         }
@@ -121,13 +120,6 @@ class TrainingController {
                     { model: Student },
                     {
                         model: Evaluation,
-                        include: [
-                            {
-                                model: Note,
-                                attributes: ['note'],
-
-                            }
-                        ],
                         where: { status: EvaluationStatusEnum.signed }
                     },
                     {
@@ -291,7 +283,7 @@ class TrainingController {
 
     getAcceptedTrainings = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
         try {
-            const branchesId = await getBranchedIds(req.user.username);
+            const branchesId = await getBranchesIds(req.user.username);
             const acceptedTrainings = await Training.findAll({
                 where: {
                     status: TrainingStatusEnum.accepted,
@@ -325,7 +317,7 @@ class TrainingController {
             const roleId = req.user.roleId;
             let runningTrainings: Training[] = [];
             if (roleId == UserRoleEnum.Company) {
-                const branchesId = await getBranchedIds(req.user.username);
+                const branchesId = await getBranchesIds(req.user.username);
                 runningTrainings = await Training.findAll({
                     where: {
                         status: TrainingStatusEnum.running,
@@ -401,8 +393,8 @@ class TrainingController {
 
             const { trainingId, trainerId } = req.body;
             const training = await Training.findByPk(trainingId);
-            if(training?.status==TrainingStatusEnum.accepted){
-                await Training.update({ startDate:fn('CURDATE') }, {
+            if (training?.status == TrainingStatusEnum.accepted) {
+                await Training.update({ startDate: fn('CURDATE') }, {
                     where: {
                         id: trainingId
                     }
@@ -418,10 +410,12 @@ class TrainingController {
                     id: trainingId
                 }
             });
+            const trainer = await Trainer.findByPk(trainerId);
             return res.json({
                 success: true,
                 status: res.statusCode,
-                message: `trainer updated successfully `
+                message: `trainer updated successfully `,
+                data: trainer
             });
         } catch (err) {
             next(err);
@@ -469,7 +463,7 @@ class TrainingController {
                     ]
                 });
             } else if (UserRoleEnum.Company == roleId) {
-                const branchesId = await getBranchedIds(req.user.username);
+                const branchesId = await getBranchesIds(req.user.username);
                 trainings = await Training.findAll({
                     where: {
                         companyBranchId: { [Op.in]: branchesId }
@@ -508,6 +502,24 @@ class TrainingController {
                         }
                     ]
                 });
+            } else if (roleId == UserRoleEnum.STUDENT) {
+                const username = req.user.username;
+                const studentId = await getStudentId(username);
+                trainings = await Training.findAll({
+                    where: { studentId },
+                    attributes: ['type', 'semester', 'startDate', 'endDate', 'status', 'companyBranchId'],
+                    include: [{
+                        model: CompanyBranch,
+                        include: [
+                            {
+                                model: Company,
+                                attributes: ['name']
+                            }],
+                        attributes: ['location']
+                    }
+                    ]
+                });
+
             }
             return res.json({
                 success: true,
