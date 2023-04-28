@@ -3,6 +3,13 @@ import { Student } from '../models';
 import UserController from "./UserController";
 import { BaseResponse, StudentRequestBody } from "../types";
 import { UserRoleEnum } from "../enums";
+import {
+    Company,
+    CompanyBranch,
+    User,
+    Trainer,
+    Training
+} from "../models/index";
 
 
 class studentController {
@@ -72,13 +79,50 @@ class studentController {
         }
     }
 
+    getStudentTrainings = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
+        try {
+            const username = req.user.username;
+            const user = await User.findOne({
+                where: { username },
+                attributes: ['id']
+            });
+            const userId = user?.id;
+            const student = await Student.findOne({
+                where: { userId },
+                attributes: ['id']
+            });
+            const studentId = student?.id;
+            const trainings = await Training.findAll({
+                where: { studentId },
+                attributes: ['type', 'semester', 'startDate', 'endDate', 'status', 'companyBranchId'],
+                include: [{
+                    model: CompanyBranch,
+                    include: [
+                        {
+                            model: Company,
+                            attributes: ['name']
+                        }],
+                    attributes: ['location']
+                }
+                ]
+            });
+            return res.json({
+                success: true,
+                status: res.statusCode,
+                message: "Trainings: ",
+                data: trainings
+            });
+        } catch (err) {
+            next(err);
+        }
+    }
 
     async deleteStudentById(req: Request, res: Response) {
         try {
-            let {id} = req.params;
+            let { id } = req.params;
             // const record = await Student.findByPk(id);
             const deletedStudent = await Student.destroy({
-                where: { id},
+                where: { id },
             });
             if (!deletedStudent) return res.json("something went wrong");
             return res.json("success");

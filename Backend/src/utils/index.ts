@@ -6,7 +6,7 @@ import {
     Trainer,
     Training
 } from "../models/index";
-export const getBranchedIds = async (username: string) => { //get branches for company
+export const getBranchesIds = async (username: string) => { //get branches for company
     const user = await User.findOne({
         where: { username },
         attributes: ['id']
@@ -21,8 +21,8 @@ export const getBranchedIds = async (username: string) => { //get branches for c
         where: { companyId },
         attributes: ['id']
     });
-    const branchesId = companyBranches.map(obj => obj.id);
-    return branchesId;
+    const branchesIds = companyBranches.map(obj => obj.id);
+    return branchesIds;
 }
 
 export const getTrainingIds = async (username: string) => { //get trainings for trainer
