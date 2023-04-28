@@ -7,9 +7,6 @@ import useSnackbar from "src/hooks/useSnackbar";
 import {AxiosBaseError} from "src/types";
 import extractErrorMessage from "src/utils/extractErrorMessage";
 
-interface useSubmitRequestAPIProps {
-}
-
 const SubmitRequestQueryKey = ["submitRequest"];
 
 const useTrainingRequestFormController = () => {
@@ -25,16 +22,16 @@ const useTrainingRequestFormController = () => {
         validateOnMount: true,
     });
 
-    const {mutate, isLoading } = useMutation(
+    const {mutate, isLoading} = useMutation(
         SubmitRequestQueryKey,
         submitRequest,
         {
             onSuccess: (data) => {
                 console.log(data.data);
-                if(data.success==true)
-                showSnackbar({severity: "success", message: data.message});
-                else if(data.success==false)
-                showSnackbar({severity: "warning", message: data.message});
+                if (data.success == true)
+                    showSnackbar({severity: "success", message: data.message});
+                else if (data.success == false)
+                    showSnackbar({severity: "warning", message: data.message});
             },
             onError: (error: AxiosBaseError) => {
                 const errorMessage = extractErrorMessage(error);

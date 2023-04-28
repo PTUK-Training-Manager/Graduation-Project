@@ -39,6 +39,7 @@ export interface LoginPayload {
 
 export interface BaseErrorResponse extends BaseResponse {
     stack?: string;
+    origin?: string;
 }
 
 export interface BaseResponse {

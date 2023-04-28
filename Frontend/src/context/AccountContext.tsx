@@ -6,10 +6,14 @@ interface OnLoginOptions {
     shouldNavigate?: boolean;
 }
 
+interface OnLogoutOptions {
+    shouldNavigate?: boolean;
+}
+
 export interface AccountContextValues {
     user: User | null;
     onLogin: (user: User, options?: OnLoginOptions) => void;
-    onLogout: () => void;
+    onLogout: (options?: OnLogoutOptions) => void;
     isSidebarOpen: boolean;
     setIsSidebarOpen: Dispatch<SetStateAction<boolean>>;
 }
@@ -21,7 +25,8 @@ export const AccountContext = createContext<AccountContextValues>({
     onLogout: () => {
     },
     isSidebarOpen: false,
-    setIsSidebarOpen: () => {}
+    setIsSidebarOpen: () => {
+    }
 });
 
 interface AccountProviderProps {
@@ -45,9 +50,17 @@ export const AccountProvider: FC<AccountProviderProps> = ({children}) => {
         }
     };
 
-    const handleLogout = () => {
+    const handleLogout = (options: OnLoginOptions = {shouldNavigate: false}) => {
+        const {shouldNavigate} = options;
         setUser(null);
-        navigate("/", {replace: true});
+
+        /**
+         * If the current pathname is "/login" don't navigate to "/login" again!
+         */
+        if (shouldNavigate && window.location.pathname !== "/login")
+            navigate("/login", {replace: true});
+
+        setIsSidebarOpen(false);
     };
 
     const contextValues: AccountContextValues = {

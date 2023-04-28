@@ -3,15 +3,15 @@ import Modal from "@mui/material/Modal";
 import CircularProgress from "@mui/material/CircularProgress";
 
 interface BlockUIProps {
-    isBlocked: boolean;
+    isBlocked?: boolean;
 }
 
-const BlockUI: FC<BlockUIProps> = ({isBlocked}) => {
+const BlockUI: FC<BlockUIProps> = ({isBlocked = true}) => {
 
   return (
         <Modal
-            aria-labelledby="simple-modal-title"
-            aria-describedby="simple-modal-description"
+            aria-labelledby="suspense-modal"
+            aria-describedby="Waiting for data to load"
             open={isBlocked}
             style={{ zIndex: 1400 }}
         >

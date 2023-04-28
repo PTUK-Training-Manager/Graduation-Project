@@ -167,7 +167,7 @@ interface AppSideDrawerProps {
                 </ListItemButton>
               </ListItem>
               <ListItem disablePadding>
-                <ListItemButton onClick={() => navigate('/search')}>
+                <ListItemButton onClick={() => navigate('/all-trainings')}>
                   <ListItemIcon sx={{ color: grey[100] }}>
                     <ContactPageIcon />
                   </ListItemIcon>

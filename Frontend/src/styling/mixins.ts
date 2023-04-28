@@ -1,16 +1,16 @@
 import {CustomThemeMixins} from "./types";
 
-const customMixins: CustomThemeMixins =  {
-    niceScroll: configs => {
+const customMixins: CustomThemeMixins = {
+    niceScroll: () => {
         return {
             overflow: "auto",
             "&:hover": {
-                "&::-webkit-scrollbar-thumb:vertical": {
+                "&::-webkit-scrollbar-thumb": {
                     background: "rgba(0,0,0,0.5)",
                 },
             },
             "&::-webkit-scrollbar": {
-                width: configs?.width ?? 10,
+                width: 10,
                 position: "fixed",
                 backgroundColor: "rgba(0,0,0,0)",
                 borderRadius: 100,
@@ -18,26 +18,26 @@ const customMixins: CustomThemeMixins =  {
             "&::-webkit-scrollbar:hover": {
                 backgroundColor: "rgba(0, 0, 0, 0.09)",
             },
-            "&::-webkit-scrollbar-thumb:vertical": {
+            "&::-webkit-scrollbar-thumb": {
                 background: "rgba(0,0,0,0)",
                 backgroundClip: "padding-box",
                 border: "2px solid rgba(0, 0, 0, 0)",
                 borderRadius: 100,
                 minHeight: 10,
             },
-            "&::-webkit-scrollbar-thumb:vertical:active": {
+            "&::-webkit-scrollbar-thumb:active": {
                 background: "rgba(0,0,0,0.61)",
                 borderRadius: 100,
             },
         };
     },
-        showTextOverflowEllipsis: () => ({
+    showTextOverflowEllipsis: () => ({
         overflow: "hidden",
         textOverflow: "ellipsis",
         whiteSpace: "nowrap",
         width: "inherit",
     }),
-        removeInputNumberArrows: () => ({
+    removeInputNumberArrows: () => ({
         "& input[type='number']": {
             appearance: "textfield",
         },
@@ -45,7 +45,7 @@ const customMixins: CustomThemeMixins =  {
             appearance: "none",
         },
     }),
-        hideTextFieldBorder: () => {
+    hideTextFieldBorder: () => {
         return {
             width: "100%",
             background: "transparent",
@@ -78,6 +78,18 @@ const customMixins: CustomThemeMixins =  {
                 },
             },
         };
+    },
+    toolbar: {
+        "@media (min-width:0px)": {
+            "@media (orientation: landscape)": {
+                minHeight: 48,
+            },
+        },
+        "@media (min-width:600px)": {
+            minHeight: 64,
+        },
+        minHeight: 56,
+        height: 64,
     },
 };
 

@@ -1,4 +1,5 @@
 import {AxiosError} from "axios";
+import {UserRole} from "src/constants/auth";
 
 export interface BaseResponse {
     success: boolean;
@@ -17,3 +18,7 @@ export interface User {
     roleId: number;
     permissions?: any[];
 }
+
+export type UserRoleKey = keyof typeof UserRole;
+
+export type MenuItemsMapKey = UserRoleKey | "Shared" | "Public";

@@ -72,6 +72,7 @@ class AuthController {
             data: req.user // req.user is an object contains the decoded payload from jwt
         });
     }
+
     logout = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
         try {
             res.clearCookie('access-token');

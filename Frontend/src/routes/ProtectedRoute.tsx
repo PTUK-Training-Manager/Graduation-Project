@@ -12,10 +12,12 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: FC<PropsWithChildren<ProtectedRouteProps>> = ({
                                                                         children,
-                                                                        redirectPath = "/signin",
+                                                                        redirectPath = "/login",
                                                                         isAllowed = true,
                                                                         allowedRoles
                                                                     }) => {
+
+
     const location = useLocation();
 
     const {user} = useAccountContext();

@@ -5,44 +5,19 @@ import Box from "@mui/material/Box";
 import ImageListItem from "@mui/material/ImageListItem";
 import PTUK_CIRCLE from "src/images/assets/ptuk_logo_circle.png";
 import PTUK_TEXT from "src/images/assets/ptuk_text.png";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Typography from "@mui/material/Typography";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemText from "@mui/material/ListItemText";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import {NAVBAR_HEIGHT} from "src/constants";
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import Stack from "@mui/material/Stack";
 import useAccountContext from "src/hooks/useAccountContext";
+import AccountMenu from "../AccountMenu";
 
-interface AppNavbarProps {
-    // isSidebarOpen: boolean;
-    // setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
 
-const AppNavbar: FC<AppNavbarProps> = () => {
+const AppNavbar: FC = () => {
 
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const {user, isSidebarOpen, setIsSidebarOpen} = useAccountContext();
 
-    const {user, onLogout, isSidebarOpen, setIsSidebarOpen} = useAccountContext();
-
-    const handleOpenUserMenu = (event: {
-        currentTarget: React.SetStateAction<any>;
-    }): void => {
-        setAnchorElUser(event.currentTarget);
-    };
-    const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
-    };
-
-    const handleDrawerOpen = () => setIsSidebarOpen((prev) => !prev);
-
-    const handleLogout = () => {
-        if (user) onLogout();
-    };
+    const handleOpenSidebar = () => setIsSidebarOpen((prev) => !prev);
 
     return (
         <AppBar
@@ -62,7 +37,7 @@ const AppNavbar: FC<AppNavbarProps> = () => {
                 <IconButton
                     color="inherit"
                     aria-label="open drawer"
-                    onClick={handleDrawerOpen}
+                    onClick={handleOpenSidebar}
                     edge="start"
                     sx={{width: "52px"}}
                 >
@@ -81,45 +56,10 @@ const AppNavbar: FC<AppNavbarProps> = () => {
                         <img src={PTUK_TEXT} style={{filter: `brightness(0) invert(1)`}}></img>
                     </ImageListItem>
                 </Stack>
-                <Box>
-                    {user && (
-                        <>
-                            <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
-                                <Avatar
-                                    sizes="large"
-                                    alt="avatar"
-                                    src="https://randomuser.me/api/portraits/women/79.jpg"
-                                ></Avatar>
-                            </IconButton><Menu
-                            // sx={{mt: '0.3125rem'}}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
-                        >
-                            <MenuItem onClick={handleCloseUserMenu}>
-                                    <ListItemButton onClick={handleLogout}>
-                                        <ListItemText primary="Logout"/>
-                                        <ExitToAppIcon/>
-                                    </ListItemButton>
-                            </MenuItem>
-                        </Menu>
-                        </>
-                    )}
-                </Box>
+                {user ? (<AccountMenu/>) : <Box/>}
             </Toolbar>
         </AppBar>
-    )
-        ;
+    );
 };
 
 export default AppNavbar;

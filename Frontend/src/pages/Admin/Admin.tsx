@@ -16,18 +16,9 @@ const Admin: FC<LandingProps> = (props) => {
             <Typography variant="h1">
                 Admin
             </Typography>
-            <Typography variant="h3">
-                Protected Route 🔐
+            <Typography variant="h5">
+                Not implemented yet...
             </Typography>
-            <Typography variant="h4">
-                authenticated user with role 'admin' required
-            </Typography>
-            <Box
-                component="img"
-                className={classes.img}
-                alt="Admin GIF"
-                src="https://media.tenor.com/bbTnU1RnQugAAAAd/mod-emre.gif"
-            />
         </Stack>
     );
 };
