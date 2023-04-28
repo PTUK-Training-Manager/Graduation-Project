@@ -15,7 +15,7 @@ import {
 import { fn, col, Op, literal, Sequelize } from "sequelize";
 import { TrainingStatusEnum, UserRoleEnum, TrainingTypeEnum, EvaluationStatusEnum } from "../enums";
 import { ButtonHandler, BaseResponse, TrainingRequestBody, SubmitBody, AddedRecord, EditTrainerRequestBody, ChangeTrainingStatusBody, ProgressFormBody, ProgressFormWithHours } from "../types";
-import { getBranchesIds, getTrainingIds } from "../utils";
+import { getBranchesIds, getStudentId, getTrainingIds } from "../utils";
 
 class TrainingController {
     getCompletedTrainings = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
@@ -393,8 +393,8 @@ class TrainingController {
 
             const { trainingId, trainerId } = req.body;
             const training = await Training.findByPk(trainingId);
-            if(training?.status==TrainingStatusEnum.accepted){
-                await Training.update({ startDate:fn('CURDATE') }, {
+            if (training?.status == TrainingStatusEnum.accepted) {
+                await Training.update({ startDate: fn('CURDATE') }, {
                     where: {
                         id: trainingId
                     }
@@ -502,6 +502,24 @@ class TrainingController {
                         }
                     ]
                 });
+            } else if (roleId == UserRoleEnum.STUDENT) {
+                const username = req.user.username;
+                const studentId = await getStudentId(username);
+                trainings = await Training.findAll({
+                    where: { studentId },
+                    attributes: ['type', 'semester', 'startDate', 'endDate', 'status', 'companyBranchId'],
+                    include: [{
+                        model: CompanyBranch,
+                        include: [
+                            {
+                                model: Company,
+                                attributes: ['name']
+                            }],
+                        attributes: ['location']
+                    }
+                    ]
+                });
+
             }
             return res.json({
                 success: true,
