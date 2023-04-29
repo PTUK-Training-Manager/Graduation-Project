@@ -5,6 +5,6 @@ import { updateTrainerResponse } from "./response.dto";
 export const updateTrianer = (body: updateTrainerBody) => {
   const url = "/trainer/trainer";
   return axiosInstance
-    .put<updateTrainerResponse>(url, { data: body })
+    .patch<updateTrainerResponse>(url, body)
     .then((res) => res.data);
 };

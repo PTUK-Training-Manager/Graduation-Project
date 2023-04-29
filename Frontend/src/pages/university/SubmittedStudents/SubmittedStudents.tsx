@@ -4,8 +4,10 @@ import { TablePaginationProps } from '@mui/material/TablePagination';
 import { DataGrid, GridPagination, GridToolbar, gridClasses, gridPageCountSelector, useGridApiContext, useGridSelector } from '@mui/x-data-grid';
 import './SubmittedStudents.css';
 import { getSubmittedStudents } from './api';
-import { IconButton, } from '@mui/material';
+import { Grid, IconButton, Stack, Typography, } from '@mui/material';
 import NoteAltIcon from '@mui/icons-material/NoteAlt';
+import theme from "src/styling/customTheme";
+
 
 function Pagination({
   page,
@@ -96,30 +98,43 @@ const SubmittedStudents: React.FC = () => {
   return (
     <>
  
-  <DataGrid className='dataGrid' 
-  sx={{
-    boxShadow: 10,
-    border: 1,
-    borderColor: '#cacaca',
-    '& .MuiDataGrid-cell:hover': {
-      color: 'primary.main',
-      
-    },
-  }}
-  
-   columns={columns} 
-   rows={rows}
-    getRowId={row=>row['id']}
-    initialState={{
-      pagination: { paginationModel: { pageSize: 30 } },
-    }}
-    pageSizeOptions={[10, 20, 30]}
-    slots={{
-      toolbar: GridToolbar,
-      pagination: CustomPagination,
-
-    }}
-   />
+ <Grid container sx={{
+            p: 3,
+            justifyContent: "center",
+            alignItems: "center",
+            height: `calc(100vh - ${theme.mixins.toolbar.height}px)`,
+        }}>
+            <Stack gap={1.5} sx={{
+                width: '100%',
+                height: '100%',
+            }}>
+                <Typography component="h1" variant="h5" fontWeight={500}>
+                    Submitted Trainees
+                </Typography>
+                <DataGrid
+                    className="dataGrid"
+                    sx={{
+                        boxShadow: 10,
+                        border: 1,
+                        borderColor: '#cacaca',
+                        '& .MuiDataGrid-cell:hover': {
+                            color: 'primary.main'
+                        }
+                    }}
+                    columns={columns}
+                    rows={rows}
+                    getRowId={(row) => row['id']}
+                    initialState={{
+                        pagination: {paginationModel: {pageSize: 30}},
+                    }}
+                    pageSizeOptions={[10, 20, 30]}
+                    slots={{
+                        toolbar: GridToolbar,
+                        pagination: CustomPagination,
+                    }}
+                />
+            </Stack>
+        </Grid>
 
     </>
   );

@@ -64,12 +64,13 @@ interface AppSideDrawerProps {
                   <ListItemText primary="Pending Requests" />
                 </ListItemButton>
               </ListItem>
+              
               <ListItem disablePadding>
-                <ListItemButton onClick={() => navigate('/submitted-students')}>
+                <ListItemButton onClick={() => navigate('/submitted-requests')}>
                   <ListItemIcon sx={{ color: grey[100] }}>
                     <ContactPageIcon />
                   </ListItemIcon>
-                  <ListItemText primary="Submitted Students" />
+                  <ListItemText primary="Submitted Requests" />
                 </ListItemButton>
               </ListItem>
               <ListItem disablePadding>
@@ -132,6 +133,15 @@ interface AppSideDrawerProps {
                     <ContactPageIcon />
                   </ListItemIcon>
                   <ListItemText primary="Accepted Requests" />
+                </ListItemButton>
+              </ListItem>
+              
+              <ListItem disablePadding>
+                <ListItemButton onClick={() => navigate('/acceptedRequests')}>
+                  <ListItemIcon sx={{ color: grey[100] }}>
+                    <ContactPageIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Pending Requests" />
                 </ListItemButton>
               </ListItem>
               <ListItem disablePadding>

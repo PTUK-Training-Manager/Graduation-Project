@@ -14,10 +14,17 @@ const AccessDenied = lazy(() => import("src/pages/AccessDenied"));
 
 // university pages
 const TrainingRequestForm = lazy(() => import('src/pages/university/TrainingRequestForm'));
+const PendingRequets = lazy(
+    () => import('src/pages/university/PendingRequests')
+  );
 const AddCompanyForm = lazy(() => import('src/pages/university/AddCompanyForm'));
 const CompletedTrainees = lazy(() => import('src/pages/university/CompletedTrainees'));
 const CurrentTrainees = lazy(() => import('src/pages/university/CurrentTrainees'));
+const SubmittedRequests = lazy(
+    () => import('src/pages/university/SubmittedStudents')
+  );
 const AllTrainings = lazy(() => import('src/pages/university/AllTrainings'));
+
 const AddStudentForm = lazy(() => import('src/pages/university/AddStudentForm/AddStudentForm'));
 const AddBranchForm = lazy(() => import('src/pages/university/AddBranchForm'));
 
@@ -26,6 +33,13 @@ const AcceptedRequests = lazy(() => import('src/pages/company/AcceptedRequests')
 const EditTraining = lazy(() => import('src/pages/company/EditTraining'));
 const Trainers = lazy(() => import('src/pages/company/Trainers'));
 const TrainingRequest = lazy(() => import('src/pages/company/TrainingRequest'));
+const CompanyCurrentTrainees = lazy(
+    () => import('src/pages/company/CurrentTrainees')
+  );
+  const CompanyCompletedTrainees = lazy(
+    () => import('src/pages/company/CompletedTrainees')
+  );
+  const CompanyAllTrainings = lazy(() => import('src/pages/company/AllTraining'));
 
 // trainer pages
 // const EvaluationRequests = lazy(() => import('src/pages/trainer/EvaluationRequests'));
@@ -56,22 +70,34 @@ const AppRoutes: FC<AppRoutesProps> = () => {
                     <Route element={<ProtectedRoute allowedRoles={[SuperAdmin]}/>}/>
 
                     <Route element={<ProtectedRoute allowedRoles={[UniTrainingOfficer, Company]}/>}>
-                        <Route path="/all-trainings" element={<AllTrainings/>}/>
+                        {/* <Route path="/all-trainings" element={<AllTrainings/>}/> */}
                         <Route path="/add-student" element={<AddStudentForm/>}/>
                     </Route>
 
                     <Route element={<ProtectedRoute allowedRoles={[UniTrainingOfficer]}/>}>
                         <Route path="/training-request" element={<TrainingRequestForm/>}/>
+                        <Route path="/pending-requests" element={<PendingRequets />} />
                         <Route path="/add-company" element={<AddCompanyForm/>}/>
+                        <Route path="/all-trainings" element={<AllTrainings/>}/>
                         <Route path="/add-branch" element={<AddBranchForm/>}/>
                         <Route path="/completed-trainees" element={<CompletedTrainees/>}/>
+                        <Route path="/submitted-trainees" element={<SubmittedRequests />} />
                         <Route path="/current-trainees" element={<CurrentTrainees/>}/>
                     </Route>
 
                     <Route element={<ProtectedRoute allowedRoles={[Company]}/>}>
                         <Route path="/accepted-requests" element={<AcceptedRequests/>}/>
                         <Route path="/edit-training" element={<EditTraining/>}/>
-                        <Route path="/trainers" element={<Trainers/>}/>
+                        <Route path="/company-all-trainings" element={<CompanyAllTrainings />}
+            />                        <Route path="/trainers" element={<Trainers/>}/>
+                       <Route
+              path="/company-current-trainees"
+              element={<CompanyCurrentTrainees />}
+            />
+             <Route
+              path="/company-completed-trainees"
+              element={<CompanyCompletedTrainees />}
+            />
                         <Route path="/training-requests" element={<TrainingRequest/>}/>
                     </Route>
 

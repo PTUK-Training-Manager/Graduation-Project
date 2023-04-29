@@ -4,6 +4,7 @@ import {UserRoleKey, MenuItemsMapKey} from "src/types";
 // MUI icons
 import HomeIcon from '@mui/icons-material/Home';
 import PostAddIcon from '@mui/icons-material/PostAdd';
+import GroupIcon from '@mui/icons-material/Group';
 import DomainAddIcon from '@mui/icons-material/DomainAdd';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import StoreIcon from '@mui/icons-material/Store';
@@ -51,25 +52,44 @@ const sharedMenuItems: IAppMenuItem[] = [
  * Menu items shared by `University Training Officer` and `Company`
  */
 const uniAndCompanySharedMenuItems: IAppMenuItem[] = [
-    {
-        label: "Search Trainings",
-        link: "/all-trainings",
-        // Icon: () => <ManageSearchIcon/>,
-        Icon: () => <RecentActorsIcon/>,
-    },
-    {
-        label: "Add Student",
-        link: "/add-student",
-        Icon: () => <PersonAddAlt1Icon/>,
-    },
+    // {
+    //     label: "Search Trainings",
+    //     link: "/all-trainings",
+    //     // Icon: () => <ManageSearchIcon/>,
+    //     Icon: () => <RecentActorsIcon/>,
+    // },
+    // {
+    //     label: "Add Student",
+    //     link: "/add-student",
+    //     Icon: () => <PersonAddAlt1Icon/>,
+    // },
 ];
 
 const uniTrainingOfficerMenuItems: IAppMenuItem[] = [
     {
-        label: "Training Request",
-        link: "/training-request",
+        label: "Requests",
         Icon: () => <PostAddIcon/>,
+        items: [
+            {
+                label: "Training Request",
+                link: "/training-request",
+                Icon: () => <PostAddIcon/>,
+            },
+            {
+                label: "Pending Requests",
+                link: "/pending-requests",
+                Icon: () => <PostAddIcon/>,
+            },
+           
+        ]
     },
+   
+    {
+        label: "Submitted Trainees",
+        link: "/submitted-trainees",
+        Icon: () => <GroupIcon/>,
+    },
+
     {
         label: "Company",
         Icon: () => <StoreIcon/>,
@@ -102,31 +122,61 @@ const uniTrainingOfficerMenuItems: IAppMenuItem[] = [
             },
         ]
     },
-    ...uniAndCompanySharedMenuItems,
+    {
+        label: "Search Trainings",
+        link: "/all-trainings",
+        // Icon: () => <ManageSearchIcon/>,
+        Icon: () => <RecentActorsIcon/>,
+    },
+    // ...uniAndCompanySharedMenuItems,
 ];
 
 const companyMenuItems: IAppMenuItem[] = [
-    {
-        label: "Accepted Requests",
-        link: "/accepted-requests",
-        Icon: () => <FactCheckIcon/>,
-    },
     {
         label: "Training Requests",
         link: "/training-requests",
         Icon: () => <FormatListBulletedIcon/>,
     },
+
+    {
+        label: "Accepted Requests",
+        link: "/accepted-requests",
+        Icon: () => <FactCheckIcon/>,
+    },
+    
     {
         label: "Trainers",
         link: "/trainers",
         Icon: () => <Groups3Icon/>,
     },
     {
+        label: "Trainees",
+        Icon: () => <Groups3Icon/>,
+        items: [
+            {
+                label: "Current",
+                link: "/company-current-trainees",
+                Icon: () => <PendingActionsIcon/>,
+            },
+            {
+                label: "Completed",
+                link: "/company-completed-trainees",
+                Icon: () => <SchoolIcon/>,
+            },
+        ]
+    },
+    {
         label: "Edit Training",
         link: "/edit-training",
         Icon: () => <BorderColorIcon/>,
     },
-    ...uniAndCompanySharedMenuItems,
+    {
+        label: "Search Trainings",
+        link: "/company-all-trainings",
+        // Icon: () => <ManageSearchIcon/>,
+        Icon: () => <RecentActorsIcon/>,
+    },
+    // ...uniAndCompanySharedMenuItems,
 ];
 
 const trainerMenuItems: IAppMenuItem[] = [

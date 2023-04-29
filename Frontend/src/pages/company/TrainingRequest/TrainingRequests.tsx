@@ -2,27 +2,27 @@ import React, { useEffect, useMemo, useState } from 'react';
 import MuiPagination from '@mui/material/Pagination';
 import { TablePaginationProps } from '@mui/material/TablePagination';
 import { DataGrid, GridPagination, GridToolbar, gridClasses, gridPageCountSelector, useGridApiContext, useGridSelector } from '@mui/x-data-grid';
-import './CompletedTrainees.css';
-import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+import './TrainingRequests.css';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import CancelIcon from '@mui/icons-material/Cancel';
+import { Button, Grid, Stack, Typography} from '@mui/material';
+import { getTrainingRequests } from './api';
 import theme from "src/styling/customTheme";
-import { Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
-import { getCompletedTrainees } from './api';
+import { handleTrainingRequest } from 'src/acceptRequest';
+import { handleTrainingRequestBody } from 'src/acceptRequest/request.dto';
+import useSnackbar from 'src/hooks/useSnackbar';
 
 interface Row {
+  id: string;
   studentId: string;
+  type: string;
+  companyBranchId: string;
   Student: {
     name: string;
   };
   CompanyBranch: {
     location: string;
   };
-  Trainer: {
-    name: string;
-  };
-  count: string;
-  companyBranchId: string;
-  id: string;
-  trainerId: string;
 }
 
 function Pagination({
@@ -50,11 +50,12 @@ function CustomPagination(props: any) {
   return <GridPagination ActionsComponent={Pagination} {...props} />;
 }
 
-const CompletedTrainees: React.FC = () => {
+const TrainingRequests: React.FC = () => {
   const [data, setData] = useState<Row[]>([]);
+  const { showSnackbar } = useSnackbar();
 
   useEffect(() => {
-    getCompletedTrainees()
+    getTrainingRequests()
       .then((result) => {
         setData(result.data);
         console.log(result.data);
@@ -75,7 +76,6 @@ const CompletedTrainees: React.FC = () => {
       width: 400,
       flex:.3,
     },
-    { field: 'trainerName', headerName: 'Trainer', width: 400,flex:.3},
 
     {
       field: 'branch',
@@ -84,20 +84,41 @@ const CompletedTrainees: React.FC = () => {
       flex:.3,
     },
     {
-      field: 'evalForm',
-      headerName: 'Evaluation Form',
-      width: 400,
-      flex:.3,
+      field:'Accept',
+      width: 300,
+      flex:.15,
       headerClassName: 'ctrainees',
       filterable: false,
       sortable: false,
       renderCell: (params: { id: any; }) => (
-        <IconButton
-        sx={{ml:3.5}}
+        <Button
+        size="small"
+        sx={{color:"white",backgroundColor:"green"}}
         aria-label='progress form'
+        onClick={() => handleAccept(params.id)}
         >
-         <ManageSearchIcon sx={{color:"#820000"}} className='manage-icon'/>
-        </IconButton>
+         <CheckCircleOutlineIcon sx={{color:"white",mr:1}} className='manage-icon'/>
+         Accept
+        </Button>
+       ),
+     },
+     {
+      field:'Regict',
+      width: 300,
+      flex:.15,
+      headerClassName: 'ctrainees',
+      filterable: false,
+      sortable: false,
+      renderCell: (params: { id: any; }) => (
+        <Button
+        size="small"
+        sx={{color:"white",backgroundColor:"red"}}
+        aria-label='progress form'
+        onClick={() => handleReject(params.id)}
+        >
+         <CancelIcon sx={{color:"white",mr:1}} className='manage-icon'/>
+         Reject
+        </Button>
        ),
      },
   ];
@@ -107,17 +128,51 @@ const CompletedTrainees: React.FC = () => {
       studentId: row.studentId,
       studentName: row.Student.name,
       Student: row.Student,   
-      trainerName: row.Trainer.name,
-      Trainer: row.Trainer,
       branch: row.CompanyBranch.location,
       CompanyBranch: row.CompanyBranch,
       companyBranchId: row.companyBranchId,
-      trainerId: row.trainerId,
   }));
 
+  const handleAccept = (id: string) => {
+    console.log(id)
+    const body: handleTrainingRequestBody = {
+      trainingId: id,
+      status: 'accepted',
+    };
+    handleTrainingRequest(body)
+      .then((result) => {
+        if (result.success === true) {
+          showSnackbar({ severity: 'success', message: result.message });
+          setData((prevData) => prevData.filter((row) => row.id !== id));
+          console.log("correct");
+        } else if (result.success === false) {
+          console.log("error");
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+  const handleReject = (id: string) => {
+    console.log(id)
+    const body: handleTrainingRequestBody = {
+      trainingId: id,
+      status: 'rejected',
+    };
+    handleTrainingRequest(body)
+      .then((result) => {
+        if (result.success === true) {
+          showSnackbar({ severity: 'success', message: result.message });
+          setData((prevData) => prevData.filter((row) => row.id !== id));
+          console.log("correct");
+        } else if (result.success === false) {
+          console.log("error");
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+  
   return (
     <>
-     <Grid container sx={{
+       <Grid container sx={{
             p: 3,
             justifyContent: "center",
             alignItems: "center",
@@ -128,7 +183,7 @@ const CompletedTrainees: React.FC = () => {
                 height: '100%',
             }}>
                 <Typography component="h1" variant="h5" fontWeight={500}>
-                    Completed Trainees
+                    Training Requests
                 </Typography>
                 <DataGrid
                     className="dataGrid"
@@ -158,4 +213,4 @@ const CompletedTrainees: React.FC = () => {
   );
 };
 
-export default CompletedTrainees;
+export default TrainingRequests;

@@ -15,9 +15,10 @@ const useTrainingRequestFormController = () => {
 
     const formikProps = useFormik({
         initialValues: INITIAL_FORM_STATE,
-        onSubmit: (values) => {
+        onSubmit: (values, { resetForm }) => {
             mutate(values);
-        },
+            resetForm();
+          },
         validationSchema,
         validateOnMount: true,
     });

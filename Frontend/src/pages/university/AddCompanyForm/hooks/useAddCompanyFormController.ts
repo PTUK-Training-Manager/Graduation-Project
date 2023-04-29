@@ -19,10 +19,10 @@ const useAddCompanyFormController = () => {
 
     const formikProps = useFormik({
         initialValues: INITIAL_FORM_STATE,
-        onSubmit: (values,{ resetForm }) => {
+        onSubmit: (values, { resetForm }) => {
             mutate(values);
             resetForm();
-        },
+          },
         validationSchema,
         validateOnMount: true,
     });
