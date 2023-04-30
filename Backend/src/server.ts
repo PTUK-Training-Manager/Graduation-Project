@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 5000;
 
 associations();
 
-db.sync({logging: false})
+db.sync({logging: false, alter:false})
     .then((value) => {
         console.log('All models were synchronized successfully.');
     })
