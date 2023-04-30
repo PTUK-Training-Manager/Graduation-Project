@@ -72,7 +72,7 @@ const Login: React.FC = () => {
                     }}
                 >
                     <FormikProvider value={formikProps}>
-                        <Form>
+                        <Form autoComplete='off'>
                             <Stack alignItems="center" sx={{position: "relative"}}>
                                 <Avatar
                                     sx={{

@@ -16,7 +16,7 @@ import { addTrainerRequest } from 'src/addTrainer';
 import { getTrainers } from './api';
 import EditIcon from '@mui/icons-material/Edit';
 import { deleteTrianer } from 'src/DeleteTrainer';
-import theme from "src/styling/customTheme";
+import theme from 'src/styling/customTheme';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import {
   Button,
@@ -228,9 +228,10 @@ const Trainers: React.FC = () => {
             <EditIcon sx={{ color: '#820000' }} className="edit-icon" />
           </IconButton>
           <Dialog
-          className='dialog-box'
+            className="dialog-box"
             open={open}
             onClose={handleClose}
+            sx={{boxShadow:0}}
             BackdropProps={{ invisible: true }}
             aria-labelledby="form-dialog-title"
           >
@@ -315,58 +316,62 @@ const Trainers: React.FC = () => {
   return (
     <>
       <>
-      <Grid container sx={{
+        <Grid
+          container
+          sx={{
             p: 3,
-            justifyContent: "center",
-            alignItems: "center",
+            justifyContent: 'center',
+            alignItems: 'center',
             height: `calc(100vh - ${theme.mixins.toolbar.height}px)`,
-        }}>
-            <Stack gap={1.5} sx={{
-                width: '100%',
-                height: '100%',
-            }}>
-                <Typography component="h1" variant="h5" fontWeight={500}>
-                    Trainers 
-                </Typography>
-                <DataGrid
-                    sx={{
-                        boxShadow: 10,
-                        border: 1,
-                        borderColor: '#cacaca',
-                        '& .MuiDataGrid-cell:hover': {
-                            color: 'primary.main'
-                        }
-                    }}
-                    columns={columns}
-                    rows={rows}
-                    getRowId={(row) => row['id']}
-                    initialState={{
-                        pagination: {paginationModel: {pageSize: 30}},
-                    }}
-                    pageSizeOptions={[10, 20, 30]}
-                    slots={{
-                        toolbar: GridToolbar,
-                        pagination: CustomPagination,
-                    }}
-                />
-                 <div className="button-container">
-        <Button
-          onClick={handleAddClick}
-          className="add-trainer-button"
-          size="medium"
-          variant="contained"
-          color='success'
+          }}
         >
-          <PersonAddIcon
-            sx={{ mr: 1, color: 'white' }}
-          />
-          Add Trainer
-        </Button>
-      </div>
+          <Stack
+            gap={1.5}
+            sx={{
+              width: '100%',
+              height: '100%',
+            }}
+          >
+            <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
+              <Typography component="h1" variant="h5" fontWeight={500}>
+                Trainers
+              </Typography>
+
+              <Button
+                onClick={handleAddClick}
+                size="medium"
+                variant="contained"
+                color="success"
+              >
+                <PersonAddIcon sx={{ mr: 1, color: 'white' }} />
+                Add Trainer
+              </Button>
             </Stack>
+            <DataGrid
+              sx={{
+                boxShadow: 10,
+                border: 1,
+                borderColor: '#cacaca',
+                '& .MuiDataGrid-cell:hover': {
+                  color: 'primary.main',
+                },
+              }}
+              columns={columns}
+              rows={rows}
+              getRowId={(row) => row['id']}
+              initialState={{
+                pagination: { paginationModel: { pageSize: 30 } },
+              }}
+              pageSizeOptions={[10, 20, 30]}
+              slots={{
+                toolbar: GridToolbar,
+                pagination: CustomPagination,
+              }}
+            />
+          </Stack>
         </Grid>
       </>
-     
+
       <Dialog
         open={openA}
         onClose={handleAddCancel}

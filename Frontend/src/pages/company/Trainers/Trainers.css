@@ -1,33 +1,24 @@
-.dataGrid{
- 
-    /* height: 85%;  */
-    width: 100%;
-    margin: auto;
-    margin-top: 2%;
- }
- .MuiDataGrid-columnHeaders{
-     background-color: #ecf1f1;
- 
- }
- 
- .edit-icon {
-    font-size: 1em;
-  }
-    .clear{
-        font-size: 1.5em;
+.dataGrid {
+  /* height: 85%;  */
+  width: 100%;
+  margin: auto;
+  margin-top: 2%;
+}
+.MuiDataGrid-columnHeaders {
+  background-color: #ecf1f1;
+}
 
-    }
-    .button-container {
-        position: relative;
-        text-align: right;
-      }
-      
-      .add-trainer-button {
-        position: absolute;
-        right: 0;
-      }
-      .dialog-box {
-        box-shadow: white;
-      }
-      
-      
+.edit-icon {
+  font-size: 1em;
+}
+.clear {
+  font-size: 1.5em;
+}
+.dialog-box{
+    box-shadow: 0;
+}
+
+.css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+    box-shadow: 0;
+    
+}

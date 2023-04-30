@@ -93,7 +93,7 @@ const CompletedTrainees: React.FC = () => {
                     if (count == 1)
                         printIcons.push(
                             <Tooltip title={"Progress Form 1"}>
-                                <IconButton sx={{ml: 3.5}} aria-label={"form 1"} size="small">
+                                <IconButton sx={{ml:2.5}} aria-label={"form 1"} size="small">
                                     <PrintIcon sx={{color: "#820000"}} color="info" className='print-icon'/>
                                 </IconButton>
                             </Tooltip>
