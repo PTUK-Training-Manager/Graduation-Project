@@ -8,6 +8,6 @@ router.get('/trainers',getAll);
 router.use(verifyAccessToken)
 router.post('/trainer',addtrainer);
 router.patch('/trainer', updateTrainer)
-router.delete('/trainer',deactivateTrainer)
+router.patch('/deactivateTrainer',deactivateTrainer)
 
 export default router;
