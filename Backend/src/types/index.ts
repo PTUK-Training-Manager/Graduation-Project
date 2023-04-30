@@ -111,8 +111,7 @@ export interface TrainerRequestBody extends Request {
         name: string;
         email: string;
         field: string;
-        username: string;
-        password: string;
+        phoneNumber:string;
     }
 }
 

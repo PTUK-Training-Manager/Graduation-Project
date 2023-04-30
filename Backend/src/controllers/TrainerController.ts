@@ -4,37 +4,13 @@ import { Trainer, Company, User, Training } from "../models";
 import UserController from "./UserController";
 import { TrainerStatusEnum, TrainingStatusEnum, UserRoleEnum } from "../enums";
 import { Op } from "sequelize";
-const { addUser } = UserController
+const { addUser, generateAccount } = UserController
 class TrainierController {
 
 	addtrainer = async (req: TrainerRequestBody, res: Response<BaseResponse>, next: NextFunction) => {
 		try {
-			const { name, email, field, username: trainerUsername, password } = req.body;
 
-			/**
-			 * User
-			 */
-
-			const user = await User.findOne({
-				where: { username: trainerUsername }
-			})
-
-			if (user) {
-				return res.json({
-					success: false,
-					status: res.statusCode,
-					message: "trainer already exists || invalid username",
-					data: user
-				})
-			}
-
-			const trainerUserId = await addUser({
-				username: trainerUsername,
-				email,
-				password,
-				saltRounds: 10,
-				roleId: UserRoleEnum.TRAINER
-			}); // Trainer roleID in DataBase
+			const { id, name, email, field } = req.body;
 
 			const username = req.user.username;
 			const companyUser = await User.findOne({
@@ -49,20 +25,138 @@ class TrainierController {
 			});
 			const companyId = company?.id;
 
-			const trainerRecord = await Trainer.create({
+			const trainer = await Trainer.findByPk(id);
+
+			if (trainer) {
+				if (trainer.companyId == companyId) {
+					if (trainer.status == TrainerStatusEnum.active)
+						return res.json({
+							success: false,
+							status: res.statusCode,
+							message: "trainer already exists",
+							data: trainer
+						})
+					else
+						await Trainer.update({ status: TrainerStatusEnum.active },
+							{
+								where: { id: trainer?.id }
+							});
+				}
+				if (trainer.companyId != companyId) {
+					if (trainer.status == TrainerStatusEnum.inactive)
+						await Trainer.update({ status: TrainerStatusEnum.active, companyId: companyId },
+							{
+								where: { id: trainer?.id }
+							});
+					else
+						return res.json({
+							success: false,
+							status: res.statusCode,
+							message: "trainer already exists and active in other company",
+							data: trainer
+						})
+				}
+
+				const trainerRecord = await Trainer.findByPk(id)
+				return res.json({
+					success: true,
+					status: res.statusCode,
+					message: "trainer added successfully",
+					data: trainerRecord
+				})
+			}
+
+			const { temp, password } = await generateAccount(name, field);
+
+			const user = await addUser({
+				username: temp,
+				email,
+				password,
+				saltRounds: 10,
+				roleId: UserRoleEnum.TRAINER
+			});
+
+			const TrainerRecord = await Trainer.create({
+				id,
 				name,
 				field,
 				status: TrainerStatusEnum.active,
-				userId: trainerUserId,
+				userId: user,
 				companyId
 			});
+
+			if (!TrainerRecord) {
+				return res.json({
+					success: false,
+					status: res.statusCode,
+					message: "error creating Student account"
+				});
+			}
 
 			return res.json({
 				success: true,
 				status: res.statusCode,
-				message: "Successfully add trainer",
-				data: trainerRecord
+				message: "success adding student",
+				data: TrainerRecord
 			});
+
+
+
+
+			// const { name, email, field, username: trainerUsername, password } = req.body;
+
+			/**
+			 * User
+			 */
+
+			// const user = await User.findOne({
+			// 	where: { username: trainerUsername }
+			// })
+
+			// if (user) {
+			// 	return res.json({
+			// 		success: false,
+			// 		status: res.statusCode,
+			// 		message: "trainer already exists || invalid username",
+			// 		data: user
+			// 	})
+			// }
+
+			// const trainerUserId = await addUser({
+			// 	username: trainerUsername,
+			// 	email,
+			// 	password,
+			// 	saltRounds: 10,
+			// 	roleId: UserRoleEnum.TRAINER
+			// }); // Trainer roleID in DataBase
+
+			// const username = req.user.username;
+			// const companyUser = await User.findOne({
+			// 	where: { username },
+			// 	attributes: ['id']
+			// });
+			// const companyUserId = companyUser?.id;
+
+			// const company = await Company.findOne({
+			// 	where: { userId: companyUserId },
+			// 	attributes: ['id']
+			// });
+			// const companyId = company?.id;
+
+			// const trainerRecord = await Trainer.create({
+			// 	name,
+			// 	field,
+			// 	status: TrainerStatusEnum.active,
+			// 	userId: trainerUserId,
+			// 	companyId
+			// });
+
+			// return res.json({
+			// 	success: true,
+			// 	status: res.statusCode,
+			// 	message: "Successfully add trainer",
+			// 	data: trainerRecord
+			// });
 		} catch (err) {
 			next(err);
 		}
@@ -108,10 +202,10 @@ class TrainierController {
 					[Op.and]: {
 						companyId,
 						status: TrainerStatusEnum.active
-					 }
 					}
-			}); 
-			 
+				}
+			});
+
 			return res.json({
 				success: true,
 				status: res.statusCode,
@@ -154,7 +248,7 @@ class TrainierController {
 
 	deactivateTrainer = async (req: Request<unknown, unknown, { id: number }>, res: Response<BaseResponse>, next: NextFunction) => {
 		try {
-			const {id} = req.body;
+			const { id } = req.body;
 			const trainingRecords = await Training.findAll({
 				where: {
 					[Op.and]: {
@@ -162,7 +256,7 @@ class TrainierController {
 						status: TrainingStatusEnum.running
 					}
 				}
-			}) 
+			})
 			if (trainingRecords.length > 0)
 				return res.json({
 					success: false,
