@@ -1,7 +1,6 @@
-//process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-const nodemailer = require("nodemailer");
-const sendEmail= async(dest:string,subject:string,message:string)=>{
-    
+import nodemailer from "nodemailer";
+export const sendEmail=(dest:string,subject:string,message:string)=>{
+    try{
     let transporter = nodemailer.createTransport({
         service:'gmail',
         auth: {
@@ -17,12 +16,28 @@ const sendEmail= async(dest:string,subject:string,message:string)=>{
         }
       });
 
-      let info = await transporter.sendMail({
-        from:"PTUK training system, trainingsytem11@gmail.com" , 
+    //   const mailOptions = {
+    //             from: auth.user,
+    //             to: email,
+    //             subject: subject,
+    //             text: text
+    //         };
+    //         transporter.sendMail(mailOptions, function (error, info) {
+    //             if (error) {
+    //                 console.log(error);
+    //             } else {
+    //                 console.log('Email sent: ' + info.response);
+    //             }
+
+      let info = transporter.sendMail({
+        from:"trainingsytem11@gmail.com" , 
         to:dest, // list of receivers
         subject:subject, // Subject line
         text:message, 
       });
-      console.log(info);
+      console.log(info);}
+      catch (err) {
+      console.log(err)
+    }
 }
 export default{sendEmail}; 
