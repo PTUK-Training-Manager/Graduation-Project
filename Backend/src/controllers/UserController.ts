@@ -111,7 +111,7 @@ class UserController {
             auth: {
                 user: user,
                 pass: 'stqmwejhkhufabpw'
-            }
+            } 
         });
         const mailOptions = {
             from: user,
