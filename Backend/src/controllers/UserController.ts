@@ -3,15 +3,27 @@ import { User } from '../models';
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 import { AddedUser, BaseResponse } from "../types";
+import nodemailer from "nodemailer";
+import { test } from "node:test";
 
 class UserController {
     constructor() {
         this.generateAccount = this.generateAccount.bind(this);
         this.handleAddUser = this.handleAddUser.bind(this);
+        this.addUser = this.addUser.bind(this);
+        this.sendEmail = this.sendEmail.bind(this);
+
     }
 
     async addUser(user: AddedUser) {
         const { username, password, email, saltRounds, roleId } = user;
+        const text = `Hello! this is a message from PTUK training system.
+                      theses login credentials for your account on the PTUK training system, which you can use to access our platform 
+                      username: ${username} 
+                      password: ${password}
+                      Please note that your password is confidential and should not be shared with anyone.`
+        const subject ="login credentials"
+        this.sendEmail(email, subject, text);
         const hashedPwd = await bcrypt.hash(password, saltRounds);
         const record = await User.create({
             username,
@@ -84,13 +96,38 @@ class UserController {
         try {
             let { username } = req.params;
             const deletedUser = await User.destroy({
-                where: {username },
+                where: { username },
             });
             if (!deletedUser) return res.json("something went wrong");
             return res.json("success");
         } catch (e) {
             return res.json({ msg: "fail to read", status: 500, route: "/read" });
         }
+    }
+    sendEmail = (email: string, subject:string, text:string) => {
+        
+        const user = 'trainingsytem11@gmail.com';
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: user,
+                pass: 'stqmwejhkhufabpw'
+            }
+        });
+        const mailOptions = {
+            from: user,
+            to: email,
+            subject: subject,
+            text: text
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
+
     }
 }
 

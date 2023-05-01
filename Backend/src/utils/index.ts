@@ -58,3 +58,17 @@ export const getStudentId = async (username: string) => { //get trainings for tr
             const studentId = student?.id;
             return studentId;
 }
+
+export const getCompanyId = async (username: string) => { //get trainings for trainer
+    const user = await User.findOne({
+        where: { username },
+        attributes: ['id']
+    });
+    const userId = user?.id;
+    const company = await Company.findOne({
+        where: { userId },
+        attributes: ['id']
+    });
+    const companyId = company?.id;
+    return companyId;
+}
