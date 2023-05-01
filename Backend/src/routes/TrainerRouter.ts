@@ -3,6 +3,7 @@ import TrainierController from '../controllers/TrainerController';
 import verifyAccessToken from '../middlewares/verifyAccessToken';
 const router = express.Router();
 const {addtrainer,getAll,updateTrainer,deactivateTrainer}=TrainierController
+
 router.get('/trainers',getAll);
 
 router.use(verifyAccessToken)
