@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { getCompany } from 'src/getCompany/index';
-import { getBranch } from 'src/getBranch/index';
+import { getBranch } from 'src/api/getBranch';
 import {
   Autocomplete,
   FormControl,

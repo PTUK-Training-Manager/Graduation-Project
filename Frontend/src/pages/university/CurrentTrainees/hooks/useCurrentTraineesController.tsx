@@ -3,7 +3,7 @@ import {Row,Response} from "../types";
 import {getCurrentTrainees} from "../api";
 import {IconButton} from "@mui/material";
 import {Feed} from "@mui/icons-material";
-import { progressForm } from "src/progressForm";
+import { progressForm } from "src/api/progress";
 
 const useCurrentTraineesController = () => {
     const [data, setData] = useState<Row[]>([]);
