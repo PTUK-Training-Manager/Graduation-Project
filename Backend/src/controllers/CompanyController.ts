@@ -1,16 +1,21 @@
 import { NextFunction, Request, Response } from "express";
 import UserController from "./UserController";
-import Company from "../models/Company";
-import CompanyBranch from "../models/CompanyBranch";
-import { BranchRequestBody, CompanyRequestBody, BaseResponse } from "../types";
+import { BranchRequestBody, CompanyRequestBody, BaseResponse, AddFieldBody } from "../types";
 import { UserRoleEnum } from "../enums";
+import { getCompanyId } from "../utils";
+import {
+    CompanyField,
+    Company,
+    CompanyBranch,
+    User
+} from "../models/index";
 
 class CompanyController {
 
     constructor() {
-            this.addCompany=this.addCompany.bind(this);
-            this.handleAddBranch=this.handleAddBranch.bind(this);
-        }
+        this.addCompany = this.addCompany.bind(this);
+        this.handleAddBranch = this.handleAddBranch.bind(this);
+    }
 
 
     async addCompany(req: CompanyRequestBody, res: Response<BaseResponse>, next: NextFunction) {
@@ -42,8 +47,8 @@ class CompanyController {
                         message: "error creating account Company"
                     });
 
-                 await this.addBranch(res, id, location, next);
-    
+                await this.addBranch(res, id, location, next);
+
             }
             else
                 return res.json({
@@ -70,7 +75,7 @@ class CompanyController {
                 })
 
             const branchRecord = await CompanyBranch.findOne({
-                where: { location, companyId:id },
+                where: { location, companyId: id },
             });
 
             if (branchRecord)
@@ -83,7 +88,7 @@ class CompanyController {
 
             const branch = await CompanyBranch.create({
                 location,
-                companyId:id,
+                companyId: id,
             });
 
             if (!branch)
@@ -117,7 +122,8 @@ class CompanyController {
 
     async getCompanies(req: Request, res: Response<BaseResponse>, next: NextFunction) {
         try {
-            const companies = await Company.findAll({ attributes: ['id', 'name'] });
+            const companies = await Company.findAll({ include:[{model:User,
+                                                                attributes:['email']}] });
             return res.json({
                 success: true,
                 status: res.statusCode,
@@ -146,6 +152,46 @@ class CompanyController {
             });
         } catch (err) {
             next(err);
+        }
+    }
+
+    addFields = async (req: AddFieldBody, res: Response<BaseResponse>, next: NextFunction) => {
+        try {
+            const { fields } = req.body;
+            const username = req.user.username;
+            const companyId = await getCompanyId(username);
+            const promises: Promise<CompanyField>[] = []
+            for (let i = 0; i < fields.length; i++) {
+                const companyFieldPromise = CompanyField.create({ field: fields[i], companyId });
+                promises.push(companyFieldPromise)
+            }
+            await Promise.all(promises)
+            return res.json({
+                success: true,
+                status: res.statusCode,
+                message: "Fields Added successfully",
+            });
+        } catch (err) {
+            next(err)
+        }
+    }
+
+    getFields = async (req: AddFieldBody, res: Response<BaseResponse>, next: NextFunction) => {
+        try {
+            const username = req.user.username;
+            const companyId = await getCompanyId(username);
+            const fields = await CompanyField.findAll({
+                where: { companyId },
+                attributes:['field']
+            });
+            return res.json({
+                success: true,
+                status: res.statusCode,
+                message: "Fields: ",
+                data: fields
+            });
+        } catch (err) {
+            next(err)
         }
     }
 }

@@ -188,3 +188,8 @@ export interface EditEvaluationBody extends Request {
         endTime?:Date
     }
 }
+export interface AddFieldBody extends Request {
+    body: {
+        fields : string[]
+    }
+}

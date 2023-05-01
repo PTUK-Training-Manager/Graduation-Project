@@ -11,7 +11,8 @@ import {
     Trainer,
     Training,
     User,
-    CompanyBranch
+    CompanyBranch,
+    CompanyField
 } from "./index";
 
 const associations = () => {
@@ -64,6 +65,9 @@ const associations = () => {
 
     CompanyBranch.belongsTo(Company, { foreignKey: "companyId" });
     Company.hasMany(CompanyBranch, { foreignKey: "companyId" });
+
+    CompanyField.belongsTo(Company, { foreignKey: "companyId" });
+    Company.hasMany(CompanyField, { foreignKey: "companyId" });
 
     Role.belongsToMany(Permission, {
         through: "Role-Permission",
