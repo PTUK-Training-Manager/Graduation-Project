@@ -17,7 +17,13 @@ class UserController {
 
     async addUser(user: AddedUser) {
         const { username, password, email, saltRounds, roleId } = user;
-        this.sendEmail(email, username, password);
+        const text = `Hello! this is a message from PTUK training system.
+                      theses login credentials for your account on the PTUK training system, which you can use to access our platform 
+                      username: ${username} 
+                      password: ${password}
+                      Please note that your password is confidential and should not be shared with anyone.`
+        const subject ="login credentials"
+        this.sendEmail(email, subject, text);
         const hashedPwd = await bcrypt.hash(password, saltRounds);
         const record = await User.create({
             username,
@@ -98,12 +104,8 @@ class UserController {
             return res.json({ msg: "fail to read", status: 500, route: "/read" });
         }
     }
-    sendEmail = (email: string, username: string, password: string) => {
-        const text = `Hello! this is a message from PTUK training system.
-                      theses login credentials for your account on the PTUK training system, which you can use to access our platform 
-                      username: ${username} 
-                      password: ${password}
-                      Please note that your password is confidential and should not be shared with anyone.`
+    sendEmail = (email: string, subject:string, text:string) => {
+        
         const user = 'trainingsytem11@gmail.com';
         const transporter = nodemailer.createTransport({
             service: 'gmail',
@@ -115,7 +117,7 @@ class UserController {
         const mailOptions = {
             from: user,
             to: email,
-            subject: 'username and password',
+            subject: subject,
             text: text
         };
         transporter.sendMail(mailOptions, function (error, info) {
