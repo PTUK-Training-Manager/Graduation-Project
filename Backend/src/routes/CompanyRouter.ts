@@ -9,6 +9,7 @@ router.post('/company', addCompany);
 router.post('/branch', handleAddBranch);
 router.get('/company', getCompanies);
 router.post('/branches', getBranches);
-router.get('/trainers',verifyAccessToken,TrainerController.getMyTrainers)
+router.use(verifyAccessToken)
+router.get('/trainers',TrainerController.getMyTrainers)
 
 export default router;

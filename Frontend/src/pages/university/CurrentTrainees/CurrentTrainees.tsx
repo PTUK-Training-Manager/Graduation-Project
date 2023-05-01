@@ -12,12 +12,14 @@ import useCurrentTraineesController from "src/pages/university/CurrentTrainees/h
 import DataGridPagination from "src/components/DataGrid/DataGridPagination";
 import ProgressFormDialog from "./components/ProgressFormDialog";
 
+
 const CurrentTrainees: React.FC = () => {
 
     const {
         columns,
         rows,
         isOpen,
+        response,
         currentTab,
         handleChangeTab,
         handleCloseDialog,
@@ -68,6 +70,7 @@ const CurrentTrainees: React.FC = () => {
                 currentTab={currentTab}
                 handleChangeTab={handleChangeTab}
                 handleCloseDialog={handleCloseDialog}
+                response={response}
             />
         </>
     );

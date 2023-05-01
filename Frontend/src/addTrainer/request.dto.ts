@@ -3,6 +3,4 @@ export interface addTrainerRequestBody {
     name: string;
     email: string;
     field: string;
-    username: string;
-    password: string;
 }

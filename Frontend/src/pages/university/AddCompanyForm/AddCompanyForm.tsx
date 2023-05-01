@@ -38,14 +38,16 @@ const AddCompanyForm: React.FC = () => {
                                 <Typography component="h1" variant="h5">
                                     Add Company
                                 </Typography>
-
+                                <Stack gap={2} direction="row">
                                 <TextFieldWrapper label="Company Id" name="id" autoFocus/>
                                 <TextFieldWrapper label="Company Name" name="name"/>
                                 <TextFieldWrapper label="Phone Number" name="phoneNumber"/>
+                                </Stack>
+                                <Stack gap={2} direction="row">
                                 <TextFieldWrapper label="E-mail" type="email" name="email"/>
                                 <TextFieldWrapper label="Location" name="location"/>
                                 <TextFieldWrapper label="Manager Name" name="managerName"/>
-
+                                </Stack>
                                 <LoadingButton
                                     type="submit"
                                     fullWidth
@@ -55,6 +57,7 @@ const AddCompanyForm: React.FC = () => {
                                 >
                                     Generate Account
                                 </LoadingButton>
+                                
                             </Stack>
                         </Form>
                     </FormikProvider>

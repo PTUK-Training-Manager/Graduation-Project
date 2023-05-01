@@ -78,8 +78,6 @@ const Trainers: React.FC = () => {
   const [name, setName] = useState<string>('');
   const [field, setField] = useState<string>('');
   const [trainerId, setTrainerId] = useState<string>('');
-  const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
   const [email, setEmail] = useState<string>('');
 
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -99,8 +97,6 @@ const Trainers: React.FC = () => {
       name: name,
       field: field,
       email: email,
-      username: username,
-      password: password,
     }).then((res: { success: boolean; message: any; data: Row }) => {
       if (res.success === true && res.data) {
         setData((prevData) => [res.data, ...prevData]);
@@ -109,8 +105,6 @@ const Trainers: React.FC = () => {
         setName('');
         setEmail('');
         setField('');
-        setUsername('');
-        setPassword('');
         setOpenA(false);
       } else if (res.success === false) {
         showSnackbar({ severity: 'warning', message: res.message });
@@ -118,8 +112,6 @@ const Trainers: React.FC = () => {
         setName('');
         setEmail('');
         setField('');
-        setUsername('');
-        setPassword('');
         setOpenA(false);
       }
     });
@@ -410,25 +402,6 @@ const Trainers: React.FC = () => {
             required
             value={field}
             onChange={(event) => setField(event.target.value)}
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            label="username"
-            fullWidth
-            required
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            label="password"
-            fullWidth
-            required
-            type="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
           />
         </DialogContent>
         <DialogActions>
