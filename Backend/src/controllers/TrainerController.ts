@@ -89,14 +89,14 @@ class TrainierController {
 				return res.json({
 					success: false,
 					status: res.statusCode,
-					message: "error creating Student account"
+					message: "error creating trainer account"
 				});
 			}
 
 			return res.json({
 				success: true,
 				status: res.statusCode,
-				message: "success adding student",
+				message: "success adding trainer",
 				data: TrainerRecord
 			});
 
