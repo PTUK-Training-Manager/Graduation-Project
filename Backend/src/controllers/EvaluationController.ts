@@ -91,9 +91,9 @@ class EvaluationController {
         }
     }
 
-    signEvaluation = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
+    signEvaluation = async (req: Request<unknown,unknown,{id:number}>, res: Response<BaseResponse>, next: NextFunction) => {
         try {
-            const { id } = req.params;
+            const  id  = req.body.id;
             await Evaluation.update({ status: EvaluationStatusEnum.signed }, {
                 where: {
                     id
