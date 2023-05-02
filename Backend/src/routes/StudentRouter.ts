@@ -10,8 +10,9 @@ const {addStudent, getAll,deleteStudentById} = studentController
 
 // router.post('/student', verifyAccessToken, verifyRoles([UserRoleEnum.TRAINER]), addStudent);
 router.post('/student', addStudent);
-router.get('/students', getAll);
-router.delete('/student/:id',deleteStudentById)
 router.use(verifyAccessToken);
+router.get('/students',verifyRoles([UserRoleEnum.Company]), getAll);
+router.delete('/student/:id',deleteStudentById)
+
 
 export default router;
