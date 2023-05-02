@@ -25,7 +25,9 @@ const useCurrentTraineesController = () => {
 
     const handleCloseDialog = () => {
         setIsOpen(false);
+        setTrainingId('')
     };
+    
 
     const columns = [
         {field: 'studentId', headerName: 'Student Number', width: 300, flex: 0.3},
@@ -39,14 +41,12 @@ const useCurrentTraineesController = () => {
             filterable: false,
             sortable: false,
             renderCell: (params: { id: any }) => (
-                <IconButton sx={{ml: 3.5}} aria-label="progress form"onClick={() => handleOpenDialog(params.id)}
+                <IconButton sx={{ml: 3.5}} aria-label="progress form" onClick={() => handleOpenDialog(params.id)}
                 >
-                    {/* <ManageSearchIcon sx={{ color: '#820000' }} className="manage-icon" /> */}
                     <Feed
+                    color="warning"
                         sx={{
-                            backgroundColor: '#255983',
                             borderRadius: '5px',
-                            color: '#ecf1f1',
                             className: "manage-icon"
                         }}
                     />
@@ -97,6 +97,7 @@ const useCurrentTraineesController = () => {
         data,
         open: !!isOpen,
         response,
+        trainingId,
     }
 };
 

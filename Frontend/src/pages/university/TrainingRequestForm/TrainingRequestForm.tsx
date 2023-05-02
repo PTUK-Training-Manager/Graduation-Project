@@ -4,11 +4,12 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import { getCompany } from 'src/getCompany/index';
+import { getCompany } from 'src/api/getCompany';
 import { getBranch } from 'src/api/getBranch';
 import {
   Autocomplete,
   FormControl,
+  IconButton,
   InputLabel,
   Select,
   Stack,
@@ -18,6 +19,8 @@ import useTrainingRequestFormController from './hooks/useTrainingRequestFormCont
 import { LoadingButton } from '@mui/lab';
 import TextFieldWrapper from 'src/components/FormsUI/TextField';
 import { useEffect, useState } from 'react';
+import { useLocation, Navigate } from 'react-router-dom';
+
 
 interface CompanyOption {
   id: string;
@@ -30,11 +33,13 @@ interface BranchOption {
 }
 
 const TrainingRequestForm: React.FC = () => {
-  const [selectedCompany, setSelectedCompany] = React.useState('');
+ const [selectedCompany, setSelectedCompany] = React.useState('');
   const { formikProps, isLoading } = useTrainingRequestFormController();
   const { isValid } = formikProps;
 
-  const [companyOptions, setCompanyOptions] = useState<CompanyOption[]>([]);
+  const [companyOptions, setCompanyOptions] = useState<CompanyOption[]>([
+    {name: 'Add Company', id: 'com'}
+  ]);
   const [branchOptions, setBranchOptions] = useState<BranchOption[]>([]);
 
   useEffect(() => {
@@ -65,6 +70,17 @@ const TrainingRequestForm: React.FC = () => {
 
   console.log(formikProps.errors);
 
+  const location = useLocation();
+
+
+  const handleOptionSelect = (event: any, value: CompanyOption | null) => {
+    if (value?.id === 'com') {
+        return <Navigate to="/add-company" replace state={{from: location.pathname}}/>;
+    } else {
+      formikProps.setFieldValue('companyId', value?.id || '');
+      setSelectedCompany(value?.id || '');
+    }
+  };
 
   return (
     <>
@@ -122,10 +138,10 @@ const TrainingRequestForm: React.FC = () => {
 <Autocomplete
   disablePortal
   options={companyOptions}
-  getOptionLabel={(option) => option.name}
+  getOptionLabel={(option) => option.name }
   onChange={(event, newValue) => {
     formikProps.setFieldValue('companyId', newValue?.id || '');
-    setSelectedCompany(newValue?.id || '');
+      setSelectedCompany(newValue?.id || '');
   }}
   sx={{ width: '100%' }} 
   renderInput={(params) => (

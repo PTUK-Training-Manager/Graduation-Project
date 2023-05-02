@@ -9,8 +9,17 @@ import {
   useGridApiContext,
   useGridSelector,
 } from '@mui/x-data-grid';
+import RemoveIcon from '@mui/icons-material/Remove';
 import './Trainers.css';
-import { Backdrop } from '@mui/material';
+import {
+  Autocomplete,
+  Backdrop,
+  Collapse,
+  FormControl,
+  Paper,
+} from '@mui/material';
+import { Form, FormikProvider } from 'formik';
+import { getField } from 'src/api/getfield';
 import ClearIcon from '@mui/icons-material/Clear';
 import { addTrainerRequest } from 'src/addTrainer';
 import { getTrainers } from './api';
@@ -34,6 +43,9 @@ import {
 import useSnackbar from 'src/hooks/useSnackbar';
 import { updateTrianer } from 'src/EditTrainer';
 import { Email } from '@mui/icons-material';
+import useAddTrainerFormController from './hooks/useAddTrainerController';
+import TextFieldWrapper from 'src/components/FormsUI/TextField';
+import LoadingButton from '@mui/lab/LoadingButton';
 
 function Pagination({
   page,
@@ -73,15 +85,27 @@ const Trainers: React.FC = () => {
   const { showSnackbar } = useSnackbar();
   const [deleteId, setDeleteId] = useState<string>('');
   const [updateId, setUpdateId] = useState<string>('');
-  const [updateField, setUpdateField] = useState<string>('');
+  const [updateField, setUpdeteField] = useState<string>('');
+  const [open, setOpen] = useState(false);
+  const [openEditDialog, setOpenEditDialog] = useState(false);
 
   const [name, setName] = useState<string>('');
   const [field, setField] = useState<string>('');
   const [trainerId, setTrainerId] = useState<string>('');
   const [email, setEmail] = useState<string>('');
+  const [companyOptions, setCompanyOptions] = useState<CompanyOption[]>([]);
 
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
+  const { formikProps, isLoading } = useAddTrainerFormController();
+  const { isValid } = formikProps;
 
+  interface CompanyOption {
+    field: string;
+  }
+
+  const handleChange = () => {
+    setOpen((prev) => !prev);
+  };
   useEffect(() => {
     getTrainers()
       .then((result) => {
@@ -89,6 +113,17 @@ const Trainers: React.FC = () => {
         console.log(result.data);
       })
       .catch((error) => console.log(error));
+  }, []);
+
+  useEffect(() => {
+    getField().then((res) => {
+      if (res.success) {
+        const options = res.data.map((field) => ({
+          field: field.field,
+        })) as CompanyOption[];
+        setCompanyOptions(options);
+      }
+    });
   }, []);
 
   const handleAddTrainer = () => {
@@ -144,7 +179,7 @@ const Trainers: React.FC = () => {
     setConfirmDialogOpen(false);
   };
 
-  const [open, setOpen] = useState(false);
+  const [openUpdate, setOpenUpdate] = useState(false);
   const [openA, setOpenA] = useState(false);
 
   const handleAddClick = () => {
@@ -157,11 +192,11 @@ const Trainers: React.FC = () => {
 
   const handleOpen = (id: string) => {
     setUpdateId(id);
-    setOpen(true);
+    setOpenUpdate(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenUpdate(false);
   };
 
   const handleSave = () => {
@@ -178,13 +213,13 @@ const Trainers: React.FC = () => {
             })
           );
           setUpdateId('');
-          setUpdateField('');
-          setOpen(false);
+          // setUpdateField(null);
+          setOpenUpdate(false);
         } else if (res.success === false) {
           showSnackbar({ severity: 'warning', message: res.message });
           setUpdateId('');
-          setUpdateField('');
-          setOpen(false);
+          // setUpdateField(null);
+          setOpenUpdate(false);
         }
       }
     );
@@ -193,11 +228,11 @@ const Trainers: React.FC = () => {
     handleClose();
   };
 
-  const handleValueChange = (event: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setUpdateField(event.target.value);
-  };
+  // const handleValueChange = (event: {
+  //   target: { value: React.SetStateAction<string> };
+  // }) => {
+  //   setUpdateField(event.target.value);
+  // };
 
   const columns = [
     { field: 'id', headerName: 'Trainer Id', width: 220, flex: 0.3 },
@@ -220,22 +255,31 @@ const Trainers: React.FC = () => {
             <EditIcon sx={{ color: '#820000' }} className="edit-icon" />
           </IconButton>
           <Dialog
+            fullWidth
             className="dialog-box"
-            open={open}
+            open={openUpdate}
             onClose={handleClose}
-            sx={{boxShadow:0}}
             BackdropProps={{ invisible: true }}
             aria-labelledby="form-dialog-title"
           >
             <DialogTitle id="form-dialog-title">Edit Field</DialogTitle>
             <DialogContent>
-              <TextField
-                autoFocus
-                label="New Value"
-                type="text"
-                fullWidth
-                value={updateField}
-                onChange={handleValueChange}
+              <Autocomplete
+                id="field"
+                options={companyOptions}
+                getOptionLabel={(option) => option.field}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    margin="dense"
+                    label="Field"
+                    variant="outlined"
+                  />
+                )}
+                onChange={(event, newValue) => {
+                  setUpdeteField(newValue?.field);
+                  console.log(updateField);
+                }}
               />
             </DialogContent>
             <DialogActions>
@@ -330,15 +374,96 @@ const Trainers: React.FC = () => {
               </Typography>
 
               <Button
-                onClick={handleAddClick}
-                size="medium"
                 variant="contained"
-                color="success"
+                sx={{ width: 'auto' }}
+                color={open ? 'error' : 'success'}
+                onClick={handleChange}
+                startIcon={open ? <RemoveIcon /> : <PersonAddIcon />}
               >
-                <PersonAddIcon sx={{ mr: 1, color: 'white' }} />
-                Add Trainer
+                {open ? 'Close' : 'Add Trainer'}
               </Button>
             </Stack>
+            <Grid
+              container
+              sx={{
+                p: 2,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Stack
+                gap={0.5}
+                sx={{
+                  width: '100%',
+                  height: '100%',
+                }}
+              >
+                <Collapse in={open}>
+                  <Paper
+                    elevation={3}
+                    sx={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      p: 3.5,
+                      minWidth: { xs: '90%', sm: '60%', md: '30%' },
+                    }}
+                  >
+                    <FormikProvider value={formikProps}>
+                      <Form>
+                        <Stack spacing={1} gap={1} alignItems="center">
+                          <Typography component="h1" variant="h5">
+                            Add Company
+                          </Typography>
+                          <Stack gap={5} direction="row">
+                            <TextFieldWrapper
+                              label="Trainer Id"
+                              name="id"
+                              autoFocus
+                            />
+                            <TextFieldWrapper
+                              label="Trainer Name"
+                              name="name"
+                            />
+                            <TextFieldWrapper
+                              label="E-mail"
+                              type="email"
+                              name="email"
+                            />
+                            <FormControl fullWidth>
+                              <Autocomplete
+                                disablePortal
+                                options={companyOptions}
+                                getOptionLabel={(option) => option.field}
+                                onChange={(event, newValue) => {
+                                  formikProps.setFieldValue(
+                                    'field',
+                                    newValue?.field || ''
+                                  );
+                                }}
+                                sx={{ width: '100%' }}
+                                renderInput={(params) => (
+                                  <TextField {...params} label="Field" />
+                                )}
+                              />
+                            </FormControl>
+                          </Stack>
+                          <LoadingButton
+                            type="submit"
+                            // fullWidth
+                            variant="contained"
+                            disabled={!isValid}
+                            loading={isLoading}
+                          >
+                            Generate Account
+                          </LoadingButton>
+                        </Stack>
+                      </Form>
+                    </FormikProvider>
+                  </Paper>
+                </Collapse>
+              </Stack>
+            </Grid>
             <DataGrid
               sx={{
                 boxShadow: 10,
@@ -372,6 +497,7 @@ const Trainers: React.FC = () => {
         <DialogTitle id="form-dialog">Add Trainer</DialogTitle>
         <DialogContent>
           <TextField
+            margin="dense"
             autoFocus
             label="Trainer Id"
             fullWidth
@@ -395,14 +521,20 @@ const Trainers: React.FC = () => {
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
-          <TextField
-            margin="dense"
-            label="Field"
-            fullWidth
-            required
-            value={field}
-            onChange={(event) => setField(event.target.value)}
-          />
+          <FormControl fullWidth>
+            <Autocomplete
+              disablePortal
+              options={companyOptions}
+              getOptionLabel={(option) => option.field}
+              onChange={(event, newValue) => {
+                formikProps.setFieldValue('field', newValue?.field || '');
+              }}
+              sx={{ width: '100%', height: '100%' }}
+              renderInput={(params) => (
+                <TextField margin="dense" {...params} label="Field" />
+              )}
+            />
+          </FormControl>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleAddCancel} color="primary">

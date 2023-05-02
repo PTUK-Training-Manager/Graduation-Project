@@ -20,6 +20,12 @@ import Checkbox from '@mui/material/Checkbox';
 import {Navigate} from "react-router-dom";
 import useVerifyAccessToken from "src/hooks/useVerifyAccessToken";
 import BlockUI from "src/containers/BlockUI";
+import { useState } from 'react';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import TextField from '@mui/material/TextField';
 
 
 const Login: React.FC = () => {
@@ -36,6 +42,17 @@ const Login: React.FC = () => {
     const {formikProps, isLoading} = useLoginController();
 
     const {isValid} = formikProps;
+    const [openDialog,setOpenDialog] = useState(false)
+    const [password,setPassword]=useState('');
+
+    const handleForggetClick = () => {
+       setOpenDialog(true)
+      };
+    
+      const handleCancel = () => {
+        setOpenDialog(false);
+      };
+    
 
     if (isVerifying) return <BlockUI/>;
 
@@ -115,7 +132,7 @@ const Login: React.FC = () => {
                                 >
                                     Login
                                 </LoadingButton>
-                                <Button sx={{textTransform: "none"}}>
+                                <Button sx={{textTransform: "none"}} onClick={handleForggetClick}>
                                     Forgotten your username or password?
                                 </Button>
                             </Stack>
@@ -123,6 +140,32 @@ const Login: React.FC = () => {
                     </FormikProvider>
                 </Paper>
             </Grid>
+
+            <Dialog
+        open={openDialog}
+        onClose={handleCancel}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog">Forgget Password</DialogTitle>
+        <DialogContent>
+        <TextField
+            autoFocus
+            label="New Password"
+            fullWidth
+            required
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancel} color="error">
+            Cancel
+          </Button>
+          <Button color="primary">
+            Send
+          </Button>
+        </DialogActions>
+      </Dialog>
         </>
     );
 }

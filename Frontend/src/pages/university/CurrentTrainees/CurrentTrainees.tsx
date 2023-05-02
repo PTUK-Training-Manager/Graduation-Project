@@ -20,7 +20,9 @@ const CurrentTrainees: React.FC = () => {
         rows,
         isOpen,
         response,
+        data,
         currentTab,
+        trainingId,
         handleChangeTab,
         handleCloseDialog,
     } = useCurrentTraineesController();
@@ -59,7 +61,6 @@ const CurrentTrainees: React.FC = () => {
                         pageSizeOptions={[10, 20, 30]}
                         slots={{
                             toolbar: GridToolbar,
-                            // pagination: CustomPagination,
                             pagination: DataGridPagination,
                         }}
                     />
@@ -71,6 +72,8 @@ const CurrentTrainees: React.FC = () => {
                 handleChangeTab={handleChangeTab}
                 handleCloseDialog={handleCloseDialog}
                 response={response}
+                data={data}
+                trainingId={trainingId}
             />
         </>
     );
