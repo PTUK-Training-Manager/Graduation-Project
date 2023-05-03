@@ -8,7 +8,7 @@ import { AxiosBaseError } from 'src/types';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import extractErrorMessage from 'src/utils/extractErrorMessage';
 import { Row } from '../types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getCompany } from 'src/api/getCompany'; // Import the getCompany function
 import { IconButton } from '@mui/material';
 
@@ -18,7 +18,7 @@ const AddCompanyQueryKey = ['addCompany'];
 
 const useAddCompanyFormController = () => {
   const { showSnackbar } = useSnackbar();
-  const [data, setData] = useState<Row[]>([]);
+  const [updatedata, setUpdateData] = useState<Row[]>([]);
 
 
 
@@ -32,19 +32,20 @@ const useAddCompanyFormController = () => {
     validateOnMount: true,
   });
 
+  
+ 
+
   const { mutate, isLoading } = useMutation(AddCompanyQueryKey, addCompany, {
     onSuccess: async (data) => {
       console.log(data.data);
       if (data.success === true) {
         showSnackbar({ severity: 'success', message: data.message });
-
-        try {
-          const result = await getCompany(); // Call the getCompany function
-          setData((prevData) => [data.data, ...prevData]); // Update the state with the new data
-          console.log(result.data);
-        } catch (error) {
-          console.error(error);
-        }
+        getCompany()
+        .then((result) => {
+          setUpdateData((prevData) => [data.data, ...prevData]);
+        console.log(result.data);
+        })
+        .catch((error) => console.log(error));
 
         console.log(data.data);
       } else if (data.success === false) {
@@ -62,7 +63,7 @@ const useAddCompanyFormController = () => {
 
 
   
-  return { formikProps, mutate, isLoading};
+  return { formikProps, mutate, isLoading,updatedata};
 };
 
 export default useAddCompanyFormController;

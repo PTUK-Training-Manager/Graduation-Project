@@ -90,22 +90,13 @@ const uniTrainingOfficerMenuItems: IAppMenuItem[] = [
         Icon: () => <GroupIcon/>,
     },
 
-    {
-        label: "Company",
-        Icon: () => <StoreIcon/>,
-        items: [
+        
             {
-                label: "Add Company",
+                label: "Companies",
                 link: "/add-company",
-                // Icon: () => <AddBusinessIcon/>,
+                Icon: () => <StoreIcon/>,
             },
-            {
-                label: "Add Branch",
-                link: "/add-branch",
-                // Icon: () => <DomainAddIcon/>,
-            },
-        ]
-    },
+            
     {
         label: "Trainees",
         Icon: () => <Groups3Icon/>,

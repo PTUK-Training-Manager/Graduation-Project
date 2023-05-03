@@ -23,6 +23,7 @@ const useAddTrainerFormController = () => {
         onSubmit: (values, { resetForm }) => {
             mutate(values);
             resetForm();
+            formikProps.setFieldValue('field' , null)
           },
         validationSchema,
         validateOnMount: true,

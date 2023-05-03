@@ -1,4 +1,4 @@
-import React, {SyntheticEvent, useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import MuiPagination from '@mui/material/Pagination';
 import {TablePaginationProps} from '@mui/material/TablePagination';
 import {
@@ -10,17 +10,14 @@ import {
     useGridApiContext,
     useGridSelector
 } from '@mui/x-data-grid';
-import EvaluStepper from './components/EvaluStepper';
 import './CompletedTrainees.css';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import PrintIcon from '@mui/icons-material/Print';
-import {Dialog, DialogContent, DialogTitle, IconButton, Tooltip} from '@mui/material';
+import {IconButton, Tooltip} from '@mui/material';
 import {getCompletedTrainees} from './api';
 import theme from "src/styling/customTheme";
-import { evaluation } from 'src/api/getEvaluation';
 import Typography from "@mui/material/Typography";
-import Transition from 'src/components/Transition';
 
 interface Row {
     studentId: string;
@@ -57,40 +54,6 @@ function CustomPagination(props: any) {
 
 const CompletedTrainees: React.FC = () => {
     const [data, setData] = useState<Row[]>([]);
-    const [isOpen, setIsOpen] = useState(false);
-    const [currentTab, setCurrentTab] = useState('one');
-    const [response, setReponse] = useState<Response>();
-    const [value, setValue] = useState('1');
-    const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-        setValue(newValue);
-      };
-    
-      const [index, setIndex] = useState('');
-      const [studentId, setStudentId] = useState('');
-
-      const handleChangeTab = (event: SyntheticEvent, newValue: string) => {
-        setCurrentTab(newValue);
-      };
-
-      const handleOpenDialog = (id: string, count: string) => {
-        setIndex('0')
-        setStudentId('201910150');
-        console.log(isOpen);
-        setIsOpen((prev) => !prev);
-      };
-    
-      useEffect(() => {
-        evaluation({index:index,studentId: studentId})
-            .then((result) => {
-                // setData(result.data);
-                console.log(result.data);
-            })
-            .catch((error) => console.log(error));
-    }, []);
-
-      const handleCloseDialog = () => {
-        setIsOpen(false);
-      };
 
     useEffect(() => {
         getCompletedTrainees()
@@ -124,18 +87,13 @@ const CompletedTrainees: React.FC = () => {
             sortable: false,
             renderCell: (params: { row: Row }) => {
                 const count = parseInt(params.row.count);
-                const Evnum=params.row.count;
-                const id = params.row.studentId;
                 const printIcons = [];
 
                 for (let i = 0; i < count; i++) {
                     if (count == 1)
                         printIcons.push(
                             <Tooltip title={"Progress Form 1"}>
-                                <IconButton sx={{ml: 3.5}} aria-label={"form 1"} size="small"       
-                                    onClick={() => handleOpenDialog(id,Evnum)}
->
-                                   
+                                <IconButton sx={{ml:2.5}} aria-label={"form 1"} size="small">
                                     <PrintIcon sx={{color: "#820000"}} color="info" className='print-icon'/>
                                 </IconButton>
                             </Tooltip>
@@ -167,7 +125,7 @@ const CompletedTrainees: React.FC = () => {
     }));
 
     return (
-        <><Grid container sx={{
+        <Grid container sx={{
             p: 3,
             justifyContent: "center",
             alignItems: "center",
@@ -194,28 +152,16 @@ const CompletedTrainees: React.FC = () => {
                     rows={rows}
                     getRowId={(row) => row['studentId']}
                     initialState={{
-                        pagination: { paginationModel: { pageSize: 30 } },
+                        pagination: {paginationModel: {pageSize: 30}},
                     }}
                     pageSizeOptions={[10, 20, 30]}
                     slots={{
                         toolbar: GridToolbar,
                         pagination: CustomPagination,
-                    }} />
+                    }}
+                />
             </Stack>
-        </Grid><Dialog
-            open={isOpen}
-            onClose={handleCloseDialog}
-            fullScreen
-            TransitionComponent={Transition}
-            sx={{ left: '30%' }}
-        >
-                <DialogTitle gap={1.5} sx={{ textAlign: 'center' }}></DialogTitle>
-                <DialogContent>
-                    <EvaluStepper />
-
-
-                </DialogContent>
-            </Dialog></>
+        </Grid>
     );
 };
 

@@ -17,15 +17,16 @@ export interface ProgressData {
   ;
 }
 
-export interface ProgressFormRequestBody {
-    trainingId: string;
+export interface EvaluationFormRequestBody {
+    index: string;
+    studentId: string;
 }
 
-export interface ProgressFormResponse extends BaseResponse {
+export interface EvaluationFormResponse extends BaseResponse {
   data: ProgressData;
 }
 
-export const progressForm = (body: ProgressFormRequestBody) => {
-    const url = "/evaluation/progressForm";
-    return axiosInstance.post<ProgressFormResponse>(url, body).then(res => res.data);
+export const evaluation = (body: EvaluationFormRequestBody) => {
+    const url = "/training/evaluationForm";
+    return axiosInstance.post<EvaluationFormResponse>(url, body).then(res => res.data);
 };

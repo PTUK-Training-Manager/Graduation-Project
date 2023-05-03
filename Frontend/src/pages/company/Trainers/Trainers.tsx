@@ -26,6 +26,13 @@ import { getTrainers } from './api';
 import EditIcon from '@mui/icons-material/Edit';
 import { deleteTrianer } from 'src/DeleteTrainer';
 import theme from 'src/styling/customTheme';
+import {useMutation} from "@tanstack/react-query";
+import {useFormik} from "formik";
+import {validationSchema} from "./schema";
+import {INITIAL_FORM_STATE} from "./constants";
+import {AxiosBaseError} from "src/types";
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import extractErrorMessage from "src/utils/extractErrorMessage";
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import {
   Button,
@@ -80,6 +87,9 @@ interface Row {
   userId: string;
 }
 
+const AddTrainerQueryKey = ["addTrainerRequest"];
+
+
 const Trainers: React.FC = () => {
   const [data, setData] = useState<Row[]>([]);
   const { showSnackbar } = useSnackbar();
@@ -96,12 +106,44 @@ const Trainers: React.FC = () => {
   const [companyOptions, setCompanyOptions] = useState<CompanyOption[]>([]);
 
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
-  const { formikProps, isLoading } = useAddTrainerFormController();
-  const { isValid } = formikProps;
+  // const { formikProps, isLoading } = useAddTrainerFormController();
 
   interface CompanyOption {
     field: string;
   }
+  // const {showSnackbar} = useSnackbar();
+
+    const formikProps = useFormik({
+        initialValues: INITIAL_FORM_STATE,
+        onSubmit: (values, { resetForm }) => {
+            mutate(values);
+            resetForm();
+            formikProps.setFieldValue('field' , null)
+          },
+        validationSchema,
+        validateOnMount: true,
+    });
+    const  {isValid} = formikProps;
+
+    const {mutate, isLoading} = useMutation(
+        AddTrainerQueryKey,
+        addTrainerRequest,
+        {
+            onSuccess: (data) => {
+                console.log(data.data)
+                if(data.success==true){
+                showSnackbar({severity: "success", message: data.message});
+                setData((prevData) => [...prevData, data.data]); // update data state with newly added company
+                }else if(data.success==false)
+                showSnackbar({severity: "warning", message: data.message});
+
+            },
+            onError: (error: AxiosBaseError) => {
+                const errorMessage = extractErrorMessage(error);
+                showSnackbar({severity: "error", message: errorMessage ?? "Error in Adding Company"});
+            }
+        }
+    );
 
   const handleChange = () => {
     setOpen((prev) => !prev);
@@ -413,7 +455,7 @@ const Trainers: React.FC = () => {
                       <Form>
                         <Stack spacing={1} gap={1} alignItems="center">
                           <Typography component="h1" variant="h5">
-                            Add Company
+                            Add Trainer
                           </Typography>
                           <Stack gap={5} direction="row">
                             <TextFieldWrapper

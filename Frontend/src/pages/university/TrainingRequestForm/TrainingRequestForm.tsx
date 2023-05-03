@@ -8,6 +8,7 @@ import { getCompany } from 'src/api/getCompany';
 import { getBranch } from 'src/api/getBranch';
 import {
   Autocomplete,
+  Button,
   FormControl,
   IconButton,
   InputLabel,
@@ -37,9 +38,7 @@ const TrainingRequestForm: React.FC = () => {
   const { formikProps, isLoading } = useTrainingRequestFormController();
   const { isValid } = formikProps;
 
-  const [companyOptions, setCompanyOptions] = useState<CompanyOption[]>([
-    {name: 'Add Company', id: 'com'}
-  ]);
+  const [companyOptions, setCompanyOptions] = useState<CompanyOption[]>([]);
   const [branchOptions, setBranchOptions] = useState<BranchOption[]>([]);
 
   useEffect(() => {
@@ -153,7 +152,6 @@ const TrainingRequestForm: React.FC = () => {
   )}
 />
 </FormControl>
-
 {selectedCompany && (
   <FormControl fullWidth>
   <Autocomplete
@@ -163,6 +161,7 @@ const TrainingRequestForm: React.FC = () => {
     onChange={(event, newValue) => {
       formikProps.setFieldValue('companyBranchId', newValue?.id || '');
     }}
+    
     sx={{ width: '100%' }} 
     renderInput={(params) => (
       <TextField
