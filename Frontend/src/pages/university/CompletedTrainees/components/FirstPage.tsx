@@ -9,12 +9,17 @@ import {
   CardActions,
   CardContent,
   Container,
+  Divider,
+  Radio,
+  RadioGroup,
 } from '@mui/material';
 import './style.css';
+import { Row,Evaluation } from '../types';
 // import Checkbox from '@material-ui/core/Checkbox';
 // import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { FormControlLabel } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
+import { FC, SyntheticEvent } from 'react';
 
 const bull = (
   <Box
@@ -24,60 +29,26 @@ const bull = (
     •
   </Box>
 );
-export default function Review() {
+interface EvaluationFormDialogProps {
+  isOpen: boolean;
+  currentTab: string;
+  trainingId: string;
+  handleChangeTab: (event: SyntheticEvent, newValue: string) => void;
+  handleCloseDialog: () => void;
+  response: Evaluation ; // add ? to allow for undefined values
+  data?: Row[];
+}
+const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({
+  isOpen,
+  currentTab,
+  handleChangeTab,
+  handleCloseDialog,
+  trainingId,
+  response,
+  data,
+}) => {
+// export default function Review() {
   return (
-    // <React.Fragment>
-    //   <Container sx={{ p: '50px' }}>
-    //     <Stack sx={{ textAlign: 'center'}}>
-    //       <Typography variant="h6"  sx={{fontStyle:'oblique'}}>
-    //         Field Traning
-    //       </Typography>
-    //     </Stack>
-
-    //     <Stack sx={{ mt: '30px', textAlign: 'center' }}>
-    //       <Grid container spacing={2}>
-    //         <Grid item xs={8} sm={4}>
-    //           <Typography
-    //             gutterBottom
-    //             sx={{ mt: 2, fontSize: '20px', fontWeight: 450 }}
-    //           >
-    //             Student number
-    //           </Typography>
-    //           <Typography>.......</Typography>
-    //         </Grid>
-    //         <Grid item xs={8} sm={4}>
-    //           <Typography
-    //             gutterBottom
-    //             sx={{ mt: 2, fontSize: '20px', fontWeight: 500 }}
-    //           >
-    //             Student Name
-    //           </Typography>
-    //           <Typography gutterBottom> .........</Typography>
-    //         </Grid>
-    //         <Grid item xs={8} sm={4}>
-    //           <Typography
-    //             gutterBottom
-    //             sx={{ mt: 2, fontSize: '20px', fontWeight: 500 }}
-    //           >
-    //             Semester:
-    //           </Typography>
-    //           <Typography gutterBottom> .........</Typography>
-    //         </Grid>
-    //         <Grid item xs={8} sm={4}>
-    //           <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-    //             phone number
-    //           </Typography>
-    //           <Typography gutterBottom> .........</Typography>
-    //         </Grid>
-    //         <Grid item xs={8} sm={4}>
-    //           <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-    //             academic specialization
-    //           </Typography>
-    //           <Typography gutterBottom> .........</Typography>
-    //         </Grid>
-    //       </Grid>
-    //   </Container>
-    // </React.Fragment>
     <>
       <Container sx={{ p: '50px' }}>
         <Stack sx={{ textAlign: 'center' }}>
@@ -85,7 +56,10 @@ export default function Review() {
             Field Traning
           </Typography>
         </Stack>
+        <Divider />
+
         {/* Student */}
+
         <Card sx={{ minWidth: 100, mb: '5px' }}>
           <CardContent>
             <Typography variant="h6" color="text.secondary" gutterBottom>
@@ -93,8 +67,8 @@ export default function Review() {
             </Typography>
 
             <Stack>
-              <Typography variant="h6" component="div">
-                Student Name:
+              <Typography sx={{ fontWeight: '600' }} component="div">
+                Student Name: {/* {response.Student.name} */}
                 <Typography
                   sx={{ mb: 1.5, display: 'inline-block' }}
                   color="text.secondary"
@@ -105,7 +79,7 @@ export default function Review() {
             </Stack>
 
             <Stack>
-              <Typography variant="h6" component="div">
+              <Typography sx={{ fontWeight: '600' }} component="div">
                 Student Number:
                 <Typography
                   sx={{ mb: 1.5, display: 'inline-block' }}
@@ -117,7 +91,7 @@ export default function Review() {
             </Stack>
 
             <Stack>
-              <Typography variant="h6" component="div">
+              <Typography sx={{ fontWeight: '600' }} component="div">
                 Phone:
                 <Typography
                   sx={{ mb: 1.5, display: 'inline-block' }}
@@ -129,7 +103,7 @@ export default function Review() {
             </Stack>
 
             <Stack>
-              <Typography variant="h6" component="div">
+              <Typography sx={{ fontWeight: '600' }} component="div">
                 academic specialization:
                 <Typography
                   sx={{ mb: 1.5, display: 'inline-block' }}
@@ -141,17 +115,18 @@ export default function Review() {
             </Stack>
           </CardContent>
         </Card>
+        <Divider />
 
         {/* Company */}
 
-        <Card sx={{ minWidth: 200 }}>
+        <Card sx={{ minWidth: 200, mb: '5px' }}>
           <CardContent>
             <Typography variant="h6" color="text.secondary" gutterBottom>
               Company Information:
             </Typography>
 
             <Stack>
-              <Typography variant="h6" component="div">
+              <Typography sx={{ fontWeight: '600' }} component="div">
                 Company Name:
                 <Typography
                   sx={{ mb: 1.5, display: 'inline-block' }}
@@ -163,7 +138,7 @@ export default function Review() {
             </Stack>
 
             <Stack>
-              <Typography variant="h6" component="div">
+              <Typography sx={{ fontWeight: '600' }} component="div">
                 Email
                 <Typography
                   sx={{ mb: 1.5, display: 'inline-block' }}
@@ -175,7 +150,7 @@ export default function Review() {
             </Stack>
 
             <Stack>
-              <Typography variant="h6" component="div">
+              <Typography sx={{ fontWeight: '600' }} component="div">
                 Phone:
                 <Typography
                   sx={{ mb: 1.5, display: 'inline-block' }}
@@ -187,7 +162,7 @@ export default function Review() {
             </Stack>
 
             <Stack>
-              <Typography variant="h6" component="div">
+              <Typography sx={{ fontWeight: '600' }} component="div">
                 Manegar Name{' '}
                 <Typography
                   sx={{ mb: 1.5, display: 'inline-block' }}
@@ -198,7 +173,7 @@ export default function Review() {
               </Typography>
             </Stack>
             <Stack>
-              <Typography variant="h6" component="div">
+              <Typography sx={{ fontWeight: '600' }} component="div">
                 Trainer Name{' '}
                 <Typography
                   sx={{ mb: 1.5, display: 'inline-block' }}
@@ -210,15 +185,16 @@ export default function Review() {
             </Stack>
           </CardContent>
         </Card>
+        <Divider />
 
-        <Card sx={{ minWidth: 200 }}>
+        <Card sx={{ minWidth: 200, mb: '5px' }}>
           <CardContent>
             <Typography variant="h6" color="text.secondary" gutterBottom>
               Student working time{' '}
             </Typography>
 
             <Stack>
-              <Typography variant="h6" component="div">
+              <Typography sx={{ fontWeight: '600' }} component="div">
                 Starting Date :
                 <Typography
                   sx={{ mb: 1.5, display: 'inline-block' }}
@@ -230,7 +206,7 @@ export default function Review() {
             </Stack>
 
             <Stack>
-              <Typography variant="h6" component="div">
+              <Typography sx={{ fontWeight: '600' }} component="div">
                 Ending Date{' '}
                 <Typography
                   sx={{ mb: 1.5, display: 'inline-block' }}
@@ -242,7 +218,7 @@ export default function Review() {
             </Stack>
 
             <Stack>
-              <Typography variant="h6" component="div">
+              <Typography sx={{ fontWeight: '600' }} component="div">
                 The daily working period
                 <Typography variant="h5" component="div">
                   From{bull}nev{bull}To{bull}lent
@@ -251,7 +227,7 @@ export default function Review() {
             </Stack>
 
             <Stack>
-              <Typography variant="h6" component="div">
+              <Typography sx={{ fontWeight: '600' }} component="div">
                 number of absence's Day
                 <Typography
                   sx={{ mb: 1.5, display: 'inline-block' }}
@@ -262,7 +238,7 @@ export default function Review() {
               </Typography>
             </Stack>
             <Stack>
-              <Typography variant="h6" component="div">
+              <Typography sx={{ fontWeight: '600' }} component="div">
                 Number of training days for the student
                 <Typography
                   sx={{ mb: 1.5, display: 'inline-block' }}
@@ -273,15 +249,149 @@ export default function Review() {
               </Typography>
             </Stack>
             <Stack>
-              <Typography variant="h6" component="div">
+              <Typography sx={{ fontWeight: '600' }} component="div">
                 Did the student keep working hours?
-                <FormControlLabel control={<Checkbox />} label="yes" />
-                <FormControlLabel control={<Checkbox />} label="No" />
+                <FormControlLabel control={<Checkbox disabled />} label="yes" />
+                <FormControlLabel control={<Checkbox disabled />} label="No" />
               </Typography>
             </Stack>
           </CardContent>
         </Card>
+        <Divider />
+
+        <Card sx={{ minWidth: 200, mb: '5px' }}>
+          <CardContent>
+            <Typography variant="h6" color="text.secondary" gutterBottom>
+              Student benefit from training:
+            </Typography>
+
+            <Stack>
+              <Typography sx={{ fontWeight: '600' }} component="div">
+                The main work done by the student during the training
+                <Typography
+                  sx={{ mb: 1.5, display: 'inline-block' }}
+                  color="text.secondary"
+                >
+                  ..........
+                </Typography>
+              </Typography>
+            </Stack>
+
+            <Stack>
+              <Typography sx={{ fontWeight: '600' }} component="div">
+                The ability of the student to carry out the tasks assigned to
+                him
+                <Typography
+                  sx={{ mb: 1.5, display: 'inline-block' }}
+                  color="text.secondary"
+                >
+                <RadioGroup
+                    row
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                    name="row-radio-buttons-group"
+                  >
+                    <FormControlLabel
+                    disabled
+                      value="Exelant"
+                      control={<Radio />}
+                      label="Exelant"
+                    />
+                    <FormControlLabel
+                    disabled
+                      value="Very Good"
+                      control={<Radio />}
+                      label="Very Good "
+                    />
+                    <FormControlLabel
+                    disabled
+                      value="Good"
+                      control={<Radio />}
+                      label="Good"
+                    />
+                    <FormControlLabel disabled control={<Radio />} label="weak" />
+                  </RadioGroup>{' '}
+                </Typography>
+              </Typography>
+            </Stack>
+
+            <Stack>
+              <Typography sx={{ fontWeight: '600' }} component="div">
+                The student's ability to benefit from the work assigned to him
+                was:
+                <Typography
+                  sx={{ mb: 1.5, display: 'inline-block' }}
+                  color="text.secondary"
+                >
+                         <RadioGroup
+                    row
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                    name="row-radio-buttons-group"
+                  >
+                    <FormControlLabel
+                    disabled
+                      value="Exelant"
+                      control={<Radio />}
+                      label="Exelant"
+                    />
+                    <FormControlLabel
+                    disabled
+                      value="Very Good"
+                      control={<Radio />}
+                      label="Very Good "
+                    />
+                    <FormControlLabel
+                    disabled
+                      value="Good"
+                      control={<Radio />}
+                      label="Good"
+                    />
+                    <FormControlLabel disabled control={<Radio />} label="weak" />
+                  </RadioGroup>{' '}
+                </Typography>
+              </Typography>
+            </Stack>
+
+            <Stack>
+              <Typography sx={{ fontWeight: '600' }} component="div">
+                The practical application of the theoretical subjects studied by
+                the student in the college was:
+                <Typography
+                  sx={{ mb: 1.5, display: 'inline-block' }}
+                  color="text.secondary"
+                >
+                     <RadioGroup
+                    row
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                    name="row-radio-buttons-group"
+                  >
+                    <FormControlLabel
+                    disabled
+                      value="Exelant"
+                      control={<Radio />}
+                      label="Exelant"
+                    />
+                    <FormControlLabel
+                    disabled
+                      value="Very Good"
+                      control={<Radio />}
+                      label="Very Good "
+                    />
+                    <FormControlLabel
+                    disabled
+                      value="Good"
+                      control={<Radio />}
+                      label="Good"
+                    />
+                    <FormControlLabel disabled control={<Radio />} label="weak" />
+                  </RadioGroup>{' '}
+                </Typography>
+              </Typography>
+            </Stack>
+          </CardContent>
+        </Card>
+        <Divider />
       </Container>
     </>
   );
-}
+};
+export default EvaluationFormDialog;

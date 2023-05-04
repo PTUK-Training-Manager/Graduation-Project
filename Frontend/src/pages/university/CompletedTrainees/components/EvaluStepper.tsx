@@ -6,9 +6,22 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import FirstPage from './FirstPage';
+import SecondPage from './SecondPage';
+import useCurrentTraineesController from '../../CurrentTrainees/hooks/useCurrentTraineesController';
 const steps = ['Select campaign settings', 'Create an ad group', 'Create an ad'];
 
 export default function EvaluStepper() {
+  const {
+    columns,
+    rows,
+    isOpen,
+    response,
+    data,
+    currentTab,
+    handleChangeTab,
+    handleCloseDialog,
+} = useCurrentTraineesController();
+
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set<number>());
 
@@ -16,19 +29,11 @@ export default function EvaluStepper() {
     return step === 1;
   };
 
-  const isStepSkipped = (step: number) => {
-    return skipped.has(step);
-  };
+
 
   const handleNext = () => {
-    let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
-    }
-
+  
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
   };
 
   const handleBack = () => {
@@ -82,7 +87,18 @@ export default function EvaluStepper() {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          {activeStep===0 && <FirstPage/>}
+          {activeStep===0 && <FirstPage 
+          
+          isOpen={isOpen}
+          currentTab={currentTab}
+          handleChangeTab={handleChangeTab}
+          handleCloseDialog={handleCloseDialog}
+          data={data}
+          response={response}
+          
+          />}
+          {activeStep===1 && <SecondPage/>}
+
           {/* <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography> */}
           {}
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
@@ -95,11 +111,7 @@ export default function EvaluStepper() {
               Back
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
-            {isStepOptional(activeStep) && (
-              <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                Skip
-              </Button>
-            )}
+      
             <Button onClick={handleNext}>
               {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
             </Button>

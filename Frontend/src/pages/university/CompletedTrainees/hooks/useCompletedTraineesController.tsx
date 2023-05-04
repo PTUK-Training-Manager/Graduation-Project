@@ -1,13 +1,31 @@
-import React, {useEffect, useState} from "react";
+import React, {SyntheticEvent, useEffect, useState} from "react";
 import {getCompletedTrainees} from "src/pages/university/CompletedTrainees/api";
-import {Row} from "../types";
+import {Row,Evaluation} from "../types";
 import {IconButton, Tooltip} from "@mui/material";
 import PrintIcon from "@mui/icons-material/Print";
+import { evaluation } from "src/api/getEvaluation";
 
 
 const useCompletedTraineesController = () => {
 
     const [data, setData] = useState<Row[]>([]);
+    const [isOpen, setIsOpen] = useState(false);
+    const [currentTab, setCurrentTab] = useState('one');
+    const [response, setReponse] = useState<Evaluation>();
+    const [index, setIndex] = useState('');
+    const [studentId, setStudentId] = useState('');
+
+    
+    const handleChangeTab = (event: SyntheticEvent, newValue: string) => {
+        setCurrentTab(newValue);
+      };
+
+      const handleOpenDialog = (id: string, count: string) => {
+        setIndex('0')
+        setStudentId('8');
+        console.log(isOpen);
+        setIsOpen((prev) => !prev);
+      };
 
     const columns = [
         {
@@ -32,13 +50,18 @@ const useCompletedTraineesController = () => {
             sortable: false,
             renderCell: (params: { row: Row }) => {
                 const count = parseInt(params.row.count);
+                const Evnum=params.row.count;
+                const id = params.row.studentId;
                 const printIcons = [];
 
                 for (let i = 0; i < count; i++) {
                     if (count == 1)
                         printIcons.push(
                             <Tooltip title={"Progress Form 1"}>
-                                <IconButton sx={{ml: 3.5}} aria-label={"form 1"} size="small">
+                                <IconButton sx={{ml: 2.5}} aria-label={"form 1"} size="small"       
+                                    onClick={() => handleOpenDialog(id,Evnum)}
+>
+                                   
                                     <PrintIcon sx={{color: "#820000"}} color="info" className='print-icon'/>
                                 </IconButton>
                             </Tooltip>
@@ -70,6 +93,19 @@ const useCompletedTraineesController = () => {
     }));
 
     useEffect(() => {
+        evaluation({index:'0',studentId: '8'})
+            .then((result) => {
+                setReponse(result.data);
+                console.log(result.data);
+            })
+            .catch((error) => console.log(error));
+    }, []);
+
+      const handleCloseDialog = () => {
+        setIsOpen(false);
+      };
+
+    useEffect(() => {
         getCompletedTrainees()
             .then((result) => {
                 setData(result.data);
@@ -79,9 +115,19 @@ const useCompletedTraineesController = () => {
     }, []);
 
     return {
+        currentTab,
+        handleChangeTab,
+        handleOpenDialog,
+        handleCloseDialog,
         columns,
         rows,
         data,
+        isOpen,
+        response,
+        open: !!isOpen,
+        index,
+        studentId,
+
     }
 };
 
