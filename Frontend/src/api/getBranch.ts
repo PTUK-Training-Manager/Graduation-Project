@@ -11,7 +11,7 @@ export interface GetBranchRequestBody {
     companyId: string;
 }
 export interface GetBranchResponse extends BaseResponse {
-    data: GetBranchData;
+    data: GetBranchData[];
 }
 
 export const getBranch = (body: GetBranchRequestBody) => {

@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { getCompany } from 'src/api/getCompany';
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import { getBranch } from 'src/api/getBranch';
 import {
   Autocomplete,
@@ -20,7 +21,7 @@ import useTrainingRequestFormController from './hooks/useTrainingRequestFormCont
 import { LoadingButton } from '@mui/lab';
 import TextFieldWrapper from 'src/components/FormsUI/TextField';
 import { useEffect, useState } from 'react';
-import { useLocation, Navigate } from 'react-router-dom';
+import { useLocation, Navigate, useNavigate } from 'react-router-dom';
 
 
 interface CompanyOption {
@@ -37,7 +38,30 @@ const TrainingRequestForm: React.FC = () => {
  const [selectedCompany, setSelectedCompany] = React.useState('');
   const { formikProps, isLoading } = useTrainingRequestFormController();
   const { isValid } = formikProps;
+  const navigate = useNavigate();
 
+  const [addCompanyAppear, setAddCompanyAppear] = useState<boolean>(false);
+
+  const PaperComponentCustom = (options: { containerProps: any; children: CompanyOption; }) => {
+    const { containerProps, children } = options;
+    return (
+    <Paper {...containerProps}>
+    {children}
+    <Button fullWidth color="primary"  variant='contained' startIcon={<AddBusinessIcon sx={{color:"white"}} />}
+ onClick={navigateToAnotherPage}
+    onMouseDown={(event)=>{event.preventDefault(); }}>
+   Add New Company </Button>
+    </Paper>);};
+    const PaperComponentBranch = (options: { containerProps: any; children: CompanyOption; }) => {
+      const { containerProps, children } = options;
+      return (
+      <Paper {...containerProps}>
+      {children}
+      <Button fullWidth color="primary"  variant='contained' startIcon={<AddBusinessIcon sx={{color:"white"}} />}
+   onClick={navigateToAnotherPage}
+      onMouseDown={(event)=>{event.preventDefault(); }}>
+     Add New Branch </Button>
+      </Paper>);};
   const [companyOptions, setCompanyOptions] = useState<CompanyOption[]>([]);
   const [branchOptions, setBranchOptions] = useState<BranchOption[]>([]);
 
@@ -52,6 +76,9 @@ const TrainingRequestForm: React.FC = () => {
       }
     });
   }, []);
+  const options = ['Option 1', 'Option 2', 'Option 3'];
+const noOptionButton = <Button onClick={() => navigateToAnotherPage()}>Navigate to another page</Button>;
+
 
   useEffect(() => {
     if (selectedCompany) {
@@ -71,7 +98,9 @@ const TrainingRequestForm: React.FC = () => {
 
   const location = useLocation();
 
-
+  const navigateToAnotherPage = () => {
+    navigate('/add-company')
+  };
   const handleOptionSelect = (event: any, value: CompanyOption | null) => {
     if (value?.id === 'com') {
         return <Navigate to="/add-company" replace state={{from: location.pathname}}/>;
@@ -136,6 +165,7 @@ const TrainingRequestForm: React.FC = () => {
 <FormControl fullWidth>
 <Autocomplete
   disablePortal
+  PaperComponent={PaperComponentCustom} 
   options={companyOptions}
   getOptionLabel={(option) => option.name }
   onChange={(event, newValue) => {
@@ -144,18 +174,23 @@ const TrainingRequestForm: React.FC = () => {
   }}
   sx={{ width: '100%' }} 
   renderInput={(params) => (
-    <TextField  
-      {...params} 
-      name="companyId" 
-      label="Company Name" 
-    />
+    <TextField
+      {...params}
+      name="companyId"
+      label="Company Name" />
   )}
 />
+
+
+
+
+
 </FormControl>
 {selectedCompany && (
   <FormControl fullWidth>
   <Autocomplete
     disablePortal
+    PaperComponent={PaperComponentBranch} 
     options={branchOptions}
     getOptionLabel={(option) => option.location}
     onChange={(event, newValue) => {
@@ -167,13 +202,12 @@ const TrainingRequestForm: React.FC = () => {
       <TextField
         {...params}
         name="companyBranchId"
-        label="Location"
-      />
+        label="Location" />
+        
     )}
   />
   </FormControl>
 )}
-
                 <LoadingButton
                   type="submit"
                   fullWidth

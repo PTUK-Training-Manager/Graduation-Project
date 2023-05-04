@@ -231,9 +231,6 @@ const AcceptedTrainings: React.FC = () => {
               }}
             />
           </div>
-          {/* <div style={{ height: 400, width: '100%' }}>
-    <DataGrid rows={availableTrainers} columns={trainerColumns} />
-  </div> */}
         </DialogContent>
         <DialogActions>
           <Button

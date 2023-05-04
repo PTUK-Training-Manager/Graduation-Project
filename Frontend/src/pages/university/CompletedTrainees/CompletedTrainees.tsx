@@ -74,13 +74,13 @@ const CompletedTrainees: React.FC = () => {
 
       const handleOpenDialog = (id: string, count: string) => {
         setIndex('0')
-        setStudentId('201910150');
+        setStudentId('8');
         console.log(isOpen);
         setIsOpen((prev) => !prev);
       };
     
       useEffect(() => {
-        evaluation({index:index,studentId: studentId})
+        evaluation({index:'0',studentId: '8'})
             .then((result) => {
                 // setData(result.data);
                 console.log(result.data);
