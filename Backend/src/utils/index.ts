@@ -7,12 +7,7 @@ import {
     Training,
     Student
 } from "../models/index";
-export const getBranchesIds = async (username: string) => { //get branches for company
-    const user = await User.findOne({
-        where: { username },
-        attributes: ['id']
-    });
-    const userId = user?.id;
+export const getBranchesIds = async (userId: number) => { //get branches for company
     const company = await Company.findOne({
         where: { userId },
         attributes: ['id']
@@ -26,12 +21,7 @@ export const getBranchesIds = async (username: string) => { //get branches for c
     return branchesIds;
 }
 
-export const getTrainingIds = async (username: string) => { //get trainings for trainer
-    const user = await User.findOne({
-        where: { username },
-        attributes: ['id']
-    });
-    const userId = user?.id;
+export const getTrainingIds = async (userId: number) => { //get trainings for trainer
     const trainer = await Trainer.findOne({
         where: { userId },
         attributes: ['id']
@@ -45,12 +35,8 @@ export const getTrainingIds = async (username: string) => { //get trainings for 
     const trainingIds = trainings.map(obj => obj.id);
     return trainingIds;
 }
-export const getStudentId = async (username: string) => { //get trainings for trainer
-            const user = await User.findOne({
-                where: { username },
-                attributes: ['id']
-            });
-            const userId = user?.id;
+export const getStudentId = async (userId: number) => { //get trainings for trainer
+
             const student = await Student.findOne({
                 where: { userId },
                 attributes: ['id']
@@ -59,12 +45,7 @@ export const getStudentId = async (username: string) => { //get trainings for tr
             return studentId;
 }
 
-export const getCompanyId = async (username: string) => { //get trainings for trainer
-    const user = await User.findOne({
-        where: { username },
-        attributes: ['id']
-    });
-    const userId = user?.id;
+export const getCompanyId = async (userId: number) => { //get trainings for trainer
     const company = await Company.findOne({
         where: { userId },
         attributes: ['id']

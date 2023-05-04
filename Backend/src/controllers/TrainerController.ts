@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { BaseResponse, TrainerRequestBody } from "../types";
-import { Trainer, Company, User, Training } from "../models";
+import { Trainer, Company, User, Training, Field } from "../models";
 import UserController from "./UserController";
 import { TrainerStatusEnum, TrainingStatusEnum, UserRoleEnum } from "../enums";
 import { Op } from "sequelize";
@@ -10,17 +10,10 @@ class TrainierController {
 	addtrainer = async (req: TrainerRequestBody, res: Response<BaseResponse>, next: NextFunction) => {
 		try {
 
-			const { id, name, email, field } = req.body;
-
-			const username = req.user.username;
-			const companyUser = await User.findOne({
-				where: { username },
-				attributes: ['id']
-			});
-			const companyUserId = companyUser?.id;
-
+			const { id, name, email, fieldId } = req.body;
+			const userId = req.user.userId
 			const company = await Company.findOne({
-				where: { userId: companyUserId },
+				where: { userId },
 				attributes: ['id']
 			});
 			const companyId = company?.id;
@@ -66,7 +59,9 @@ class TrainierController {
 				})
 			}
 
-			const { temp, password } = await generateAccount(name, field);
+			const fieldRecord = await Field.findByPk(fieldId)
+			const field = fieldRecord?.field
+			const { temp, password } = await generateAccount(name, field!);
 
 			const user = await addUser({
 				username: temp,
@@ -79,7 +74,7 @@ class TrainierController {
 			const TrainerRecord = await Trainer.create({
 				id,
 				name,
-				field,
+				fieldId,
 				status: TrainerStatusEnum.active,
 				userId: user,
 				companyId
@@ -180,30 +175,19 @@ class TrainierController {
 
 		try {
 
-			const username = req.user.username;
-			const companyUser = await User.findOne({
-				where: { username: username },
-				attributes: ['id']
-			});
-			const companyUserId = companyUser?.id;
-
+			const userId = req.user.userId;
 			const company = await Company.findOne({
-				where: { userId: companyUserId },
+				where: { userId },
 				attributes: ['id']
 			});
 			const companyId = company?.id;
-			// // console.log(username, companyUserId, companyId)
-
-
-			// const {companyId}= req.body;
-
 			const records = await Trainer.findAll({
 				where: {
 					[Op.and]: {
 						companyId,
 						status: TrainerStatusEnum.active
 					}
-				}
+				}, include: { model: Field }
 			});
 
 			return res.json({
@@ -218,16 +202,18 @@ class TrainierController {
 
 	}
 
-	updateTrainer = async (req: Request<unknown, unknown, { id: number, field: string }>, res: Response<BaseResponse>, next: NextFunction) => {
+	updateTrainer = async (req: Request<unknown, unknown, { id: number, fieldId: number }>, res: Response<BaseResponse>, next: NextFunction) => {
 
-		const { id, field } = req.body;
+		const { id, fieldId } = req.body;
 		try {
-
-			await Trainer.update({ field },
+			console.log(fieldId)
+			await Trainer.update({ fieldId },
 				{
 					where: { id }
 				});
-			const trainerRecord = await Trainer.findByPk(id)
+			const trainerRecord = await Trainer.findByPk(id, {
+				include: { model: Field }
+			})
 			if (trainerRecord)
 				return res.json({
 					success: true,

@@ -98,6 +98,7 @@ export interface EditTrainerRequestBody extends Request {
     body: {
         trainingId: number;
         trainerId: number;
+        startDate?: Date;
     }
 }
 
@@ -111,7 +112,7 @@ export interface TrainerRequestBody extends Request {
         id: number;
         name: string;
         email: string;
-        field: string;
+        fieldId: number;
         phoneNumber:string;
     }
 }
@@ -188,8 +189,13 @@ export interface EditEvaluationBody extends Request {
         endTime?:Date
     }
 }
+
+export interface Field {
+    id?:number;
+    label:string
+}
 export interface AddFieldBody extends Request {
     body: {
-        fields : string[]
+        fields : Field[]
     }
 }

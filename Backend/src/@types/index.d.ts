@@ -1,11 +1,14 @@
 import express from 'express';
 
-declare global{
+declare global {
     namespace Express {
         interface Request {
             role: number,
-            user: {username: string,
-            roleId: number}
+            user: {
+                userId:number,
+                username: string,
+                roleId: number
+            }
         }
     }
 };

@@ -36,7 +36,7 @@ class TrainingController {
                     group: ['studentId']
                 });
             } else if (UserRoleEnum.Company == roleId) {
-                const branchesId = await getBranchesIds(req.user.username);
+                const branchesId = await getBranchesIds(req.user.userId);
                 completedTrainings = await Training.findAll({
                     where: {
                         status: TrainingStatusEnum.completed,
@@ -59,7 +59,7 @@ class TrainingController {
                     ]
                 });
             } else if (roleId == UserRoleEnum.TRAINER) {
-                const trainingIds = await getTrainingIds(req.user.username);
+                const trainingIds = await getTrainingIds(req.user.userId);
                 completedTrainings = await Training.findAll({
                     where: {
                         status: TrainingStatusEnum.completed,
@@ -89,17 +89,17 @@ class TrainingController {
     handleGenerateFormButton = async (req: ButtonHandler, res: Response<BaseResponse>, next: NextFunction) => {
 
         try {
-            const studentId = req.body.studentId;
             const roleId = req.user.roleId;
-            const trainings = await Training.findAll({
-                where: {
-                    studentId,
-                    status: TrainingStatusEnum.completed
-                }, attributes: ['id']
-            });
             if (roleId === UserRoleEnum.Company || roleId === UserRoleEnum.TRAINER)
                 await this.generateEvaluationForm(req, res, next);
             else {
+                const studentId = req.body.studentId;
+                const trainings = await Training.findAll({
+                    where: {
+                        studentId,
+                        status: TrainingStatusEnum.completed
+                    }, attributes: ['id']
+                });
                 const index = req.body.index;
                 req.body.trainingId = trainings[index].id;
                 console.log(trainings[index].id);
@@ -115,7 +115,7 @@ class TrainingController {
         try {
             const trainingId = req.body.trainingId;
             const evaluationForm = await Training.findAll({
-                where: { id: `${trainingId}` },
+                where: { id: trainingId },
                 include: [
                     { model: Student },
                     {
@@ -242,7 +242,7 @@ class TrainingController {
 
             await Promise.all(promises)
 
-            await Training.update({ status: TrainingStatusEnum.completed , endDate:fn('CURDATE')}, {
+            await Training.update({ status: TrainingStatusEnum.completed, endDate: fn('CURDATE') }, {
                 where: {
                     id: trainingId
                 }
@@ -283,7 +283,7 @@ class TrainingController {
 
     getAcceptedTrainings = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
         try {
-            const branchesId = await getBranchesIds(req.user.username);
+            const branchesId = await getBranchesIds(req.user.userId);
             const acceptedTrainings = await Training.findAll({
                 where: {
                     status: TrainingStatusEnum.accepted,
@@ -317,7 +317,7 @@ class TrainingController {
             const roleId = req.user.roleId;
             let runningTrainings: Training[] = [];
             if (roleId == UserRoleEnum.Company) {
-                const branchesId = await getBranchesIds(req.user.username);
+                const branchesId = await getBranchesIds(req.user.userId);
                 runningTrainings = await Training.findAll({
                     where: {
                         status: TrainingStatusEnum.running,
@@ -361,7 +361,7 @@ class TrainingController {
                     ]
                 });
             } else if (roleId == UserRoleEnum.TRAINER) {
-                const trainingIds = await getTrainingIds(req.user.username);
+                const trainingIds = await getTrainingIds(req.user.userId);
                 runningTrainings = await Training.findAll({
                     where: {
                         status: TrainingStatusEnum.running,
@@ -394,11 +394,20 @@ class TrainingController {
             const { trainingId, trainerId } = req.body;
             const training = await Training.findByPk(trainingId);
             if (training?.status == TrainingStatusEnum.accepted) {
-                await Training.update({ startDate: fn('CURDATE') }, {
-                    where: {
-                        id: trainingId
-                    }
-                });
+                let startDate = req.body.startDate;
+                if (!startDate) {
+                    await Training.update({ startDate: fn('CURDATE') }, {
+                        where: {
+                            id: trainingId
+                        }
+                    });
+                }
+                else
+                    await Training.update({ startDate }, {
+                        where: {
+                            id: trainingId
+                        }
+                    });
             }
             await Training.update({ status: TrainingStatusEnum.running }, {
                 where: {
@@ -463,7 +472,7 @@ class TrainingController {
                     ]
                 });
             } else if (UserRoleEnum.Company == roleId) {
-                const branchesId = await getBranchesIds(req.user.username);
+                const branchesId = await getBranchesIds(req.user.userId);
                 trainings = await Training.findAll({
                     where: {
                         companyBranchId: { [Op.in]: branchesId }
@@ -485,7 +494,7 @@ class TrainingController {
                     ]
                 });
             } else if (roleId == UserRoleEnum.TRAINER) {
-                const trainingIds = await getTrainingIds(req.user.username);
+                const trainingIds = await getTrainingIds(req.user.userId);
                 trainings = await Training.findAll({
                     where: {
                         id: { [Op.in]: trainingIds }
@@ -503,8 +512,8 @@ class TrainingController {
                     ]
                 });
             } else if (roleId == UserRoleEnum.STUDENT) {
-                const username = req.user.username;
-                const studentId = await getStudentId(username);
+                const userId = req.user.userId;
+                const studentId = await getStudentId(userId);
                 trainings = await Training.findAll({
                     where: { studentId },
                     attributes: ['type', 'semester', 'startDate', 'endDate', 'status', 'companyBranchId'],

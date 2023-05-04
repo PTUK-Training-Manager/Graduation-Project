@@ -4,7 +4,6 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 import { AddedUser, BaseResponse } from "../types";
 import { sendEmail } from "../services/email"
-import { nanoid } from "nanoid"
 
 class UserController {
     constructor() {
@@ -167,12 +166,12 @@ class UserController {
             });
 
 
-            if (user){
-            const isCorrect= await bcrypt.compare(oldPassword, user?.password)
-            if(isCorrect){
-                const hash = await bcrypt.hash(newPassword, 10);
-                await User.update({ password: hash }
-                    , { where: { id: user?.id } });
+            if (user) {
+                const isCorrect = await bcrypt.compare(oldPassword, user?.password)
+                if (isCorrect) {
+                    const hash = await bcrypt.hash(newPassword, 10);
+                    await User.update({ password: hash }
+                        , { where: { id: user?.id } });
 
                     return res.json({
                         success: true,
@@ -181,20 +180,20 @@ class UserController {
                         data: newPassword
                     });
 
-                    
+
                 }
-            else {
-           return res.json({
-            success: false,
-            status: res.statusCode,
-            message: "password is incorrect"
-        });
+                else {
+                    return res.json({
+                        success: false,
+                        status: res.statusCode,
+                        message: "password is incorrect"
+                    });
+                }
             }
-}
-            } catch (err) {
-                next(err);
-            }
+        } catch (err) {
+            next(err);
         }
+    }
 
 }
 export default new UserController();

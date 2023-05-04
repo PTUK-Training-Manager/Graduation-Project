@@ -70,9 +70,8 @@ class EvaluationController {
 
     getPendingEvaluations = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
         try {
-            const username = req.user.username;
-
-            const trainingIds = await getTrainingIds(username);
+            const userId = req.user.userId;
+            const trainingIds = await getTrainingIds(userId);
             const pendingEvaluations = await Evaluation.findAll({
                 where: {
                     status: EvaluationStatusEnum.pending,

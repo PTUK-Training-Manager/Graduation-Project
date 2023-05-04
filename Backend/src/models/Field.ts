@@ -1,21 +1,23 @@
 import { CreationOptional, DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
 import sequelize from "../config/connection";
-import { Field ,Company} from '.';
 
-export default class CompanyField extends Model<InferAttributes<CompanyField>, InferCreationAttributes<CompanyField>> {
+export default class Field extends Model<InferAttributes<Field>, InferCreationAttributes<Field>> {
     declare id: CreationOptional<number>;
-    declare companyId: ForeignKey<Company['id']>;
-    declare fieldId:ForeignKey<Field['id']>;
+    declare field: string;
 }
-CompanyField.init({
+Field.init({
         id: {
-            type: DataTypes.INTEGER.UNSIGNED,
+            type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true
+        },
+        field: {
+            type: DataTypes.STRING,
+            allowNull: false
         }
     },
     {
         sequelize,
-        modelName: 'CompanyField',
+        modelName: 'Field',
         timestamps: false
     });
