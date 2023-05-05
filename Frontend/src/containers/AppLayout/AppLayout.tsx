@@ -1,13 +1,13 @@
 import React, {FC} from 'react';
-import AppNavbar from "src/components/AppNavbar";
 import Grid from "@mui/material/Grid";
-import useStyles from "./styles";
-import AppSideDrawerMultiLevel from "src/components/AppSideDrawerMultiLevel";
+import AppNavbar from "../../components/AppNavbar";
+import AppSideDrawerMultiLevel from "../../components/AppSideDrawerMultiLevel";
+import BlockUI from "../BlockUI";
 import {Outlet} from "react-router-dom";
-import useAccountContext from "src/hooks/useAccountContext";
-import {getContentPaddingLeft} from "src/constants";
-import useVerifyAccessToken from "src/hooks/useVerifyAccessToken";
-import BlockUI from "src/containers/BlockUI";
+import {getContentPaddingLeft} from "../../constants";
+import useAccountContext from "../../hooks/useAccountContext";
+import useVerifyAccessToken from "../../hooks/useVerifyAccessToken";
+import useStyles from "src/containers/AppLayout/styles";
 
 const AppLayout: FC = () => {
 
