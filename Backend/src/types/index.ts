@@ -82,6 +82,7 @@ export interface StudentRequestBody extends Request {
         phoneNumber: string;
         email: string;
         userId: number;
+        department: string;
     }
 }
 export interface TrainingRequestBody extends Request {
