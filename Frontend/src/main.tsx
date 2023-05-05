@@ -8,6 +8,10 @@ import SnackbarProvider from "./context/SnackbarContext";
 import {queryClient} from "src/queryClient";
 import {QueryClientProvider} from '@tanstack/react-query';
 import MUIThemeProvider from "src/styling/MUIThemeProvider";
+import {disableReactDevTools} from "@fvilers/disable-react-devtools";
+import {isProduction} from "./utils";
+
+if (isProduction) disableReactDevTools();
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
