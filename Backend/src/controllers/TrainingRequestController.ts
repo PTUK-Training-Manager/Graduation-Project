@@ -161,7 +161,7 @@ class TrainingRequestController {
 
     getTrainingRequest = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
         try {
-            
+
             const branchesId = await getBranchesIds(req.user.userId);
             const trainingRequests = await Training.findAll({
                 where: {

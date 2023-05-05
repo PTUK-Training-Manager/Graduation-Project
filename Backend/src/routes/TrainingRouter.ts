@@ -2,7 +2,7 @@ import express from 'express';
 import trainingController from "../controllers/TrainingController"
 import verifyAccessToken from '../middlewares/verifyAccessToken';
 const router = express.Router();
-const { getAllTrainings, changeTrainingStatus, assignTrainer, getCompletedTrainings, getAcceptedTrainings, handleGenerateFormButton, submittedStudents, getQuestions, getRunningTrainings, submitQuestions } = trainingController;
+const { getAllTrainings, changeTrainingStatus, assignTrainer, getCompletedTrainings, getAcceptedTrainings, handleGenerateFormButton, submittedStudents, getQuestions, getRunningTrainings, submitQuestions, generateEvaluationForm } = trainingController;
 import verifyRoles from '../middlewares/verifyRole';
 import { UserRoleEnum } from '../enums';
 
@@ -17,5 +17,6 @@ router.get('/runningTrainings', getRunningTrainings);
 router.get('/acceptedTrainings', getAcceptedTrainings);
 router.get('/questions', getQuestions);
 router.get('/trainings', getAllTrainings);
-router.post('/evaluationForm', handleGenerateFormButton);
+router.post('/evaluationFormForUniversity', verifyRoles([UserRoleEnum.UNI_TRAINING_OFFICER]), handleGenerateFormButton);
+router.post('/evaluationForm', verifyRoles([UserRoleEnum.Company, UserRoleEnum.TRAINER, UserRoleEnum.STUDENT]), generateEvaluationForm);
 export default router;

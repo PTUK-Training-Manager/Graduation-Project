@@ -20,20 +20,20 @@ export default class Question extends Model<InferAttributes<Question>, InferCrea
 }
 
 Question.init({
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
-        },
-        question: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        isMultipleChoice: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false
-        }
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
     },
+    question: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    isMultipleChoice: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false
+    }
+},
     {
         sequelize,
         modelName: 'Question',

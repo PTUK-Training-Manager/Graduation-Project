@@ -6,16 +6,16 @@ export default class Field extends Model<InferAttributes<Field>, InferCreationAt
     declare field: string;
 }
 Field.init({
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
-        },
-        field: {
-            type: DataTypes.STRING,
-            allowNull: false
-        }
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
     },
+    field: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
+},
     {
         sequelize,
         modelName: 'Field',

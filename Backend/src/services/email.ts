@@ -1,20 +1,20 @@
 import nodemailer from "nodemailer";
-export const sendEmail=(dest:string,subject:string,message:string)=>{
-    try{
+export const sendEmail = (dest: string, subject: string, message: string) => {
+  try {
     let transporter = nodemailer.createTransport({
-        service:'gmail',
-        auth: {
-          user:"trainingsytem11@gmail.com"
+      service: 'gmail',
+      auth: {
+        user: "trainingsytem11@gmail.com"
         //    process.env.SENDEREMAIL
         , // generated ethereal user
-          pass: 'stqmwejhkhufabpw'
+        pass: 'stqmwejhkhufabpw'
         //   process.env.SENDEPASS
         , // generated ethereal password
-        }, 
-        tls:{
-            rejectUnauthorized:false
-        }
-      });
+      },
+      tls: {
+        rejectUnauthorized: false
+      }
+    });
 
     //   const mailOptions = {
     //             from: auth.user,
@@ -29,15 +29,16 @@ export const sendEmail=(dest:string,subject:string,message:string)=>{
     //                 console.log('Email sent: ' + info.response);
     //             }
 
-      let info = transporter.sendMail({
-        from:"trainingsytem11@gmail.com" , 
-        to:dest, // list of receivers
-        subject:subject, // Subject line
-        text:message, 
-      });
-      console.log(info);}
-      catch (err) {
-      console.log(err)
-    }
+    let info = transporter.sendMail({
+      from: "trainingsytem11@gmail.com",
+      to: dest, // list of receivers
+      subject: subject, // Subject line
+      text: message,
+    });
+    console.log(info);
+  }
+  catch (err) {
+    console.log(err)
+  }
 }
-export default{sendEmail}; 
+export default { sendEmail }; 

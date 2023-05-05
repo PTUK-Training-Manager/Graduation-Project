@@ -1,4 +1,4 @@
-import {Request, Response, NextFunction} from 'express';
+import { Request, Response, NextFunction } from 'express';
 
 const verifyRoles = (allowedRoles: number[]) => {
     return (req: Request, res: Response, next: NextFunction) => {

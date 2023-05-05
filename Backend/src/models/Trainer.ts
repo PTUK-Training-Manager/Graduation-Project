@@ -26,10 +26,10 @@ Trainer.init({
     type: DataTypes.STRING,
     allowNull: false
   },
-  status:{
-       type: DataTypes.ENUM(...TRAINER_STATUSES),
-        defaultValue: TrainerStatusEnum.active,
-        allowNull: false,
+  status: {
+    type: DataTypes.ENUM(...TRAINER_STATUSES),
+    defaultValue: TrainerStatusEnum.active,
+    allowNull: false,
   }
 }, {
   sequelize,

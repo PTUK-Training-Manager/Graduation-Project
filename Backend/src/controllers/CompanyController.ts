@@ -124,8 +124,12 @@ class CompanyController {
 
     async getCompanies(req: Request, res: Response<BaseResponse>, next: NextFunction) {
         try {
-            const companies = await Company.findAll({ include:[{model:User,
-                                                                attributes:['email']}] });
+            const companies = await Company.findAll({
+                include: [{
+                    model: User,
+                    attributes: ['email']
+                }]
+            });
             return res.json({
                 success: true,
                 status: res.statusCode,
@@ -163,12 +167,12 @@ class CompanyController {
             const userId = req.user.userId;
             const companyId = await getCompanyId(userId);
             const promises: Promise<CompanyField>[] = []
-            let fieldRecord:Field;
+            let fieldRecord: Field;
             for (let i = 0; i < fields.length; i++) {
-                if(fields[i].id==null){
-                    fieldRecord = await Field.create({field:fields[i].label});
-                    fields[i].id=fieldRecord.id;
-                    }
+                if (!fields[i].id) {
+                    fieldRecord = await Field.create({ field: fields[i].label });
+                    fields[i].id = fieldRecord.id;
+                }
                 const companyFieldPromise = CompanyField.create({ fieldId: fields[i].id, companyId });
                 promises.push(companyFieldPromise)
             }
@@ -183,35 +187,37 @@ class CompanyController {
         }
     }
 
-    getAllFields = async (req: Request, res: Response<BaseResponse>,next:NextFunction)=>{  //fields that company not belongs to
-        try{
+    getAllFields = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {  //fields that company not belongs to
+        try {
             const userId = req.user.userId;
             const companyId = await getCompanyId(userId);
-            const fieldsIdsRecord = await CompanyField.findAll({where:{companyId}});
+            const fieldsIdsRecord = await CompanyField.findAll({ where: { companyId } });
             const fieldIds = fieldsIdsRecord.map(obj => obj.fieldId);
-            const fields = await Field.findAll({where:{
-                id: {
-                    [Op.notIn]: fieldIds
-                  }
-            }});
+            const fields = await Field.findAll({
+                where: {
+                    id: {
+                        [Op.notIn]: fieldIds
+                    }
+                }
+            });
             return res.json({
                 success: true,
                 status: res.statusCode,
                 message: "Fields: ",
                 data: fields
             });
-        }catch(err){
+        } catch (err) {
             next(err)
         }
     }
 
-    getCompanyFields = async (req: AddFieldBody, res: Response<BaseResponse>, next: NextFunction) => {  //field of company
+    getCompanyFields = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {  //field of company
         try {
             const userId = req.user.userId;
             const companyId = await getCompanyId(userId);
             const fields = await CompanyField.findAll({
                 where: { companyId },
-                include:[{model:Field}]
+                include: [{ model: Field }]
             });
             return res.json({
                 success: true,

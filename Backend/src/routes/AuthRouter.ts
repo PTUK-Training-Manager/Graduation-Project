@@ -10,7 +10,6 @@ router.post('/login', handleLogin);
 router.get("/verifyAccessToken", verifyAccessToken, autoSignInUser);
 router.use(verifyAccessToken);
 router.post('/logout', logout);
-
 router.post('/resetPassword', UserController.resetPassword)
 
 export default router;

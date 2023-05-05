@@ -87,24 +87,18 @@ class TrainingController {
     }
 
     handleGenerateFormButton = async (req: ButtonHandler, res: Response<BaseResponse>, next: NextFunction) => {
-
         try {
-            const roleId = req.user.roleId;
-            if (roleId === UserRoleEnum.Company || roleId === UserRoleEnum.TRAINER)
-                await this.generateEvaluationForm(req, res, next);
-            else {
-                const studentId = req.body.studentId;
-                const trainings = await Training.findAll({
-                    where: {
-                        studentId,
-                        status: TrainingStatusEnum.completed
-                    }, attributes: ['id']
-                });
-                const index = req.body.index;
-                req.body.trainingId = trainings[index].id;
-                console.log(trainings[index].id);
-                await this.generateEvaluationForm(req, res, next);
-            }
+            const studentId = req.body.studentId;
+            const trainings = await Training.findAll({
+                where: {
+                    studentId,
+                    status: TrainingStatusEnum.completed
+                }, attributes: ['id']
+            });
+            const index = req.body.index;
+            req.body.trainingId = trainings[index].id;
+            console.log(trainings[index].id);
+            await this.generateEvaluationForm(req, res, next);
         }
         catch (err) {
             next(err);

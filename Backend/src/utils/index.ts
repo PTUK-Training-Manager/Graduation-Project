@@ -37,12 +37,12 @@ export const getTrainingIds = async (userId: number) => { //get trainings for tr
 }
 export const getStudentId = async (userId: number) => { //get trainings for trainer
 
-            const student = await Student.findOne({
-                where: { userId },
-                attributes: ['id']
-            });
-            const studentId = student?.id;
-            return studentId;
+    const student = await Student.findOne({
+        where: { userId },
+        attributes: ['id']
+    });
+    const studentId = student?.id;
+    return studentId;
 }
 
 export const getCompanyId = async (userId: number) => { //get trainings for trainer
