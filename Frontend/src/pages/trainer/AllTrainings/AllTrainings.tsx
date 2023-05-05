@@ -1,37 +1,23 @@
+import React, { useEffect, useState } from 'react';
+import MuiPagination from '@mui/material/Pagination';
+import { TablePaginationProps } from '@mui/material/TablePagination';
 import {
   DataGrid,
+  GridPagination,
   GridToolbar,
+  gridPageCountSelector,
+  useGridApiContext,
+  useGridSelector,
 } from '@mui/x-data-grid';
-import EvaluStepper from './components/EvaluStepper';
-import './CompletedTrainees.css';
-import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
- 
-} from '@mui/material';
+import './AllTrainings.css';
 import theme from 'src/styling/customTheme';
-import Typography from '@mui/material/Typography';
-import Transition from 'src/components/Transition';
+import { getAllTrainings } from './api';
+import { Grid, Stack, TableCell, Typography } from '@mui/material';
 import DataGridPagination from 'src/components/DataGrid/DataGridPagination';
-import useCompletedTraineesController from './hooks/useCompletedTraineesController';
+import useAllTrainingsController from './hooks/useAllTrainingsController';
 
-
-
-const CompletedTrainees: React.FC = () => {
-  const {
-    columns,
-    rows,
-    isOpen,
-    data,
-    currentTab,
-    index,
-    studentId,
-    handleChangeTab,
-    handleCloseDialog,
-  } = useCompletedTraineesController();
+const AllTrainings: React.FC = () => {
+  const { columns, rows, data } = useAllTrainingsController();
 
   return (
     <>
@@ -52,7 +38,7 @@ const CompletedTrainees: React.FC = () => {
           }}
         >
           <Typography component="h1" variant="h5" fontWeight={500}>
-            Completed Trainees
+            All Trainings
           </Typography>
           <DataGrid
             className="dataGrid"
@@ -66,7 +52,7 @@ const CompletedTrainees: React.FC = () => {
             }}
             columns={columns}
             rows={rows}
-            getRowId={(row) => row['studentId']}
+            getRowId={(row) => row['id']}
             initialState={{
               pagination: { paginationModel: { pageSize: 30 } },
             }}
@@ -78,20 +64,8 @@ const CompletedTrainees: React.FC = () => {
           />
         </Stack>
       </Grid>
-      <Dialog
-        open={isOpen}
-        onClose={handleCloseDialog}
-        fullScreen
-        TransitionComponent={Transition}
-        sx={{ left: '50%' }}
-      >
-        <DialogTitle gap={1.5} sx={{ textAlign: 'center' }}></DialogTitle>
-        <DialogContent>
-          <EvaluStepper />
-        </DialogContent>
-      </Dialog>
     </>
   );
 };
 
-export default CompletedTrainees;
+export default AllTrainings;

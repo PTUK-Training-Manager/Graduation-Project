@@ -40,49 +40,6 @@ const useCompletedTraineesController = () => {
             width: 400,
             flex: .3,
         },
-        {
-            field: 'evalForm',
-            headerName: 'Evaluation Form',
-            width: 400,
-            flex: .3,
-            headerClassName: 'ctrainees',
-            filterable: false,
-            sortable: false,
-            renderCell: (params: { row: Row }) => {
-                const count = parseInt(params.row.count);
-                const Evnum=params.row.count;
-                const id = params.row.studentId;
-                const printIcons = [];
-
-                for (let i = 0; i < count; i++) {
-                    if (count == 1)
-                        printIcons.push(
-                            <Tooltip title={"Progress Form 1"}>
-                                <IconButton sx={{ml: 2.5}} aria-label={"form 1"} size="small"       
-                                    onClick={() => handleOpenDialog(id,Evnum)}
->
-                                   
-                                    <PrintIcon sx={{color: "#820000"}} color="info" className='print-icon'/>
-                                </IconButton>
-                            </Tooltip>
-                        );
-                    else
-                        printIcons.push(
-                            <Tooltip key={i} title={`Progress Form ${i + 1}`}>
-                                <IconButton aria-label={`form ${i + 1}`} size="small">
-                                    <PrintIcon sx={{color: "#820000"}} className='print-icon'/>
-                                </IconButton>
-                            </Tooltip>
-                        );
-                }
-
-                return (
-                    <>
-                        {printIcons}
-                    </>
-                );
-            }
-        }
     ];
 
     const rows = data.map((row) => ({

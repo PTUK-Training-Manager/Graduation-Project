@@ -1,6 +1,6 @@
-import React from "react";
-import {IAppMenuItem} from "src/routes/types";
-import {UserRoleKey, MenuItemsMapKey} from "src/types";
+import React from 'react';
+import { IAppMenuItem } from 'src/routes/types';
+import { UserRoleKey, MenuItemsMapKey } from 'src/types';
 // MUI icons
 import HomeIcon from '@mui/icons-material/Home';
 import PostAddIcon from '@mui/icons-material/PostAdd';
@@ -13,10 +13,10 @@ import PeopleIcon from '@mui/icons-material/People';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import RecentActorsIcon from '@mui/icons-material/RecentActors';
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import BarChartIcon from "@mui/icons-material/BarChart";
-import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import AddchartIcon from '@mui/icons-material/Addchart';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
@@ -28,146 +28,144 @@ import IntegrationInstructionsIcon from '@mui/icons-material/IntegrationInstruct
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 
 const publicMenuItems: IAppMenuItem[] = [
-    {
-        label: "Landing",
-        link: "/landing",
-        Icon: () => <EmojiPeopleIcon/>,
-    }
+  {
+    label: 'Landing',
+    link: '/landing',
+    Icon: () => <EmojiPeopleIcon />,
+  },
 ];
 
 const sharedMenuItems: IAppMenuItem[] = [
-    {
-        label: "Home",
-        link: "/",
-        Icon: () => <HomeIcon/>,
-    },
-    {
-        label: "Dashboard",
-        link: "/dashboard",
-        Icon: () => <DashboardIcon/>,
-    }
+  {
+    label: 'Home',
+    link: '/',
+    Icon: () => <HomeIcon />,
+  },
+  {
+    label: 'Dashboard',
+    link: '/dashboard',
+    Icon: () => <DashboardIcon />,
+  },
 ];
 
 /**
  * Menu items shared by `University Training Officer` and `Company`
  */
 const uniAndCompanySharedMenuItems: IAppMenuItem[] = [
-    // {
-    //     label: "Search Trainings",
-    //     link: "/all-trainings",
-    //     // Icon: () => <ManageSearchIcon/>,
-    //     Icon: () => <RecentActorsIcon/>,
-    // },
-    // {
-    //     label: "Add Student",
-    //     link: "/add-student",
-    //     Icon: () => <PersonAddAlt1Icon/>,
-    // },
+  // {
+  //     label: "Search Trainings",
+  //     link: "/all-trainings",
+  //     // Icon: () => <ManageSearchIcon/>,
+  //     Icon: () => <RecentActorsIcon/>,
+  // },
+  // {
+  //     label: "Add Student",
+  //     link: "/add-student",
+  //     Icon: () => <PersonAddAlt1Icon/>,
+  // },
 ];
 
 const uniTrainingOfficerMenuItems: IAppMenuItem[] = [
-    {
-        label: "Requests",
-        Icon: () => <PostAddIcon/>,
-        items: [
-            {
-                label: "Training Request",
-                link: "/training-request",
-                Icon: () => <PostAddIcon/>,
-            },
-            {
-                label: "Pending Requests",
-                link: "/pending-requests",
-                Icon: () => <PostAddIcon/>,
-            },
-           
-        ]
-    },
-   
-    {
-        label: "Submitted Trainees",
-        link: "/submitted-trainees",
-        Icon: () => <GroupIcon/>,
-    },
+  {
+    label: 'Requests',
+    Icon: () => <PostAddIcon />,
+    items: [
+      {
+        label: 'Training Request',
+        link: '/training-request',
+        Icon: () => <PostAddIcon />,
+      },
+      {
+        label: 'Pending Requests',
+        link: '/pending-requests',
+        Icon: () => <PostAddIcon />,
+      },
+    ],
+  },
 
-        
-            {
-                label: "Companies",
-                link: "/add-company",
-                Icon: () => <StoreIcon/>,
-            },
-            
-    {
-        label: "Trainees",
-        Icon: () => <Groups3Icon/>,
-        items: [
-            {
-                label: "Current",
-                link: "/current-trainees",
-                Icon: () => <PendingActionsIcon/>,
-            },
-            {
-                label: "Completed",
-                link: "/completed-trainees",
-                Icon: () => <SchoolIcon/>,
-            },
-        ]
-    },
-    {
-        label: "Search Trainings",
-        link: "/all-trainings",
-        // Icon: () => <ManageSearchIcon/>,
-        Icon: () => <RecentActorsIcon/>,
-    },
-    // ...uniAndCompanySharedMenuItems,
+  {
+    label: 'Submitted Trainees',
+    link: '/submitted-trainees',
+    Icon: () => <GroupIcon />,
+  },
+
+  {
+    label: 'Companies',
+    link: '/add-company',
+    Icon: () => <StoreIcon />,
+  },
+
+  {
+    label: 'Trainees',
+    Icon: () => <Groups3Icon />,
+    items: [
+      {
+        label: 'Current',
+        link: '/current-trainees',
+        Icon: () => <PendingActionsIcon />,
+      },
+      {
+        label: 'Completed',
+        link: '/completed-trainees',
+        Icon: () => <SchoolIcon />,
+      },
+    ],
+  },
+  {
+    label: 'Search Trainings',
+    link: '/all-trainings',
+    // Icon: () => <ManageSearchIcon/>,
+    Icon: () => <RecentActorsIcon />,
+  },
+  // ...uniAndCompanySharedMenuItems,
 ];
 
 const companyMenuItems: IAppMenuItem[] = [
-    {
-        label: "Training Requests",
-        link: "/training-requests",
-        Icon: () => <FormatListBulletedIcon/>,
-    },
+  {
+    label: 'Training Requests',
+    link: '/training-requests',
+    Icon: () => <FormatListBulletedIcon />,
+  },
 
-    {
-        label: "Accepted Requests",
-        link: "/accepted-requests",
-        Icon: () => <FactCheckIcon/>,
-    },
-    
-    {
-        label: "Trainers",
-        link: "/trainers",
-        Icon: () => <Groups3Icon/>,
-    },
-    {
-        label: "Trainees",
-        Icon: () => <Groups3Icon/>,
-        items: [
-            {
-                label: "Current",
-                link: "/company-current-trainees",
-                Icon: () => <PendingActionsIcon/>,
-            },
-            {
-                label: "Completed",
-                link: "/company-completed-trainees",
-                Icon: () => <SchoolIcon/>,
-            },
-        ]
-    },
-    {
-        label: "Edit Training",
-        link: "/edit-training",
-        Icon: () => <BorderColorIcon/>,
-    },
-    {
-        label: "Search Trainings",
-        link: "/company-all-trainings",
-        // Icon: () => <ManageSearchIcon/>,
-        Icon: () => <RecentActorsIcon/>,
-    },
-    // ...uniAndCompanySharedMenuItems,
+  {
+    label: 'Accepted Requests',
+    link: '/accepted-requests',
+    Icon: () => <FactCheckIcon />,
+  },
+
+  {
+    label: 'Trainers',
+    link: '/trainers',
+    Icon: () => <Groups3Icon />,
+  },
+  {
+    label: 'Trainees',
+    Icon: () => <Groups3Icon />,
+    items: [
+      {
+        label: 'Current',
+        link: '/company-current-trainees',
+        Icon: () => <PendingActionsIcon />,
+      },
+      {
+        label: 'Completed',
+        link: '/company-completed-trainees',
+        Icon: () => <SchoolIcon />,
+      },
+    ],
+  },
+  {
+    label: 'Edit Training',
+    link: '/edit-training',
+    Icon: () => <BorderColorIcon />,
+  },
+  {
+    label: 'Search Trainings',
+    link: '/company-all-trainings',
+    // Icon: () => <ManageSearchIcon/>,
+    Icon: () => <RecentActorsIcon />,
+  },
+  // ...uniAndCompanySharedMenuItems,
 ];
 
 const trainerMenuItems: IAppMenuItem[] = [
@@ -176,14 +174,36 @@ const trainerMenuItems: IAppMenuItem[] = [
         link: "/evaluation-requests",
         Icon: () => <IntegrationInstructionsIcon/>,
     },
-    {
-        label: "Completed Trainings",
-        link: "/completed-trainings",
-        Icon: () => <FactCheckIcon/>,
-    }
+  {
+    label: 'Trainees',
+    Icon: () => <Groups3Icon />,
+    items: [
+      {
+        label: 'Current',
+        link: '/trainer-current-trainees',
+        Icon: () => <PendingActionsIcon />,
+      },
+      {
+        label: 'Completed',
+        link: '/trainer-completed-trainees',
+        Icon: () => <SchoolIcon />,
+      },
+    ],
+  },
+  {
+    label: "Completed Trainings",
+    link: "/completed-trainings",
+    Icon: () => <FactCheckIcon/>,
+},
+  {
+    label: 'Search Trainings',
+    link: '/trainer-all-trainings',
+    Icon: () => <RecentActorsIcon />,
+  },
 ];
 
-export const MENU_ITEMS_MAP: Partial<Record<MenuItemsMapKey, IAppMenuItem[]>> = {
+export const MENU_ITEMS_MAP: Partial<Record<MenuItemsMapKey, IAppMenuItem[]>> =
+  {
     Public: publicMenuItems, // requires no authentication
     Shared: sharedMenuItems, // shared by all roles
     UniTrainingOfficer: uniTrainingOfficerMenuItems,
@@ -192,4 +212,4 @@ export const MENU_ITEMS_MAP: Partial<Record<MenuItemsMapKey, IAppMenuItem[]>> = 
     SuperAdmin: [],
     Student: [],
     AdminAndRegistration: [],
-}
+  };

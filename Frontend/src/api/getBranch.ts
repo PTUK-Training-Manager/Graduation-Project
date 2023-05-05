@@ -2,7 +2,7 @@ import axiosInstance from "src/api";
 import {BaseResponse} from "src/types";
 
 export interface GetBranchData {
-    map(arg0: (company: any) => { id: any; location: any; }): unknown;
+    map(arg0: (branch: any) => { id: any; location: any; }): unknown;
     id: string;
     location: string;
 }
