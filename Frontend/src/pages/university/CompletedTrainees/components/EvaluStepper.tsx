@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import FirstPage from './FirstPage';
 import SecondPage from './SecondPage';
+import ThirdPage from './ThirdPage';
 import useCompletedTraineesController from '../hooks/useCompletedTraineesController';
 const steps = ['Select campaign settings', 'Create an ad group', 'Create an ad'];
 
@@ -97,7 +98,7 @@ export default function EvaluStepper() {
           {activeStep===1 && <SecondPage/>}
 
           {/* <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography> */}
-          {}
+          {activeStep===2 && <ThirdPage/>}
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Button
               color="inherit"
@@ -110,7 +111,7 @@ export default function EvaluStepper() {
             <Box sx={{ flex: '1 1 auto' }} />
       
             <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+              {activeStep === steps.length - 1 ? 'Finish' : 'Next' }
             </Button>
           </Box>
         </React.Fragment>

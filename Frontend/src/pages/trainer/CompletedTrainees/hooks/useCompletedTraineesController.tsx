@@ -3,7 +3,6 @@ import {getCompletedTrainees} from "src/pages/university/CompletedTrainees/api";
 import {Row,Evaluation} from "../types";
 import {IconButton, Tooltip} from "@mui/material";
 import PrintIcon from "@mui/icons-material/Print";
-import { evaluation } from "src/api/getEvaluation";
 
 
 const useCompletedTraineesController = () => {
@@ -49,14 +48,14 @@ const useCompletedTraineesController = () => {
         Student: row.Student,
     }));
 
-    useEffect(() => {
-        evaluation({index:'0',studentId: '8'})
-            .then((result) => {
-                setReponse(result.data);
-                console.log(result.data);
-            })
-            .catch((error) => console.log(error));
-    }, []);
+    // useEffect(() => {
+    //     evaluation({index:'0',studentId: '8'})
+    //         .then((result) => {
+    //             setReponse(result.data);
+    //             console.log(result.data);
+    //         })
+    //         .catch((error) => console.log(error));
+    // }, []);
 
       const handleCloseDialog = () => {
         setIsOpen(false);

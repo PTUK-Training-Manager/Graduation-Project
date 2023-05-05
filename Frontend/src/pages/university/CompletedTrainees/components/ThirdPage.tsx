@@ -26,7 +26,7 @@ const bull = (
   </Box>
 );
 
-const EvaluationFormDialog: FC = ({}) => {
+const ThirdPage: FC = ({}) => {
   const {
     response,
     isOpen,
@@ -346,4 +346,4 @@ const EvaluationFormDialog: FC = ({}) => {
     </>
   );
 };
-export default EvaluationFormDialog;
+export default ThirdPage;

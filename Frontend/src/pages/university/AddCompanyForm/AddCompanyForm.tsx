@@ -83,23 +83,22 @@ interface Row {
   };
 }
 interface Branch {
-  map(arg0: (company: any) => { id: any; location: any; }): unknown;
+  map(arg0: (company: any) => { id: any; location: any }): unknown;
   id: string;
   location: string;
 }
 
 const AddCompanyForm: React.FC = () => {
-  const { formikProps, isLoading,updatedata} = useAddCompanyFormController();
+  const { formikProps, isLoading, updatedata } = useAddCompanyFormController();
   const [data, setData] = useState<Row[]>([]);
   const [availableBranches, setAvailableBranches] = useState<Branch[]>([]);
   const [open, setOpen] = useState(false);
-  const [openDialog, setOpenDialog] = useState(false);
+  const [addBranchDiolog, setAddBranchDiolog] = useState(false);
   const [location, setLocation] = useState('');
-  const [companyName,setCompanyName] = useState('');
+  const [companyName, setCompanyName] = useState('');
   const [companyId, setCompanyId] = useState('');
   const { showSnackbar } = useSnackbar();
-  const [joinDialogOpen, setJoinDialogOpen] = useState<boolean>(false);
-
+  const [showBranches, setShowBranches] = useState<boolean>(false);
 
   const { isValid } = formikProps;
 
@@ -116,45 +115,29 @@ const AddCompanyForm: React.FC = () => {
       .catch((error) => console.log(error));
   }, [updatedata]);
 
-  
-  const handleJoinDialogOpen =  () => {
-    getBranch({ companyId:companyId }).then(
-      (res) => {
-        if (res.success === true) {
-          setAvailableBranches(res.data);
-        } else if (res.success === false) {
-          showSnackbar({ severity: 'warning', message: res.message });
-          
-        }
+  const handleShowBranchesOpen = (id: string) => {
+    setShowBranches(true);
+    console.log(id);
+    getBranch({ companyId: id }).then((res) => {
+      if (res.success === true) {
+        setAvailableBranches(res.data);
+      } else if (res.success === false) {
+        showSnackbar({ severity: 'warning', message: res.message });
       }
-    );
-      
+    });
   };
-  const handleJoinClick = (id: string) => {
-    setCompanyId(id);
-    setJoinDialogOpen(true);
-    handleJoinDialogOpen();
-  };
-  const handleJoinDialogClose = () => {
-    setJoinDialogOpen(false);
-  };
-  const BranchColumns = [
-    { field: 'id', headerName: 'Branch Id', width: 400, flex: 0.3 },
-    { field: 'location', headerName: 'Location', width: 400, flex: 0.3 },
-  ];
-  
- 
-
-  const handleAddBranchDialogClose = () => {
-    setOpenDialog(false);
-    setJoinDialogOpen(false);
-    setCompanyId('');
+  const handleshowBranchesClose = () => {
+    setShowBranches(false);
   };
 
   const handleAddBranchDialogOpen = () => {
-    setOpenDialog(true);
+    setAddBranchDiolog(true);
   };
 
+  const handleAddBranchDialogClose = () => {
+    setAddBranchDiolog(false);
+    setShowBranches(false);
+  };
 
   const handleAddBranch = () => {
     addBranch({ id: companyId, location: location }).then(
@@ -162,16 +145,20 @@ const AddCompanyForm: React.FC = () => {
         if (res.success === true) {
           showSnackbar({ severity: 'success', message: res.message });
           setLocation('');
-          handleAddBranchDialogClose()
+          handleAddBranchDialogClose();
         } else if (res.success === false) {
           showSnackbar({ severity: 'warning', message: res.message });
           setLocation('');
-          handleAddBranchDialogClose()
+          handleAddBranchDialogClose();
         }
       }
     );
   };
- 
+
+  const BranchColumns = [
+    { field: 'id', headerName: 'Branch Id', width: 400, flex: 0.3 },
+    { field: 'location', headerName: 'Location', width: 400, flex: 0.3 },
+  ];
 
   const columns = [
     { field: 'id', headerName: 'Company Id', width: 400, flex: 0.3 },
@@ -181,28 +168,25 @@ const AddCompanyForm: React.FC = () => {
     { field: 'managerName', headerName: 'Manager', width: 400, flex: 0.3 },
 
     {
-      field: 'addBranch',
+      field: 'branches',
       headerName: 'Branches',
       width: 400,
       flex: 0.3,
       headerClassName: 'ctrainees',
       filterable: false,
       sortable: false,
-      renderCell: (params: { id: any,}) => (
-        <IconButton sx={{ ml: 1.5 }} aria-label="progress form"
-        onClick={() => handleJoinClick(params.id)}
-
+      renderCell: (params: { id: any }) => (
+        <IconButton
+          sx={{ ml: 1.5 }}
+          aria-label="progress form"
+          onClick={() => handleShowBranchesOpen(params.id)}
         >
-          <AddBusinessIcon
-            sx={{ color: '#820000' }}
-          />
+          <AddBusinessIcon sx={{ color: '#820000' }} />
         </IconButton>
       ),
     },
   ];
- 
 
-  
   const rows = data.map((row) => ({
     id: row.id,
     companyName: row.name,
@@ -211,200 +195,213 @@ const AddCompanyForm: React.FC = () => {
     email: row.User.email,
     User: row.User,
   }));
-  
 
   return (
-    <><>
+    <>
       <>
-        <Grid
-          container
-          sx={{
-            p: 3,
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: `calc(100vh - ${theme.mixins.toolbar.height}px)`,
-          }}
-        >
-          <Stack
-            gap={1.5}
+        <>
+          <Grid
+            container
             sx={{
-              width: '100%',
-              height: '100%',
+              p: 3,
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: `calc(100vh - ${theme.mixins.toolbar.height}px)`,
             }}
           >
-            <Stack sx={{ px: 2 }} direction="row" justifyContent="space-between">
-              <Typography component="h1" variant="h5" fontWeight={500}>
-                Companies
-              </Typography>
-              <Button
-                variant="contained"
-                sx={{ width: 'auto' }}
-                color={open ? 'error' : 'success'}
-                onClick={handleChange}
-                startIcon={open ? <RemoveIcon /> : <AddIcon />}
-              >
-                {open ? 'Close' : 'Add Company'}
-              </Button>
-            </Stack>
-
-            <Grid
-              container
+            <Stack
+              gap={1.5}
               sx={{
-                p: 2,
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
+                width: '100%',
+                height: '100%',
               }}
             >
               <Stack
-                gap={0.5}
+                sx={{ px: 2 }}
+                direction="row"
+                justifyContent="space-between"
+              >
+                <Typography component="h1" variant="h5" fontWeight={500}>
+                  Companies
+                </Typography>
+                <Button
+                  variant="contained"
+                  sx={{ width: 'auto' }}
+                  color={open ? 'error' : 'success'}
+                  onClick={handleChange}
+                  startIcon={open ? <RemoveIcon /> : <AddIcon />}
+                >
+                  {open ? 'Close' : 'Add Company'}
+                </Button>
+              </Stack>
+
+              <Grid
+                container
                 sx={{
-                  width: '100%',
-                  height: '100%',
+                  p: 2,
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               >
-                <Collapse in={open}>
-                  <Paper
-                    elevation={3}
-                    sx={{
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      p: 3.5,
-                      minWidth: { xs: '90%', sm: '60%', md: '30%' },
-                    }}
-                  >
-                    <FormikProvider value={formikProps}>
-                      <Form>
-                        <Stack gap={1} spacing={1} alignItems="center">
-                          <Typography component="h1" variant="h5">
-                            Add Company
-                          </Typography>
-                          <Stack gap={1} direction="row">
-                            <TextFieldWrapper
-                              label="Company Id"
-                              name="id"
-                              autoFocus />
-                            <TextFieldWrapper label="Company Name" name="name" />
-                            <TextFieldWrapper
-                              label="Phone Number"
-                              name="phoneNumber" />
-                            <TextFieldWrapper
-                              label="E-mail"
-                              type="email"
-                              name="email" />
-                            <TextFieldWrapper label="Location" name="location" />
-                            <TextFieldWrapper
-                              label="Manager Name"
-                              name="managerName" />
+                <Stack
+                  gap={0.5}
+                  sx={{
+                    width: '100%',
+                    height: '100%',
+                  }}
+                >
+                  <Collapse in={open}>
+                    <Paper
+                      elevation={3}
+                      sx={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        p: 3.5,
+                        minWidth: { xs: '90%', sm: '60%', md: '30%' },
+                      }}
+                    >
+                      <FormikProvider value={formikProps}>
+                        <Form>
+                          <Stack gap={1} spacing={1} alignItems="center">
+                            <Typography component="h1" variant="h5">
+                              Add Company
+                            </Typography>
+                            <Stack gap={1} direction="row">
+                              <TextFieldWrapper
+                                label="Company Id"
+                                name="id"
+                                autoFocus
+                              />
+                              <TextFieldWrapper
+                                label="Company Name"
+                                name="name"
+                              />
+                              <TextFieldWrapper
+                                label="Phone Number"
+                                name="phoneNumber"
+                              />
+                              <TextFieldWrapper
+                                label="E-mail"
+                                type="email"
+                                name="email"
+                              />
+                              <TextFieldWrapper
+                                label="Location"
+                                name="location"
+                              />
+                              <TextFieldWrapper
+                                label="Manager Name"
+                                name="managerName"
+                              />
+                            </Stack>
+                            <LoadingButton
+                              type="submit"
+                              // fullWidth
+                              variant="contained"
+                              disabled={!isValid}
+                              loading={isLoading}
+                            >
+                              Generate Account
+                            </LoadingButton>
                           </Stack>
-                          <LoadingButton
-                            type="submit"
-                            // fullWidth
-                            variant="contained"
-                            disabled={!isValid}
-                            loading={isLoading}
-                          >
-                            Generate Account
-                          </LoadingButton>
-                        </Stack>
-                      </Form>
-                    </FormikProvider>
-                  </Paper>
-                </Collapse>
-              </Stack>
-            </Grid>
+                        </Form>
+                      </FormikProvider>
+                    </Paper>
+                  </Collapse>
+                </Stack>
+              </Grid>
 
-            <DataGrid
-              className="dataGrid"
-              sx={{
-                boxShadow: 5,
-                border: 1,
-                borderColor: '#cacaca',
-                '& .MuiDataGrid-cell:hover': {
-                  color: 'primary.main',
-                },
-              }}
-              columns={columns}
-              rows={rows}
-              getRowId={(row) => row['id']}
-              initialState={{
-                pagination: { paginationModel: { pageSize: 30 } },
-              }}
-              pageSizeOptions={[10, 20, 30]}
-              slots={{
-                toolbar: GridToolbar,
-                pagination: CustomPagination,
-              }} />
-          </Stack>
-        </Grid>
+              <DataGrid
+                className="dataGrid"
+                sx={{
+                  boxShadow: 5,
+                  border: 1,
+                  borderColor: '#cacaca',
+                  '& .MuiDataGrid-cell:hover': {
+                    color: 'primary.main',
+                  },
+                }}
+                columns={columns}
+                rows={rows}
+                getRowId={(row) => row['id']}
+                initialState={{
+                  pagination: { paginationModel: { pageSize: 30 } },
+                }}
+                pageSizeOptions={[10, 20, 30]}
+                slots={{
+                  toolbar: GridToolbar,
+                  pagination: CustomPagination,
+                }}
+              />
+            </Stack>
+          </Grid>
+        </>
+        <Dialog
+          open={addBranchDiolog}
+          onClose={handleAddBranchDialogClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog">Add Branch</DialogTitle>
+          <DialogContent>
+            <TextField
+              margin="dense"
+              autoFocus
+              label="Location"
+              fullWidth
+              required
+              value={location}
+              onChange={(event) => setLocation(event.target.value)}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleAddBranchDialogClose} color="primary">
+              Cancel
+            </Button>
+            <Button color="primary" onClick={handleAddBranch}>
+              Add
+            </Button>
+          </DialogActions>
+        </Dialog>
       </>
-      <Dialog
-        open={openDialog}
-        onClose={handleAddBranchDialogClose}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog">Add Branch</DialogTitle>
-        <DialogContent>
-          <TextField
-            margin="dense"
-            autoFocus
-            label="Location"
-            fullWidth
-            required
-            value={location}
-            onChange={(event) => setLocation(event.target.value)} />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleAddBranchDialogClose} color="primary">
-            Cancel
-          </Button>
-          <Button color="primary" onClick={handleAddBranch}>
-            Add
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </>
-    <Stack spacing={2} >
-    <Dialog open={joinDialogOpen} onClose={handleJoinDialogClose}>
-        <DialogContent>
-          <div style={{ height: 400, width: '100%' }}>
-            <Typography>
-              Branches
-            </Typography>
-            <DataGrid
-              sx={{
-                width: '500px', // set the width to 800px
-              }}
-              columns={BranchColumns}
-              rows={availableBranches}
-              getRowId={(row) => row['id']}
-              initialState={{
-                pagination: { paginationModel: { pageSize: 30 } },
-              }}
-              pageSizeOptions={[5, 10, 20, 30]}
-              slots={{
-                toolbar: GridToolbar,
-                pagination: CustomPagination,
-              }} />
-          </div>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            variant="contained"
-            color="error"
-            onClick={handleJoinDialogClose}
-          >
-            Cancel
-          </Button>
-          <Button  variant='contained' onClick={handleAddBranchDialogOpen}>
-       Add Branch
-      </Button>
-        </DialogActions>
-      </Dialog>
-    
+      <Stack spacing={2}>
+        <Dialog open={showBranches} onClose={handleshowBranchesClose}>
+          <DialogContent>
+            <div style={{ height: 400, width: '100%' }}>
+              <Typography>Branches</Typography>
+              <DataGrid
+                sx={{
+                  width: '500px', // set the width to 800px
+                }}
+                columns={BranchColumns}
+                rows={availableBranches}
+                getRowId={(row) => row['id']}
+                initialState={{
+                  pagination: { paginationModel: { pageSize: 30 } },
+                }}
+                pageSizeOptions={[5, 10, 20, 30]}
+                slots={{
+                  toolbar: GridToolbar,
+                  pagination: CustomPagination,
+                }}
+              />
+            </div>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              variant="contained"
+              color="error"
+              onClick={handleshowBranchesClose}
+            >
+              Cancel
+            </Button>
+            <Button variant="contained" onClick={handleAddBranchDialogOpen}>
+              Add Branch
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Stack>
-      </>
-
+    </>
   );
 };
 export default AddCompanyForm;

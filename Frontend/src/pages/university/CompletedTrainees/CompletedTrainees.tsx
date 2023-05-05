@@ -24,9 +24,7 @@ import {
 } from '@mui/material';
 import { getCompletedTrainees } from './api';
 import theme from 'src/styling/customTheme';
-import { evaluation } from 'src/api/getEvaluation';
 import Typography from '@mui/material/Typography';
-import { Evaluation } from './types';
 import Transition from 'src/components/Transition';
 import DataGridPagination from 'src/components/DataGrid/DataGridPagination';
 import useCompletedTraineesController from './hooks/useCompletedTraineesController';
