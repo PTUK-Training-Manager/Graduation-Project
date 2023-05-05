@@ -1,7 +1,7 @@
 import React, {FC, lazy, Suspense} from 'react';
 import {Route, Routes} from "react-router-dom";
 import BlockUI from "src/containers/BlockUI";
-import AppLayout from "src/AppLayout";
+import AppLayout from "src/containers/AppLayout";
 import ProtectedRoute from "src/routes/ProtectedRoute";
 
 const LandingPage = lazy(() => import("src/pages/LandingPage"));
@@ -11,6 +11,7 @@ const Dashboard = lazy(() => import("src/pages/Dashboard"));
 const Login = lazy(() => import("src/pages/Login"));
 const NotFound = lazy(() => import("src/pages/NotFound"));
 const AccessDenied = lazy(() => import("src/pages/AccessDenied"));
+const EditorPlayground = lazy(() => import("src/pages/EditorPlayground"));
 
 // university pages
 const TrainingRequestForm = lazy(() => import('src/pages/university/TrainingRequestForm'));
@@ -45,6 +46,7 @@ const AppRoutes: FC<AppRoutesProps> = () => {
                 {/* <Route index path="/" element={<Home/>}/> */}
                 <Route path="login" element={<Login/>}/>
                 <Route path="landing" element={<LandingPage/>}/>
+                <Route path="editor" element={<EditorPlayground/>}/>
 
                 <Route path="/" element={<AppLayout/>}>
                     <Route element={<ProtectedRoute/>}>
