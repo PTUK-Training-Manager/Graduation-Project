@@ -8,16 +8,16 @@ export default class CompanyBranch extends Model<InferAttributes<CompanyBranch>,
     declare location: string;
 }
 CompanyBranch.init({
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
-        },
-        location: {
-            type: DataTypes.STRING,
-            allowNull: false
-        }
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
     },
+    location: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
+},
     {
         sequelize,
         modelName: 'CompanyBranch',

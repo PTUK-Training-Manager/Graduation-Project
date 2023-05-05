@@ -35,6 +35,7 @@ class AuthController {
             const accessTokenSecret = <Secret>process.env.ACCESS_TOKEN_SECRET;
 
             const payload = {
+                userId: record.id,
                 username: record.username,
                 roleId
             }

@@ -3,15 +3,18 @@ const router = express.Router();
 import CompanyController from '../controllers/CompanyController';
 import TrainerController from '../controllers/TrainerController';
 import verifyAccessToken from '../middlewares/verifyAccessToken';
-const { addCompany, handleAddBranch, getCompanies, getBranches, getFields, addFields } = CompanyController
+import verifyRoles from '../middlewares/verifyRole';
+import { UserRoleEnum } from '../enums';
+const { addCompany, handleAddBranch, getCompanies, getBranches, getCompanyFields, addFields, getAllFields } = CompanyController
 
-router.post('/company', addCompany);
-router.post('/branch', handleAddBranch);
-router.get('/company', getCompanies);
-router.post('/branches', getBranches);
 router.use(verifyAccessToken)
-router.get('/trainers',TrainerController.getMyTrainers)
-router.get('/fields',getFields)
-router.post('/fields',addFields)
+router.post('/company', verifyRoles([UserRoleEnum.UNI_TRAINING_OFFICER]), addCompany);
+router.post('/branch', verifyRoles([UserRoleEnum.UNI_TRAINING_OFFICER]), handleAddBranch);
+router.get('/company', verifyRoles([UserRoleEnum.UNI_TRAINING_OFFICER]), getCompanies);
+router.post('/branches', verifyRoles([UserRoleEnum.UNI_TRAINING_OFFICER]), getBranches);
+router.get('/trainers', verifyRoles([UserRoleEnum.Company]), TrainerController.getMyTrainers)
+router.get('/fields', verifyRoles([UserRoleEnum.UNI_TRAINING_OFFICER, UserRoleEnum.Company]), getCompanyFields)
+router.get('/allFields', verifyRoles([UserRoleEnum.UNI_TRAINING_OFFICER, UserRoleEnum.Company]), getAllFields)
+router.post('/fields', verifyRoles([UserRoleEnum.Company]), addFields)
 
 export default router;

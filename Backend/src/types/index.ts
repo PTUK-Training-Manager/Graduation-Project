@@ -82,6 +82,7 @@ export interface StudentRequestBody extends Request {
         phoneNumber: string;
         email: string;
         userId: number;
+        department: string;
     }
 }
 export interface TrainingRequestBody extends Request {
@@ -98,6 +99,7 @@ export interface EditTrainerRequestBody extends Request {
     body: {
         trainingId: number;
         trainerId: number;
+        startDate?: Date;
     }
 }
 
@@ -111,8 +113,8 @@ export interface TrainerRequestBody extends Request {
         id: number;
         name: string;
         email: string;
-        field: string;
-        phoneNumber:string;
+        fieldId: number;
+        phoneNumber: string;
     }
 }
 
@@ -169,9 +171,9 @@ export interface RejectEvaluationBody extends Request {
 export interface SubmitEvaluationBody extends Request {
     body: {
         startTime: string,
-        startTimeType:string,
+        startTimeType: string,
         endTime: string,
-        endTimeType:string
+        endTimeType: string
         skills: string,
         note: string,
         trainingId: number
@@ -180,16 +182,21 @@ export interface SubmitEvaluationBody extends Request {
 
 export interface EditEvaluationBody extends Request {
     body: {
-        id:number,
-        skills?:string,
-        noteId?:number,
-        note?:string,
-        startTime?:Date,
-        endTime?:Date
+        id: number,
+        skills?: string,
+        noteId?: number,
+        note?: string,
+        startTime?: Date,
+        endTime?: Date
     }
+}
+
+export interface Field {
+    id?: number;
+    label: string
 }
 export interface AddFieldBody extends Request {
     body: {
-        fields : string[]
+        fields: Field[]
     }
 }

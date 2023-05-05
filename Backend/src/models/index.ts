@@ -11,4 +11,5 @@ export { default as Trainer } from "./Trainer";
 export { default as Training } from "./Training";
 export { default as User } from "./User";
 export { default as CompanyBranch } from "./CompanyBranch";
+export { default as Field } from "./Field";
 export { default as CompanyField } from "./CompanyField";

@@ -12,7 +12,8 @@ import {
     Training,
     User,
     CompanyBranch,
-    CompanyField
+    CompanyField,
+    Field
 } from "./index";
 
 const associations = () => {
@@ -44,7 +45,7 @@ const associations = () => {
     Training.hasMany(AnsweredQuestion, { foreignKey: "trainingId" });
     AnsweredQuestion.belongsTo(Training, { foreignKey: "trainingId" });
 
-    Note.hasOne(Evaluation, { foreignKey: "noteId"});
+    Note.hasOne(Evaluation, { foreignKey: "noteId" });
     Evaluation.belongsTo(Note, { foreignKey: "noteId" });
 
     Answer.hasMany(AnsweredQuestion, { foreignKey: "answerId" });
@@ -68,6 +69,13 @@ const associations = () => {
 
     CompanyField.belongsTo(Company, { foreignKey: "companyId" });
     Company.hasMany(CompanyField, { foreignKey: "companyId" });
+
+    CompanyField.belongsTo(Field, { foreignKey: "fieldId" });
+    Field.hasMany(CompanyField, { foreignKey: "fieldId" });
+
+    Trainer.belongsTo(Field, { foreignKey: "fieldId" });
+    Field.hasMany(Trainer, { foreignKey: "fieldId" });
+
 
     Role.belongsToMany(Permission, {
         through: "Role-Permission",

@@ -7,8 +7,10 @@ import {
     CompanyField,
     Company,
     CompanyBranch,
-    User
+    User,
+    Field
 } from "../models/index";
+import { Op } from "sequelize";
 
 class CompanyController {
 
@@ -122,8 +124,12 @@ class CompanyController {
 
     async getCompanies(req: Request, res: Response<BaseResponse>, next: NextFunction) {
         try {
-            const companies = await Company.findAll({ include:[{model:User,
-                                                                attributes:['email']}] });
+            const companies = await Company.findAll({
+                include: [{
+                    model: User,
+                    attributes: ['email']
+                }]
+            });
             return res.json({
                 success: true,
                 status: res.statusCode,
@@ -158,11 +164,16 @@ class CompanyController {
     addFields = async (req: AddFieldBody, res: Response<BaseResponse>, next: NextFunction) => {
         try {
             const { fields } = req.body;
-            const username = req.user.username;
-            const companyId = await getCompanyId(username);
+            const userId = req.user.userId;
+            const companyId = await getCompanyId(userId);
             const promises: Promise<CompanyField>[] = []
+            let fieldRecord: Field;
             for (let i = 0; i < fields.length; i++) {
-                const companyFieldPromise = CompanyField.create({ field: fields[i], companyId });
+                if (!fields[i].id) {
+                    fieldRecord = await Field.create({ field: fields[i].label });
+                    fields[i].id = fieldRecord.id;
+                }
+                const companyFieldPromise = CompanyField.create({ fieldId: fields[i].id, companyId });
                 promises.push(companyFieldPromise)
             }
             await Promise.all(promises)
@@ -176,13 +187,37 @@ class CompanyController {
         }
     }
 
-    getFields = async (req: AddFieldBody, res: Response<BaseResponse>, next: NextFunction) => {
+    getAllFields = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {  //fields that company not belongs to
         try {
-            const username = req.user.username;
-            const companyId = await getCompanyId(username);
+            const userId = req.user.userId;
+            const companyId = await getCompanyId(userId);
+            const fieldsIdsRecord = await CompanyField.findAll({ where: { companyId } });
+            const fieldIds = fieldsIdsRecord.map(obj => obj.fieldId);
+            const fields = await Field.findAll({
+                where: {
+                    id: {
+                        [Op.notIn]: fieldIds
+                    }
+                }
+            });
+            return res.json({
+                success: true,
+                status: res.statusCode,
+                message: "Fields: ",
+                data: fields
+            });
+        } catch (err) {
+            next(err)
+        }
+    }
+
+    getCompanyFields = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {  //field of company
+        try {
+            const userId = req.user.userId;
+            const companyId = await getCompanyId(userId);
             const fields = await CompanyField.findAll({
                 where: { companyId },
-                attributes:['field']
+                include: [{ model: Field }]
             });
             return res.json({
                 success: true,

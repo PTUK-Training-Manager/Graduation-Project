@@ -7,6 +7,7 @@ export default class Student extends Model<InferAttributes<Student>, InferCreati
     declare id: string;
     declare name: string;
     declare phoneNumber: string;
+    declare department: string;
     declare userId: ForeignKey<User['id']>;
 
 }
@@ -22,6 +23,10 @@ Student.init({
         allowNull: false
     },
     phoneNumber: {
+        type: DataTypes.STRING,
+        allowNull: true
+    },
+    department: {
         type: DataTypes.STRING,
         allowNull: true
     }

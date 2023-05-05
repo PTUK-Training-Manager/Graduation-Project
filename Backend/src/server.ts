@@ -3,12 +3,10 @@ dotenv.config();
 import app from "./middlewares";
 import db from "./config/connection";
 import associations from './models/Associations';
-
 const PORT = process.env.PORT || 5000;
 
 associations();
-
-db.sync({logging: false, alter:false})
+db.sync({ logging: false, alter: false })
     .then((value) => {
         console.log('All models were synchronized successfully.');
     })
