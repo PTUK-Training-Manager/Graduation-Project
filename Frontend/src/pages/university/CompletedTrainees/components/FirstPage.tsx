@@ -2,85 +2,90 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import {
-  Box,
-  Card,
-  CardContent,
-  Container,
-  Divider,
-  Radio,
-  RadioGroup,
+    Box,
+    Card,
+    CardContent,
+    Container,
+    Divider,
+    Radio,
+    RadioGroup,
 } from '@mui/material';
 import './style.css';
 
-import { FormControlLabel } from '@mui/material';
+import {FormControlLabel} from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
-import { FC, SyntheticEvent } from 'react';
+import {FC, SyntheticEvent} from 'react';
 import useCompletedTraineesController from '../hooks/useCompletedTraineesController';
 
 const bull = (
-  <Box
-    component="span"
-    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-  >
-    •
-  </Box>
+    <Box
+        component="span"
+        sx={{display: 'inline-block', mx: '2px', transform: 'scale(0.8)'}}
+    >
+        •
+    </Box>
 );
+interface EvaluationFormDialogProps {
 
-const EvaluationFormDialog: FC = ({}) => {
-  const {
-    response,
-    isOpen,
-    currentTab,
-    handleChangeTab,
-    open,
-    evaluationTrainingReport,
-  } = useCompletedTraineesController();
+}
+const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({
+}) => {
+  const { response,isOpen,currentTab,handleChangeTab,open } = useCompletedTraineesController();
   console.log(response);
-  console.log(response[0]?.id);
   console.log(isOpen);
+  console.log(response[0]?.id);
 
-  console.log({
-    evaluationTrainingReport,
-  });
 
-  return (
-    <>
-      <Container sx={{ p: '50px' }}>
-        <Stack sx={{ textAlign: 'center' }}>
-          <Typography variant="h6" sx={{ fontStyle: 'oblique', mb: '10px' }}>
-            Field Traning
-          </Typography>
-        </Stack>
-        <Divider />
+    return (
+        <>
+            <Container sx={{p: '50px'}}>
+                <Stack sx={{textAlign: 'center'}}>
+                    <Typography variant="h6" sx={{fontStyle: 'oblique', mb: '10px'}}>
+                        Field Traning
+                    </Typography>
+                </Stack>
+                <Divider/>
 
-        {/* Student */}
+                {/* Student */}
 
-        <Card sx={{ minWidth: 100, mb: '5px' }}>
-          <CardContent>
-            <Typography variant="h6" color="text.secondary" gutterBottom>
-              Student Information:
-            </Typography>
+                <Card sx={{minWidth: 100, mb: '5px'}}>
+                    <CardContent>
+                        <Typography variant="h6" color="text.secondary" gutterBottom>
+                            Student Information:
+                        </Typography>
 
             <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
-                Student Name: {response[0]?.Student.name}
+              <Typography sx={{ fontWeight: '600' }} >
+                Student Name: 
               </Typography>
             </Stack>
 
             <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
-                Student Number: {response[0]?.studentId}
+              <Typography sx={{ fontWeight: '600' }} >
+                Student Number:
+                <Typography
+                  sx={{ mb: 1.5, display: 'inline-block' }}
+                  color="text.secondary"
+                >
+                  ..........
+                </Typography>
               </Typography>
             </Stack>
 
             <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
-                Phone: {response[0]?.Student.phoneNumber}
+              <Typography sx={{ fontWeight: '600' }} >
+                Phone:
+                <Typography
+                  sx={{ mb: 1.5, display: 'inline-block' }}
+                  color="text.secondary"
+                >
+                  ..........
+                </Typography>
               </Typography>
             </Stack>
 
             <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
+              <Typography sx={{ fontWeight: '600' }} >
                 academic specialization:
                 <Typography
                   sx={{ mb: 1.5, display: 'inline-block' }}
@@ -94,34 +99,53 @@ const EvaluationFormDialog: FC = ({}) => {
         </Card>
         <Divider />
 
-        {/* Company */}
+                {/* Company */}
 
-        <Card sx={{ minWidth: 200, mb: '5px' }}>
-          <CardContent>
-            <Typography variant="h6" color="text.secondary" gutterBottom>
-              Company Information:
-            </Typography>
+                <Card sx={{minWidth: 200, mb: '5px'}}>
+                    <CardContent>
+                        <Typography variant="h6" color="text.secondary" gutterBottom>
+                            Company Information:
+                        </Typography>
 
             <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
-                Company Name: {response[0]?.CompanyBranch.Company.name}
-                <Typography sx={{ fontWeight: '600' }}>
-                  Company Branch: {response[0]?.CompanyBranch.location}
+              <Typography sx={{ fontWeight: '600' }} >
+                Company Name:
+                <Typography
+                  sx={{ mb: 1.5, display: 'inline-block' }}
+                  color="text.secondary"
+                >
+                  ..........
                 </Typography>
               </Typography>
             </Stack>
 
             <Stack>
-              <Typography sx={{ fontWeight: '600' }}>Email:</Typography>
+              <Typography sx={{ fontWeight: '600' }} >
+                Email
+                <Typography
+                  sx={{ mb: 1.5, display: 'inline-block' }}
+                  color="text.secondary"
+                >
+                  ..........
+                </Typography>
+              </Typography>
             </Stack>
 
             <Stack>
-              <Typography sx={{ fontWeight: '600' }}>Phone:</Typography>
+              <Typography sx={{ fontWeight: '600' }} >
+                Phone:
+                <Typography
+                  sx={{ mb: 1.5, display: 'inline-block' }}
+                  color="text.secondary"
+                >
+                  ..........
+                </Typography>
+              </Typography>
             </Stack>
 
             <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
-                Manegar Name:
+              <Typography sx={{ fontWeight: '600' }} >
+                Manegar Name{' '}
                 <Typography
                   sx={{ mb: 1.5, display: 'inline-block' }}
                   color="text.secondary"
@@ -131,43 +155,61 @@ const EvaluationFormDialog: FC = ({}) => {
               </Typography>
             </Stack>
             <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
-                Trainer Name: {response[0]?.Trainer.name}
+              <Typography sx={{ fontWeight: '600' }} >
+                Trainer Name{' '}
+                <Typography
+                  sx={{ mb: 1.5, display: 'inline-block' }}
+                  color="text.secondary"
+                >
+                  ..........
+                </Typography>
               </Typography>
             </Stack>
           </CardContent>
         </Card>
         <Divider />
 
-        <Card sx={{ minWidth: 200, mb: '5px' }}>
-          <CardContent>
-            <Typography variant="h6" color="text.secondary" gutterBottom>
-              Student working time{' '}
-            </Typography>
+                <Card sx={{minWidth: 200, mb: '5px'}}>
+                    <CardContent>
+                        <Typography variant="h6" color="text.secondary" gutterBottom>
+                            Student working time{' '}
+                        </Typography>
 
             <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
-                Starting Date: {response[0]?.startDate}
+              <Typography sx={{ fontWeight: '600' }} >
+                Starting Date :
+                <Typography
+                  sx={{ mb: 1.5, display: 'inline-block' }}
+                  color="text.secondary"
+                >
+                  ..........
+                </Typography>
               </Typography>
             </Stack>
 
             <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
-                Ending Date: {response[0]?.endDate}
+              <Typography sx={{ fontWeight: '600' }} >
+                Ending Date{' '}
+                <Typography
+                  sx={{ mb: 1.5, display: 'inline-block' }}
+                  color="text.secondary"
+                >
+                  ..........
+                </Typography>
               </Typography>
             </Stack>
 
             <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
+              <Typography sx={{ fontWeight: '600' }} >
                 The daily working period
-                <Typography variant="h5">
+                <Typography variant="h5" >
                   From{bull}nev{bull}To{bull}lent
                 </Typography>
               </Typography>
             </Stack>
 
             <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
+              <Typography sx={{ fontWeight: '600' }} >
                 number of absence's Day
                 <Typography
                   sx={{ mb: 1.5, display: 'inline-block' }}
@@ -178,7 +220,7 @@ const EvaluationFormDialog: FC = ({}) => {
               </Typography>
             </Stack>
             <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
+              <Typography sx={{ fontWeight: '600' }} >
                 Number of training days for the student
                 <Typography
                   sx={{ mb: 1.5, display: 'inline-block' }}
@@ -189,7 +231,7 @@ const EvaluationFormDialog: FC = ({}) => {
               </Typography>
             </Stack>
             <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
+              <Typography sx={{ fontWeight: '600' }} >
                 Did the student keep working hours?
                 <FormControlLabel control={<Checkbox disabled />} label="yes" />
                 <FormControlLabel control={<Checkbox disabled />} label="No" />
@@ -199,14 +241,14 @@ const EvaluationFormDialog: FC = ({}) => {
         </Card>
         <Divider />
 
-        <Card sx={{ minWidth: 200, mb: '5px' }}>
-          <CardContent>
-            <Typography variant="h6" color="text.secondary" gutterBottom>
-              Student benefit from training:
-            </Typography>
+                <Card sx={{minWidth: 200, mb: '5px'}}>
+                    <CardContent>
+                        <Typography variant="h6" color="text.secondary" gutterBottom>
+                            Student benefit from training:
+                        </Typography>
 
             <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
+              <Typography sx={{ fontWeight: '600' }} >
                 The main work done by the student during the training
                 <Typography
                   sx={{ mb: 1.5, display: 'inline-block' }}
@@ -218,7 +260,7 @@ const EvaluationFormDialog: FC = ({}) => {
             </Stack>
 
             <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
+              <Typography sx={{ fontWeight: '600' }} >
                 The ability of the student to carry out the tasks assigned to
                 him
                 <Typography
@@ -259,7 +301,7 @@ const EvaluationFormDialog: FC = ({}) => {
             </Stack>
 
             <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
+              <Typography sx={{ fontWeight: '600' }} >
                 The student's ability to benefit from the work assigned to him
                 was:
                 <Typography
@@ -300,7 +342,7 @@ const EvaluationFormDialog: FC = ({}) => {
             </Stack>
 
             <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
+              <Typography sx={{ fontWeight: '600' }} >
                 The practical application of the theoretical subjects studied by
                 the student in the college was:
                 <Typography
