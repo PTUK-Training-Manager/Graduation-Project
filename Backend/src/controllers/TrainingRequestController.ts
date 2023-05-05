@@ -3,6 +3,7 @@ import { CompanyBranch, Student, Training, Company, User } from "../models";
 import { TrainingStatusEnum, TrainingTypeEnum } from "../enums"
 import { Op } from 'sequelize';
 import { BaseResponse } from '../types';
+import { getBranchesIds } from '../utils';
 
 class TrainingRequestController {
 
@@ -160,22 +161,8 @@ class TrainingRequestController {
 
     getTrainingRequest = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
         try {
-            const username = req.user.username;
-            const user = await User.findOne({
-                where: { username },
-                attributes: ['id']
-            });
-            const userId = user?.id;
-            const company = await Company.findOne({
-                where: { userId },
-                attributes: ['id']
-            });
-            const companyId = company?.id;
-            const companyBranches = await CompanyBranch.findAll({
-                where: { companyId },
-                attributes: ['id']
-            });
-            const branchesId = companyBranches.map(obj => obj.id);
+
+            const branchesId = await getBranchesIds(req.user.userId);
             const trainingRequests = await Training.findAll({
                 where: {
                     status: TrainingStatusEnum.pending,
