@@ -112,11 +112,7 @@ class TrainingController {
                 where: { id: trainingId },
                 include: [
                     {
-                        model: Student,
-                        include: [{
-                            model: User,
-                            attributes: ['email']
-                        }]
+                        model: Student
                     },
                     {
                         model: Evaluation,
@@ -141,7 +137,11 @@ class TrainingController {
                         model: CompanyBranch,
                         include: [
                             {
-                                model: Company
+                                model: Company,
+                                include: [{
+                                    model: User,
+                                    attributes: ['email']
+                                }]
                             }],
                         attributes: ['location']
                     },
