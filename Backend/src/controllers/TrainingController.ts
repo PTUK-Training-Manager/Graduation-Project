@@ -111,7 +111,13 @@ class TrainingController {
             const evaluationForm = await Training.findAll({
                 where: { id: trainingId },
                 include: [
-                    { model: Student },
+                    {
+                        model: Student,
+                        include: [{
+                            model: User,
+                            attributes: ['email']
+                        }]
+                    },
                     {
                         model: Evaluation,
                         where: { status: EvaluationStatusEnum.signed }
@@ -135,8 +141,7 @@ class TrainingController {
                         model: CompanyBranch,
                         include: [
                             {
-                                model: Company,
-                                attributes: ['name']
+                                model: Company
                             }],
                         attributes: ['location']
                     },

@@ -16,7 +16,7 @@ class studentController {
 
     async addStudent(req: StudentRequestBody, res: Response<BaseResponse>, next: NextFunction) {
         try {
-            const { id, name, email, phoneNumber } = req.body;
+            const { id, name, email, phoneNumber, department } = req.body;
 
             const student = await Student.findByPk(id);
 
@@ -44,6 +44,7 @@ class studentController {
                 name,
                 phoneNumber,
                 userId: user,
+                department
             });
 
             if (!studentRecord) {
