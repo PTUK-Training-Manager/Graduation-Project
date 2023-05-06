@@ -16,12 +16,12 @@ const useAccountMenuAPI = () => {
         LOG_OUT_QUERY_KEY,
         logoutQueryFn,
         {
-            onSuccess: () => {
-                onLogout({shouldNavigate: true});
-            },
             onError: (error: AxiosBaseError) => {
                 const errorMessage = extractErrorMessage(error);
                 showSnackbar({severity: "error", message: errorMessage ?? "Error logging out"});
+            },
+            onSettled: () => {
+                onLogout({shouldNavigate: true});
             }
         }
     );
