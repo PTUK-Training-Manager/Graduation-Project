@@ -29,15 +29,15 @@ const Login: React.FC = () => {
      */
     const {isSidebarOpen, user} = useAccountContext();
 
-    if (user) return <Navigate to="/" replace state={{from: location.pathname}}/>;
-
-    const {isVerifying} = useVerifyAccessToken();
+    // if (user) return <Navigate to="/" replace state={{from: location.pathname}}/>;
+    //
+    // const {isVerifying} = useVerifyAccessToken();
+    //
+    // if (isVerifying) return <BlockUI/>;
 
     const {formikProps, isLoading} = useLoginController();
 
     const {isValid} = formikProps;
-
-    if (isVerifying) return <BlockUI/>;
 
     return (
         <>
