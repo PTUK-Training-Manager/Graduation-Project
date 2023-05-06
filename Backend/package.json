@@ -40,7 +40,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "node --experimental-specifier-resolution=node dist/server.js",
+    "start": "node --experimental-specifier-resolution=node dist/server",
     "dev": "nodemon"
   },
   "author": "",
