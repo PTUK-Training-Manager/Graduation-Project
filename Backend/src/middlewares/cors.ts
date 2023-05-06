@@ -8,7 +8,6 @@ import app from '../app';
  */
 
 app.use(cors({
-    // origin: 'http://localhost:3000', // The origin of the client (frontend) that we allow to connect to our API
     origin: (origin, callback) => {
         const msg = `Request Origin: ${origin}`;
         console.log(chalk.blue(msg));
