@@ -40,7 +40,7 @@
   },
   "scripts": {
     "dev": "nodemon",
-    "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register --esm build/app.js",
+    "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register build/app.js",
     "build": "tsc"
   },
   "author": "",
