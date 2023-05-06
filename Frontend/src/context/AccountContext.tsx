@@ -1,6 +1,7 @@
 import React, {createContext, useState, ReactNode, Dispatch, SetStateAction, FC,} from "react";
 import {useNavigate, useLocation} from "react-router-dom";
 import {User} from "../types";
+import {noop} from "src/utils/functionsUtils";
 
 interface OnLoginOptions {
     shouldNavigate?: boolean;
@@ -20,13 +21,10 @@ export interface AccountContextValues {
 
 export const AccountContext = createContext<AccountContextValues>({
     user: null,
-    onLogin: () => {
-    },
-    onLogout: () => {
-    },
+    onLogin: noop,
+    onLogout: noop,
     isSidebarOpen: false,
-    setIsSidebarOpen: () => {
-    }
+    setIsSidebarOpen: noop,
 });
 
 interface AccountProviderProps {

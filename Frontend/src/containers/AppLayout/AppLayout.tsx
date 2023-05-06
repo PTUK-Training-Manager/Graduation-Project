@@ -8,11 +8,14 @@ import {getContentPaddingLeft} from "../../constants";
 import useAccountContext from "../../hooks/useAccountContext";
 import useVerifyAccessToken from "../../hooks/useVerifyAccessToken";
 import useStyles from "src/containers/AppLayout/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const AppLayout: FC = () => {
 
     const classes = useStyles();
     const {isSidebarOpen} = useAccountContext();
+
+    const isMobileViewport = useMediaQuery('(max-width:600px)');
 
     const {isVerifying} = useVerifyAccessToken();
 
@@ -21,9 +24,9 @@ const AppLayout: FC = () => {
     return (
         <>
             <AppNavbar/>
-            <AppSideDrawerMultiLevel />
+            <AppSideDrawerMultiLevel/>
             <Grid container className={classes.contentArea} style={{
-                paddingLeft: isSidebarOpen ? `${getContentPaddingLeft(isSidebarOpen)}px` : "0px",
+                paddingLeft: (isSidebarOpen && !isMobileViewport) ? `${getContentPaddingLeft(isSidebarOpen)}px` : "0px",
             }}>
                 <Outlet/>
             </Grid>

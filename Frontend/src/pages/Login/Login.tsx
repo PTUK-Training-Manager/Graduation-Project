@@ -20,6 +20,7 @@ import Checkbox from '@mui/material/Checkbox';
 import {Navigate} from "react-router-dom";
 import useVerifyAccessToken from "src/hooks/useVerifyAccessToken";
 import BlockUI from "src/containers/BlockUI";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 
 const Login: React.FC = () => {
@@ -39,6 +40,8 @@ const Login: React.FC = () => {
 
     const {isValid} = formikProps;
 
+    const isMobileViewport = useMediaQuery('(max-width:600px)');
+
     return (
         <>
             <AppNavbar/>
@@ -50,7 +53,7 @@ const Login: React.FC = () => {
                       position: "relative",
                       pt: 8,
                       // top: `${NAVBAR_HEIGHT}px`,
-                      paddingLeft: isSidebarOpen ? `${getContentPaddingLeft(isSidebarOpen)}px` : "0px",
+                      paddingLeft: (isSidebarOpen && !isMobileViewport) ? `${getContentPaddingLeft(isSidebarOpen)}px` : "0px",
                       bgcolor: theme.palette.grey[100],
                       height: "100vh",
                       overflow: "auto",
