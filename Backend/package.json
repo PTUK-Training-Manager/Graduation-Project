@@ -39,9 +39,9 @@
     "tsconfig-paths": "^4.2.0"
   },
   "scripts": {
-    "dev": "nodemon",
-    "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register build/app.js",
-    "build": "tsc"
+    "build": "tsc",
+    "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register --esm build/server.js",
+    "dev": "nodemon"
   },
   "author": "",
   "description": "Student's University Practical Training Management Information System"
