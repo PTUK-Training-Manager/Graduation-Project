@@ -6,26 +6,36 @@ import PrintIcon from "@mui/icons-material/Print";
 import {getEvaluations} from "src/api/getEvaluation";
 import {EvaluationData, EvaluationFormResponse} from "src/api/types";
 import {useMutation} from "@tanstack/react-query";
+import useSnackbar from "src/hooks/useSnackbar";
 
 const useCompletedTraineesController = () => {
 
     const [data, setData] = useState<Row[]>([]);
     const [isOpen, setIsOpen] = useState(false);
+    const [studentId, setStudentId] = useState<string>('');
+    const [index, setIndex] = useState<number>();
+
     const [currentTab, setCurrentTab] = useState('one');
     const [response, setResponse] = useState<EvaluationData[]>([]);
-    const [index, setIndex] = useState('');
-    const [studentId, setStudentId] = useState('');
+    const { showSnackbar } = useSnackbar();
+
+
 
 
     const handleChangeTab = (event: SyntheticEvent, newValue: string) => {
         setCurrentTab(newValue);
     };
 
-    const handleOpenDialog = (id: string, count: string) => {
-        setIndex('0')
-        setStudentId('8');
-        console.log(isOpen);
+    const handleOpenDialog = (index: number, id: string) => {
         setIsOpen((prev) => !prev);
+        // getEvaluations({index: index, studentId: id}).then((res) => {
+        //     if (res.success === true) {
+        //       setResponse(res?.data);
+        //       console.log(response)
+        //     } else if (res.success === false) {
+        //       showSnackbar({ severity: 'warning', message: res.message });
+        //     }
+        //   });
     };
 
     const columns = [
@@ -51,8 +61,8 @@ const useCompletedTraineesController = () => {
             sortable: false,
             renderCell: (params: { row: Row }) => {
                 const count = parseInt(params.row.count);
-                const Evnum = params.row.count;
-                const id = params.row.studentId;
+                const index = parseInt(params.row.count)-1;
+                const studentId = params.row.studentId;
                 const printIcons = [];
 
                 for (let i = 0; i < count; i++) {
@@ -60,7 +70,7 @@ const useCompletedTraineesController = () => {
                         printIcons.push(
                             <Tooltip title={"Progress Form 1"}>
                                 <IconButton sx={{ml: 2.5}} aria-label={"form 1"} size="small"
-                                            onClick={() => handleOpenDialog(id, Evnum)}
+                                onClick={() => handleOpenDialog(index, studentId)}
                                 >
 
                                     <PrintIcon sx={{color: "#820000"}} color="info" className='print-icon'/>
@@ -70,7 +80,9 @@ const useCompletedTraineesController = () => {
                     else
                         printIcons.push(
                             <Tooltip key={i} title={`Progress Form ${i + 1}`}>
-                                <IconButton aria-label={`form ${i + 1}`} size="small">
+                                <IconButton aria-label={`form ${i + 1}`} size="small"
+                                onClick={() => handleOpenDialog(i, studentId)}
+>
                                     <PrintIcon sx={{color: "#820000"}} className='print-icon'/>
                                 </IconButton>
                             </Tooltip>
@@ -94,7 +106,7 @@ const useCompletedTraineesController = () => {
     }));
 
     useEffect(() => {
-        getEvaluations({index: '0', studentId: '8'})
+        getEvaluations({index: 0, studentId: '8'})
             .then((result) => {
                 setResponse(result.data);
                 console.log(result.data);
@@ -102,21 +114,7 @@ const useCompletedTraineesController = () => {
             .catch((error) => console.log(error));
     }, []);
 
-    const {data: evaluationTrainingReport, isLoading} = useMutation(
-        () => getEvaluations({index: '0', studentId: '8'}) as Promise<EvaluationFormResponse>,
-        {
-            onSuccess: (result) => {
-                // setResponse(result.data);
-                console.log(result.data);
-            },
-            onError: () => {
-
-            },
-            onSettled: () => {
-
-            },
-        }
-    );
+    
 
     const handleCloseDialog = () => {
         setIsOpen(false);
@@ -141,10 +139,8 @@ const useCompletedTraineesController = () => {
         data,
         isOpen,
         response,
-        evaluationTrainingReport: evaluationTrainingReport?.data,
+        // evaluationTrainingReport: evaluationTrainingReport?.data,
         open: !!isOpen,
-        index,
-        studentId,
     }
 };
 

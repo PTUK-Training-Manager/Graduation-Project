@@ -26,13 +26,13 @@ import { getTrainers } from './api';
 import EditIcon from '@mui/icons-material/Edit';
 import { deleteTrianer } from 'src/DeleteTrainer';
 import theme from 'src/styling/customTheme';
-import {useMutation} from "@tanstack/react-query";
-import {useFormik} from "formik";
-import {validationSchema} from "./schema";
-import {INITIAL_FORM_STATE} from "./constants";
-import {AxiosBaseError} from "src/types";
+import { useMutation } from '@tanstack/react-query';
+import { useFormik } from 'formik';
+import { validationSchema } from './schema';
+import { INITIAL_FORM_STATE } from './constants';
+import { AxiosBaseError } from 'src/types';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import extractErrorMessage from "src/utils/extractErrorMessage";
+import extractErrorMessage from 'src/utils/extractErrorMessage';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import {
   Button,
@@ -81,14 +81,17 @@ function CustomPagination(props: any) {
 interface Row {
   id: string;
   companyId: string;
-  field: string;
+  fieldId: string;
+  Field: {
+    id: string;
+    field: string;
+  };
   name: string;
   status: string;
   userId: string;
 }
 
-const AddTrainerQueryKey = ["addTrainerRequest"];
-
+const AddTrainerQueryKey = ['addTrainerRequest'];
 
 const Trainers: React.FC = () => {
   const [data, setData] = useState<Row[]>([]);
@@ -103,47 +106,50 @@ const Trainers: React.FC = () => {
   const [field, setField] = useState<string>('');
   const [trainerId, setTrainerId] = useState<string>('');
   const [email, setEmail] = useState<string>('');
-  const [companyOptions, setCompanyOptions] = useState<CompanyOption[]>([]);
+  const [fieldOptions, setFieldOptions] = useState<FieldOption[]>([]);
 
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   // const { formikProps, isLoading } = useAddTrainerFormController();
 
-  interface CompanyOption {
+  interface FieldOption {
+    id: string;
     field: string;
   }
   // const {showSnackbar} = useSnackbar();
 
-    const formikProps = useFormik({
-        initialValues: INITIAL_FORM_STATE,
-        onSubmit: (values, { resetForm }) => {
-            mutate(values);
-            resetForm();
-            formikProps.setFieldValue('field' , null)
-          },
-        validationSchema,
-        validateOnMount: true,
-    });
-    const  {isValid} = formikProps;
+  const formikProps = useFormik({
+    initialValues: INITIAL_FORM_STATE,
+    onSubmit: (values, { resetForm }) => {
+      mutate(values);
+      resetForm();
+      formikProps.setFieldValue('field', null);
+    },
+    validationSchema,
+    validateOnMount: true,
+  });
+  const { isValid } = formikProps;
 
-    const {mutate, isLoading} = useMutation(
-        AddTrainerQueryKey,
-        addTrainerRequest,
-        {
-            onSuccess: (data) => {
-                console.log(data.data)
-                if(data.success==true){
-                showSnackbar({severity: "success", message: data.message});
-                setData((prevData) => [...prevData, data.data]); // update data state with newly added company
-                }else if(data.success==false)
-                showSnackbar({severity: "warning", message: data.message});
-
-            },
-            onError: (error: AxiosBaseError) => {
-                const errorMessage = extractErrorMessage(error);
-                showSnackbar({severity: "error", message: errorMessage ?? "Error in Adding Company"});
-            }
-        }
-    );
+  const { mutate, isLoading } = useMutation(
+    AddTrainerQueryKey,
+    addTrainerRequest,
+    {
+      onSuccess: (data) => {
+        console.log(data.data);
+        if (data.success == true) {
+          showSnackbar({ severity: 'success', message: data.message });
+          setData((prevData) => [...prevData, data.data]); // update data state with newly added company
+        } else if (data.success == false)
+          showSnackbar({ severity: 'warning', message: data.message });
+      },
+      onError: (error: AxiosBaseError) => {
+        const errorMessage = extractErrorMessage(error);
+        showSnackbar({
+          severity: 'error',
+          message: errorMessage ?? 'Error in Adding Company',
+        });
+      },
+    }
+  );
 
   const handleChange = () => {
     setOpen((prev) => !prev);
@@ -161,39 +167,15 @@ const Trainers: React.FC = () => {
     getField().then((res) => {
       if (res.success) {
         const options = res.data.map((field) => ({
+          id: field.id,
           field: field.field,
-        })) as CompanyOption[];
-        setCompanyOptions(options);
+        })) as FieldOption[];
+        setFieldOptions(options);
       }
     });
   }, []);
 
-  const handleAddTrainer = () => {
-    addTrainerRequest({
-      id: trainerId,
-      name: name,
-      field: field,
-      email: email,
-    }).then((res: { success: boolean; message: any; data: Row }) => {
-      if (res.success === true && res.data) {
-        setData((prevData) => [res.data, ...prevData]);
-        showSnackbar({ severity: 'success', message: res.message });
-        setTrainerId('');
-        setName('');
-        setEmail('');
-        setField('');
-        setOpenA(false);
-      } else if (res.success === false) {
-        showSnackbar({ severity: 'warning', message: res.message });
-        setTrainerId('');
-        setName('');
-        setEmail('');
-        setField('');
-        setOpenA(false);
-      }
-    });
-    handleAddCancel();
-  };
+  
 
   const handleDeleteRequest = () => {
     deleteTrianer({ id: deleteId }).then(
@@ -308,7 +290,7 @@ const Trainers: React.FC = () => {
             <DialogContent>
               <Autocomplete
                 id="field"
-                options={companyOptions}
+                options={fieldOptions}
                 getOptionLabel={(option) => option.field}
                 renderInput={(params) => (
                   <TextField
@@ -319,8 +301,8 @@ const Trainers: React.FC = () => {
                   />
                 )}
                 onChange={(event, newValue) => {
-                  setUpdeteField(newValue?.field);
-                  console.log(updateField);
+                  formikProps.setFieldValue('fieldId', newValue?.id || '');
+                  setUpdeteField(newValue?.id || '');
                 }}
               />
             </DialogContent>
@@ -385,7 +367,7 @@ const Trainers: React.FC = () => {
   const rows = data.map((row) => ({
     id: row.id,
     name: row.name,
-    field: row.field,
+    field: row.Field.field,
     status: row.status,
     companyId: row.companyId,
     userId: row.userId,
@@ -474,19 +456,24 @@ const Trainers: React.FC = () => {
                             />
                             <FormControl fullWidth>
                               <Autocomplete
-                                disablePortal
-                                options={companyOptions}
+                                id="field"
+                                options={fieldOptions}
                                 getOptionLabel={(option) => option.field}
+                                renderInput={(params) => (
+                                  <TextField
+                                    {...params}
+                                    margin="dense"
+                                    label="Field"
+                                    variant="outlined"
+                                  />
+                                )}
                                 onChange={(event, newValue) => {
                                   formikProps.setFieldValue(
-                                    'field',
-                                    newValue?.field || ''
+                                    'fieldId',
+                                    newValue?.id || ''
                                   );
+                                  setUpdeteField(newValue?.id || '');
                                 }}
-                                sx={{ width: '100%' }}
-                                renderInput={(params) => (
-                                  <TextField {...params} label="Field" />
-                                )}
                               />
                             </FormControl>
                           </Stack>
@@ -530,63 +517,6 @@ const Trainers: React.FC = () => {
           </Stack>
         </Grid>
       </>
-
-      <Dialog
-        open={openA}
-        onClose={handleAddCancel}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog">Add Trainer</DialogTitle>
-        <DialogContent>
-          <TextField
-            margin="dense"
-            autoFocus
-            label="Trainer Id"
-            fullWidth
-            required
-            value={trainerId}
-            onChange={(event) => setTrainerId(event.target.value)}
-          />
-          <TextField
-            margin="dense"
-            label="Name"
-            fullWidth
-            required
-            value={name}
-            onChange={(event) => setName(event.target.value)}
-          />
-          <TextField
-            margin="dense"
-            label="Email"
-            fullWidth
-            required
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          />
-          <FormControl fullWidth>
-            <Autocomplete
-              disablePortal
-              options={companyOptions}
-              getOptionLabel={(option) => option.field}
-              onChange={(event, newValue) => {
-                formikProps.setFieldValue('field', newValue?.field || '');
-              }}
-              sx={{ width: '100%', height: '100%' }}
-              renderInput={(params) => (
-                <TextField margin="dense" {...params} label="Field" />
-              )}
-            />
-          </FormControl>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleAddCancel} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleAddTrainer} color="primary">
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
     </>
   );
 };

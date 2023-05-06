@@ -2,388 +2,231 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import {
-    Box,
-    Card,
-    CardContent,
-    Container,
-    Divider,
-    Radio,
-    RadioGroup,
+  Box,
+  Card,
+  CardContent,
+  Container,
+  Divider,
+  Radio,
+  RadioGroup,
 } from '@mui/material';
 import './style.css';
 
-import {FormControlLabel} from '@mui/material';
+import { FormControlLabel } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
-import {FC, SyntheticEvent} from 'react';
+import { FC, SyntheticEvent } from 'react';
 import useCompletedTraineesController from '../hooks/useCompletedTraineesController';
 
 const bull = (
-    <Box
-        component="span"
-        sx={{display: 'inline-block', mx: '2px', transform: 'scale(0.8)'}}
-    >
-        •
-    </Box>
+  <Box
+    component="span"
+    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
+  >
+    •
+  </Box>
 );
-interface EvaluationFormDialogProps {
+interface EvaluationFormDialogProps {}
+const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({}) => {
+  const { response, isOpen, currentTab, handleChangeTab, open } =
+    useCompletedTraineesController();
 
-}
-const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({
-}) => {
-  const { response,isOpen,currentTab,handleChangeTab,open } = useCompletedTraineesController();
-  console.log(response);
-  console.log(isOpen);
-  console.log(response[0]?.id);
-
-
-    return (
-        <>
-            <Container sx={{p: '50px'}}>
-                <Stack sx={{textAlign: 'center'}}>
-                    <Typography variant="h6" sx={{fontStyle: 'oblique', mb: '10px'}}>
-                        Field Traning
-                    </Typography>
-                </Stack>
-                <Divider/>
-
-                {/* Student */}
-
-                <Card sx={{minWidth: 100, mb: '5px'}}>
-                    <CardContent>
-                        <Typography variant="h6" color="text.secondary" gutterBottom>
-                            Student Information:
-                        </Typography>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                Student Name: 
-              </Typography>
-            </Stack>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                Student Number:
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
-                </Typography>
-              </Typography>
-            </Stack>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                Phone:
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
-                </Typography>
-              </Typography>
-            </Stack>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                academic specialization:
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
-                </Typography>
-              </Typography>
-            </Stack>
-          </CardContent>
-        </Card>
+  return (
+    <>
+      <Container sx={{ p: '50px' }}>
+        <Stack sx={{ textAlign: 'center' }}>
+          <Typography variant="h6" sx={{ fontStyle: 'oblique', mb: '10px' }}>
+            Field Training
+          </Typography>
+        </Stack>
         <Divider />
 
-                {/* Company */}
-
-                <Card sx={{minWidth: 200, mb: '5px'}}>
-                    <CardContent>
-                        <Typography variant="h6" color="text.secondary" gutterBottom>
-                            Company Information:
-                        </Typography>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                Company Name:
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
-                </Typography>
+        {/* Student */}
+        <Stack gap={2}>
+          <Card sx={{ minWidth: 100, mb: '5px' }}>
+            <CardContent>
+              <Typography variant="h6" color="text.secondary" gutterBottom>
+                Student Information:
               </Typography>
-            </Stack>
 
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                Email
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
-                </Typography>
-              </Typography>
-            </Stack>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                Phone:
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
-                </Typography>
-              </Typography>
-            </Stack>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                Manegar Name{' '}
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
-                </Typography>
-              </Typography>
-            </Stack>
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                Trainer Name{' '}
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
-                </Typography>
-              </Typography>
-            </Stack>
-          </CardContent>
-        </Card>
-        <Divider />
-
-                <Card sx={{minWidth: 200, mb: '5px'}}>
-                    <CardContent>
-                        <Typography variant="h6" color="text.secondary" gutterBottom>
-                            Student working time{' '}
-                        </Typography>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                Starting Date :
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
-                </Typography>
-              </Typography>
-            </Stack>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                Ending Date{' '}
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
-                </Typography>
-              </Typography>
-            </Stack>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                The daily working period
-                <Typography variant="h5" >
-                  From{bull}nev{bull}To{bull}lent
-                </Typography>
-              </Typography>
-            </Stack>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                number of absence's Day
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
-                </Typography>
-              </Typography>
-            </Stack>
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                Number of training days for the student
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
-                </Typography>
-              </Typography>
-            </Stack>
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                Did the student keep working hours?
-                <FormControlLabel control={<Checkbox disabled />} label="yes" />
-                <FormControlLabel control={<Checkbox disabled />} label="No" />
-              </Typography>
-            </Stack>
-          </CardContent>
-        </Card>
-        <Divider />
-
-                <Card sx={{minWidth: 200, mb: '5px'}}>
-                    <CardContent>
-                        <Typography variant="h6" color="text.secondary" gutterBottom>
-                            Student benefit from training:
-                        </Typography>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                The main work done by the student during the training
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
-                </Typography>
-              </Typography>
-            </Stack>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                The ability of the student to carry out the tasks assigned to
-                him
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  <RadioGroup
-                    row
-                    aria-labelledby="demo-row-radio-buttons-group-label"
-                    name="row-radio-buttons-group"
+              <Stack>
+                <Typography sx={{ fontWeight: '600' }}>
+                  Student Name: {' '}
+                  <Typography
+                    sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
-                    <FormControlLabel
-                      disabled
-                      value="Exelant"
-                      control={<Radio />}
-                      label="Exelant"
-                    />
-                    <FormControlLabel
-                      disabled
-                      value="Very Good"
-                      control={<Radio />}
-                      label="Very Good "
-                    />
-                    <FormControlLabel
-                      disabled
-                      value="Good"
-                      control={<Radio />}
-                      label="Good"
-                    />
-                    <FormControlLabel
-                      disabled
-                      control={<Radio />}
-                      label="weak"
-                    />
-                  </RadioGroup>{' '}
+                    {response[0]?.Student.name}
+                  </Typography>
                 </Typography>
-              </Typography>
-            </Stack>
+              </Stack>
 
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                The student's ability to benefit from the work assigned to him
-                was:
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  <RadioGroup
-                    row
-                    aria-labelledby="demo-row-radio-buttons-group-label"
-                    name="row-radio-buttons-group"
+              <Stack>
+                <Typography sx={{ fontWeight: '600' }}>
+                  Student Number: {' '}
+                  <Typography
+                    sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
-                    <FormControlLabel
-                      disabled
-                      value="Exelant"
-                      control={<Radio />}
-                      label="Exelant"
-                    />
-                    <FormControlLabel
-                      disabled
-                      value="Very Good"
-                      control={<Radio />}
-                      label="Very Good "
-                    />
-                    <FormControlLabel
-                      disabled
-                      value="Good"
-                      control={<Radio />}
-                      label="Good"
-                    />
-                    <FormControlLabel
-                      disabled
-                      control={<Radio />}
-                      label="weak"
-                    />
-                  </RadioGroup>{' '}
+                    {response[0]?.studentId}
+                  </Typography>
                 </Typography>
-              </Typography>
-            </Stack>
+              </Stack>
 
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                The practical application of the theoretical subjects studied by
-                the student in the college was:
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  <RadioGroup
-                    row
-                    aria-labelledby="demo-row-radio-buttons-group-label"
-                    name="row-radio-buttons-group"
+              <Stack>
+                <Typography sx={{ fontWeight: '600' }}>
+                  PhoneNumber: {' '}
+                  <Typography
+                    sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
-                    <FormControlLabel
-                      disabled
-                      value="Exelant"
-                      control={<Radio />}
-                      label="Exelant"
-                    />
-                    <FormControlLabel
-                      disabled
-                      value="Very Good"
-                      control={<Radio />}
-                      label="Very Good "
-                    />
-                    <FormControlLabel
-                      disabled
-                      value="Good"
-                      control={<Radio />}
-                      label="Good"
-                    />
-                    <FormControlLabel
-                      disabled
-                      control={<Radio />}
-                      label="weak"
-                    />
-                  </RadioGroup>{' '}
+                    {response[0]?.Student.phoneNumber}
+                  </Typography>
                 </Typography>
+              </Stack>
+
+              <Stack>
+                <Typography sx={{ fontWeight: '600' }}>
+                  academic specialization: {' '}
+                  <Typography
+                    sx={{ display: 'inline-block', fontWeight: '400' }}
+                  >
+                    {response[0]?.Student.department}
+                  </Typography>
+                </Typography>
+              </Stack>
+            </CardContent>
+          </Card>
+          <Divider />
+
+          {/* Company */}
+
+          <Card sx={{ minWidth: 200, mb: '5px' }}>
+            <CardContent>
+              <Typography variant="h6" color="text.secondary" gutterBottom>
+                Company Information:
               </Typography>
-            </Stack>
-          </CardContent>
-        </Card>
-        <Divider />
+
+              <Stack>
+                <Typography sx={{ fontWeight: '600' }}>
+                  Company Name: {' '}
+                  <Typography
+                    sx={{ display: 'inline-block', fontWeight: '400' }}
+                  >
+                    {response[0]?.CompanyBranch.Company.name}
+                  </Typography>
+                </Typography>
+              </Stack>
+
+              <Stack>
+                <Typography sx={{ fontWeight: '600' }}>
+                  Company Branch: {' '}
+                  <Typography
+                    sx={{ display: 'inline-block', fontWeight: '400' }}
+                  >
+                    {response[0]?.CompanyBranch.location}{' '}
+                  </Typography>
+                </Typography>
+              </Stack>
+
+              <Stack>
+                <Typography sx={{ fontWeight: '600' }}>
+                  Email: {' '}
+                  <Typography
+                    sx={{ display: 'inline-block', fontWeight: '400' }}
+                  >
+                    {response[0]?.CompanyBranch.Company.User.email}
+                  </Typography>
+                </Typography>
+              </Stack>
+
+              <Stack>
+                <Typography sx={{ fontWeight: '600' }}>
+                  PhoneNumber: {' '}
+                  <Typography
+                    sx={{ display: 'inline-block', fontWeight: '400' }}
+                  >
+                    {response[0]?.CompanyBranch.Company.phoneNumber}
+                  </Typography>
+                </Typography>
+              </Stack>
+
+              <Stack>
+                <Typography sx={{ fontWeight: '600' }}>
+                  Manegar Name: {' '}
+                  <Typography
+                    sx={{ display: 'inline-block', fontWeight: '400' }}
+                  >
+                    {response[0]?.CompanyBranch.Company.managerName}
+                  </Typography>
+                </Typography>
+              </Stack>
+              <Stack>
+                <Typography sx={{ fontWeight: '600' }}>
+                  Trainer Name: {' '}
+                  <Typography
+                    sx={{ display: 'inline-block', fontWeight: '400' }}
+                  >
+                    {response[0]?.Trainer.name}
+                  </Typography>
+                </Typography>
+              </Stack>
+            </CardContent>
+          </Card>
+          <Divider />
+
+          <Card sx={{ minWidth: 200, mb: '5px' }}>
+            <CardContent>
+              <Typography variant="h6" color="text.secondary" gutterBottom>
+                Student working time{' '}
+              </Typography>
+
+              <Stack>
+                <Typography sx={{ fontWeight: '600' }}>
+                  Starting Date: {' '}
+                  <Typography
+                    sx={{ display: 'inline-block', fontWeight: '400' }}
+                  >
+                    {response[0]?.startDate}
+                  </Typography>
+                </Typography>
+              </Stack>
+
+              <Stack>
+                <Typography sx={{ fontWeight: '600' }}>
+                  Ending Date: {' '}
+                  <Typography
+                    sx={{ display: 'inline-block', fontWeight: '400' }}
+                  >
+                    {response[0]?.endDate}
+                  </Typography>
+                </Typography>
+              </Stack>
+
+              
+              <Stack>
+                <Typography sx={{ fontWeight: '600' }}>
+                 {response[0]?.Answered_Questions[8]?.Question?.question}: {' '}
+                  <Typography
+                    sx={{display: 'inline-block',fontWeight: '400'  }}
+                  >
+                    {response[0]?.Answered_Questions[8]?.Note?.note} days
+                  </Typography>
+                </Typography>
+              </Stack>
+              
+              <Stack>
+                <Typography sx={{ fontWeight: '600' }}>
+                  Number of training days for the student: {' '}
+                  <Typography
+                    sx={{display: 'inline-block',fontWeight: '400' }}
+                  >
+                    {response[0]?.Evaluations.length} days
+                  </Typography>
+                </Typography>
+              </Stack>
+              
+            </CardContent>
+          </Card>
+          <Divider />
+
+        </Stack>
       </Container>
     </>
   );
