@@ -40,7 +40,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register --experimental-specifier-resolution=node build/server.js",
+    "start": "node --experimental-specifier-resolution=node build/server.js",
     "dev": "nodemon"
   },
   "author": "",
