@@ -50,7 +50,7 @@ class AuthController {
                 sameSite: "none",
                 domain: isProduction
                     // ? "ptuk-trainerize.onrender.com"
-                    ? "trainerize-api.onrender.com"
+                    ? ".onrender.com"
                     : "localhost",
             });
 
