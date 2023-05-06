@@ -58,8 +58,7 @@ export const AccountProvider: FC<AccountProviderProps> = ({children}) => {
         /**
          * If the current pathname is "/login" don't navigate to "/login" again!
          */
-        if (shouldNavigate && window.location.pathname !== "/login")
-            navigate("/login", {replace: true});
+        navigate("login", {replace: true});
 
         setIsSidebarOpen(false);
     };
