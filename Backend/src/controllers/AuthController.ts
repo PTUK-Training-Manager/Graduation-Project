@@ -81,7 +81,9 @@ class AuthController {
 
     logout = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
         try {
-            res.clearCookie('access-token');
+            if (req.cookies['access-token'])
+                res.clearCookie('access-token');
+            
             return res.json({
                 success: true,
                 status: res.statusCode,

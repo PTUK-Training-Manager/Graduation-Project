@@ -22,6 +22,7 @@ const useAccountMenuAPI = () => {
             },
             onSettled: () => {
                 onLogout({shouldNavigate: true});
+                localStorage.removeItem("access-token");
             }
         }
     );

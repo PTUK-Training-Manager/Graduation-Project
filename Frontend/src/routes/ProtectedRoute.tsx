@@ -19,9 +19,9 @@ const ProtectedRoute: FC<PropsWithChildren<ProtectedRouteProps>> = ({
                                                                         allowedRoles
                                                                     }) => {
 
-    const {isVerifying} = useVerifyAccessToken();
-
-    if (isVerifying) return <BlockUI isBlocked/>;
+    // const {isVerifying} = useVerifyAccessToken();
+    //
+    // if (isVerifying) return <BlockUI isBlocked/>;
 
     const {user} = useAccountContext();
 
