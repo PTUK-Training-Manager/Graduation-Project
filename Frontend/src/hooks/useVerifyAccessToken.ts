@@ -17,7 +17,7 @@ const useVerifyAccessToken = () => {
     const {data} = useQuery(
         ["verifyAccessToken"],
         verifyAccessToken, {
-            // retry: false, // don't retry if the API call fails
+            retry: false, // don't retry if the API call fails
             onSuccess: ({data}) => {
                 // console.log(data);
                 onLogin(data);

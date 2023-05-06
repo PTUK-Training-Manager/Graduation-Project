@@ -45,7 +45,7 @@ class AuthController {
             res.status(202).cookie('access-token', accessToken, {
                 maxAge: 7 * 60 * 60 * 24 * 1000,  // = 7 days in milliseconds
                 httpOnly: true,
-                // secure: true // limits the scope of the cookie to "secure" channels.
+                secure: true // limits the scope of the cookie to "secure" channels.
             });
 
             return res.status(200).json({
