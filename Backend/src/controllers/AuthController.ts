@@ -49,7 +49,7 @@ class AuthController {
                 secure: true, // limits the scope of the cookie to "secure" channels.
                 sameSite: "none",
                 domain: isProduction
-                    ? ".onrender.com"
+                    ? "ptuk-trainerize.onrender.com/"
                     : undefined,
             });
 
