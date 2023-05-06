@@ -53,6 +53,7 @@ export const AccountProvider: FC<AccountProviderProps> = ({children}) => {
     const handleLogout = (options: OnLoginOptions = {shouldNavigate: false}) => {
         const {shouldNavigate} = options;
         setUser(null);
+        localStorage.removeItem("access-token");
 
         /**
          * If the current pathname is "/login" don't navigate to "/login" again!

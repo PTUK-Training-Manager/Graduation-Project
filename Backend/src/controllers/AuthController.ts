@@ -3,11 +3,11 @@ import {NextFunction, Request, Response} from 'express';
 import {User} from "../models"
 import {Secret} from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import {BaseResponse} from '/types';
+import {BaseResponse, LoginResponse} from '/types';
 import {isProduction} from "../utils";
 
 class AuthController {
-    handleLogin = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
+    handleLogin = async (req: Request, res: Response<LoginResponse>, next: NextFunction) => {
         try {
             const {username, password} = req.body;
 
@@ -56,7 +56,8 @@ class AuthController {
                 success: true,
                 status: res.statusCode,
                 message: 'successfully logged in to account',
-                data: payload
+                data: payload,
+                accessToken
             });
         } catch (err) {
             next(err)

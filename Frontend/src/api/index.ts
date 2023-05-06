@@ -6,6 +6,7 @@ const defaultAxiosSettings: AxiosRequestConfig = {
     headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        "access-token": localStorage.getItem("access-token") ?? "",
     },
 };
 

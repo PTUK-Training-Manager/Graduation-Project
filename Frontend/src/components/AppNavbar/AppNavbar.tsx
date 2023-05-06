@@ -56,7 +56,8 @@ const AppNavbar: FC = () => {
                         <img src={PTUK_TEXT} style={{filter: `brightness(0) invert(1)`}}></img>
                     </ImageListItem>
                 </Stack>
-                {user ? (<AccountMenu/>) : <Box/>}
+                {/*{user ? (<AccountMenu/>) : <Box/>}*/}
+                <AccountMenu/>
             </Toolbar>
         </AppBar>
     );

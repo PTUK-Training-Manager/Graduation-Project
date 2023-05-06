@@ -49,6 +49,10 @@ export interface BaseResponse {
     data?: any;
 }
 
+export interface LoginResponse extends BaseResponse {
+    accessToken?: string;
+}
+
 export interface ButtonHandler extends Request {
     body: {
         index: number;

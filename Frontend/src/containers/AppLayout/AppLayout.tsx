@@ -14,9 +14,9 @@ const AppLayout: FC = () => {
     const classes = useStyles();
     const {isSidebarOpen} = useAccountContext();
 
-    const {isVerifying} = useVerifyAccessToken();
-
-    if (isVerifying) return <BlockUI isBlocked/>;
+    // const {isVerifying} = useVerifyAccessToken();
+    //
+    // if (isVerifying) return <BlockUI isBlocked/>;
 
     return (
         <>

@@ -34,7 +34,8 @@ const TrainingRequest = lazy(() => import('src/pages/company/TrainingRequest'));
 
 import {UserRole} from "../constants/auth";
 
-interface AppRoutesProps {}
+interface AppRoutesProps {
+}
 
 const AppRoutes: FC<AppRoutesProps> = () => {
 
@@ -49,8 +50,8 @@ const AppRoutes: FC<AppRoutesProps> = () => {
                 <Route path="editor" element={<EditorPlayground/>}/>
 
                 <Route path="/" element={<AppLayout/>}>
+                    <Route index path="/" element={<Home/>}/>
                     <Route element={<ProtectedRoute/>}>
-                        <Route index path="/" element={<Home/>}/>
                         <Route path="/dashboard" element={<Dashboard/>}/>
                         <Route path="/admin" element={<Admin/>}/>
                     </Route>
