@@ -10,7 +10,9 @@ const defaultAxiosSettings: AxiosRequestConfig = {
 };
 
 const axiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
+    baseURL: isProduction
+        ? import.meta.env.VITE_API_URL_PROD
+        : import.meta.env.VITE_API_URL,
     ...defaultAxiosSettings,
 });
 
