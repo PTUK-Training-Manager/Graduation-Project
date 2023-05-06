@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "type": "module",
-  "main": "index.js",
+  "main": "server.js",
   "license": "MIT",
   "dependencies": {
     "@types/bcrypt": "^5.0.0",
@@ -40,7 +40,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register --esm build/server.js",
+    "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register --experimental-specifier-resolution=node build/server.js",
     "dev": "nodemon"
   },
   "author": "",

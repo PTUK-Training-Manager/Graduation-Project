@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
 dotenv.config();
-import app from "./middlewares/index";
+import app from "./middlewares";
 import db from "./config/connection";
 import associations from './models/Associations';
 const PORT = process.env.PORT || 5000;
