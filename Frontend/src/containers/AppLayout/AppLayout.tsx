@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import Grid from "@mui/material/Grid";
 import AppNavbar from "../../components/AppNavbar";
 import AppSideDrawerMultiLevel from "../../components/AppSideDrawerMultiLevel";
@@ -17,9 +17,9 @@ const AppLayout: FC = () => {
 
     const isMobileViewport = useMediaQuery('(max-width:600px)');
 
-    const {isVerifying} = useVerifyAccessToken();
-
-    if (isVerifying) return <BlockUI isBlocked/>;
+    // const {isVerifying} = useVerifyAccessToken();
+    //
+    // if (isVerifying) return <BlockUI isBlocked/>;
 
     return (
         <>
