@@ -2,7 +2,9 @@ import axiosInstance from "src/api";
 import {BaseResponse} from "src/types";
 
 export interface GetFieldData {
- field: string;
+  map(arg0: (field: any) => { id: any; field: any; }): unknown;
+    id: string;
+    field: string;
 }
 
 export interface GetFieldesponse extends BaseResponse {

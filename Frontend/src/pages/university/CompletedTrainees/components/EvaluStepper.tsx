@@ -9,7 +9,11 @@ import FirstPage from './FirstPage';
 import SecondPage from './SecondPage';
 import ThirdPage from './ThirdPage';
 import useCompletedTraineesController from '../hooks/useCompletedTraineesController';
-const steps = ['Select campaign settings', 'Create an ad group', 'Create an ad'];
+const steps = [
+  'Select campaign settings',
+  'Create an ad group',
+  'Create an ad',
+];
 
 export default function EvaluStepper() {
   const {
@@ -20,7 +24,7 @@ export default function EvaluStepper() {
     currentTab,
     handleChangeTab,
     handleCloseDialog,
-} = useCompletedTraineesController();
+  } = useCompletedTraineesController();
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set<number>());
@@ -29,10 +33,7 @@ export default function EvaluStepper() {
     return step === 1;
   };
 
-
-
   const handleNext = () => {
-  
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
@@ -67,7 +68,7 @@ export default function EvaluStepper() {
           const labelProps: {
             optional?: React.ReactNode;
           } = {};
-         
+
           return (
             <Step key={label} {...stepProps}>
               <StepLabel {...labelProps}>{label}</StepLabel>
@@ -87,18 +88,10 @@ export default function EvaluStepper() {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          {activeStep===0 && <FirstPage 
-          
-              // isOpen={isOpen}
-              // currentTab={currentTab}
-              // handleChangeTab={handleChangeTab}
-              // handleCloseDialog={handleCloseDialog}
-              // data={data}
-          />}
-          {activeStep===1 && <SecondPage/>}
+          {activeStep === 0 && <FirstPage />}
+          {activeStep === 1 && <SecondPage />}
+          {activeStep === 2 && <ThirdPage />}
 
-          {/* <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography> */}
-          {activeStep===2 && <ThirdPage/>}
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Button
               color="inherit"
@@ -109,9 +102,9 @@ export default function EvaluStepper() {
               Back
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
-      
-            <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next' }
+
+            <Button onClick={handleNext} >
+              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
             </Button>
           </Box>
         </React.Fragment>

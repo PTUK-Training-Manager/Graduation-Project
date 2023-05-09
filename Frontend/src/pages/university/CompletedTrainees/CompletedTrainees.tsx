@@ -44,8 +44,6 @@ const CompletedTrainees: React.FC = () => {
         isOpen,
         data,
         currentTab,
-        index,
-        studentId,
         handleChangeTab,
         handleCloseDialog,
     } = useCompletedTraineesController();
