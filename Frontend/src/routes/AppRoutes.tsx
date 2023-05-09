@@ -34,7 +34,8 @@ const TrainingRequest = lazy(() => import('src/pages/company/TrainingRequest'));
 
 import {UserRole} from "../constants/auth";
 
-interface AppRoutesProps {}
+interface AppRoutesProps {
+}
 
 const AppRoutes: FC<AppRoutesProps> = () => {
 

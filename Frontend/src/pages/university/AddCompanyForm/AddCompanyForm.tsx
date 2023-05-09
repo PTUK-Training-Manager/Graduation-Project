@@ -29,7 +29,7 @@ const AddCompanyForm: React.FC = () => {
                         justifyContent: 'center',
                         alignItems: 'center',
                         p: 3.5,
-                        minWidth: {xs: '90%', sm: '60%', md: '30%'},
+                        minWidth: {xs: "90%", md: "500px"},
                     }}
                 >
                     <FormikProvider value={formikProps}>

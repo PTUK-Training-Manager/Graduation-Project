@@ -20,6 +20,7 @@ import Checkbox from '@mui/material/Checkbox';
 import {Navigate} from "react-router-dom";
 import useVerifyAccessToken from "src/hooks/useVerifyAccessToken";
 import BlockUI from "src/containers/BlockUI";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 
 const Login: React.FC = () => {
@@ -29,15 +30,17 @@ const Login: React.FC = () => {
      */
     const {isSidebarOpen, user} = useAccountContext();
 
-    if (user) return <Navigate to="/" replace state={{from: location.pathname}}/>;
-
-    const {isVerifying} = useVerifyAccessToken();
+    // if (user) return <Navigate to="/" replace state={{from: location.pathname}}/>;
+    //
+    // const {isVerifying} = useVerifyAccessToken();
+    //
+    // if (isVerifying) return <BlockUI/>;
 
     const {formikProps, isLoading} = useLoginController();
 
     const {isValid} = formikProps;
 
-    if (isVerifying) return <BlockUI/>;
+    const isMobileViewport = useMediaQuery('(max-width:600px)');
 
     return (
         <>
@@ -50,7 +53,7 @@ const Login: React.FC = () => {
                       position: "relative",
                       pt: 8,
                       // top: `${NAVBAR_HEIGHT}px`,
-                      paddingLeft: isSidebarOpen ? `${getContentPaddingLeft(isSidebarOpen)}px` : "0px",
+                      paddingLeft: (isSidebarOpen && !isMobileViewport) ? `${getContentPaddingLeft(isSidebarOpen)}px` : "0px",
                       bgcolor: theme.palette.grey[100],
                       height: "100vh",
                       overflow: "auto",

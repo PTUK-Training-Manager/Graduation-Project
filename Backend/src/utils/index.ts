@@ -1,29 +1,29 @@
-import { NextFunction, Request, Response } from "express";
 import {
     Company,
     CompanyBranch,
-    User,
     Trainer,
     Training,
     Student
 } from "../models/index";
+
+export const isProduction = process.env.NODE_ENV === "production";
+
 export const getBranchesIds = async (userId: number) => { //get branches for company
     const company = await Company.findOne({
-        where: { userId },
+        where: {userId},
         attributes: ['id']
     });
     const companyId = company?.id;
     const companyBranches = await CompanyBranch.findAll({
-        where: { companyId },
+        where: {companyId},
         attributes: ['id']
     });
-    const branchesIds = companyBranches.map(obj => obj.id);
-    return branchesIds;
+    return companyBranches.map(obj => obj.id);
 }
 
 export const getTrainingIds = async (userId: number) => { //get trainings for trainer
     const trainer = await Trainer.findOne({
-        where: { userId },
+        where: {userId},
         attributes: ['id']
     });
     const trainerId = trainer?.id;
@@ -32,24 +32,21 @@ export const getTrainingIds = async (userId: number) => { //get trainings for tr
             trainerId
         }
     });
-    const trainingIds = trainings.map(obj => obj.id);
-    return trainingIds;
+    return trainings.map(obj => obj.id);
 }
 export const getStudentId = async (userId: number) => { //get trainings for trainer
 
     const student = await Student.findOne({
-        where: { userId },
+        where: {userId},
         attributes: ['id']
     });
-    const studentId = student?.id;
-    return studentId;
+    return student?.id;
 }
 
 export const getCompanyId = async (userId: number) => { //get trainings for trainer
     const company = await Company.findOne({
-        where: { userId },
+        where: {userId},
         attributes: ['id']
     });
-    const companyId = company?.id;
-    return companyId;
+    return company?.id;
 }
