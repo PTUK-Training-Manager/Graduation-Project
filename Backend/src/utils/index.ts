@@ -7,6 +7,7 @@ import {
     Training,
     Student
 } from "../models/index";
+import { TrainingStatusEnum } from "../enums";
 export const getBranchesIds = async (userId: number) => { //get branches for company
     const company = await Company.findOne({
         where: { userId },
@@ -52,4 +53,21 @@ export const getCompanyId = async (userId: number) => { //get trainings for trai
     });
     const companyId = company?.id;
     return companyId;
+}
+
+export const getStudentTraining = async (userId: number)=>{
+            const student = await Student.findOne({
+                where: { userId },
+                attributes: ['id']
+            });
+            const studentId = student?.id;
+            const training = await Training.findOne({
+                where: {
+                    studentId,
+                    status: TrainingStatusEnum.running
+                },
+                attributes: ['id'],
+            });
+            const trainingId = training?.id;
+            return trainingId 
 }
