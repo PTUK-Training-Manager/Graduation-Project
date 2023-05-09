@@ -176,7 +176,8 @@ export interface SubmitEvaluationBody extends Request {
         endTimeType: string
         skills: string,
         note: string,
-        trainingId: number
+        trainingId: number,
+        date:Date
     }
 }
 

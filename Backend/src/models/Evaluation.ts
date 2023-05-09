@@ -1,4 +1,4 @@
-import { CreationOptional, DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
+import { CreationOptional, DATEONLY, DataTypes, ForeignKey, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
 import sequelize from "../config/connection";
 import {
   Note,
@@ -10,6 +10,7 @@ import { EvaluationStatusEnum } from '../enums';
 
 export default class Evaluation extends Model<InferAttributes<Evaluation>, InferCreationAttributes<Evaluation>>{
   declare id: CreationOptional<number>;
+  declare date: Date;
   declare startTime: Date;
   declare endTime: Date;
   declare status: EvaluationType;
@@ -25,6 +26,10 @@ Evaluation.init({
     autoIncrement: true,
     primaryKey: true
   },
+  date: {
+    type: DATEONLY,
+    allowNull: true,
+},
   startTime: {
     type: DataTypes.TIME,
     allowNull: false

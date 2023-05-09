@@ -10,8 +10,8 @@ import {
 } from "../models/index";
 import { fn, col, Op } from "sequelize";
 import { EvaluationStatusEnum, TrainingStatusEnum, TrainingTypeEnum } from "../enums";
-import { BaseResponse, EditEvaluationBody, ProgressFormBody, ProgressFormWithHours, RejectEvaluationBody, SubmitEvaluationBody } from "../types";
-import { getTrainingIds } from "../utils";
+import { BaseResponse, EditEvaluationBody, EvaluationType, ProgressFormBody, ProgressFormWithHours, RejectEvaluationBody, SubmitEvaluationBody } from "../types";
+import { getStudentTraining, getTrainingIds } from "../utils";
 
 
 class EvaluationController {
@@ -151,7 +151,7 @@ class EvaluationController {
 
     submitEvaluation = async (req: SubmitEvaluationBody, res: Response<BaseResponse>, next: NextFunction) => {
         try {
-            let { startTime, startTimeType, endTime, endTimeType, skills, trainingId } = req.body;
+            let { startTime, startTimeType, endTime, endTimeType, skills, trainingId,date } = req.body;
             if (startTimeType === 'pm')
                 startTime = this.convert12to24(startTime);
             if (endTimeType === 'pm')
@@ -162,6 +162,7 @@ class EvaluationController {
                 skills,
                 trainingId,
                 status: EvaluationStatusEnum.pending,
+                date
             });
 
             return res.json({
@@ -213,27 +214,11 @@ class EvaluationController {
         }
     }
 
-    getRejectedEvaluations = async (req: Request, res: Response, next: NextFunction) => {
+    getStudentEvaluations = async (req: Request<unknown,unknown,{status:EvaluationType}>, res: Response, next: NextFunction) => {
         try {
-            const username = req.user.username;
-            const user = await User.findOne({
-                where: { username },
-                attributes: ['id']
-            });
-            const userId = user?.id;
-            const student = await Student.findOne({
-                where: { userId },
-                attributes: ['id']
-            });
-            const studentId = student?.id;
-            const training = await Training.findOne({
-                where: {
-                    studentId,
-                    status: TrainingStatusEnum.running
-                },
-                attributes: ['id'],
-            });
-            const trainingId = training?.id;
+            const userId = req.user.userId;
+            const status=req.body.status;
+            const trainingId = await getStudentTraining(userId)
             if (!trainingId) {
                 return res.json({
                     success: true,
@@ -245,7 +230,7 @@ class EvaluationController {
             const rejectedEvaluations = await Evaluation.findAll({
                 where: {
                     trainingId,
-                    status: EvaluationStatusEnum.rejected
+                    status
                 },
                 include: [
                     {
@@ -265,6 +250,7 @@ class EvaluationController {
             next(err);
         }
     }
+
 
 }
 export default new EvaluationController();
