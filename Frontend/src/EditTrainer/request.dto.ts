@@ -1,4 +1,4 @@
 export interface updateTrainerBody {
     id: string;
-    field: string;
+    fieldId: string;
 }

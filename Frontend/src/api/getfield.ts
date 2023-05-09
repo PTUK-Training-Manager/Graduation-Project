@@ -4,7 +4,12 @@ import {BaseResponse} from "src/types";
 export interface GetFieldData {
   map(arg0: (field: any) => { id: any; field: any; }): unknown;
     id: string;
-    field: string;
+    fieldId: string;
+    companyId: string;
+    Field: {
+      id: string;
+      field: string;
+    };
 }
 
 export interface GetFieldesponse extends BaseResponse {

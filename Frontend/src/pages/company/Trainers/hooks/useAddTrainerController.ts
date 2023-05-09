@@ -8,13 +8,26 @@ import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import extractErrorMessage from "src/utils/extractErrorMessage";
 import { useState } from "react";
 import { addTrainerRequest } from "src/addTrainer";
+import { getTrainers } from "../api";
 
 interface useAddTrainerAPIProps {
 }
-
+interface Row {
+    id: string;
+    companyId: string;
+    fieldId: string;
+    Field: {
+      id: string;
+      field: string;
+    };
+    name: string;
+    status: string;
+    userId: string;
+  }
 const AddTrainerQueryKey = ["addTrainerRequest"];
 
 const useAddTrainerFormController = () => {
+    const [updatedata, setUpdateData] = useState<Row[]>([]);
 
     const {showSnackbar} = useSnackbar();
 
@@ -37,7 +50,14 @@ const useAddTrainerFormController = () => {
                 console.log(data.data)
                 if(data.success==true){
                 showSnackbar({severity: "success", message: data.message});
-                // setData((prevData) => [...prevData, data.data]); // update data state with newly added company
+                getTrainers()
+        .then((result) => {
+          setUpdateData((prevData) => [data.data, ...prevData]);
+        console.log(result.data);
+        })
+        .catch((error) => console.log(error));
+
+        console.log(data.data);
                 }else if(data.success==false)
                 showSnackbar({severity: "warning", message: data.message});
 
@@ -51,7 +71,7 @@ const useAddTrainerFormController = () => {
 
     
 
-    return {formikProps, mutate, isLoading};
+    return {formikProps, mutate, isLoading,updatedata};
 };
 
 export default useAddTrainerFormController;

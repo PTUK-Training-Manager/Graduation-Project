@@ -19,7 +19,7 @@ export interface GetTrainersResponse extends BaseResponse {
 }
 
 export const getTrainers = async (): Promise<GetTrainersResponse> => {
-  const url = '/trainer/trainers';
+  const url = '/company/trainers';
   const response = await axiosInstance.get<GetTrainersResponse>(url);
   return response.data;
 };

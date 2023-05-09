@@ -1,6 +1,9 @@
 import * as React from 'react';
+import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 import {
   Box,
   Card,
@@ -9,15 +12,10 @@ import {
   Divider,
   Radio,
   RadioGroup,
+  Stack,
 } from '@mui/material';
-import './style.css';
-import { Row, Evaluation } from '../types';
-
-import { FormControlLabel } from '@mui/material';
-import Checkbox from '@mui/material/Checkbox';
-import { FC, SyntheticEvent } from 'react';
+import { FC } from 'react';
 import useCompletedTraineesController from '../hooks/useCompletedTraineesController';
-
 const bull = (
   <Box
     component="span"
@@ -33,23 +31,19 @@ interface EvaluationFormDialogProps {
   // handleCloseDialog: () => void;
   // data?: Row[];
 }
-const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({
-}) => {
-  const { response,isOpen,currentTab,handleChangeTab,open } = useCompletedTraineesController();
-  console.log(response);
-  console.log(isOpen);
-  console.log(response?.id);
-
+const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({}) => {
+  const { response, isOpen, currentTab, handleChangeTab, open } =
+    useCompletedTraineesController();
+ 
   return (
-    <>
+    <React.Fragment>
+      <Stack sx={{ textAlign: 'center' }}>
+        <Typography variant="h6" sx={{ fontStyle: 'oblique', mt: '20px' }}>
+          Field Traning
+        </Typography>
+      </Stack>
+      <Divider />
       <Container sx={{ p: '50px' }}>
-        <Stack sx={{ textAlign: 'center' }}>
-          <Typography variant="h6" sx={{ fontStyle: 'oblique', mb: '10px' }}>
-            Field Traning
-          </Typography>
-        </Stack>
-        <Divider />
-
         {/* Student */}
 
         <Card sx={{ minWidth: 100, mb: '5px' }}>
@@ -59,13 +53,11 @@ const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({
             </Typography>
 
             <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                Student Name: 
-              </Typography>
+              <Typography sx={{ fontWeight: '600' }}>Student Name:</Typography>
             </Stack>
 
             <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
+              <Typography sx={{ fontWeight: '600' }}>
                 Student Number:
                 <Typography
                   sx={{ mb: 1.5, display: 'inline-block' }}
@@ -77,7 +69,7 @@ const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({
             </Stack>
 
             <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
+              <Typography sx={{ fontWeight: '600' }}>
                 Phone:
                 <Typography
                   sx={{ mb: 1.5, display: 'inline-block' }}
@@ -89,7 +81,7 @@ const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({
             </Stack>
 
             <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
+              <Typography sx={{ fontWeight: '600' }}>
                 academic specialization:
                 <Typography
                   sx={{ mb: 1.5, display: 'inline-block' }}
@@ -104,146 +96,131 @@ const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({
         <Divider />
 
         {/* Company */}
-
-        <Card sx={{ minWidth: 200, mb: '5px' }}>
-          <CardContent>
-            <Typography variant="h6" color="text.secondary" gutterBottom>
+        <Card sx={{ minWidth: '100%', mb: '5px' }}>
+          <CardContent sx={{}}>
+            <Typography variant="h6" gutterBottom>
               Company Information:
             </Typography>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                Company Name:
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
-                </Typography>
-              </Typography>
-            </Stack>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                Email
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
-                </Typography>
-              </Typography>
-            </Stack>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                Phone:
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
-                </Typography>
-              </Typography>
-            </Stack>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                Manegar Name{' '}
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
-                </Typography>
-              </Typography>
-            </Stack>
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                Trainer Name{' '}
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
-                </Typography>
-              </Typography>
-            </Stack>
+            <Grid container spacing={2}>
+              <Grid item xs={8} sm={4}>
+                <TextField
+                  required
+                  id="companyName"
+                  name="companyName"
+                  label="            Company Name         "
+                  autoComplete="given-name"
+                  variant="standard"
+                />
+              </Grid>
+              <Grid item xs={8} sm={4}>
+                <TextField
+                  required
+                  id="email"
+                  name="email"
+                  label="                Email            "
+                  autoComplete="Email"
+                  variant="standard"
+                />
+              </Grid>
+              <Grid item xs={8} sm={4}>
+                <TextField
+                  required
+                  id="phone"
+                  name="phone"
+                  label="Phone Number"
+                  autoComplete="phone"
+                  variant="standard"
+                />
+              </Grid>
+              <Grid item xs={8} sm={4}>
+                <TextField
+                  required
+                  id=" manegarName "
+                  name="manegarName"
+                  label="Manegar Name"
+                  autoComplete="manegarName"
+                  variant="standard"
+                />
+              </Grid>
+              <Grid item xs={8} sm={4}>
+                <TextField
+                  required
+                  id=" trainerName "
+                  name="TrainerName"
+                  label=" Trainer Name"
+                  autoComplete="Trainer"
+                  variant="standard"
+                />
+              </Grid>
+            </Grid>
           </CardContent>
         </Card>
         <Divider />
 
-        <Card sx={{ minWidth: 200, mb: '5px' }}>
-          <CardContent>
-            <Typography variant="h6" color="text.secondary" gutterBottom>
-              Student working time{' '}
+        <Card sx={{ minWidth: '100%', mb: '5px' }}>
+          <CardContent sx={{}}>
+            <Typography variant="h6" gutterBottom>
+              Student working time
             </Typography>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                Starting Date :
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
+            <Grid container spacing={2}>
+              <Grid item xs={8} sm={4}>
+                <TextField
+                  required
+                  id="date"
+                  name="date"
+                  label="  Starting Date "
+                  variant="standard"
+                />
+              </Grid>
+              <Grid item xs={8} sm={4}>
+                <TextField
+                  required
+                  id="date"
+                  name="date"
+                  label="  Ending Date "
+                  variant="standard"
+                />
+              </Grid>
+              <Grid item xs={8} sm={4}>
+                <TextField
+                  required
+                  id="Time"
+                  name="Time"
+                  label="                The daily working period            "
+                  variant="standard"
+                />
+              </Grid>
+              <Grid item xs={8} sm={4}>
+                <TextField
+                  required
+                  id=" absence "
+                  name="absence"
+                  label="                number of absence's Day            "
+                  variant="standard"
+                />
+              </Grid>
+              <Grid item xs={8} sm={4}>
+                <TextField
+                  required
+                  id=" trainingDays "
+                  name="trainingDays"
+                  label="                Number of training days for the student            "
+                  variant="standard"
+                />
+              </Grid>
+              <Grid item xs={8} sm={4}>
+                <Typography sx={{ fontWeight: '600' }}>
+                  Did the student keep working hours?
+                  <FormControlLabel control={<Checkbox />} label="yes" />
+                  <FormControlLabel control={<Checkbox />} label="No" />
                 </Typography>
-              </Typography>
-            </Stack>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                Ending Date{' '}
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
-                </Typography>
-              </Typography>
-            </Stack>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                The daily working period
-                <Typography variant="h5" >
-                  From{bull}nev{bull}To{bull}lent
-                </Typography>
-              </Typography>
-            </Stack>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                number of absence's Day
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
-                </Typography>
-              </Typography>
-            </Stack>
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                Number of training days for the student
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
-                </Typography>
-              </Typography>
-            </Stack>
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
-                Did the student keep working hours?
-                <FormControlLabel control={<Checkbox disabled />} label="yes" />
-                <FormControlLabel control={<Checkbox disabled />} label="No" />
-              </Typography>
-            </Stack>
+              </Grid>
+            </Grid>
           </CardContent>
         </Card>
         <Divider />
+
+        {/* Student benefit from training: */}
 
         <Card sx={{ minWidth: 200, mb: '5px' }}>
           <CardContent>
@@ -252,21 +229,23 @@ const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({
             </Typography>
 
             <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
+              <Typography sx={{ fontWeight: '600', display: 'inline-block' }}>
                 The main work done by the student during the training
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
-                </Typography>
+                <TextField
+                  sx={{ display: 'inline-block' }}
+                  required
+                  id=" trainingDays "
+                  name="trainingDays"
+                  label=""
+                  variant="standard"
+                />
               </Typography>
             </Stack>
 
             <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
+              <Typography sx={{ fontWeight: '600' }}>
                 The ability of the student to carry out the tasks assigned to
-                him
+                him was:
                 <Typography
                   sx={{ mb: 1.5, display: 'inline-block' }}
                   color="text.secondary"
@@ -277,35 +256,28 @@ const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({
                     name="row-radio-buttons-group"
                   >
                     <FormControlLabel
-                      disabled
                       value="Exelant"
                       control={<Radio />}
                       label="Exelant"
                     />
                     <FormControlLabel
-                      disabled
                       value="Very Good"
                       control={<Radio />}
                       label="Very Good "
                     />
                     <FormControlLabel
-                      disabled
                       value="Good"
                       control={<Radio />}
                       label="Good"
                     />
-                    <FormControlLabel
-                      disabled
-                      control={<Radio />}
-                      label="weak"
-                    />
+                    <FormControlLabel control={<Radio />} label="weak" />
                   </RadioGroup>{' '}
                 </Typography>
               </Typography>
             </Stack>
 
             <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
+              <Typography sx={{ fontWeight: '600' }}>
                 The student's ability to benefit from the work assigned to him
                 was:
                 <Typography
@@ -318,35 +290,28 @@ const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({
                     name="row-radio-buttons-group"
                   >
                     <FormControlLabel
-                      disabled
                       value="Exelant"
                       control={<Radio />}
                       label="Exelant"
                     />
                     <FormControlLabel
-                      disabled
                       value="Very Good"
                       control={<Radio />}
                       label="Very Good "
                     />
                     <FormControlLabel
-                      disabled
                       value="Good"
                       control={<Radio />}
                       label="Good"
                     />
-                    <FormControlLabel
-                      disabled
-                      control={<Radio />}
-                      label="weak"
-                    />
+                    <FormControlLabel control={<Radio />} label="weak" />
                   </RadioGroup>{' '}
                 </Typography>
               </Typography>
             </Stack>
 
             <Stack>
-              <Typography sx={{ fontWeight: '600' }} >
+              <Typography sx={{ fontWeight: '600' }}>
                 The practical application of the theoretical subjects studied by
                 the student in the college was:
                 <Typography
@@ -359,28 +324,21 @@ const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({
                     name="row-radio-buttons-group"
                   >
                     <FormControlLabel
-                      disabled
                       value="Exelant"
                       control={<Radio />}
                       label="Exelant"
                     />
                     <FormControlLabel
-                      disabled
                       value="Very Good"
                       control={<Radio />}
                       label="Very Good "
                     />
                     <FormControlLabel
-                      disabled
                       value="Good"
                       control={<Radio />}
                       label="Good"
                     />
-                    <FormControlLabel
-                      disabled
-                      control={<Radio />}
-                      label="weak"
-                    />
+                    <FormControlLabel control={<Radio />} label="weak" />
                   </RadioGroup>{' '}
                 </Typography>
               </Typography>
@@ -388,8 +346,9 @@ const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({
           </CardContent>
         </Card>
         <Divider />
+     
       </Container>
-    </>
+    </React.Fragment>
   );
 };
 export default EvaluationFormDialog;

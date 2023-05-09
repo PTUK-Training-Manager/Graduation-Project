@@ -3,4 +3,5 @@ export interface addTrainerRequestBody {
     name: string;
     email: string;
     fieldId: string;
+    phoneNumber: string;
 }

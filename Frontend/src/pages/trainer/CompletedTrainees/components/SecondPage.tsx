@@ -1,24 +1,21 @@
 import * as React from 'react';
-import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 import {
   Box,
   Card,
   CardContent,
   Container,
   Divider,
-  FormControl,
-  MenuItem,
   Radio,
   RadioGroup,
-  Select,
-  SelectChangeEvent,
+  Stack,
 } from '@mui/material';
-import './style.css';
-import { FormControlLabel } from '@mui/material';
-import { useState } from 'react';
-
+import { FC } from 'react';
+import useCompletedTraineesController from '../hooks/useCompletedTraineesController';
 const bull = (
   <Box
     component="span"
@@ -27,25 +24,32 @@ const bull = (
     •
   </Box>
 );
-export default function Review() {
-  const [houer, setHouer] = useState('0');
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setHouer(event.target.value as any);
-  };
+interface EvaluationFormDialogProps {
+  // isOpen: boolean;
+  // currentTab: string;
+  // handleChangeTab: (event: SyntheticEvent, newValue: string) => void;
+  // handleCloseDialog: () => void;
+  // data?: Row[];
+}
+const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({}) => {
+  const { response, isOpen, currentTab, handleChangeTab, open } =
+    useCompletedTraineesController();
+  
   return (
-    <>
+    <React.Fragment>
+      <Stack sx={{ textAlign: 'center' }}>
+        <Typography variant="h6" sx={{ fontStyle: 'oblique', mb: '10px' }}>
+          Field Traning
+        </Typography>
+      </Stack>
+      <Divider />
       <Container sx={{ p: '50px' }}>
-        <Stack sx={{ textAlign: 'center' }}>
-          <Typography variant="h6" sx={{ fontStyle: 'oblique', mb: '10px' }}>
-            Field Traning
-          </Typography>
-        </Stack>
+        {/* Student */}
 
-        <Card sx={{ minWidth: 200, mb: '5px' }}>
+        <Card sx={{ minWidth: 100, mb: '5px' }}>
           <CardContent>
             <Typography variant="h6" color="text.secondary" gutterBottom>
-              Evaluation of student behavior:
+            Evaluation of student behavior:
             </Typography>
 
             <Stack>
@@ -62,24 +66,24 @@ export default function Review() {
                     name="row-radio-buttons-group"
                   >
                     <FormControlLabel
-                    disabled
+                    
                       value="Exelant"
                       control={<Radio />}
                       label="Exelant"
                     />
                     <FormControlLabel
-                    disabled
+                    
                       value="Very Good"
                       control={<Radio />}
                       label="Very Good "
                     />
                     <FormControlLabel
-                    disabled
+                    
                       value="Good"
                       control={<Radio />}
                       label="Good"
                     />
-                    <FormControlLabel disabled control={<Radio />} label="weak" />
+                    <FormControlLabel  control={<Radio />} label="weak" />
                   </RadioGroup>{' '}
                 </Typography>
               </Typography>
@@ -98,152 +102,116 @@ export default function Review() {
                     name="row-radio-buttons-group"
                   >
                     <FormControlLabel
-                    disabled
+                    
                       value="Exelant"
                       control={<Radio />}
                       label="Exelant"
                     />
                     <FormControlLabel
-                    disabled
+                    
                       value="Very Good"
                       control={<Radio />}
                       label="Very Good "
                     />
                     <FormControlLabel
-                    disabled
+                    
                       value="Good"
                       control={<Radio />}
                       label="Good"
                     />
-                    <FormControlLabel disabled control={<Radio />} label="weak" />
+                    <FormControlLabel  control={<Radio />} label="weak" />
                   </RadioGroup>{' '}
                 </Typography>
               </Typography>
             </Stack>
+      
           </CardContent>
         </Card>
         <Divider />
 
-        <Card sx={{ minWidth: 200, mb: '5px' }}>
-          <CardContent>
-            <Typography variant="h6" color="text.secondary" gutterBottom>
-              Administrator:
+        {/* Company */}
+        <Card sx={{ minWidth: '100%', mb: '5px' }}>
+          <CardContent sx={{}}>
+            <Typography variant="h6" gutterBottom>
+            Administrator:
             </Typography>
-            <Typography sx={{ fontWeight: '600' }} component="div">
-              Name
-              <Typography
-                sx={{ mb: 1.5, display: 'inline-block' }}
-                color="text.secondary"
-              >
-                ..........
-              </Typography>
-            </Typography>
-            <Typography sx={{ fontWeight: '600' }} component="div">
-              position
-              <Typography
-                sx={{ mb: 1.5, display: 'inline-block' }}
-                color="text.secondary"
-              >
-                ..........
-              </Typography>
-            </Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={8} sm={4}>
+                <TextField
+                  required
+                  id="name"
+                  name="Name"
+                  label=" Name "
+                  autoComplete="given-name"
+                  variant="standard"
+                />
+              </Grid>
+              <Grid item xs={8} sm={4}>
+                <TextField
+                  required
+                  id="position"
+                  name="position"
+                  label="                Position"
+                  variant="standard"
+                />
+              </Grid>
+              <Grid item xs={8} sm={4}>
+                <TextField
+                  required
+                  id="phone"
+                  name="phone"
+                  label="Phone Number"
+                  autoComplete="phone"
+                  variant="standard"
+                />
+              </Grid>  
+            </Grid>
           </CardContent>
         </Card>
         <Divider />
 
-        <Card sx={{ minWidth: 200, mb: '5px' }}>
-          <CardContent>
-            <Typography variant="h6" color="text.secondary" gutterBottom>
-              Training Officer Notes:
+        <Card sx={{ minWidth: '100%', mb: '5px' }}>
+          <CardContent sx={{}}>
+            <Typography variant="h6" gutterBottom>
+            Training Officer Notes:
             </Typography>
-            <Typography sx={{ fontWeight: '600' }} component="div">
-              Name:
-              <Typography
-                sx={{ mb: 1.5, display: 'inline-block' }}
-                color="text.secondary"
-              >
-                ..........
-              </Typography>
-            </Typography>
-            <Typography sx={{ fontWeight: '600' }} component="div">
-              position
-              <Typography
-                sx={{ mb: 1.5, display: 'inline-block' }}
-                color="text.secondary"
-              >
-                ..........
-              </Typography>
-            </Typography>
+            <Grid container spacing={2}>
+              <Grid item xs={8} sm={4}>
+                <TextField
+                  required
+                  id="name"
+                  name="Name"
+                  label=" Name "
+                  autoComplete="given-name"
+                  variant="standard"
+                />
+              </Grid>
+              <Grid item xs={8} sm={4}>
+                <TextField
+                  required
+                  id="position"
+                  name="position"
+                  label="                Position"
+                  variant="standard"
+                />
+              </Grid>
+              <Grid item xs={8} sm={4}>
+                <TextField
+                  required
+                  id="note"
+                  name="note"
+                  label="Note"
+                  autoComplete="phone"
+                  variant="standard"
+                />
+              </Grid>  
+            </Grid>
           </CardContent>
         </Card>
-
         <Divider />
-
-        <Card sx={{ minWidth: 200, mb: '5px' }}>
-          <CardContent>
-            <Typography variant="h6" color="text.secondary" gutterBottom>
-              University Training Officer Notes:
-            </Typography>
-            <Typography sx={{ fontWeight: '600' }} component="div">
-              Name:
-              <Typography
-                sx={{ mb: 1.5, display: 'inline-block' }}
-                color="text.secondary"
-              >
-                ..........
-              </Typography>
-            </Typography>
-            <Typography sx={{ fontWeight: '600' }} component="div">
-              note
-              <Typography
-                sx={{ mb: 1.5, display: 'inline-block' }}
-                color="text.secondary"
-              >
-                ..........
-              </Typography>
-            </Typography>
-            <Typography sx={{ fontWeight: '600' }} component="div">
-              First training hours :
-              <FormControl sx={{ m: 1, minWidth: 120 }}>
-                <Select
-                disabled
-                  sx={{ height: '25px', width: '60px' }}
-                  value={houer}
-                  onChange={handleChange}
-                  displayEmpty
-                  inputProps={{ 'aria-label': 'Without label' }}
-                >
-                  <MenuItem  value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>200</MenuItem>
-                  <MenuItem value={20}>400</MenuItem>
-                </Select>
-              </FormControl>
-            </Typography>
-            <Typography sx={{ fontWeight: '600' }} component="div">
-              Second training hours :
-              <FormControl sx={{ m: 1, minWidth: 120 }}>
-
-                <Select
-                disabled
-                  sx={{ height: '25px', width: '60px' }}
-                  value={houer}
-                  onChange={handleChange}
-                  displayEmpty
-                  inputProps={{ 'aria-label': 'Without label' }}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>200</MenuItem>
-                  <MenuItem value={20}></MenuItem>
-                </Select>
-              </FormControl>
-            </Typography>
-          </CardContent>
-        </Card>
+     
       </Container>
-    </>
+    </React.Fragment>
   );
-}
+};
+export default EvaluationFormDialog;

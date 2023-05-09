@@ -1,15 +1,14 @@
 import React, {SyntheticEvent, useEffect, useState} from "react";
 import {getCompletedTrainees} from "src/pages/university/CompletedTrainees/api";
 import {Row,Evaluation} from "../types";
-import {IconButton, Tooltip} from "@mui/material";
+import {Button, IconButton, Tooltip} from "@mui/material";
 import PrintIcon from "@mui/icons-material/Print";
 import { getEvaluations } from "src/api/getEvaluation";
-import { Feed } from "@mui/icons-material";
 import {EvaluationData, EvaluationFormResponse} from "src/api/types";
+import { Feed, InsertDriveFile } from "@mui/icons-material";
 
 
-
-const useCompletedTraineesController = () => {
+const useCompletedTrainingController = () => {
 
     const [data, setData] = useState<Row[]>([]);
     const [isOpen, setIsOpen] = useState(false);
@@ -46,14 +45,15 @@ const useCompletedTraineesController = () => {
         {
             field: 'Question Form',
             headerName: 'Question Form',
-            width: 300,
+            width: 250,
             flex: .3,
             filterable: false,
             sortable: false,
             renderCell: (params: { id: any }) => (
-                <IconButton sx={{ml: 3.5}} aria-label="progress form" onClick={() => handleOpenDialog(params.id)}
+                <>
+                <IconButton sx={{mr: '3.5px',p:'33px'}} aria-label="Evaluation " onClick={() => handleOpenDialog(params.id)}
                 >
-                    <Feed
+                    <InsertDriveFile
                     color="warning"
                         sx={{
                             borderRadius: '5px',
@@ -61,6 +61,10 @@ const useCompletedTraineesController = () => {
                         }}
                     />
                 </IconButton>
+                <Button size="small" variant="contained" href="#contained-buttons" color="success">
+  Submit
+</Button>
+    </>
             ),
         },
     ];
@@ -110,4 +114,4 @@ const useCompletedTraineesController = () => {
     }
 };
 
-export default useCompletedTraineesController;
+export default useCompletedTrainingController;

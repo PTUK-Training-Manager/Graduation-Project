@@ -9,11 +9,16 @@ import {
   useGridApiContext,
   useGridSelector,
 } from '@mui/x-data-grid';
+import dayjs, { Dayjs } from 'dayjs';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import './AcceptedRequests.css';
-import theme from "src/styling/customTheme";
+import theme from 'src/styling/customTheme';
+import { assignTrainerRequestBody } from 'src/assignTrainer/request.dto';
 import { getAcceptedTrainings } from './api';
 import { assignTrainer } from 'src/assignTrainer';
-import { assignTrainerRequestBody } from 'src/assignTrainer/request.dto';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import {
@@ -25,10 +30,13 @@ import {
   Grid,
   IconButton,
   Stack,
+  TextField,
+  TextFieldProps,
   Typography,
 } from '@mui/material';
 import { getTrainers } from '../Trainers/api';
 import useSnackbar from 'src/hooks/useSnackbar';
+import { Divider } from '@mui/joy';
 
 function Pagination({
   page,
@@ -70,7 +78,11 @@ interface Row {
 interface Trainer {
   id: string;
   companyId: string;
-  field: string;
+  fieldId: string;
+  Field: {
+    id: string;
+    field: string;
+  };
   name: string;
   status: string;
   userId: string;
@@ -80,9 +92,12 @@ const AcceptedTrainings: React.FC = () => {
   const [data, setData] = useState<Row[]>([]);
   const [trainingID, setTrainingID] = useState<string>('');
   const [trainerID, setTrainerID] = useState<string>('');
+  const [startDate, setStartDate] = useState<Date>(new Date());
   const [joinDialogOpen, setJoinDialogOpen] = useState<boolean>(false);
   const [availableTrainers, setAvailableTrainers] = useState<Trainer[]>([]);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
+  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs(''));
+
   const { showSnackbar } = useSnackbar();
 
   const handleverifyClick = () => {
@@ -92,7 +107,17 @@ const AcceptedTrainings: React.FC = () => {
   const handleVerifyCancel = () => {
     setConfirmDialogOpen(false);
     setJoinDialogOpen(false);
+    setSelectedDate(null)
   };
+
+  const trainerrows = availableTrainers.map((row) => ({
+    id: row.id,
+    name: row.name,
+    field: row.Field.field,
+    status: row.status,
+    companyId: row.companyId,
+    userId: row.userId,
+  })); 
 
   const trainerColumns = [
     { field: 'id', headerName: 'Trainer Id', width: 400, flex: 0.3 },
@@ -133,6 +158,7 @@ const AcceptedTrainings: React.FC = () => {
     try {
       const result = await getTrainers();
       setAvailableTrainers(result.data);
+      console.log(result.data);
     } catch (error) {
       console.log(error);
     }
@@ -147,6 +173,7 @@ const AcceptedTrainings: React.FC = () => {
     const body: assignTrainerRequestBody = {
       trainingId: trainingID,
       trainerId: trainerID,
+      startDate: selectedDate,
     };
     assignTrainer(body)
       .then((result) => {
@@ -173,14 +200,14 @@ const AcceptedTrainings: React.FC = () => {
   }, []);
 
   const columns = [
-    { field: 'studentId', headerName: 'Student Number', width: 200,flex:0.3 },
-    { field: 'studentName', headerName: 'Student Name', width: 200,flex:0.3 },
-    { field: 'branch', headerName: 'Company Branch', width: 200,flex:0.3 },
+    { field: 'studentId', headerName: 'Student Number', width: 200, flex: 0.3 },
+    { field: 'studentName', headerName: 'Student Name', width: 200, flex: 0.3 },
+    { field: 'branch', headerName: 'Company Branch', width: 200, flex: 0.3 },
     {
       field: 'join',
       headerName: 'Join Trainer',
       width: 200,
-      flex:0.3,
+      flex: 0.3,
       headerClassName: 'ctrainees',
       filterable: false,
       sortable: false,
@@ -213,13 +240,16 @@ const AcceptedTrainings: React.FC = () => {
     <>
       <Dialog open={joinDialogOpen} onClose={handleJoinDialogClose}>
         <DialogContent>
-          <div style={{ height: 400, width: '100%' }}>
+          <Stack gap={1} style={{ height: 400, width: '100%' }}>
+          <Typography component="h1" variant="h5" fontWeight={500}>
+             Trainers
+          </Typography>
             <DataGrid
               sx={{
                 width: '500px', // set the width to 800px
               }}
               columns={trainerColumns}
-              rows={availableTrainers}
+              rows={trainerrows}
               getRowId={(row) => row['id']}
               initialState={{
                 pagination: { paginationModel: { pageSize: 30 } },
@@ -230,7 +260,7 @@ const AcceptedTrainings: React.FC = () => {
                 pagination: CustomPagination,
               }}
             />
-          </div>
+          </Stack>
         </DialogContent>
         <DialogActions>
           <Button
@@ -251,7 +281,19 @@ const AcceptedTrainings: React.FC = () => {
       >
         <DialogTitle>Verify Joining</DialogTitle>
         <DialogContent>
-          Are you sure you want to join this trainer to this training?
+        <Stack spacing={2} sx={{width:'250px'}}>
+          <Typography>Choose starting date for trainee if you want!</Typography>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DemoContainer components={['DatePicker', 'DatePicker']}>
+          <DatePicker
+          label="Date for start Training"
+          value={selectedDate}
+          onChange={(newValue) => setSelectedDate(newValue)}
+        />
+            </DemoContainer>
+            </LocalizationProvider>
+            <Typography sx={{fontWeight:"600"}}>Are you sure you want to join this trainer to this training?</Typography>
+          </Stack>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleVerifyCancel} color="primary">
@@ -263,43 +305,49 @@ const AcceptedTrainings: React.FC = () => {
         </DialogActions>
       </Dialog>
 
-      <Grid container sx={{
-            p: 3,
-            justifyContent: "center",
-            alignItems: "center",
-            height: `calc(100vh - ${theme.mixins.toolbar.height}px)`,
-        }}>
-            <Stack gap={1.5} sx={{
-                width: '100%',
-                height: '100%',
-            }}>
-                <Typography component="h1" variant="h5" fontWeight={500}>
-                    Accepted Requests
-                </Typography>
-                <DataGrid
-                    className="dataGrid"
-                    sx={{
-                        boxShadow: 10,
-                        border: 1,
-                        borderColor: '#cacaca',
-                        '& .MuiDataGrid-cell:hover': {
-                            color: 'primary.main'
-                        }
-                    }}
-                    columns={columns}
-                    rows={rows}
-                    getRowId={(row) => row['id']}
-                    initialState={{
-                        pagination: {paginationModel: {pageSize: 30}},
-                    }}
-                    pageSizeOptions={[10, 20, 30]}
-                    slots={{
-                        toolbar: GridToolbar,
-                        pagination: CustomPagination,
-                    }}
-                />
-            </Stack>
-        </Grid>
+      <Grid
+        container
+        sx={{
+          p: 3,
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: `calc(100vh - ${theme.mixins.toolbar.height}px)`,
+        }}
+      >
+        <Stack
+          gap={1.5}
+          sx={{
+            width: '100%',
+            height: '100%',
+          }}
+        >
+          <Typography component="h1" variant="h5" fontWeight={500}>
+            Accepted Requests
+          </Typography>
+          <DataGrid
+            className="dataGrid"
+            sx={{
+              boxShadow: 10,
+              border: 1,
+              borderColor: '#cacaca',
+              '& .MuiDataGrid-cell:hover': {
+                color: 'primary.main',
+              },
+            }}
+            columns={columns}
+            rows={rows}
+            getRowId={(row) => row['id']}
+            initialState={{
+              pagination: { paginationModel: { pageSize: 30 } },
+            }}
+            pageSizeOptions={[10, 20, 30]}
+            slots={{
+              toolbar: GridToolbar,
+              pagination: CustomPagination,
+            }}
+          />
+        </Stack>
+      </Grid>
     </>
   );
 };

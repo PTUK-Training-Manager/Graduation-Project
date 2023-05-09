@@ -109,51 +109,25 @@ const Trainers: React.FC = () => {
   const [fieldOptions, setFieldOptions] = useState<FieldOption[]>([]);
 
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
-  // const { formikProps, isLoading } = useAddTrainerFormController();
+  const { formikProps, isLoading, updatedata } = useAddTrainerFormController();
 
   interface FieldOption {
+    map(arg0: (field: any) => { id: any; field: any }): unknown;
     id: string;
-    field: string;
+    fieldId: string;
+    companyId: string;
+    Field: {
+      id: string;
+      field: string;
+    };
   }
-  // const {showSnackbar} = useSnackbar();
 
-  const formikProps = useFormik({
-    initialValues: INITIAL_FORM_STATE,
-    onSubmit: (values, { resetForm }) => {
-      mutate(values);
-      resetForm();
-      formikProps.setFieldValue('field', null);
-    },
-    validationSchema,
-    validateOnMount: true,
-  });
   const { isValid } = formikProps;
-
-  const { mutate, isLoading } = useMutation(
-    AddTrainerQueryKey,
-    addTrainerRequest,
-    {
-      onSuccess: (data) => {
-        console.log(data.data);
-        if (data.success == true) {
-          showSnackbar({ severity: 'success', message: data.message });
-          setData((prevData) => [...prevData, data.data]); // update data state with newly added company
-        } else if (data.success == false)
-          showSnackbar({ severity: 'warning', message: data.message });
-      },
-      onError: (error: AxiosBaseError) => {
-        const errorMessage = extractErrorMessage(error);
-        showSnackbar({
-          severity: 'error',
-          message: errorMessage ?? 'Error in Adding Company',
-        });
-      },
-    }
-  );
 
   const handleChange = () => {
     setOpen((prev) => !prev);
   };
+
   useEffect(() => {
     getTrainers()
       .then((result) => {
@@ -161,21 +135,23 @@ const Trainers: React.FC = () => {
         console.log(result.data);
       })
       .catch((error) => console.log(error));
-  }, []);
+  }, [updatedata]);
 
   useEffect(() => {
     getField().then((res) => {
       if (res.success) {
+        console.log(res.data);
         const options = res.data.map((field) => ({
           id: field.id,
-          field: field.field,
+          fieldId: field.Field.id,
+          companyId: field.Field.field,
+          Field: field.Field,
         })) as FieldOption[];
         setFieldOptions(options);
+        console.log(fieldOptions);
       }
     });
   }, []);
-
-  
 
   const handleDeleteRequest = () => {
     deleteTrianer({ id: deleteId }).then(
@@ -224,29 +200,36 @@ const Trainers: React.FC = () => {
   };
 
   const handleSave = () => {
-    updateTrianer({ id: updateId, field: updateField }).then(
-      (res: { success: boolean; message: any }) => {
-        if (res.success === true) {
-          showSnackbar({ severity: 'success', message: res.message });
-          setData((prevData) =>
-            prevData.map((row) => {
-              if (row.id === updateId) {
-                return { ...row, field: updateField };
-              }
-              return row;
-            })
-          );
-          setUpdateId('');
-          // setUpdateField(null);
-          setOpenUpdate(false);
-        } else if (res.success === false) {
-          showSnackbar({ severity: 'warning', message: res.message });
-          setUpdateId('');
-          // setUpdateField(null);
-          setOpenUpdate(false);
-        }
+    updateTrianer({ id: updateId, fieldId: updateField }).then((res) => {
+      console.log(updateId);
+      console.log(updateField);
+      if (res.success === true) {
+        const fieldName = res.data.Field.field;
+        showSnackbar({ severity: 'success', message: res.message });
+        setData((prevData) =>
+          prevData.map((row) => {
+            if (row.id === updateId) {
+              return {
+                ...row,
+                Field: {
+                  ...row.Field,
+                  field: fieldName,
+                },
+              };
+            }
+            return row;
+          })
+        );
+        setUpdateId('');
+        // setUpdateField(null);
+        setOpenUpdate(false);
+      } else if (res.success === false) {
+        showSnackbar({ severity: 'warning', message: res.message });
+        setUpdateId('');
+        // setUpdateField(null);
+        setOpenUpdate(false);
       }
-    );
+    });
     console.log(`New value: ${updateField}`);
     console.log(`Training ID : ${updateId}`);
     handleClose();
@@ -291,7 +274,7 @@ const Trainers: React.FC = () => {
               <Autocomplete
                 id="field"
                 options={fieldOptions}
-                getOptionLabel={(option) => option.field}
+                getOptionLabel={(option) => option.Field.field}
                 renderInput={(params) => (
                   <TextField
                     {...params}
@@ -454,26 +437,29 @@ const Trainers: React.FC = () => {
                               type="email"
                               name="email"
                             />
+                            <TextFieldWrapper
+                              label="Phone Number"
+                              name="phoneNumber"
+                            />
                             <FormControl fullWidth>
                               <Autocomplete
                                 id="field"
                                 options={fieldOptions}
-                                getOptionLabel={(option) => option.field}
-                                renderInput={(params) => (
-                                  <TextField
-                                    {...params}
-                                    margin="dense"
-                                    label="Field"
-                                    variant="outlined"
-                                  />
-                                )}
+                                getOptionLabel={(option) => option.Field.field}
                                 onChange={(event, newValue) => {
                                   formikProps.setFieldValue(
                                     'fieldId',
                                     newValue?.id || ''
                                   );
-                                  setUpdeteField(newValue?.id || '');
+                                  setField(newValue?.id || '');
                                 }}
+                                renderInput={(params) => (
+                                  <TextField
+                                    {...params}
+                                    label="Field"
+                                    variant="outlined"
+                                  />
+                                )}
                               />
                             </FormControl>
                           </Stack>

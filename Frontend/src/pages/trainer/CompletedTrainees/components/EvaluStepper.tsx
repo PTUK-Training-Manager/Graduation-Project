@@ -7,7 +7,6 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import FirstPage from './FirstPage';
 import SecondPage from './SecondPage';
-import ForthPage from './ForthPage';
 import useCompletedTraineesController from '../hooks/useCompletedTraineesController';
 const steps = ['Select campaign settings', 'Create an ad group', 'Create an ad'];
 
@@ -89,11 +88,7 @@ export default function EvaluStepper() {
         <React.Fragment>
           {activeStep===0 && <FirstPage 
           
-              // isOpen={isOpen}
-              // currentTab={currentTab}
-              // handleChangeTab={handleChangeTab}
-              // handleCloseDialog={handleCloseDialog}
-              // data={data}
+              
           />}
           {activeStep===1 && <SecondPage/>}
 
