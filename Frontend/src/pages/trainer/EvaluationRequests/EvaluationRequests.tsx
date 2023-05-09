@@ -1,22 +1,36 @@
-import React, {
-  JSXElementConstructor,
-  ReactElement,
-  ReactFragment,
-  ReactPortal,
-} from 'react';
+import React, { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
+import { getPendingEvaluations } from './api';
+
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import './EvaluRequest.css';
+import { rejectEvaluationRequest } from './api';
 import theme from 'src/styling/customTheme';
 import useEvaluationRequestController from './hooks/useEvaluationRequestController';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Dialog from '@mui/material/Dialog';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import Accordion from '@mui/material/Accordion';
+import PersonIcon from '@mui/icons-material/Person';
+import { TextField } from '@mui/material';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
+import { acceptEvaluationRequest } from './api';
 import { LibraryAddCheck, DisabledByDefault } from '@mui/icons-material';
-import { Tooltip, IconButton, Box, Card, CardContent } from '@mui/material';
+import {
+  Tooltip,
+  IconButton,
+  Box,
+  Card,
+  CardContent,
+  Button,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from '@mui/material';
+import useSnackbar from 'src/hooks/useSnackbar';
+import { PendingProgressRequests } from './types';
 interface QuestionDialogProps {
   isOpen: boolean;
   currentTab: string;
@@ -29,15 +43,90 @@ interface QuestionDialogProps {
 }
 
 const EvaluationRequests: React.FC = () => {
-  const {
-    response,
-    isOpen,
-    expanded,
-    handleOpenDialog,
+  const [openAcceptRequestDialog, setOpenAcceptRequestDialog] = useState(false);
+  const [openRejectRequestDialog, setOpenRejectRequestDialog] = useState(false);
+  const [writeNoteOpenDialog, setWriteNoteOpenDialog] = useState(false);
+  const [note, setNote] = useState('');
+  const [response, setReponse] = useState<PendingProgressRequests[]>([]);
+  const [requestId, setRequestId] = useState('');
+  const { showSnackbar } = useSnackbar();
 
-    handleCloseDialog,
-    handleOpenAcordion,
-  } = useEvaluationRequestController();
+  const handleAcceptRequestOpen = (id: string) => {
+    setRequestId(id);
+    setOpenAcceptRequestDialog(true);
+  };
+
+  const handleAcceptRequestClose = () => {
+    setOpenAcceptRequestDialog(false);
+  };
+
+  const handleRejectRequestOpen = (id: string) => {
+    setRequestId(id);
+    setOpenRejectRequestDialog(true);
+  };
+
+  const handleRejectRequestClose = () => {
+    setOpenRejectRequestDialog(false);
+  };
+
+  const handleWriteNoteOpen = () => {
+    setWriteNoteOpenDialog(true);
+    setNote('');
+  };
+
+  const handleWriteNoteClose = () => {
+    setOpenRejectRequestDialog(false);
+    setWriteNoteOpenDialog(false);
+  };
+
+  const handleWriteNoteSave = () => {
+    rejectEvaluationRequest({ id: requestId,note: note }).then(
+      (res: { success: boolean; message: any }) => {
+        if (res.success === true) {
+          showSnackbar({ severity: 'success', message: res.message });
+          setReponse((prevData) =>
+            prevData.filter((row) => row.id !== requestId)
+          );
+          setRequestId('');
+          setNote('')
+          handleWriteNoteClose()
+        } else if (res.success === false) {
+          showSnackbar({ severity: 'warning', message: res.message });
+          setRequestId('');
+          setNote('')
+          handleWriteNoteClose()
+        }
+      }
+    );
+  };
+
+  const handleAcceptRequestClick = () => {
+    acceptEvaluationRequest({ id: requestId }).then(
+      (res: { success: boolean; message: any }) => {
+        if (res.success === true) {
+          showSnackbar({ severity: 'success', message: res.message });
+          setReponse((prevData) =>
+            prevData.filter((row) => row.id !== requestId)
+          );
+          setRequestId('');
+          setOpenAcceptRequestDialog(false);
+        } else if (res.success === false) {
+          showSnackbar({ severity: 'warning', message: res.message });
+          setRequestId('');
+          setOpenAcceptRequestDialog(false);
+        }
+      }
+    );
+  };
+
+  useEffect(() => {
+    getPendingEvaluations()
+      .then((result) => {
+        setReponse(result.data);
+        console.log(result.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   return (
     <>
@@ -60,122 +149,175 @@ const EvaluationRequests: React.FC = () => {
           <Typography component="h1" variant="h5" fontWeight={500}>
             Evaluation Request
           </Typography>
-          {response?.map(
-            (
-              item,
-              index: number
-            ) => (
-              <Accordion
-                expanded={expanded === 'panel1'}
-                onChange={handleOpenAcordion('panel1')}
+          {response?.map((item, index: number) => (
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon color="action" />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
               >
+                <Stack spacing={2} gap={2} direction="row" alignItems="center">
+                  <Stack spacing={2} gap={2} direction="row">
+                    <Stack direction="row">
+                      <Tooltip title={'Student Name'}>
+                        <PersonIcon />
+                      </Tooltip>
+                      <Typography variant="body1" sx={{ fontWeight: '600' }}>
+                        {item.Training.Student.name}
+                      </Typography>
+                    </Stack>
 
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1bh-content"
-                  id="panel1bh-header"
-                >
-                  <Stack direction="row" alignItems="center">
-    <Typography variant="body1" sx={{ flexGrow: 1 }}>
-      {item.Training.Student.name}
-    </Typography>
-    <>
-                  <Box className="buttons">
-                    <Tooltip title={'Accept'}>
-                      <IconButton
-                        sx={{ ml: 2.5 }}
-                        aria-label={'form 1'}
-                        size="small"
-                      >
-                        <LibraryAddCheck
-                          sx={{ color: '#367E18'}}
-                          color="info"
-                          className="print-icon"
-                        />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title={'Reject'}>
-                      <IconButton
-                        sx={{ ml: 2.5 }}
-                        aria-label={'form 1'}
-                        size="small"
-                        onClick={() => handleOpenDialog()}
-                      >
-                        <DisabledByDefault
-                          sx={{ color: '#D21312' }}
-                          color="info"
-                          className="print-icon"
-                        />
-                      </IconButton>
-                    </Tooltip>
+                    <Stack direction="row">
+                      <Tooltip title={'Date'}>
+                        <CalendarMonthIcon />
+                      </Tooltip>
+                      <Typography variant="body1" sx={{ fontWeight: '600' }}>
+                        {item.date}
+                      </Typography>
+                    </Stack>
+                  </Stack>
+                  <>
+                    <Box className="buttons">
+                      <Tooltip title={'Accept'}>
+                        <IconButton
+                          sx={{ ml: 2.5 }}
+                          aria-label={'form 1'}
+                          size="small"
+                          onClick={() => handleAcceptRequestOpen(item.id)}
+                        >
+                          <LibraryAddCheck
+                            sx={{ color: '#367E18' }}
+                            color="info"
+                            className="print-icon"
+                          />
+                        </IconButton>
+                      </Tooltip>
+                      <Tooltip title={'Reject'}>
+                        <IconButton
+                          sx={{ ml: 2.5 }}
+                          aria-label={'form 1'}
+                          size="small"
+                          onClick={() => handleRejectRequestOpen(item.id)}
+                        >
+                          <DisabledByDefault
+                            sx={{ color: '#D21312' }}
+                            color="info"
+                            className="print-icon"
+                          />
+                        </IconButton>
+                      </Tooltip>
                     </Box>
                   </>
-                  </Stack>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <Box sx={{ width: '100%', typography: 'body1' }}>
-                    <Box sx={{ borderBottom: 1, borderColor: 'divider' }}></Box>
-                    <Card
-                      sx={{
-                        minWidth: 275,
-                        borderLeft: 6,
-                        borderColor: 'orange',
-                      }}
-                    >
-                      <CardContent>
-                        <Stack spacing={2}>
-                          <Stack gap={1.5} direction="row">
-                            <Typography>
-                              Start Time: {item.startTime}
-                            </Typography>
-                          </Stack>
-                          <Stack gap={1.5} direction="row">
-                            <Typography>End Time: {item.endTime} </Typography>
-                          </Stack>
-                          <Stack gap={1.5} direction="row">
-                            <Typography>Skills: {item.skills} </Typography>
-                          </Stack>
+                </Stack>{' '}
+              </AccordionSummary>
+              <AccordionDetails>
+                <Box sx={{ width: '100%', typography: 'body1' }}>
+                  <Box sx={{ borderBottom: 1, borderColor: 'divider' }}></Box>
+                  <Card
+                    sx={{
+                      minWidth: 275,
+                      borderLeft: 6,
+                      borderColor: 'orange',
+                    }}
+                  >
+                    <CardContent>
+                      <Stack spacing={2}>
+                        <Stack gap={1.5} direction="row">
+                          <Typography>Start Time: {item.startTime} </Typography>
                         </Stack>
-                      </CardContent>
-                    </Card>
-                  </Box>
-                </AccordionDetails>
-              </Accordion>
-            )
-          )}
-          {/* <Accordion expanded={expanded === 'panel1'} onChange={handleOpenAcordion('panel1')}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1bh-content"
-          id="panel1bh-header"
-        >
-          <Typography sx={{ width: '33%', flexShrink: 0 }}>
-          Student Name 
-                    </Typography>
-          <Typography sx={{ color: 'text.secondary' }}>Date</Typography>
-        </AccordionSummary>
-  <Typography>
-    Information from student 
-  </Typography>
-        <AccordionDetails sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-  <>
-    <Tooltip title={"Accept"}>
-      <IconButton sx={{ ml: 2.5 }} aria-label={"form 1"} size="small">
-        <LibraryAddCheck sx={{ color: "#367E18" }} color="info" className='print-icon' />
-      </IconButton>
-    </Tooltip>
-    <Tooltip title={"Reject"}>
-      <IconButton sx={{ ml: 2.5 }} aria-label={"form 1"} size="small" onClick={() => handleOpenDialog()}>
-        <DisabledByDefault sx={{ color: "#D21312" }} color="info" className='print-icon' />
-      </IconButton>
-    </Tooltip>
-  </>
-</AccordionDetails>
-
-      </Accordion> */}
+                        <Stack gap={1.5} direction="row">
+                          <Typography>End Time: {item.endTime} </Typography>
+                        </Stack>
+                        <Stack gap={1.5} direction="row">
+                          <Typography>Skills: {item.skills} </Typography>
+                        </Stack>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                </Box>
+              </AccordionDetails>
+            </Accordion>
+          ))}
         </Stack>
       </Grid>
-      <Dialog open={isOpen} onClose={handleCloseDialog}></Dialog>
+      <Dialog
+        open={openAcceptRequestDialog}
+        onClose={handleAcceptRequestClose}
+        maxWidth="xs"
+        fullWidth
+      >
+        <DialogTitle>Accept Request</DialogTitle>
+        <DialogContent>
+          Are you sure you want to accept this Progress Request?
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleAcceptRequestClose} color="primary">
+            Cancel
+          </Button>
+          <Button
+            onClick={handleAcceptRequestClick}
+            color="error"
+            variant="contained"
+          >
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={openRejectRequestDialog}
+        onClose={handleRejectRequestClose}
+        maxWidth="xs"
+        fullWidth
+      >
+        <DialogTitle>Reject Request</DialogTitle>
+        <DialogContent>
+          Are you sure you want to reject this Progress Request?
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleRejectRequestClose} color="primary">
+            Cancel
+          </Button>
+          <Button
+            onClick={handleWriteNoteOpen}
+            color="error"
+            variant="contained"
+          >
+            Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        open={writeNoteOpenDialog}
+        onClose={handleWriteNoteClose}
+        maxWidth="xs"
+        fullWidth
+      >
+        <DialogTitle>Write a Note </DialogTitle>
+        <DialogContent>
+          Please write notes for the student why you rejected this progress
+          Request!
+          <TextField
+            margin='dense'
+            label="Note"
+            value={note}
+            onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setNote(e.target.value)}
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleWriteNoteClose} color="primary">
+            Cancel
+          </Button>
+          <Button
+            onClick={handleWriteNoteSave}
+            color="error"
+            variant="contained"
+          >
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };

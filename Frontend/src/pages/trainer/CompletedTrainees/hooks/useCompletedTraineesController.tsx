@@ -1,34 +1,42 @@
 import React, {SyntheticEvent, useEffect, useState} from "react";
 import {getCompletedTrainees} from "src/pages/university/CompletedTrainees/api";
-import {Row,Evaluation} from "../types";
+import {Row} from "../types";
 import {IconButton, Tooltip} from "@mui/material";
 import PrintIcon from "@mui/icons-material/Print";
-import { getEvaluations } from "src/api/getEvaluation";
-import { Feed } from "@mui/icons-material";
+import {getEvaluations} from "src/api/getEvaluation";
 import {EvaluationData, EvaluationFormResponse} from "src/api/types";
-
-
+import {useMutation} from "@tanstack/react-query";
+import useSnackbar from "src/hooks/useSnackbar";
 
 const useCompletedTraineesController = () => {
 
     const [data, setData] = useState<Row[]>([]);
     const [isOpen, setIsOpen] = useState(false);
-    const [currentTab, setCurrentTab] = useState('one');
-    const [response, setReponse] = useState<EvaluationData[]>([]);
-    const [index, setIndex] = useState('');
-    const [studentId, setStudentId] = useState('');
+    const [studentId, setStudentId] = useState<string>('');
+    const [index, setIndex] = useState<number>();
 
-    
+    const [currentTab, setCurrentTab] = useState('one');
+    const [response, setResponse] = useState<EvaluationData[]>([]);
+    const { showSnackbar } = useSnackbar();
+
+
+
+
     const handleChangeTab = (event: SyntheticEvent, newValue: string) => {
         setCurrentTab(newValue);
-      };
+    };
 
-      const handleOpenDialog = (id: string) => {
-        setIndex('0')
-        setStudentId('8');
-        console.log(isOpen);
+    const handleOpenDialog = (index: number, id: string) => {
         setIsOpen((prev) => !prev);
-      };
+        // getEvaluations({index: index, studentId: id}).then((res) => {
+        //     if (res.success === true) {
+        //       setResponse(res?.data);
+        //       console.log(response)
+        //     } else if (res.success === false) {
+        //       showSnackbar({ severity: 'warning', message: res.message });
+        //     }
+        //   });
+    };
 
     const columns = [
         {
@@ -44,25 +52,50 @@ const useCompletedTraineesController = () => {
             flex: .3,
         },
         {
-            field: 'Question Form',
-            headerName: 'Question Form',
-            width: 300,
+            field: 'evalForm',
+            headerName: 'Evaluation Form',
+            width: 400,
             flex: .3,
+            headerClassName: 'ctrainees',
             filterable: false,
             sortable: false,
-            renderCell: (params: { id: any }) => (
-                <IconButton sx={{ml: 3.5}} aria-label="progress form" onClick={() => handleOpenDialog(params.id)}
-                >
-                    <Feed
-                    color="warning"
-                        sx={{
-                            borderRadius: '5px',
-                            className: "manage-icon"
-                        }}
-                    />
-                </IconButton>
-            ),
-        },
+            renderCell: (params: { row: Row }) => {
+                const count = parseInt(params.row.count);
+                const index = parseInt(params.row.count)-1;
+                const studentId = params.row.studentId;
+                const printIcons = [];
+
+                for (let i = 0; i < count; i++) {
+                    if (count == 1)
+                        printIcons.push(
+                            <Tooltip title={"Progress Form 1"}>
+                                <IconButton sx={{ml: 2.5}} aria-label={"form 1"} size="small"
+                                onClick={() => handleOpenDialog(index, studentId)}
+                                >
+
+                                    <PrintIcon sx={{color: "#820000"}} color="info" className='print-icon'/>
+                                </IconButton>
+                            </Tooltip>
+                        );
+                    else
+                        printIcons.push(
+                            <Tooltip key={i} title={`Progress Form ${i + 1}`}>
+                                <IconButton aria-label={`form ${i + 1}`} size="small"
+                                onClick={() => handleOpenDialog(i, studentId)}
+>
+                                    <PrintIcon sx={{color: "#820000"}} className='print-icon'/>
+                                </IconButton>
+                            </Tooltip>
+                        );
+                }
+
+                return (
+                    <>
+                        {printIcons}
+                    </>
+                );
+            }
+        }
     ];
 
     const rows = data.map((row) => ({
@@ -73,17 +106,19 @@ const useCompletedTraineesController = () => {
     }));
 
     useEffect(() => {
-        getEvaluations({index:0,studentId: '8'})
+        getEvaluations({index: 0, studentId: '8'})
             .then((result) => {
-                setReponse(result.data);
+                setResponse(result.data);
                 console.log(result.data);
             })
             .catch((error) => console.log(error));
     }, []);
 
-      const handleCloseDialog = () => {
+    
+
+    const handleCloseDialog = () => {
         setIsOpen(false);
-      };
+    };
 
     useEffect(() => {
         getCompletedTrainees()
@@ -104,9 +139,8 @@ const useCompletedTraineesController = () => {
         data,
         isOpen,
         response,
+        // evaluationTrainingReport: evaluationTrainingReport?.data,
         open: !!isOpen,
-        index,
-        studentId,
     }
 };
 

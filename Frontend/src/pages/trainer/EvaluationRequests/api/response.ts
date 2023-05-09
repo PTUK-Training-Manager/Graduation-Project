@@ -7,7 +7,8 @@ export interface PendenigProgressData {
     skills: string,
     startTime: string,
     status: string,
-    trainingId: string
+    trainingId: string;
+    date: string;
     Training: {
         Student: {
             name: string;

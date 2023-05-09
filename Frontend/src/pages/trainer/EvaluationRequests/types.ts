@@ -1,3 +1,5 @@
+import { BaseResponse } from "src/types";
+
 export interface PendingProgressRequests {
     endTime: string,
     id: string,
@@ -5,6 +7,7 @@ export interface PendingProgressRequests {
     skills: string,
     startTime: string,
     status: string,
+    date: string;
     trainingId: string
     Training: {
         Student: {
@@ -12,4 +15,29 @@ export interface PendingProgressRequests {
             StudentId: string;
         };
     };
+}
+
+export interface AcceptEvaluationRequestBody {
+    id: string;
+}
+
+export interface AcceptEvaluationRequestData {
+    id: string;
+}
+
+export interface AcceptEvaluationRequestResponse extends BaseResponse {
+    data: AcceptEvaluationRequestData;
+}
+
+export interface RejectEvaluationRequestBody {
+    id: string;
+    note: string;
+}
+
+export interface RejectEvaluationRequestData {
+    id: string;
+}
+
+export interface RejectEvaluationRequestResponse extends BaseResponse {
+    data: RejectEvaluationRequestData;
 }

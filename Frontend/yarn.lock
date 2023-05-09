@@ -3380,6 +3380,11 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
+lexical@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/lexical/-/lexical-0.10.0.tgz#d3c5ce34480bf7914af2e03c3dcbdad7f401ce15"
+  integrity sha512-/lYJVpjQPOzFVfQWhnxRSP6HHBywiltzx9/pWRsByzXDZL+FTty3yjTsSFiCWy4PoVZaXqH8gYBe9dkxZK7+Hg==
+
 lie@~3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/lie/-/lie-3.3.0.tgz#dcf82dee545f46074daf200c7c1c5a08e0f40f6a"
