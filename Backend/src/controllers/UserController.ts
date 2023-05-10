@@ -6,6 +6,7 @@ import crypto from "crypto";
 import { Secret } from "jsonwebtoken";
 import { AddedUser, BaseResponse } from "../types";
 import { sendEmail } from "../services/email";
+import { isProduction } from "../utils";
 
 class UserController {
   constructor() {
@@ -131,7 +132,9 @@ class UserController {
         const resetTokenSecret = <Secret>process.env.RESET_TOKEN_SECRET;
 
         const payload = {
-          user,
+          userId: user.id,
+          username: user.username,
+          roleId:user.roleId,
         };
 
         const resetToken = jwt.sign(payload, resetTokenSecret, {
@@ -141,18 +144,23 @@ class UserController {
         res.status(202).cookie("reset-token", resetToken, {
           maxAge: 60 * 60 * 24 * 1000, // = 1 day in milliseconds
           httpOnly: true,
+                secure: true, // limits the scope of the cookie to "secure" channels.
+                sameSite: "none",
+                domain: isProduction
+                    ? ".onrender.com"
+                    : "localhost",
         });
         const message = `
                 <a href="http://localhost:5000/api/v1/user/enterData"> reset password </a> 
                 `;
         sendEmail(user.email, "Forget Password", message);
 
-        console.log(message);
 
         return res.json({
           success: true,
           status: res.statusCode,
           message: "a Link sent successfully to ur email to reset ur password",
+          data:resetToken
         });
       }
     } catch (err) {
@@ -176,7 +184,14 @@ class UserController {
     res: Response<BaseResponse>,
     next: NextFunction
   ) => {
-    const { newPassword } = req.body;
+    const { newPassword , confirmNewPassword } = req.body;
+
+    if(newPassword!=confirmNewPassword)
+    return res.json({
+      success: false,
+      status: res.statusCode,
+      message: "Passwords are not matched"
+    });
 
     const hash = await bcrypt.hash(newPassword, 10);
     const user = await User.findOne({ where: { username: req.user.username } });
@@ -199,7 +214,7 @@ class UserController {
     next: NextFunction
   ) => {
     try {
-      const { oldPassword, newPassword } = req.body;
+      const { oldPassword, newPassword,confirmNewPassword } = req.body;
 
       const username = req.user.username;
       const user = await User.findOne({
@@ -209,6 +224,13 @@ class UserController {
       if (user) {
         const isCorrect = await bcrypt.compare(oldPassword, user?.password);
         if (isCorrect) {
+
+      if(newPassword!=confirmNewPassword)
+      return res.json({
+        success: false,
+        status: res.statusCode,
+        message: "Passwords are not matched"
+      });
           const hash = await bcrypt.hash(newPassword, 10);
           await User.update({ password: hash }, { where: { id: user?.id } });
 

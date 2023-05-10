@@ -4,7 +4,9 @@ dotenv.config();
 import { Request, Response, NextFunction } from "express";
 
 const verifyResetToken = (req: Request, res: Response, next: NextFunction) => {
-  const resetToken = req.cookies["reset-token"];
+  // const resetToken = req.cookies["reset-token"];
+
+  const resetToken = req.headers["reset-token"] as string;
 
   if (!resetToken)
     return res.status(401).json({
@@ -16,13 +18,15 @@ const verifyResetToken = (req: Request, res: Response, next: NextFunction) => {
   const secret = process.env.RESET_TOKEN_SECRET as Secret;
   try {
     const decodedPayload = verify(resetToken, secret) as JwtPayload;
-    const user = decodedPayload;
+    const { userId, username, roleId } = decodedPayload;
 
-    req.user = {
-      userId: user.id,
-      username: user.username,
-      roleId: user.roleId,
-    };
+        req.user = {
+            userId,
+            username,
+            roleId
+        }
+
+    console.log(req.user)
     next();
   } catch (error) {
     return res.status(401).json({
