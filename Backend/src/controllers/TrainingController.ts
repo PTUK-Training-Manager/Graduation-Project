@@ -241,12 +241,24 @@ class TrainingController {
 
             await Promise.all(promises)
 
+            const roleId = req.user.roleId;
+            let status=null
+            if(roleId===UserRoleEnum.UNI_TRAINING_OFFICER){
             await Training.update({ status: TrainingStatusEnum.completed, endDate: fn('CURDATE') }, {
                 where: {
                     id: trainingId
                 }
             })
-
+            status=TrainingStatusEnum.completed
+}
+            else if(roleId===UserRoleEnum.TRAINER){
+            await Training.update({ status: TrainingStatusEnum.submitted, endDate: fn('CURDATE') }, {
+                where: {
+                    id: trainingId
+                }
+            })
+            status=TrainingStatusEnum.submitted
+}
             const record = await Training.findOne({
                 where: { id: trainingId }
             })
@@ -254,7 +266,7 @@ class TrainingController {
             return res.json({
                 success: true,
                 status: res.statusCode,
-                message: "The Training was successfully updated to completed",
+                message: `The Training was successfully updated to ${status}`,
                 data: record
             });
 

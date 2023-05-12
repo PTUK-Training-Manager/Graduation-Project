@@ -160,7 +160,7 @@ export interface ProgressFormWithHours {
 }
 
 export type EvaluationType =
-    'pending'
+    | 'pending'
     | 'signed'
     | 'rejected';
 
