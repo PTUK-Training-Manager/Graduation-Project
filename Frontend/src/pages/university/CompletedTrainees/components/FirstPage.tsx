@@ -202,11 +202,11 @@ const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({}) => {
               
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                 {response[0]?.Answered_Questions[8]?.Question?.question}: {' '}
+                 {response[0]?.Answered_Questions[7]?.Question?.question}: {' '}
                   <Typography
                     sx={{display: 'inline-block',fontWeight: '400'  }}
                   >
-                    {response[0]?.Answered_Questions[8]?.Note?.note} days
+                    {response[0]?.Answered_Questions[7]?.Note?.note} days
                   </Typography>
                 </Typography>
               </Stack>

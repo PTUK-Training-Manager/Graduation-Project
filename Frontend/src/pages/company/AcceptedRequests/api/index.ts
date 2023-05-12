@@ -8,3 +8,5 @@ export const getAcceptedTrainings =
     const response = await axiosInstance.get<GetAcceptedTrainingsResponse>(url);
     return response.data;
   };
+
+  

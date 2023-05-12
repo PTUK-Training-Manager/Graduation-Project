@@ -1,6 +1,6 @@
-import {BaseResponse} from "src/types";
+import { BaseResponse } from "src/types";
 
-export interface AccessTokenData {
+export interface TrainersData {
     id: string;
     companyId: string;
     fieldId: string;
@@ -11,8 +11,8 @@ export interface AccessTokenData {
     name: string;
     status: string;
     userId: string;
-}
-
-export interface updateTrainerResponse extends BaseResponse {
-    data: AccessTokenData;
-}
+  }
+  
+  export interface GetTrainersResponse extends BaseResponse {
+    data: TrainersData[];
+  }

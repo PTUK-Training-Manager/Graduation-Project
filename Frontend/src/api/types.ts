@@ -69,3 +69,7 @@ export interface EvaluationFormRequestBody {
     index?: number;
     studentId: string;
 }
+
+export interface EvaluationFormRequestTrainerBody {
+    trainingId: string;
+}

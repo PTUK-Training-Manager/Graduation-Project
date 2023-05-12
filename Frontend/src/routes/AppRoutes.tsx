@@ -70,13 +70,15 @@ const EvaluationRequests = lazy(
 const CompletedTrainings = lazy(
   () => import('src/pages/trainer/CompletedTrainings')
 );
+const AllTrainingStudent=lazy(() => import('src/pages/Student/AllTraining'));
+const Progress=lazy(() => import('src/pages/Student/Progress'));
 
 import { UserRole } from '../constants/auth';
 
 interface AppRoutesProps {}
 
 const AppRoutes: FC<AppRoutesProps> = () => {
-  const { SuperAdmin, UniTrainingOfficer, Company, Trainer } = UserRole;
+  const { SuperAdmin, UniTrainingOfficer, Company, Trainer,Student } = UserRole;
 
   return (
     <Suspense fallback={<BlockUI isBlocked />}>
@@ -155,6 +157,12 @@ const AppRoutes: FC<AppRoutesProps> = () => {
               element={<CompanyCompletedTrainees />}
             />
             <Route path="/training-requests" element={<TrainingRequest />} />
+          </Route>
+
+          <Route element={<ProtectedRoute allowedRoles={[Student]} />}>
+          <Route path="/Progress" element={<Progress />} />
+
+            <Route path="/all-training-student" element={<AllTrainingStudent />} />
           </Route>
 
           <Route path="access-denied" element={<AccessDenied />} />

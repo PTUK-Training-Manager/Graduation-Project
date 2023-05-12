@@ -1,3 +1,5 @@
+import { BaseResponse } from "src/types";
+
 export interface Row {
     studentId: string;
     Student: {
@@ -6,6 +8,30 @@ export interface Row {
     count: string;
 }
 
+export interface SubmitAnswersBody{
+  trainingId: string;
+  arrayData: {
+    questionId: string;
+    answerId: string | null;
+    note: string | null;
+  }[];
+}
+export interface SubmitAnswersData {
+  id: string;
+  companyId: string;
+  fieldId: string;
+  Field: {
+    id: string;
+    field: string;
+  };
+  name: string;
+  status: string;
+  userId: string;
+}
+
+export interface SubmitAnswersResponse extends BaseResponse {
+  data: SubmitAnswersData;
+}
 export interface Evaluation {
   companyBranchId: string;
   endDate: string;

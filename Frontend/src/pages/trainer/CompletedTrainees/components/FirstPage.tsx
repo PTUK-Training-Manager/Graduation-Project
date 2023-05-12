@@ -1,234 +1,209 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
+import useSnackbar from 'src/hooks/useSnackbar';
 import {
   Box,
+  Button,
   Card,
   CardContent,
   Container,
   Divider,
+  FormControl,
+  MenuItem,
   Radio,
   RadioGroup,
+  Select,
+  SelectChangeEvent,
+  TextField,
 } from '@mui/material';
 import './style.css';
-
 import { FormControlLabel } from '@mui/material';
-import Checkbox from '@mui/material/Checkbox';
-import { FC, SyntheticEvent } from 'react';
+import { useEffect, useState } from 'react';
 import useCompletedTraineesController from '../hooks/useCompletedTraineesController';
+import { submitAnswers } from '../api';
+import { SubmitAnswersBody } from '../types';
 
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-  >
-    •
-  </Box>
-);
-interface EvaluationFormDialogProps {}
-const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({}) => {
-  const { response, isOpen, currentTab, handleChangeTab, open } =
-    useCompletedTraineesController();
+export default function Review() {
+  const { showSnackbar } = useSnackbar();
+
+  const { response} = useCompletedTraineesController();
+  const [answers, setAnswers] = useState<SubmitAnswersBody>({
+    trainingId: '83',
+    arrayData: [],
+  });
+
+  const handleSubmitAnswers = () => {
+    submitAnswers({
+      trainingId: answers.trainingId,
+      arrayData: answers.arrayData,
+    }).then((res: { success: boolean; message: any }) => {
+      if (res.success === true) {
+        showSnackbar({ severity: 'success', message: res.message });
+      } else if (res.success === false) {
+        showSnackbar({ severity: 'warning', message: res.message });
+      }
+    });
+  };
+
+  useEffect(() => {
+    console.log(answers);
+  }, [answers]);
 
   return (
     <>
-      <Container sx={{ p: '50px' }}>
-        <Stack sx={{ textAlign: 'center' }}>
-          <Typography variant="h6" sx={{ fontStyle: 'oblique', mb: '10px' }}>
-            Field Training
-          </Typography>
-        </Stack>
-        <Divider />
-
-        {/* Student */}
+      <Grid container sx={{ padding: '24px' }}>
         <Stack gap={2}>
-          <Card sx={{ minWidth: 100, mb: '5px' }}>
-            <CardContent>
-              <Typography variant="h6" color="text.secondary" gutterBottom>
-                Student Information:
-              </Typography>
-
-              <Stack>
-                <Typography sx={{ fontWeight: '600' }}>
-                  Student Name: {' '}
-                  <Typography
-                    sx={{ display: 'inline-block', fontWeight: '400' }}
+          <Typography variant="h6" gutterBottom>
+            Student benefit from training:
+          </Typography>
+          {response.map((question, index) => (
+            <>
+              <Stack gap={2} spacing={2}>
+                <Stack gap={5} spacing={2}>
+                  <Card
+                    sx={{
+                      minWidth: 275,
+                      borderLeft: 6,
+                      borderColor: 'black',
+                    }}
                   >
-                    {response[0]?.Student.name}
-                  </Typography>
-                </Typography>
+                    <CardContent>
+                      <Stack spacing={2}>
+                        <Typography sx={{ fontWeight: '600' }}>
+                          Question {index + 1} :
+                        </Typography>
+                        <Stack gap={1.5} direction="row">
+                          <Typography sx={{ fontWeight: '600' }}>
+                            {question.question}
+                          </Typography>
+                        </Stack>
+                        <>
+                          <Stack>
+                            {question.isMultipleChoice == true && (
+                              <RadioGroup
+                                row
+                                aria-labelledby="demo-row-radio-buttons-group-label"
+                                name="row-radio-buttons-group"
+                                value={answers.arrayData[index]?.answerId}
+                                onChange={(
+                                  e: React.ChangeEvent<HTMLInputElement>
+                                ) => {
+                                  let answerID = '';
+                                  switch (e.target.value) {
+                                    case 'excellent':
+                                      answerID = '1';
+                                      break;
+                                    case 'good':
+                                      answerID = '2';
+                                      break;
+                                    case 'acceptable':
+                                      answerID = '3';
+                                      break;
+                                    case 'weak':
+                                      answerID = '4';
+                                      break;
+                                    default:
+                                      break;
+                                  }
+
+                                  const updatedArrayData = [
+                                    ...answers.arrayData,
+                                  ];
+                                  updatedArrayData[index] = {
+                                    ...updatedArrayData[index],
+                                    answerId: answerID,
+                                  };
+                                  const note = null;
+                                  updatedArrayData[index] = {
+                                    ...updatedArrayData[index],
+                                    note: note,
+                                  };
+                                  const questionId = question.id;
+                                  updatedArrayData[index] = {
+                                    ...updatedArrayData[index],
+                                    questionId: questionId,
+                                  };
+                                  setAnswers((prevState) => ({
+                                    ...prevState,
+                                    arrayData: updatedArrayData,
+                                  }));
+                                }}
+                              >
+                                <FormControlLabel
+                                  value="excellent"
+                                  control={<Radio />}
+                                  label="Excellent"
+                                />
+                                <FormControlLabel
+                                  value="good"
+                                  control={<Radio />}
+                                  label="Good"
+                                />
+                                <FormControlLabel
+                                  value="acceptable"
+                                  control={<Radio />}
+                                  label="Acceptable"
+                                />
+                                <FormControlLabel
+                                  value="weak"
+                                  control={<Radio />}
+                                  label="Weak"
+                                />
+                              </RadioGroup>
+                            )}
+                          </Stack>
+                        </>
+                        {question.isMultipleChoice == false && (
+                          <Stack direction="row">
+                            <TextField
+                              label="Note"
+                              fullWidth
+                              value={answers.arrayData[index]?.note || ''}
+                              onChange={(
+                                e: React.ChangeEvent<HTMLInputElement>
+                              ) => {
+                                const updatedArrayData = [...answers.arrayData];
+                                updatedArrayData[index] = {
+                                  ...updatedArrayData[index],
+                                  note: e.target.value,
+                                };
+                                const answerId = null;
+                                updatedArrayData[index] = {
+                                  ...updatedArrayData[index],
+                                  answerId: answerId,
+                                };
+                                const questionId = question.id;
+                                updatedArrayData[index] = {
+                                  ...updatedArrayData[index],
+                                  questionId: questionId,
+                                };
+                                setAnswers((prevState) => ({
+                                  ...prevState,
+                                  arrayData: updatedArrayData,
+                                }));
+                              }}
+                            />
+                          </Stack>
+                        )}
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                </Stack>
               </Stack>
-
-              <Stack>
-                <Typography sx={{ fontWeight: '600' }}>
-                  Student Number: {' '}
-                  <Typography
-                    sx={{ display: 'inline-block', fontWeight: '400' }}
-                  >
-                    {response[0]?.studentId}
-                  </Typography>
-                </Typography>
-              </Stack>
-
-              <Stack>
-                <Typography sx={{ fontWeight: '600' }}>
-                  PhoneNumber: {' '}
-                  <Typography
-                    sx={{ display: 'inline-block', fontWeight: '400' }}
-                  >
-                    {response[0]?.Student.phoneNumber}
-                  </Typography>
-                </Typography>
-              </Stack>
-
-              <Stack>
-                <Typography sx={{ fontWeight: '600' }}>
-                  academic specialization: {' '}
-                  <Typography
-                    sx={{ display: 'inline-block', fontWeight: '400' }}
-                  >
-                    {response[0]?.Student.department}
-                  </Typography>
-                </Typography>
-              </Stack>
-            </CardContent>
-          </Card>
-          <Divider />
-
-          {/* Company */}
-
-          <Card sx={{ minWidth: 200, mb: '5px' }}>
-            <CardContent>
-              <Typography variant="h6" color="text.secondary" gutterBottom>
-                Company Information:
-              </Typography>
-
-              <Stack>
-                <Typography sx={{ fontWeight: '600' }}>
-                  Company Name: {' '}
-                  <Typography
-                    sx={{ display: 'inline-block', fontWeight: '400' }}
-                  >
-                    {response[0]?.CompanyBranch.Company.name}
-                  </Typography>
-                </Typography>
-              </Stack>
-
-              <Stack>
-                <Typography sx={{ fontWeight: '600' }}>
-                  Company Branch: {' '}
-                  <Typography
-                    sx={{ display: 'inline-block', fontWeight: '400' }}
-                  >
-                    {response[0]?.CompanyBranch.location}{' '}
-                  </Typography>
-                </Typography>
-              </Stack>
-
-              <Stack>
-                <Typography sx={{ fontWeight: '600' }}>
-                  Email: {' '}
-                  <Typography
-                    sx={{ display: 'inline-block', fontWeight: '400' }}
-                  >
-                    {response[0]?.CompanyBranch.Company.User.email}
-                  </Typography>
-                </Typography>
-              </Stack>
-
-              <Stack>
-                <Typography sx={{ fontWeight: '600' }}>
-                  PhoneNumber: {' '}
-                  <Typography
-                    sx={{ display: 'inline-block', fontWeight: '400' }}
-                  >
-                    {response[0]?.CompanyBranch.Company.phoneNumber}
-                  </Typography>
-                </Typography>
-              </Stack>
-
-              <Stack>
-                <Typography sx={{ fontWeight: '600' }}>
-                  Manegar Name: {' '}
-                  <Typography
-                    sx={{ display: 'inline-block', fontWeight: '400' }}
-                  >
-                    {response[0]?.CompanyBranch.Company.managerName}
-                  </Typography>
-                </Typography>
-              </Stack>
-              <Stack>
-                <Typography sx={{ fontWeight: '600' }}>
-                  Trainer Name: {' '}
-                  <Typography
-                    sx={{ display: 'inline-block', fontWeight: '400' }}
-                  >
-                    {response[0]?.Trainer.name}
-                  </Typography>
-                </Typography>
-              </Stack>
-            </CardContent>
-          </Card>
-          <Divider />
-
-          <Card sx={{ minWidth: 200, mb: '5px' }}>
-            <CardContent>
-              <Typography variant="h6" color="text.secondary" gutterBottom>
-                Student working time{' '}
-              </Typography>
-
-              <Stack>
-                <Typography sx={{ fontWeight: '600' }}>
-                  Starting Date: {' '}
-                  <Typography
-                    sx={{ display: 'inline-block', fontWeight: '400' }}
-                  >
-                    {response[0]?.startDate}
-                  </Typography>
-                </Typography>
-              </Stack>
-
-              <Stack>
-                <Typography sx={{ fontWeight: '600' }}>
-                  Ending Date: {' '}
-                  <Typography
-                    sx={{ display: 'inline-block', fontWeight: '400' }}
-                  >
-                    {response[0]?.endDate}
-                  </Typography>
-                </Typography>
-              </Stack>
-
-              
-              <Stack>
-                <Typography sx={{ fontWeight: '600' }}>
-                 {response[0]?.Answered_Questions[8]?.Question?.question}: {' '}
-                  <Typography
-                    sx={{display: 'inline-block',fontWeight: '400'  }}
-                  >
-                    {response[0]?.Answered_Questions[8]?.Note?.note} days
-                  </Typography>
-                </Typography>
-              </Stack>
-              
-              <Stack>
-                <Typography sx={{ fontWeight: '600' }}>
-                  Number of training days for the student: {' '}
-                  <Typography
-                    sx={{display: 'inline-block',fontWeight: '400' }}
-                  >
-                    {response[0]?.Evaluations.length} days
-                  </Typography>
-                </Typography>
-              </Stack>
-              
-            </CardContent>
-          </Card>
-          <Divider />
-
+            </>
+          ))}
+          <Button
+            size="small"
+            variant="contained"
+            color="primary"
+            onClick={handleSubmitAnswers}
+          >
+            Submit
+          </Button>
         </Stack>
-      </Container>
+      </Grid>
     </>
   );
-};
-export default EvaluationFormDialog;
+}

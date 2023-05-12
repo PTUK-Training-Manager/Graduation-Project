@@ -68,7 +68,7 @@ const useCompletedTraineesController = () => {
                 for (let i = 0; i < count; i++) {
                     if (count == 1)
                         printIcons.push(
-                            <Tooltip title={"Progress Form 1"}>
+                            <Tooltip title={"Evaluation 1"}>
                                 <IconButton sx={{ml: 2.5}} aria-label={"form 1"} size="small"
                                 onClick={() => handleOpenDialog(index, studentId)}
                                 >
@@ -79,7 +79,7 @@ const useCompletedTraineesController = () => {
                         );
                     else
                         printIcons.push(
-                            <Tooltip key={i} title={`Progress Form ${i + 1}`}>
+                            <Tooltip key={i} title={`Evaluation ${i + 1}`}>
                                 <IconButton aria-label={`form ${i + 1}`} size="small"
                                 onClick={() => handleOpenDialog(i, studentId)}
 >
@@ -106,7 +106,7 @@ const useCompletedTraineesController = () => {
     }));
 
     useEffect(() => {
-        getEvaluations({index: 0, studentId: '8'})
+        getEvaluations({index: 0, studentId: '201910150'})
             .then((result) => {
                 setResponse(result.data);
                 console.log(result.data);
@@ -114,6 +114,21 @@ const useCompletedTraineesController = () => {
             .catch((error) => console.log(error));
     }, []);
 
+    // const {data: evaluationTrainingReport, isLoading} = useMutation(
+    //     () => getEvaluations({index: 0, studentId: '8'}) as Promise<EvaluationFormResponse>,
+    //     {
+    //         onSuccess: (result) => {
+    //             // setResponse(result.data);
+    //             console.log(result.data);
+    //         },
+    //         onError: () => {
+
+    //         },
+    //         onSettled: () => {
+
+    //         },
+    //     }
+    // );
     
 
     const handleCloseDialog = () => {

@@ -50,7 +50,7 @@ export default function Review() {
       <Typography variant="h6"  gutterBottom>
                 Student benefit from training:
               </Typography>
-        {response[0]?.Answered_Questions?.slice(0,length-1).map(
+        {response[0]?.Answered_Questions?.slice(0,length-2).map(
           (item,index
           ) => (
             <>
@@ -125,6 +125,7 @@ export default function Review() {
                           </Typography>
                         </Stack>
                         )}
+                        
                       </Stack>
                     </CardContent>
                   </Card>
@@ -133,6 +134,7 @@ export default function Review() {
             </>
           )
         )}
+         
         </Stack>
       </Grid>
     </>

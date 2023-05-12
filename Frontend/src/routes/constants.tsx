@@ -202,6 +202,22 @@ const trainerMenuItems: IAppMenuItem[] = [
   },
 ];
 
+const studentMenuItems: IAppMenuItem[] = [
+  {
+      label: "All Trainings",
+      link: "/all-training-student",
+      Icon: () => <IntegrationInstructionsIcon/>,
+  },
+  
+  {
+    label:"Progress",
+    link: "/Progress",
+    Icon: () => <IntegrationInstructionsIcon/>,
+    
+      },
+
+];
+
 export const MENU_ITEMS_MAP: Partial<Record<MenuItemsMapKey, IAppMenuItem[]>> =
   {
     Public: publicMenuItems, // requires no authentication
@@ -210,6 +226,6 @@ export const MENU_ITEMS_MAP: Partial<Record<MenuItemsMapKey, IAppMenuItem[]>> =
     Company: companyMenuItems,
     Trainer: trainerMenuItems,
     SuperAdmin: [],
-    Student: [],
+    Student: studentMenuItems,
     AdminAndRegistration: [],
   };
