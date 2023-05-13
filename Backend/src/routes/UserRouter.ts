@@ -1,13 +1,22 @@
-import express from 'express';
+import express from "express";
 const router = express.Router();
-import userController from '../controllers/UserController';
-import verifyAccessToken from '../middlewares/verifyAccessToken';
-const { handleAddUser, getAll, deleteUserByPK, sendCode, enterData, forgetPassword } = userController
+import userController from "../controllers/UserController";
+import verifyResetToken from "../middlewares/verifyResetToken";
+const {
+  handleAddUser,
+  getAll,
+  deleteUserByPK,
+  sendResetPassword,
+  enterData,
+  resetForgottenPassword,
+} = userController;
 
-router.post('/user', handleAddUser);
-router.get('/users', getAll);
-router.delete('/user/:username', deleteUserByPK);
-router.post('/sendcode', sendCode)
-router.get('/enterData', enterData)
-router.post('/forgetPassword', forgetPassword);
+router.post("/user", handleAddUser);
+router.get("/users", getAll);
+router.delete("/user/:username", deleteUserByPK);
+router.post("/sendResetPassword", sendResetPassword);
+
+router.use(verifyResetToken);
+router.get("/enterData", enterData); 
+router.post("/resetForgottenPassword", resetForgottenPassword);
 export default router;
