@@ -19,7 +19,8 @@ import {
   Paper,
 } from '@mui/material';
 import { Form, FormikProvider } from 'formik';
-
+import EditTrainerDialog from './components/EditFieldDialog';
+import DeleteTrainerDialog from './components/DeleteTrainerDialog';
 import theme from 'src/styling/customTheme';
 
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
@@ -30,15 +31,29 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import DataGridPagination from 'src/components/DataGrid/DataGridPagination';
 
 const Trainers: React.FC = () => {
-  const [open, setOpen] = useState(false);
+  const [openAddTrainerForm, setOpenAddTrainerForm] = useState(false);
 
-  const { formikProps, isLoading, columns, rows, fieldOptions } =
-  useAllTrainersFormController();
+  const {
+    formikProps,
+    isLoading,
+    columns,
+    rows,
+    fieldOptions,
+    deleteTrainerDialogOpen,
+    handleCancelDeleteTrainer,
+    handleDeleteTrainer,
+    onSetNewFieldId,
+    handleSaveUpdatedValueField,
+    handleUpdateFieldDialogOpen,
+    updateFieldForTrainerDialogOpen,
+    handleUpdateFieldDialogClose,
+    
+  } = useAllTrainersFormController();
 
   const { isValid } = formikProps;
 
   const handleChange = () => {
-    setOpen((prev) => !prev);
+    setOpenAddTrainerForm((prev) => !prev);
   };
 
   return (
@@ -67,11 +82,13 @@ const Trainers: React.FC = () => {
             <Button
               variant="contained"
               sx={{ width: 'auto' }}
-              color={open ? 'error' : 'success'}
+              color={openAddTrainerForm ? 'error' : 'success'}
               onClick={handleChange}
-              startIcon={open ? <RemoveIcon /> : <PersonAddIcon />}
+              startIcon={
+                openAddTrainerForm ? <RemoveIcon /> : <PersonAddIcon />
+              }
             >
-              {open ? 'Close' : 'Add Trainer'}
+              {openAddTrainerForm ? 'Close' : 'Add Trainer'}
             </Button>
           </Stack>
           <Grid
@@ -90,7 +107,7 @@ const Trainers: React.FC = () => {
                 height: '100%',
               }}
             >
-              <Collapse in={open}>
+              <Collapse in={openAddTrainerForm}>
                 <Paper
                   elevation={3}
                   sx={{
@@ -130,9 +147,8 @@ const Trainers: React.FC = () => {
                               onChange={(event, newValue) => {
                                 formikProps.setFieldValue(
                                   'fieldId',
-                                  newValue?.id || ''
+                                  newValue?.id
                                 );
-                                // setField(newValue?.id || '');
                               }}
                               renderInput={(params) => (
                                 <TextField
@@ -146,7 +162,6 @@ const Trainers: React.FC = () => {
                         </Stack>
                         <LoadingButton
                           type="submit"
-                          // fullWidth
                           variant="contained"
                           disabled={!isValid}
                           loading={isLoading}
@@ -183,6 +198,20 @@ const Trainers: React.FC = () => {
           />
         </Stack>
       </Grid>
+      <DeleteTrainerDialog
+                deleteTrainerDialogOpen={deleteTrainerDialogOpen}
+                handleCancelDeleteTrainer={handleCancelDeleteTrainer}
+                handleDeleteTrainer={handleDeleteTrainer}
+            />
+            <EditTrainerDialog
+            updateFieldForTrainerDialogOpen={updateFieldForTrainerDialogOpen}
+            handleSaveUpdatedValueField={handleSaveUpdatedValueField}
+            handleUpdateFieldDialogClose={handleUpdateFieldDialogClose}
+            onSetNewFieldId={onSetNewFieldId}
+            fieldOptions={fieldOptions}
+            formikProps={formikProps}
+            
+            />
     </>
   );
 };

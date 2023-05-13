@@ -28,28 +28,28 @@ import { deleteTrianer, updateFieldForTrianer } from '../api';
 const AddTrainerQueryKey = ['addTrainerRequest'];
 
 const useAllTrainersFormController = () => {
-  useEffect(() => {
-    getField().then((res) => {
-      if (res.success) {
-        console.log(res.data);
-        const options = res.data.map((field) => ({
-          id: field.id,
-          fieldId: field.Field.id,
-          companyId: field.Field.field,
-          Field: field.Field,
-        })) as FieldOption[];
-        setFieldOptions(options);
-        console.log(fieldOptions);
-      }
-    });
-  }, []);
+  const [updatedTrainersInformation, setUpdatedTrainersInformation] = useState<TrainersData[]>([]);
+  const [TrainersInformation, setTrainersInformation] = useState<TrainersData[]>([]);
+  const [deleteId, setDeleteId] = useState<string>('');
+  const [updatedTrainerID, setUpdatedTrainerID] = useState<string>('');
+  const [newFieldId, setNewFieldId] = useState<string>('');
+  const [fieldOptions, setFieldOptions] = useState<FieldOption[]>([]);
+  const [updateFieldForTrainerDialogOpen, setUpdateFieldForTrainerDialogOpen] = useState(false);
+  const [deleteTrainerDialogOpen, setDeleteTrainerDialogOpen] = useState<boolean>(false);
+  const { showSnackbar } = useSnackbar();
+
+  
+ 
+
+  const onSetNewFieldId = (id: string) => setNewFieldId(id);
+
 
   const handleDeleteTrainer = () => {
     deleteTrianer({ id: deleteId }).then(
       (res: { success: boolean; message: any }) => {
         if (res.success === true) {
           showSnackbar({ severity: 'success', message: res.message });
-          setData((prevData) => prevData.filter((row) => row.id !== deleteId));
+          setTrainersInformation((prevData) => prevData.filter((row) => row.id !== deleteId));
           setDeleteId('');
           setDeleteTrainerDialogOpen(false);
         } else if (res.success === false) {
@@ -70,8 +70,6 @@ const useAllTrainersFormController = () => {
     setDeleteTrainerDialogOpen(false);
   };
 
-  const [updateFieldForTrainerDialogOpen, setUpdateFieldForTrainerDialogOpen] =
-    useState(false);
 
   const handleUpdateFieldDialogOpen = (id: string) => {
     setUpdatedTrainerID(id);
@@ -90,7 +88,7 @@ const useAllTrainersFormController = () => {
         if (res.success === true) {
           const fieldName = res.data.Field.field;
           showSnackbar({ severity: 'success', message: res.message });
-          setData((prevData) =>
+          setTrainersInformation((prevData) =>
             prevData.map((row) => {
               if (row.id === updatedTrainerID) {
                 return {
@@ -117,16 +115,7 @@ const useAllTrainersFormController = () => {
     console.log(`Training ID : ${updatedTrainerID}`);
     handleUpdateFieldDialogClose();
   };
-  const [updatedata, setUpdateData] = useState<TrainersData[]>([]);
-  const [data, setData] = useState<TrainersData[]>([]);
-  const [deleteId, setDeleteId] = useState<string>('');
-  const [updatedTrainerID, setUpdatedTrainerID] = useState<string>('');
-  const [newFieldId, setNewFieldId] = useState<string>('');
-  const [fieldOptions, setFieldOptions] = useState<FieldOption[]>([]);
-
-  const [deleteTrainerDialogOpen, setDeleteTrainerDialogOpen] =
-    useState<boolean>(false);
-  const { showSnackbar } = useSnackbar();
+ 
 
   const columns = [
     { field: 'id', headerName: 'Trainer Id', width: 220, flex: 0.3 },
@@ -141,51 +130,13 @@ const useAllTrainersFormController = () => {
       filterable: false,
       sortable: false,
       renderCell: (params: { id: any }) => (
-        <>
           <IconButton
             onClick={() => handleUpdateFieldDialogOpen(params.id)}
             aria-label="edit field"
           >
             <EditIcon sx={{ color: '#820000' }} className="edit-icon" />
           </IconButton>
-          <Dialog
-            fullWidth
-            className="dialog-box"
-            open={updateFieldForTrainerDialogOpen}
-            onClose={handleUpdateFieldDialogClose}
-            BackdropProps={{ invisible: true }}
-            aria-labelledby="form-dialog-title"
-          >
-            <DialogTitle id="form-dialog-title">Edit Field</DialogTitle>
-            <DialogContent>
-              <Autocomplete
-                id="field"
-                options={fieldOptions}
-                getOptionLabel={(option) => option.Field.field}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    margin="dense"
-                    label="Field"
-                    variant="outlined"
-                  />
-                )}
-                onChange={(event, newValue) => {
-                  formikProps.setFieldValue('fieldId', newValue?.id || '');
-                  setNewFieldId(newValue?.id || '');
-                }}
-              />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleUpdateFieldDialogClose} color="primary">
-                Cancel
-              </Button>
-              <Button onClick={handleSaveUpdatedValueField} color="primary">
-                Save
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </>
+     
       ),
     },
 
@@ -197,7 +148,6 @@ const useAllTrainersFormController = () => {
       filterable: false,
       alignContent: 'centre',
       renderCell: (params: { [x: string]: any; id: any }) => (
-        <>
           <IconButton
             sx={{ ml: 3.5 }}
             color="error"
@@ -206,35 +156,11 @@ const useAllTrainersFormController = () => {
           >
             <ClearIcon className="clear" />
           </IconButton>
-          <Dialog
-            open={deleteTrainerDialogOpen}
-            onClose={handleCancelDeleteTrainer}
-            maxWidth="xs"
-            fullWidth
-          >
-            <DialogTitle>Delete Trainer</DialogTitle>
-            <DialogContent>
-              Are you sure you want to delete this trainer?
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleCancelDeleteTrainer} color="primary">
-                Cancel
-              </Button>
-              <Button
-                onClick={handleDeleteTrainer}
-                color="error"
-                variant="contained"
-              >
-                Delete
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </>
       ),
     },
   ];
 
-  const rows = data.map((row) => ({
+  const rows = TrainersInformation.map((row) => ({
     id: row.id,
     name: row.name,
     field: row.Field.field,
@@ -248,7 +174,7 @@ const useAllTrainersFormController = () => {
     onSubmit: (values, { resetForm }) => {
       mutate(values);
       resetForm();
-      // formikProps.setFieldValue('field' , null)
+      formikProps.setFieldValue('fieldId' , null)
     },
     validationSchema,
     validateOnMount: true,
@@ -264,7 +190,7 @@ const useAllTrainersFormController = () => {
           showSnackbar({ severity: 'success', message: data.message });
           getTrainers()
             .then((result) => {
-              setUpdateData((prevData) => [data.data, ...prevData]);
+              setUpdatedTrainersInformation((prevData) => [data.data, ...prevData]);
               console.log(result.data);
             })
             .catch((error) => console.log(error));
@@ -286,18 +212,35 @@ const useAllTrainersFormController = () => {
   useEffect(() => {
     getTrainers()
       .then((result) => {
-        setData(result.data);
+        setTrainersInformation(result.data);
         console.log(result.data);
       })
       .catch((error) => console.log(error));
-  }, [updatedata]);
+  }, [updatedTrainersInformation]);
+
+  useEffect(() => {
+    getField().then((res) => {
+      if (res.success) {
+        console.log(res.data);
+        const options = res.data.map((field) => ({
+          id: field.id,
+          fieldId: field.Field.id,
+          companyId: field.Field.field,
+          Field: field.Field,
+        })) as FieldOption[];
+        setFieldOptions(options);
+        console.log(fieldOptions);
+      }
+    });
+  }, []);
+
 
   return {
     formikProps,
     mutate,
     isLoading,
-    updatedata,
-    data,
+    updatedTrainersInformation,
+    TrainersInformation,
     rows,
     columns,
     fieldOptions,
@@ -307,7 +250,10 @@ const useAllTrainersFormController = () => {
     Dialog,
     deleteTrainerDialogOpen,
     handleDeleteTrainer,
-    handleCancelDeleteTrainer
+    handleCancelDeleteTrainer,
+    onSetNewFieldId,
+    updateFieldForTrainerDialogOpen,
+
   };
 };
 
