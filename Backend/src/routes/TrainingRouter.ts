@@ -2,14 +2,15 @@ import express from 'express';
 import trainingController from "../controllers/TrainingController"
 import verifyAccessToken from '../middlewares/verifyAccessToken';
 const router = express.Router();
-const { getAllTrainings, changeTrainingStatus, assignTrainer, getCompletedTrainings, getAcceptedTrainings, handleGenerateFormButton, submittedStudents, getQuestions, getRunningTrainings, submitQuestions, generateEvaluationForm } = trainingController;
+const { getAllTrainings, changeTrainingStatus, assignTrainer, getCompletedTrainings, getAcceptedTrainings, handleGenerateFormButton,getsubmittedStudents, getQuestions, getRunningTrainings, submitQuestions, generateEvaluationForm , getRunningAndFinishedStudents} = trainingController;
 import verifyRoles from '../middlewares/verifyRole';
 import { UserRoleEnum } from '../enums';
 
 router.use(verifyAccessToken);
 router.patch('/assignTrainer', verifyRoles([UserRoleEnum.Company]), assignTrainer);
 router.patch('/changeTrainingStatus', verifyRoles([UserRoleEnum.Company]), changeTrainingStatus); //accept/reject/cancle
-router.get('/submittedStudents', verifyRoles([UserRoleEnum.UNI_TRAINING_OFFICER]), submittedStudents);
+router.get('/runningAndFinishedStudents',verifyRoles([UserRoleEnum.TRAINER]),getRunningAndFinishedStudents)
+router.get('/submittedStudents', verifyRoles([UserRoleEnum.UNI_TRAINING_OFFICER]), getsubmittedStudents);
 router.post('/submitQuestions', submitQuestions);
 // router.post('/students', getRecords);
 router.get('/completedTrainings', getCompletedTrainings);
