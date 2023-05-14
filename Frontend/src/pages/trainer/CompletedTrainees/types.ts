@@ -1,37 +1,20 @@
-import { BaseResponse } from "src/types";
-
 export interface Row {
-    studentId: string;
-    Student: {
-        name: string;
-    };
-    count: string;
-}
-
-export interface SubmitAnswersBody{
-  trainingId: string;
-  arrayData: {
-    questionId: string;
-    answerId: string | null;
-    note: string | null;
-  }[];
-}
-export interface SubmitAnswersData {
-  id: string;
-  companyId: string;
-  fieldId: string;
-  Field: {
-    id: string;
-    field: string;
+  studentId: string;
+  Student: {
+    name: string;
   };
-  name: string;
-  status: string;
-  userId: string;
+  CompanyBranch: {
+    location: string;
+  };
+  Trainer: {
+    name: string;
+  };
+  count: string;
+  companyBranchId: string;
+  id: string;
+  trainerId: string;
 }
 
-export interface SubmitAnswersResponse extends BaseResponse {
-  data: SubmitAnswersData;
-}
 export interface Evaluation {
   companyBranchId: string;
   endDate: string;

@@ -1,19 +1,12 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import MuiPagination from '@mui/material/Pagination';
-import { TablePaginationProps } from '@mui/material/TablePagination';
+import React, {useState } from 'react';
 import {
   DataGrid,
-  GridPagination,
   GridToolbar,
-  gridPageCountSelector,
-  useGridApiContext,
-  useGridSelector,
 } from '@mui/x-data-grid';
 import RemoveIcon from '@mui/icons-material/Remove';
 import './Trainers.css';
 import {
   Autocomplete,
-  Backdrop,
   Collapse,
   FormControl,
   Paper,
@@ -44,7 +37,6 @@ const Trainers: React.FC = () => {
     handleDeleteTrainer,
     onSetNewFieldId,
     handleSaveUpdatedValueField,
-    handleUpdateFieldDialogOpen,
     updateFieldForTrainerDialogOpen,
     handleUpdateFieldDialogClose,
     

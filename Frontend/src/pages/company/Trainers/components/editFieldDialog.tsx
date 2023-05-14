@@ -8,13 +8,13 @@ import {
   Button,
 } from '@mui/material';
 import { FC } from 'react';
-import useAllTrainersFormController from '../hooks/useAllTrainersController';
-import { FieldOption } from '../types';
+import { FieldData } from '../api/response.dto';
+
 interface EditFieldForTrainerDialogProps {
   updateFieldForTrainerDialogOpen: boolean;
   handleUpdateFieldDialogClose: () => void;
   handleSaveUpdatedValueField: () => void;
-  fieldOptions: FieldOption[];
+  fieldOptions: FieldData[];
   formikProps: any;
   onSetNewFieldId: (id: string) => void;
 }

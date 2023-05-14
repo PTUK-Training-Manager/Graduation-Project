@@ -1,35 +1,17 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-import {
-  Box,
-  Card,
-  CardContent,
-  Container,
-  Divider,
-  Radio,
-  RadioGroup,
-} from '@mui/material';
+import { Card, CardContent, Container, Divider } from '@mui/material';
 import './style.css';
 
-import { FormControlLabel } from '@mui/material';
-import Checkbox from '@mui/material/Checkbox';
-import { FC, SyntheticEvent } from 'react';
-import useCompletedTraineesController from '../hooks/useCompletedTraineesController';
+import { FC } from 'react';
+import { EvaluationData } from 'src/api/types';
 
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-  >
-    •
-  </Box>
-);
-interface EvaluationFormDialogProps {}
-const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({}) => {
-  const { response, isOpen, currentTab, handleChangeTab, open } =
-    useCompletedTraineesController();
+interface FirstPageProps {
+  response: EvaluationData[];
+}
 
+const FirstPage: FC<FirstPageProps> = ({ response }) => {
   return (
     <>
       <Container sx={{ p: '50px' }}>
@@ -50,7 +32,7 @@ const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({}) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  Student Name: {' '}
+                  Student Name:{' '}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -61,7 +43,7 @@ const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({}) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  Student Number: {' '}
+                  Student Number:{' '}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -72,7 +54,7 @@ const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({}) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  PhoneNumber: {' '}
+                  PhoneNumber:{' '}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -83,7 +65,7 @@ const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({}) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  academic specialization: {' '}
+                  academic specialization:{' '}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -105,7 +87,7 @@ const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({}) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  Company Name: {' '}
+                  Company Name:{' '}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -116,7 +98,7 @@ const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({}) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  Company Branch: {' '}
+                  Company Branch:{' '}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -127,7 +109,7 @@ const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({}) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  Email: {' '}
+                  Email:{' '}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -138,7 +120,7 @@ const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({}) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  PhoneNumber: {' '}
+                  PhoneNumber:{' '}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -149,7 +131,7 @@ const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({}) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  Manegar Name: {' '}
+                  Manegar Name:{' '}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -159,7 +141,7 @@ const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({}) => {
               </Stack>
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  Trainer Name: {' '}
+                  Trainer Name:{' '}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -179,7 +161,7 @@ const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({}) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  Starting Date: {' '}
+                  Starting Date:{' '}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -190,7 +172,7 @@ const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({}) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  Ending Date: {' '}
+                  Ending Date:{' '}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -199,36 +181,33 @@ const EvaluationFormDialog: FC<EvaluationFormDialogProps> = ({}) => {
                 </Typography>
               </Stack>
 
-              
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                 {response[0]?.Answered_Questions[7]?.Question?.question}: {' '}
+                  {response[0]?.Answered_Questions[7]?.Question?.question}:{' '}
                   <Typography
-                    sx={{display: 'inline-block',fontWeight: '400'  }}
+                    sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
                     {response[0]?.Answered_Questions[7]?.Note?.note} days
                   </Typography>
                 </Typography>
               </Stack>
-              
+
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  Number of training days for the student: {' '}
+                  Number of training days for the student:{' '}
                   <Typography
-                    sx={{display: 'inline-block',fontWeight: '400' }}
+                    sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
                     {response[0]?.Evaluations.length} days
                   </Typography>
                 </Typography>
               </Stack>
-              
             </CardContent>
           </Card>
           <Divider />
-
         </Stack>
       </Container>
     </>
   );
 };
-export default EvaluationFormDialog;
+export default FirstPage;

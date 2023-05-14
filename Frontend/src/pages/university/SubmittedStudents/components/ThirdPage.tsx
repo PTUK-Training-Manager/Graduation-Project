@@ -6,7 +6,7 @@ import './style.css';
 
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 
-import useCompletedTraineesController from '../hooks/useCompletedTraineesController';
+import useCompletedTraineesController from '../hooks/useSubmittedTraineesController';
 import {
   JSXElementConstructor,
   ReactElement,

@@ -1,6 +1,7 @@
 import axiosInstance from 'src/api';
 import { GetTrainersResponse } from './response.dto';
-import { DeleteTrainerBody, DeleteTrainerResponse,UpdateFieldforTrainerBody,UpdateFieldForTrainerResponse,AddTrainerRequestBody,AddTrainerResponse} from '../types';
+import { DeleteTrainerBody,AddTrainerRequestBody,UpdateFieldforTrainerBody } from './request.dto';
+import { DeleteTrainerResponse,AddTrainerResponse,UpdateFieldForTrainerResponse,GetFieldResponse } from './response.dto';
 
 export const getTrainers = async (): Promise<GetTrainersResponse> => {
   const url = '/company/trainers';
@@ -27,4 +28,9 @@ export const addTrainerRequest = (body: AddTrainerRequestBody) => {
   return axiosInstance
     .post<AddTrainerResponse>(url, body)
     .then((res) => res.data);
+};
+
+export const getField = async () => {
+  const url = "/company/fields";
+  return axiosInstance.get<GetFieldResponse>(url).then(res => res.data);
 };

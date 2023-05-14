@@ -1,13 +1,14 @@
 import { SyntheticEvent, useEffect, useState } from 'react';
-import { getCompletedTrainees } from '../api';
 import { Row } from '../types';
-import { IconButton, Tooltip } from '@mui/material';
-import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+import { IconButton } from '@mui/material';
+import NoteAltIcon from '@mui/icons-material/NoteAlt';
+import { getSubmittedStudents } from '../api';
 
-const useCompletedTraineesController = () => {
+const useSubmittedTraineesController = () => {
   const [data, setData] = useState<Row[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [trainingId, setTrainingId] = useState('');
+
   const [currentTab, setCurrentTab] = useState('one');
 
   const handleChangeTab = (event: SyntheticEvent, newValue: string) => {
@@ -16,6 +17,7 @@ const useCompletedTraineesController = () => {
 
   const handleOpenDialog = (id: string) => {
     setTrainingId(id);
+    console.log(isOpen);
     setIsOpen((prev) => !prev);
   };
 
@@ -24,24 +26,12 @@ const useCompletedTraineesController = () => {
   };
 
   const columns = [
+    { field: 'studentId', headerName: 'Student Number', width: 400, flex: 0.3 },
+    { field: 'studentName', headerName: 'Student Name', width: 400, flex: 0.3 },
     {
-      field: 'studentId',
-      headerName: 'Student Number',
-      width: 400,
-      flex: 0.3,
-    },
-    {
-      field: 'studentName',
-      headerName: 'Student Name',
-      width: 400,
-      flex: 0.3,
-    },
-
-    {
-      field: 'evalForm',
+      field: 'evaluationForm',
       headerName: 'Evaluation Form',
       width: 400,
-      flex: 0.3,
       headerClassName: 'ctrainees',
       filterable: false,
       sortable: false,
@@ -51,7 +41,7 @@ const useCompletedTraineesController = () => {
           aria-label="progress form"
           onClick={() => handleOpenDialog(params.id)}
         >
-          <ManageSearchIcon sx={{ color: '#820000' }} className="manage-icon" />
+          <NoteAltIcon sx={{ color: '#820000' }} className="edit-icon" />
         </IconButton>
       ),
     },
@@ -61,11 +51,18 @@ const useCompletedTraineesController = () => {
     id: row.id,
     studentId: row.studentId,
     studentName: row.Student.name,
+    type: row.type,
+    semester: row.semester,
+    status: row.status,
+    startDate: row.startDate,
+    endDate: row.endDate,
     Student: row.Student,
+    companyBranchId: row.companyBranchId,
+    trainerId: row.trainerId,
   }));
 
   useEffect(() => {
-    getCompletedTrainees()
+    getSubmittedStudents()
       .then((result) => {
         setData(result.data);
         console.log(result.data);
@@ -87,4 +84,4 @@ const useCompletedTraineesController = () => {
   };
 };
 
-export default useCompletedTraineesController;
+export default useSubmittedTraineesController;

@@ -184,17 +184,18 @@ const trainerMenuItems: IAppMenuItem[] = [
         Icon: () => <PendingActionsIcon />,
       },
       {
-        label: 'Completed',
-        link: '/trainer-completed-trainees',
+        label: 'Finished 200 Hours',
+        link: '/finished-200-hours',
         Icon: () => <SchoolIcon />,
       },
+      {
+        label: "Completed",
+        link: "/trainer-completed-trainees",
+        Icon: () => <FactCheckIcon/>,
+    },
     ],
   },
-  {
-    label: "Completed Trainings",
-    link: "/completed-trainings",
-    Icon: () => <FactCheckIcon/>,
-},
+ 
   {
     label: 'Search Trainings',
     link: '/trainer-all-trainings',

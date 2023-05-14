@@ -60,15 +60,15 @@ const TrainerCurrentTrainees = lazy(
 const TrainerAllTrainings = lazy(
   () => import('src/pages/trainer/AllTrainings')
 );
-const TrainerCompletedTrainees = lazy(
-  () => import('src/pages/trainer/CompletedTrainees')
+const Finished200Hours = lazy(
+  () => import('src/pages/trainer/Finished200Hours')
 );
 
 const EvaluationRequests = lazy(
   () => import('src/pages/trainer/EvaluationRequests')
 );
-const CompletedTrainings = lazy(
-  () => import('src/pages/trainer/CompletedTrainings')
+const TrainerCompletedTrainees = lazy(
+  () => import('src/pages/trainer/CompletedTrainees')
 );
 const AllTrainingStudent=lazy(() => import('src/pages/Student/AllTraining'));
 const Progress=lazy(() => import('src/pages/Student/Progress'));
@@ -127,16 +127,16 @@ const AppRoutes: FC<AppRoutesProps> = () => {
               element={<TrainerAllTrainings />}
             />
             <Route
-              path="/trainer-completed-trainees"
-              element={<TrainerCompletedTrainees />}
+              path="/finished-200-hours"
+              element={<Finished200Hours />}
             />
             <Route
               path="/evaluation-requests"
               element={<EvaluationRequests />}
             />
             <Route
-              path="/completed-trainings"
-              element={<CompletedTrainings />}
+              path="/trainer-completed-trainees"
+              element={<TrainerCompletedTrainees />}
             />
           </Route>
 

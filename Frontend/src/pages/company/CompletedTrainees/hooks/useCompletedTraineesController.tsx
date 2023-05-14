@@ -8,6 +8,7 @@ const useCompletedTraineesController = () => {
   const [data, setData] = useState<Row[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [trainingId, setTrainingId] = useState('');
+
   const [currentTab, setCurrentTab] = useState('one');
 
   const handleChangeTab = (event: SyntheticEvent, newValue: string) => {
@@ -36,7 +37,14 @@ const useCompletedTraineesController = () => {
       width: 400,
       flex: 0.3,
     },
+    { field: 'trainerName', headerName: 'Trainer', width: 400, flex: 0.3 },
 
+    {
+      field: 'branch',
+      headerName: 'Company Branch',
+      width: 400,
+      flex: 0.3,
+    },
     {
       field: 'evalForm',
       headerName: 'Evaluation Form',
@@ -62,6 +70,12 @@ const useCompletedTraineesController = () => {
     studentId: row.studentId,
     studentName: row.Student.name,
     Student: row.Student,
+    trainerName: row.Trainer.name,
+    Trainer: row.Trainer,
+    branch: row.CompanyBranch.location,
+    CompanyBranch: row.CompanyBranch,
+    companyBranchId: row.companyBranchId,
+    trainerId: row.trainerId,
   }));
 
   useEffect(() => {

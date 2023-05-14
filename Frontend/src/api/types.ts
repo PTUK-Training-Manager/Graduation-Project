@@ -66,7 +66,7 @@ export interface EvaluationData {
 }
 
 export interface EvaluationFormRequestBody {
-    index?: number;
+    index: number;
     studentId: string;
 }
 

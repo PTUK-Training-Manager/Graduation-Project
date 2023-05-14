@@ -8,23 +8,36 @@ import Typography from '@mui/material/Typography';
 import FirstPage from './FirstPage';
 import SecondPage from './SecondPage';
 import ThirdPage from './ThirdPage';
-import useCompletedTraineesController from '../hooks/useCompletedTraineesController';
+import { FC, useEffect, useState } from 'react';
+import { getEvaluations } from 'src/api/getEvaluation';
+import { EvaluationData } from 'src/api/types';
+
 const steps = [
   'Select campaign settings',
   'Create an ad group',
   'Create an ad',
 ];
 
-export default function EvaluStepper() {
-  const {
-    columns,
-    rows,
-    isOpen,
-    data,
-    currentTab,
-    handleChangeTab,
-    handleCloseDialog,
-  } = useCompletedTraineesController();
+interface EvaluStepperProps {
+  index: number;
+  studentId: string;
+}
+
+const EvaluStepper: FC<EvaluStepperProps> = ({ index, studentId }) => {
+  const [response, setResponse] = useState<EvaluationData[]>([]);
+
+  useEffect(() => {
+    console.log(index);
+    console.log(studentId);
+
+    getEvaluations({ index: index, studentId: studentId })
+      .then((result) => {
+        setResponse(result.data);
+        // console.log(result.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+  console.log(response);
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set<number>());
@@ -88,9 +101,9 @@ export default function EvaluStepper() {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          {activeStep === 0 && <FirstPage />}
-          {activeStep === 1 && <SecondPage />}
-          {activeStep === 2 && <ThirdPage />}
+          {activeStep === 0 && <FirstPage response={response} />}
+          {activeStep === 1 && <SecondPage response={response} />}
+          {activeStep === 2 && <ThirdPage response={response} />}
 
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Button
@@ -103,7 +116,7 @@ export default function EvaluStepper() {
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
 
-            <Button onClick={handleNext} >
+            <Button onClick={handleNext}>
               {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
             </Button>
           </Box>
@@ -111,4 +124,6 @@ export default function EvaluStepper() {
       )}
     </Box>
   );
-}
+};
+
+export default EvaluStepper;

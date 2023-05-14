@@ -6,7 +6,6 @@ import './style.css';
 
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 
-import useCompletedTraineesController from '../hooks/useCompletedTraineesController';
 import {
   JSXElementConstructor,
   ReactElement,
@@ -22,10 +21,7 @@ interface ThirdPageProps {
 }
 
 const ThirdPage: React.FC<ThirdPageProps> = ({ response }) => {
-  const { isOpen } = useCompletedTraineesController();
-  console.log(response);
-  console.log(response[0]?.id);
-  console.log(isOpen);
+
 
   return (
     <>

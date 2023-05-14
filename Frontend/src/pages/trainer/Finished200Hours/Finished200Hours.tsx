@@ -1,34 +1,42 @@
+import React, { SyntheticEvent, useEffect, useMemo, useState } from 'react';
+import MuiPagination from '@mui/material/Pagination';
+import { TablePaginationProps } from '@mui/material/TablePagination';
 import {
   DataGrid,
+  GridPagination,
   GridToolbar,
+  gridClasses,
+  gridPageCountSelector,
+  useGridApiContext,
+  useGridSelector,
 } from '@mui/x-data-grid';
+import EvaluStepper from './components/EvaluStepper';
+import './Finished200Hours.css';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
+import PrintIcon from '@mui/icons-material/Print';
 import {
   Dialog,
   DialogContent,
   DialogTitle,
- 
+  IconButton,
+  Tooltip,
 } from '@mui/material';
 import theme from 'src/styling/customTheme';
 import Typography from '@mui/material/Typography';
 import Transition from 'src/components/Transition';
 import DataGridPagination from 'src/components/DataGrid/DataGridPagination';
-import useCompletedTrainingController from './hooks/useCompletedTrainingController';
+import useFinished200HoursController from './hooks/useFinished200HoursController';
 
 
-const CompletedTrainings: React.FC = () => {
+
+const Finished200Hours: React.FC = () => {
   const {
     columns,
     rows,
     isOpen,
-    data,
-    currentTab,
-    index,
-    studentId,
-    handleChangeTab,
     handleCloseDialog,
-  } = useCompletedTrainingController();
+  } = useFinished200HoursController();
 
   return (
     <>
@@ -49,7 +57,7 @@ const CompletedTrainings: React.FC = () => {
           }}
         >
           <Typography component="h1" variant="h5" fontWeight={500}>
-            Completed Trainees
+            Trainees Finished 200 Houres
           </Typography>
           <DataGrid
             className="dataGrid"
@@ -63,7 +71,7 @@ const CompletedTrainings: React.FC = () => {
             }}
             columns={columns}
             rows={rows}
-            getRowId={(row) => row['studentId']}
+            getRowId={(row) => row['id']}
             initialState={{
               pagination: { paginationModel: { pageSize: 30 } },
             }}
@@ -84,10 +92,11 @@ const CompletedTrainings: React.FC = () => {
       >
         <DialogTitle gap={1.5} sx={{ textAlign: 'center' }}></DialogTitle>
         <DialogContent>
+          <EvaluStepper />
         </DialogContent>
       </Dialog>
     </>
   );
 };
 
-export default CompletedTrainings;
+export default Finished200Hours;

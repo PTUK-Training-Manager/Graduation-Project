@@ -10,46 +10,39 @@ import { useEffect, useState } from 'react';
 import ClearIcon from '@mui/icons-material/Clear';
 import { addTrainerRequest } from '../api';
 import { getTrainers } from '../api';
-import { TrainersData } from '../api/response.dto';
-import { FieldOption } from '../types';
-import {
-  Autocomplete,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  TextField,
-} from '@mui/material';
-import { getField } from 'src/api/getfield';
-import { deleteTrianer, updateFieldForTrianer } from '../api';
+import { TrainersData, FieldData } from '../api/response.dto';
+import { Dialog, IconButton } from '@mui/material';
+import { getField, deleteTrianer, updateFieldForTrianer } from '../api';
 
 const AddTrainerQueryKey = ['addTrainerRequest'];
 
 const useAllTrainersFormController = () => {
-  const [updatedTrainersInformation, setUpdatedTrainersInformation] = useState<TrainersData[]>([]);
-  const [TrainersInformation, setTrainersInformation] = useState<TrainersData[]>([]);
+  const [updatedTrainersInformation, setUpdatedTrainersInformation] = useState<
+    TrainersData[]
+  >([]);
+  const [TrainersInformation, setTrainersInformation] = useState<
+    TrainersData[]
+  >([]);
   const [deleteId, setDeleteId] = useState<string>('');
   const [updatedTrainerID, setUpdatedTrainerID] = useState<string>('');
   const [newFieldId, setNewFieldId] = useState<string>('');
-  const [fieldOptions, setFieldOptions] = useState<FieldOption[]>([]);
-  const [updateFieldForTrainerDialogOpen, setUpdateFieldForTrainerDialogOpen] = useState(false);
-  const [deleteTrainerDialogOpen, setDeleteTrainerDialogOpen] = useState<boolean>(false);
+  const [fieldOptions, setFieldOptions] = useState<FieldData[]>([]);
+  const [updateFieldForTrainerDialogOpen, setUpdateFieldForTrainerDialogOpen] =
+    useState(false);
+  const [deleteTrainerDialogOpen, setDeleteTrainerDialogOpen] =
+    useState<boolean>(false);
   const { showSnackbar } = useSnackbar();
 
-  
- 
-
   const onSetNewFieldId = (id: string) => setNewFieldId(id);
-
 
   const handleDeleteTrainer = () => {
     deleteTrianer({ id: deleteId }).then(
       (res: { success: boolean; message: any }) => {
         if (res.success === true) {
           showSnackbar({ severity: 'success', message: res.message });
-          setTrainersInformation((prevData) => prevData.filter((row) => row.id !== deleteId));
+          setTrainersInformation((prevData) =>
+            prevData.filter((row) => row.id !== deleteId)
+          );
           setDeleteId('');
           setDeleteTrainerDialogOpen(false);
         } else if (res.success === false) {
@@ -69,7 +62,6 @@ const useAllTrainersFormController = () => {
   const handleCancelDeleteTrainer = () => {
     setDeleteTrainerDialogOpen(false);
   };
-
 
   const handleUpdateFieldDialogOpen = (id: string) => {
     setUpdatedTrainerID(id);
@@ -115,7 +107,6 @@ const useAllTrainersFormController = () => {
     console.log(`Training ID : ${updatedTrainerID}`);
     handleUpdateFieldDialogClose();
   };
- 
 
   const columns = [
     { field: 'id', headerName: 'Trainer Id', width: 220, flex: 0.3 },
@@ -130,13 +121,12 @@ const useAllTrainersFormController = () => {
       filterable: false,
       sortable: false,
       renderCell: (params: { id: any }) => (
-          <IconButton
-            onClick={() => handleUpdateFieldDialogOpen(params.id)}
-            aria-label="edit field"
-          >
-            <EditIcon sx={{ color: '#820000' }} className="edit-icon" />
-          </IconButton>
-     
+        <IconButton
+          onClick={() => handleUpdateFieldDialogOpen(params.id)}
+          aria-label="edit field"
+        >
+          <EditIcon sx={{ color: '#820000' }} className="edit-icon" />
+        </IconButton>
       ),
     },
 
@@ -148,14 +138,14 @@ const useAllTrainersFormController = () => {
       filterable: false,
       alignContent: 'centre',
       renderCell: (params: { [x: string]: any; id: any }) => (
-          <IconButton
-            sx={{ ml: 3.5 }}
-            color="error"
-            aria-label="delete trianer"
-            onClick={() => handleClickDeleteTrainerButton(params.row.id)}
-          >
-            <ClearIcon className="clear" />
-          </IconButton>
+        <IconButton
+          sx={{ ml: 3.5 }}
+          color="error"
+          aria-label="delete trianer"
+          onClick={() => handleClickDeleteTrainerButton(params.row.id)}
+        >
+          <ClearIcon className="clear" />
+        </IconButton>
       ),
     },
   ];
@@ -174,7 +164,7 @@ const useAllTrainersFormController = () => {
     onSubmit: (values, { resetForm }) => {
       mutate(values);
       resetForm();
-      formikProps.setFieldValue('fieldId' , null)
+      formikProps.setFieldValue('fieldId', null);
     },
     validationSchema,
     validateOnMount: true,
@@ -190,7 +180,10 @@ const useAllTrainersFormController = () => {
           showSnackbar({ severity: 'success', message: data.message });
           getTrainers()
             .then((result) => {
-              setUpdatedTrainersInformation((prevData) => [data.data, ...prevData]);
+              setUpdatedTrainersInformation((prevData) => [
+                data.data,
+                ...prevData,
+              ]);
               console.log(result.data);
             })
             .catch((error) => console.log(error));
@@ -227,13 +220,12 @@ const useAllTrainersFormController = () => {
           fieldId: field.Field.id,
           companyId: field.Field.field,
           Field: field.Field,
-        })) as FieldOption[];
+        })) as FieldData[];
         setFieldOptions(options);
         console.log(fieldOptions);
       }
     });
   }, []);
-
 
   return {
     formikProps,
@@ -253,7 +245,6 @@ const useAllTrainersFormController = () => {
     handleCancelDeleteTrainer,
     onSetNewFieldId,
     updateFieldForTrainerDialogOpen,
-
   };
 };
 
