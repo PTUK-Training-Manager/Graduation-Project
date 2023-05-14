@@ -248,14 +248,9 @@ class TrainingController {
     next: NextFunction
   ) => {
     try {
-      const userId = req.user.userId;
-      const trainer = await Trainer.findOne({
-        where: { userId },
-      });
       const record = await Training.findAll({
         where: {
           status: TrainingStatusEnum.submitted,
-          trainerId: trainer?.id,
         },
         include: [
           {
