@@ -5,6 +5,8 @@ import {
     Training,
     Student
 } from "../models/index";
+import { TrainingStatusEnum } from "../enums";
+
 
 export const isProduction = process.env.NODE_ENV === "production";
 
@@ -49,4 +51,20 @@ export const getCompanyId = async (userId: number) => { //get trainings for trai
         attributes: ['id']
     });
     return company?.id;
+}
+export const getStudentTraining = async (userId: number)=>{
+    const student = await Student.findOne({
+        where: { userId },
+        attributes: ['id']
+    });
+    const studentId = student?.id;
+    const training = await Training.findOne({
+        where: {
+            studentId,
+            status: TrainingStatusEnum.running
+        },
+        attributes: ['id'],
+    });
+    const trainingId = training?.id;
+    return trainingId 
 }
