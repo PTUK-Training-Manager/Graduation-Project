@@ -17,19 +17,16 @@ class studentController {
     async addStudent(req: StudentRequestBody, res: Response<BaseResponse>, next: NextFunction) {
         try {
             const { id, name, email, phoneNumber, department } = req.body;
-
+            let nameArray = (name).split(" ");
+            const firstName = nameArray[0]; // Get the first section
+            const lastName = nameArray[nameArray.length - 1]; 
             const student = await Student.findByPk(id);
 
             if (student) {
-                return res.json({
-                    success: false,
-                    status: res.statusCode,
-                    message: "student already exists",
-                    data: student
-                })
+                return false
             }
 
-            const { temp, password } = await UserController.generateAccount(name, phoneNumber);
+            const { temp, password } = await UserController.generateAccount(firstName, lastName);
 
             const user = await UserController.addUser({
                 username: temp,
@@ -47,20 +44,11 @@ class studentController {
                 department
             });
 
-            if (!studentRecord) {
-                return res.json({
-                    success: false,
-                    status: res.statusCode,
-                    message: "error creating Student account"
-                });
+            if (studentRecord){
+                return true;
             }
 
-            return res.json({
-                success: true,
-                status: res.statusCode,
-                message: "success adding student",
-                data: studentRecord
-            });
+            
         } catch (err) {
             next(err);
         }

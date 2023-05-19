@@ -270,11 +270,11 @@ class TrainingController {
     }
   };
 
-  getQuestions=async (
+  getQuestions = async (
     req: TrainingRequestBody,
     res: Response<BaseResponse>,
     next: NextFunction
-  )=> {
+  ) => {
     try {
       const roleId = req.user.roleId;
       const record = await Question.findAll({
@@ -399,7 +399,7 @@ class TrainingController {
         message: `acceptedRequests: `,
         data: acceptedTrainings,
       });
-    } catch (err) {}
+    } catch (err) { }
   };
 
   getRunningTrainings = async (
@@ -698,7 +698,8 @@ class TrainingController {
       next(err);
     }
   };
-      getStudentTrainingId = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
+
+  getStudentTrainingId = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
     try {
       const userId = req.user.userId;
       const studentId = await getStudentId(userId);
@@ -717,7 +718,9 @@ class TrainingController {
     } catch (err) {
       next(err);
     }
+
   }
 }
+
 
 export default new TrainingController();
