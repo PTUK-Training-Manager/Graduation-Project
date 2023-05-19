@@ -4,33 +4,30 @@ import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import useSnackbar from 'src/hooks/useSnackbar';
 import {
-  Box,
   Button,
   Card,
   CardContent,
-  Container,
-  Divider,
-  FormControl,
-  MenuItem,
   Radio,
   RadioGroup,
-  Select,
-  SelectChangeEvent,
   TextField,
 } from '@mui/material';
 import './style.css';
 import { FormControlLabel } from '@mui/material';
-import { useEffect, useState } from 'react';
-import useCompletedTraineesController from '../hooks/useFinished200HoursController';
+import { FC, useEffect, useState } from 'react';
 import { submitAnswers } from '../api';
 import { SubmitAnswersBody } from '../types';
+import { QuestionsRequestData } from 'src/api/getQuestions';
 
-export default function Review() {
+interface FirstPageProps {
+  response: QuestionsRequestData[];
+  trainingID: string;
+}
+
+const FirstPage: FC<FirstPageProps> = ({ response, trainingID }) => {
   const { showSnackbar } = useSnackbar();
 
-  const { response} = useCompletedTraineesController();
   const [answers, setAnswers] = useState<SubmitAnswersBody>({
-    trainingId: '83',
+    trainingId: trainingID,
     arrayData: [],
   });
 
@@ -206,4 +203,5 @@ export default function Review() {
       </Grid>
     </>
   );
-}
+};
+export default FirstPage;

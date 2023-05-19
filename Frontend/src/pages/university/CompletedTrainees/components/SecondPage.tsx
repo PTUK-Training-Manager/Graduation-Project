@@ -82,7 +82,7 @@ const SecondPage: FC<SecondPageProps> = ({ response }) => {
                           {item.Note?.note && (
                             <Stack gap={1.5} direction="row">
                               <Typography sx={{ fontWeight: '600' }}>
-                                Note :
+                                Note:{' '}
                                 <Typography
                                   sx={{
                                     display: 'inline-block',
@@ -110,19 +110,22 @@ const SecondPage: FC<SecondPageProps> = ({ response }) => {
             }}
           >
             <CardContent>
-            <Stack gap={1.5} direction="row">
-                              <Typography sx={{ fontWeight: '600' }}>
-                                {response[0]?.Answered_Questions[8]?.Question.question}
-                                <Typography
-                                  sx={{
-                                    display: 'inline-block',
-                                    fontWeight: '400',
-                                  }}
-                                >
-                                {response[0]?.Answered_Questions[8]?.Note?.note}
-                                </Typography>
-                              </Typography>
-                            </Stack>
+              <Stack spacing={2} gap={2}>
+                <Typography sx={{ fontWeight: '600' }}>
+                  {response[0]?.Answered_Questions[8]?.Question.question}
+                  <Typography sx={{ fontWeight: '600' }}>
+                    Note:{' '}
+                    <Typography
+                      sx={{
+                        display: 'inline-block',
+                        fontWeight: '400',
+                      }}
+                    >
+                      {response[0]?.Answered_Questions[8]?.Note?.note}
+                    </Typography>
+                  </Typography>
+                </Typography>
+              </Stack>
             </CardContent>
           </Card>
         </Stack>

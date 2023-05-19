@@ -6,16 +6,31 @@ import StepLabel from '@mui/material/StepLabel';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import FirstPage from './FirstPage';
-import useCompletedTraineesController from '../hooks/useFinished200HoursController';
+import { useEffect } from 'react';
+import { QuestionsRequestData, getQuestion } from 'src/api/getQuestions';
 const steps = [
   'Select campaign settings',
   'Create an ad group',
   'Create an ad',
 ];
 
-export default function EvaluStepper() {
+interface EvaluStepperProps {
+  trainingId: string;
+}
+
+const EvaluStepper: React.FC<EvaluStepperProps> = ({ trainingId }) => {
+  const [response, setResponse] = React.useState<QuestionsRequestData[]>([]);
   const [activeStep, setActiveStep] = React.useState(0);
   const [, setSkipped] = React.useState(new Set<number>());
+
+  useEffect(() => {
+    getQuestion()
+      .then((result) => {
+        setResponse(result.data);
+        console.log(result.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   const isStepOptional = (step: number) => {
     return step === 1;
@@ -76,7 +91,9 @@ export default function EvaluStepper() {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          {activeStep === 0 && <FirstPage />}
+          {activeStep === 0 && (
+            <FirstPage response={response} trainingID={trainingId} />
+          )}
 
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             {/* <Button
@@ -97,4 +114,5 @@ export default function EvaluStepper() {
       )}
     </Box>
   );
-}
+};
+export default EvaluStepper;

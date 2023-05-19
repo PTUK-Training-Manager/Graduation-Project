@@ -101,14 +101,7 @@ const noOptionButton = <Button onClick={() => navigateToAnotherPage()}>Navigate 
   const navigateToAnotherPage = () => {
     navigate('/add-company')
   };
-  const handleOptionSelect = (event: any, value: CompanyOption | null) => {
-    if (value?.id === 'com') {
-        return <Navigate to="/add-company" replace state={{from: location.pathname}}/>;
-    } else {
-      formikProps.setFieldValue('companyId', value?.id || '');
-      setSelectedCompany(value?.id || '');
-    }
-  };
+  
 
   return (
     <>

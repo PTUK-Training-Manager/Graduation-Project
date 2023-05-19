@@ -8,7 +8,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Stack from '@mui/material/Stack';
 import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
-import { SubmitEvaluationBody } from './api/request.dto';
 import theme from 'src/styling/customTheme';
 import {
   Box,
@@ -25,6 +24,8 @@ import useSnackbar from 'src/hooks/useSnackbar';
 import Divider from '@mui/material/Divider';
 import Edit from '@mui/icons-material/Edit';
 import { submitEvaluation } from './api';
+import dayjs, { Dayjs } from 'dayjs';
+import TimePicker from '@mui/lab/TimePicker';
 
 const Root = styled('div')(({ theme }) => ({
   width: '100%',
@@ -38,65 +39,62 @@ const Progress: React.FC = () => {
   const { showSnackbar } = useSnackbar();
 
   const [openAccordion, setOpenAccordion] = useState(false);
-  const [startTime, setStartTime] = useState<Date | null>(null);
-  const [date, setDate] = useState(null);
-  const [endTime, setEndTime] = useState<Date | null>(null);
+  const [startTime, setStartTime] = useState<string>('');
+  const [date, setDate] = useState<Dayjs | null>(dayjs(''));
+  const [endTime, setEndTime] = useState<string>('');
   const [skills, setSkills] = useState('');
-  const [endTimeType, setEndTimeType] = useState<string | null>(null);
-  const [startTimeType, setStartTimeType] = useState<string | null>(null);
+  const [endTimeType, setEndTimeType] = useState<string>('');
+  const [startTimeType, setStartTimeType] = useState<string>('');
 
   const handleSubmit = (event: any) => {
-    event.preventDefault();
-    setOpenAccordion(false);
+    submitEvaluation({
+      startTime: startTime,
+      endTime: endTime,
+      startTimeType: startTimeType,
+      endTimeType: endTimeType,
+      skills: skills,
+      trainingId: 3,
+      date: date,
+    })
+      .then((result) => {
+        console.log(result.data);
+      })
+      .catch((error) => console.log(error));
   };
-  const [data, setData] = useState<SubmitEvaluationBody>();
 
-  const handleStartTimeChange = (newValue: Date | null) => {
-    setStartTime(newValue);
-  
+  const handleStartTimeChange = (newValue: string | null) => {
     if (newValue) {
-      // Extract hours and minutes from the selected time
-      const hours = newValue.getHours();
-      const minutes = newValue.getMinutes();
-  
-      // Determine the time type (AM or PM)
-      const timeType = hours >= 12 ? 'PM' : 'AM';
-  
-      // Remove the time type from the selected time
-      const timeWithoutType = new Date();
-      timeWithoutType.setHours(hours % 12, minutes, 0);
-  
+      const time = dayjs(newValue, 'HH:mm:ss');
+      const updatedTime = dayjs(newValue, 'HH:mm:ss').format('HH:mm:ss');
+      const timeType = time.format('A');
+      setStartTime(updatedTime);
       setStartTimeType(timeType);
-      setStartTime(timeWithoutType);
+    } else {
+      setStartTime('');
+      setStartTimeType('');
     }
   };
-  const handleEndTimeChange = (newValue: Date | null) => {
-    setEndTime(newValue);
-  
+  const handleEndChange = (newValue: string | null) => {
     if (newValue) {
-      // Extract hours and minutes from the selected time
-      const hours = newValue.getHours();
-      const minutes = newValue.getMinutes();
-  
-      // Determine the time type (AM or PM)
-      const timeType = hours >= 12 ? 'PM' : 'AM';
-  
-      // Remove the time type from the selected time
-      const timeWithoutType = new Date();
-      timeWithoutType.setHours(hours % 12, minutes, 0);
-  
+      const time = dayjs(newValue, 'HH:mm:ss');
+      const updatedTime = dayjs(newValue, 'HH:mm:ss').format('HH:mm:ss');
+      const timeType = time.format('A');
+      setEndTime(updatedTime);
       setEndTimeType(timeType);
-      setEndTime(timeWithoutType);
+    } else {
+      setEndTime('');
+      setEndTimeType('');
     }
   };
+
   useEffect(() => {
     console.log(startTime);
-    console.log(endTime);
     console.log(startTimeType);
+    console.log(endTime);
     console.log(endTimeType);
     console.log(skills);
-    console.log(date)
-  }, [startTime,endTime,startTimeType,endTimeType,skills,date]);  
+    console.log(date);
+  }, [startTime, startTimeType, endTime, endTimeType, skills]);
 
   return (
     <>
@@ -168,9 +166,9 @@ const Progress: React.FC = () => {
                     >
                       <MobileTimePicker
                         value={startTime}
-                        onChange={handleStartTimeChange}
                         label={'Start Time'}
                         views={['hours', 'minutes', 'seconds']}
+                        onChange={handleStartTimeChange}
                       />
                     </DemoContainer>
                   </LocalizationProvider>
@@ -185,9 +183,9 @@ const Progress: React.FC = () => {
                     >
                       <MobileTimePicker
                         value={endTime}
-                        onChange={handleEndTimeChange}
                         label={'End Time'}
                         views={['hours', 'minutes', 'seconds']}
+                        onChange={handleEndChange}
                       />
                     </DemoContainer>
                   </LocalizationProvider>
@@ -213,6 +211,7 @@ const Progress: React.FC = () => {
                     value={skills}
                     onChange={(event) => setSkills(event.target.value)}
                   />
+
                   <Button
                     variant="contained"
                     sx={{
@@ -230,68 +229,6 @@ const Progress: React.FC = () => {
                 </Stack>
               </Stack>
             </Paper>
-
-            <Root>
-              <Divider>
-                <Chip
-                  label="Rejected Progress"
-                  sx={{
-                    color: 'white',
-                    background:
-                      // '#004e64'
-                      'linear-gradient(45deg, #850000 30%, #DC0000 90%)',
-                  }}
-                />
-              </Divider>
-            </Root>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: { xs: 'column', sm: 'row' },
-                alignItems: { xs: 'center', sm: 'flex-start' },
-                gap: 2,
-              }}
-            >
-              <Box sx={{ width: '100%' }}>
-                <Card
-                  sx={{
-                    borderLeft: '5px solid',
-                    borderColor: '#004e64',
-                  }}
-                >
-                  <CardContent
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DemoContainer components={['DatePicker', 'DatePicker']}>
-                        <DatePicker
-                          disabled
-                          sx={{ width: '40%', height: '60%' }}
-                          label="Start Date"
-                          value={data}
-                          // onChange={(newValue) => setDate(newValue)}
-                        />
-                        <DatePicker
-                          disabled
-                          sx={{ width: '40%', height: '60%' }}
-                          label="End Date"
-                          value={date}
-                          onChange={(newValue) => setDate(newValue)}
-                        />
-                      </DemoContainer>
-                    </LocalizationProvider>
-
-                    <IconButton sx={{ alignSelf: 'flex-end' }}>
-                      <Edit sx={{ color: '#004e64' }} />
-                    </IconButton>
-                  </CardContent>
-                </Card>
-              </Box>
-            </Box>
           </Box>
         </Stack>
       </Grid>

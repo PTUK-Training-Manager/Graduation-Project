@@ -12,8 +12,8 @@ import {
   Paper,
 } from '@mui/material';
 import { Form, FormikProvider } from 'formik';
-import EditTrainerDialog from './components/EditFieldDialog';
-import DeleteTrainerDialog from './components/DeleteTrainerDialog';
+import EditTrainerDialog from './components/editFieldDialog';
+import DeleteTrainerDialog from './components/deleteTrainerDialog';
 import theme from 'src/styling/customTheme';
 
 import PersonAddIcon from '@mui/icons-material/PersonAdd';

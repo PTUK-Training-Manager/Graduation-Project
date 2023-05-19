@@ -17,7 +17,6 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import TextFieldWrapper from 'src/components/FormsUI/TextField';
 import Stack from '@mui/material/Stack';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import DataGridPagination from 'src/components/DataGrid/DataGridPagination';
 import { getBranch } from 'src/api/getBranch';
 import theme from 'src/styling/customTheme';
 import { addBranch } from '../AddBranchForm/api';
@@ -45,32 +44,8 @@ import { getCompany } from 'src/api/getCompany';
 import { useEffect, useState } from 'react';
 import Collapse from '@mui/material/Collapse';
 import useSnackbar from 'src/hooks/useSnackbar';
-import extractErrorMessage from 'src/utils/extractErrorMessage';
+import DataGridPagination from 'src/components/DataGrid/DataGridPagination';
 
-function Pagination({
-  page,
-  onPageChange,
-  className,
-}: Pick<TablePaginationProps, 'page' | 'onPageChange' | 'className'>) {
-  const apiRef = useGridApiContext();
-  const pageCount = useGridSelector(apiRef, gridPageCountSelector);
-
-  return (
-    <MuiPagination
-      color="primary"
-      className={className}
-      count={pageCount}
-      page={page + 1}
-      onChange={(event, newPage) => {
-        onPageChange(event as any, newPage - 1);
-      }}
-    />
-  );
-}
-
-function CustomPagination(props: any) {
-  return <GridPagination ActionsComponent={Pagination} {...props} />;
-}
 interface Row {
   map(arg0: (company: any) => { id: any; name: any }): unknown;
   id: string;
@@ -116,8 +91,10 @@ const AddCompanyForm: React.FC = () => {
   }, [updatedata]);
 
   const handleShowBranchesOpen = (id: string) => {
-    setShowBranches(true);
+    setCompanyId(id);
     console.log(id);
+    console.log(companyId);
+    setShowBranches(true);
     getBranch({ companyId: id }).then((res) => {
       if (res.success === true) {
         setAvailableBranches(res.data);
@@ -331,7 +308,7 @@ const AddCompanyForm: React.FC = () => {
                 pageSizeOptions={[10, 20, 30]}
                 slots={{
                   toolbar: GridToolbar,
-                  pagination: CustomPagination,
+                  pagination: DataGridPagination,
                 }}
               />
             </Stack>
@@ -382,7 +359,7 @@ const AddCompanyForm: React.FC = () => {
                 pageSizeOptions={[5, 10, 20, 30]}
                 slots={{
                   toolbar: GridToolbar,
-                  pagination: CustomPagination,
+                  pagination: DataGridPagination,
                 }}
               />
             </div>

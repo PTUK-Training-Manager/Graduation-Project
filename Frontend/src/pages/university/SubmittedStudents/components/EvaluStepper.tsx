@@ -9,8 +9,12 @@ import FirstPage from './FirstPage';
 import SecondPage from './SecondPage';
 import ThirdPage from './ThirdPage';
 import { FC, useEffect, useState } from 'react';
-import { getEvaluations, getEvaluationsForTrainer } from 'src/api/getEvaluation';
+import {
+  getEvaluations,
+  getEvaluationsForTrainer,
+} from 'src/api/getEvaluation';
 import { EvaluationData } from 'src/api/types';
+import { QuestionsRequestData, getQuestion } from 'src/api/getQuestions';
 
 const steps = [
   'Select campaign settings',
@@ -24,9 +28,20 @@ interface EvaluStepperProps {
 
 const EvaluStepper: FC<EvaluStepperProps> = ({ trainingId }) => {
   const [response, setResponse] = useState<EvaluationData[]>([]);
+  const [question, setQuestion] = useState<QuestionsRequestData[]>([]);
+  useEffect(() => {
+    getQuestion()
+      .then((result) => {
+        setQuestion(result.data);
+        // console.log(result.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+  console.log(question);
 
   useEffect(() => {
     console.log(trainingId);
+    
 
     getEvaluationsForTrainer({ trainingId: trainingId })
       .then((result) => {
@@ -101,7 +116,7 @@ const EvaluStepper: FC<EvaluStepperProps> = ({ trainingId }) => {
         <React.Fragment>
           {activeStep === 0 && <FirstPage response={response} />}
           {activeStep === 1 && <SecondPage response={response} />}
-          {activeStep === 2 && <ThirdPage response={response} />}
+          {activeStep === 2 && <ThirdPage response={response} trainingId={trainingId} question={question} />}
 
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Button

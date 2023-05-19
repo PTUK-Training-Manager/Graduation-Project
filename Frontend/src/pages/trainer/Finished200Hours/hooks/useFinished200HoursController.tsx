@@ -10,7 +10,7 @@ const useFinished200HoursController = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentTab, setCurrentTab] = useState('one');
   const [trainingId, setTrainingId] = useState('');
-  const [response, setResponse] = useState<QuestionsRequestData[]>([]);
+  // const [response, setResponse] = useState<QuestionsRequestData[]>([]);
   const { showSnackbar } = useSnackbar();
 
   const handleChangeTab = (event: SyntheticEvent, newValue: string) => {
@@ -69,14 +69,14 @@ const useFinished200HoursController = () => {
     Student: row.Student,
   }));
 
-  useEffect(() => {
-    getQuestion()
-    .then((result) => {
-      setResponse(result.data);
-      console.log(result.data);
-    })
-    .catch((error) => console.log(error));
-  }, []);
+  // useEffect(() => {
+  //   getQuestion()
+  //   .then((result) => {
+  //     setResponse(result.data);
+  //     console.log(result.data);
+  //   })
+  //   .catch((error) => console.log(error));
+  // }, []);
 
   const handleCloseDialog = () => {
     setIsOpen(false);
@@ -100,7 +100,7 @@ const useFinished200HoursController = () => {
     rows,
     data,
     isOpen,
-    response,
+    // response,
     // evaluationTrainingReport: evaluationTrainingReport?.data,
     open: !!isOpen,
     trainingId

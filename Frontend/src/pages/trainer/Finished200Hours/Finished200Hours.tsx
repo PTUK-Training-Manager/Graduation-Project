@@ -36,6 +36,7 @@ const Finished200Hours: React.FC = () => {
     rows,
     isOpen,
     handleCloseDialog,
+    trainingId,
   } = useFinished200HoursController();
 
   return (
@@ -92,7 +93,7 @@ const Finished200Hours: React.FC = () => {
       >
         <DialogTitle gap={1.5} sx={{ textAlign: 'center' }}></DialogTitle>
         <DialogContent>
-          <EvaluStepper />
+          <EvaluStepper trainingId={trainingId} />
         </DialogContent>
       </Dialog>
     </>
