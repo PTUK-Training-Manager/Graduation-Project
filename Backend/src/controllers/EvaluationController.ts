@@ -213,35 +213,9 @@ class EvaluationController {
         }
     }
 
-    getRejectedEvaluations = async (req: Request, res: Response, next: NextFunction) => {
+    getRejectedEvaluations = async (req: Request<unknown,unknown,{trainingId:number}>, res: Response, next: NextFunction) => {
         try {
-            const username = req.user.username;
-            const user = await User.findOne({
-                where: { username },
-                attributes: ['id']
-            });
-            const userId = user?.id;
-            const student = await Student.findOne({
-                where: { userId },
-                attributes: ['id']
-            });
-            const studentId = student?.id;
-            const training = await Training.findOne({
-                where: {
-                    studentId,
-                    status: TrainingStatusEnum.running
-                },
-                attributes: ['id'],
-            });
-            const trainingId = training?.id;
-            if (!trainingId) {
-                return res.json({
-                    success: true,
-                    status: res.statusCode,
-                    message: "you have no running Trainings",
-                });
-            }
-
+            const trainingId = req.body.trainingId;
             const rejectedEvaluations = await Evaluation.findAll({
                 where: {
                     trainingId,
@@ -259,6 +233,28 @@ class EvaluationController {
                 status: res.statusCode,
                 message: " ",
                 data: rejectedEvaluations
+            });
+
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    
+    getStudentPendingEvaluations = async (req: Request<unknown,unknown,{trainingId:number}>, res: Response, next: NextFunction) => {
+        try {
+            const trainingId = req.body.trainingId;
+            const pendingEvaluations = await Evaluation.findAll({
+                where: {
+                    trainingId,
+                    status: EvaluationStatusEnum.pending
+                }
+            });
+            return res.json({
+                success: true,
+                status: res.statusCode,
+                message: " ",
+                data: pendingEvaluations
             });
 
         } catch (err) {
