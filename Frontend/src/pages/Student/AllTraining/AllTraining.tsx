@@ -18,40 +18,39 @@ import {
   Tooltip,
 } from '@mui/material';
 import { useState } from 'react';
-import useSnackbar from 'src/hooks/useSnackbar';
-import ProgressFormDialog from 'src/pages/university/CurrentTrainees/components/ProgressFormDialog';
-import EvaluStepper from 'src/pages/university/CompletedTrainees/components/EvaluStepper';
+import EvaluStepper from './components/EvaluStepper';
+import ProgressFormDialog from './components/ProgressFormDialog';
 import Transition from 'src/components/Transition';
 import useAllTrainingsController from './hooks/useAllTrainingsController';
-import { getAllTrainings } from './api';
-import Progress from '../Progress/Progress';
 import { useNavigate } from 'react-router-dom';
 
 const AddCompanyForm: React.FC = () => {
-  const { data } = useAllTrainingsController();
-  const [isOpen, setIsOpen] = useState(false);
-  const [OpenEvaluatin, setOpenEvaluatin] = useState(false);
+  const { trainingData } = useAllTrainingsController();
+  const [isEvaluationReportOpen, setIsEvaluationReportOpen] = useState(false);
+  const [isProgressReportOpen, setIsProgressReportOpen] = useState(false);
   const [trainingId, setTrainingId] = useState('');
-  const [fillEvaluation, setFillEvaluation] = useState(false);
 
-  const handleOpenDialog = () => {
-    console.log(isOpen);
-    setIsOpen((prev) => !prev);
+  const handleOpenEvaluationReportDialog = (trainingId: string) => {
+    setTrainingId(trainingId);
+    console.log(isEvaluationReportOpen);
+    setIsEvaluationReportOpen((prev) => !prev);
   };
   const handleClickFillEvaluationReport = () => {
     navigate('/Progress');
   };
-  const handleCloseDialog = () => {
-    setIsOpen(false);
-  };
-  const handleOpenEvaluDialog = () => {
-    console.log(OpenEvaluatin);
-    setOpenEvaluatin((prev) => !prev);
+  const handleCloseEvaluationReportDialog = () => {
+    setIsEvaluationReportOpen(false);
   };
 
-  const handleCloseEvaluDialog = () => {
-    setOpenEvaluatin(false);
+  const handleCloseProgressReportDialog = () => {
+    setIsProgressReportOpen(false);
   };
+
+  const handleOpenProgressReportDialog = (trainingId: string) => {
+    setTrainingId(trainingId);
+    setIsProgressReportOpen((prev) => !prev);
+  };
+
   const navigate = useNavigate();
 
   return (
@@ -77,7 +76,7 @@ const AddCompanyForm: React.FC = () => {
           </Typography>
 
           <>
-            {data?.map((training, index: number) => (
+            {trainingData?.map((training, index: number) => (
               <Box
                 sx={{
                   justifyContent: 'space-between',
@@ -139,15 +138,28 @@ const AddCompanyForm: React.FC = () => {
                     </Stack>
 
                     {training.status == 'completed' && (
-                      <Button
-                        variant="contained"
+                      <Stack
+                        direction="row"
+                        spacing={2}
+                        gap={2}
                         sx={{
-                          background:
-                            'linear-gradient(45deg, #1b5e20 30%, #388e3c 90%)',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
                         }}
                       >
-                        Evaluation Report
-                      </Button>
+                        <Button
+                          onClick={() =>
+                            handleOpenEvaluationReportDialog(training.id)
+                          }
+                          variant="contained"
+                          sx={{
+                            background:
+                              'linear-gradient(45deg, #1b5e20 30%, #388e3c 90%)',
+                          }}
+                        >
+                          Evaluation Report
+                        </Button>
+                      </Stack>
                     )}
                     {training.status == 'running' && (
                       <>
@@ -155,7 +167,10 @@ const AddCompanyForm: React.FC = () => {
                           direction="row"
                           spacing={2}
                           gap={2}
-                          sx={{ alignItems: 'center' }}
+                          sx={{
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                          }}
                         >
                           <Tooltip title="Fill Daily Evalution Report">
                             <IconButton
@@ -165,10 +180,11 @@ const AddCompanyForm: React.FC = () => {
                               <BorderColorIcon color="warning" />
                             </IconButton>
                           </Tooltip>
-
                           <Button
+                            onClick={() =>
+                              handleOpenProgressReportDialog(training.id)
+                            }
                             variant="contained"
-                            onClick={() => handleOpenDialog()}
                             sx={{
                               background:
                                 'linear-gradient(45deg, #1b5e20 30%, #388e3c 90%)',
@@ -182,16 +198,27 @@ const AddCompanyForm: React.FC = () => {
 
                     {training.status == 'canceled' && (
                       <>
-                        <Button
-                          variant="contained"
-                          onClick={() => handleOpenDialog()}
+                        <Stack
+                          direction="row"
+                          spacing={2}
+                          gap={2}
                           sx={{
-                            background:
-                              'linear-gradient(45deg, #1b5e20 30%, #388e3c 90%)',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
                           }}
                         >
-                          Progress Report
-                        </Button>
+                          <IconButton></IconButton>
+                          <Button
+                            onClick={() => handleOpenProgressReportDialog(training.id)}
+                            variant="contained"
+                            sx={{
+                              background:
+                                'linear-gradient(45deg, #1b5e20 30%, #388e3c 90%)',
+                            }}
+                          >
+                            Progress Report
+                          </Button>
+                        </Stack>
                       </>
                     )}
                     {(training.status == 'submitted' ||
@@ -199,9 +226,18 @@ const AddCompanyForm: React.FC = () => {
                       training.status == 'accepted' ||
                       training.status == 'pendeing' ||
                       training.status == 'cancelled') && (
-                      <Typography sx={{ fontWeight: '600', color: 'white' }}>
-                        No something
-                      </Typography>
+                      <Stack
+                        direction="row"
+                        spacing={2}
+                        gap={2}
+                        sx={{
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                        }}
+                      >
+                        <IconButton></IconButton>
+                        <Button sx={{ color: 'white' }}> Progress Form</Button>
+                      </Stack>
                     )}
                   </Box>
                 </Paper>
@@ -210,6 +246,30 @@ const AddCompanyForm: React.FC = () => {
           </>
         </Stack>
       </Grid>
+      <Dialog
+        open={isEvaluationReportOpen}
+        onClose={handleCloseEvaluationReportDialog}
+        fullScreen
+        TransitionComponent={Transition}
+        sx={{ left: '50%' }}
+      >
+        <DialogTitle gap={1.5} sx={{ textAlign: 'center' }}></DialogTitle>
+        <DialogContent>
+          <EvaluStepper trainingId={trainingId} />
+        </DialogContent>
+      </Dialog>
+      <Dialog
+        open={isProgressReportOpen}
+        onClose={handleCloseProgressReportDialog}
+        fullScreen
+        TransitionComponent={Transition}
+        sx={{ left: '50%' }}
+      >
+        <DialogTitle gap={1.5} sx={{ textAlign: 'center' }}></DialogTitle>
+        <DialogContent>
+          <ProgressFormDialog trainingId={trainingId} />
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

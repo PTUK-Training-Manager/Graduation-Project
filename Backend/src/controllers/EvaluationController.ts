@@ -220,7 +220,7 @@ class EvaluationController {
             const rejectedEvaluations = await Evaluation.findAll({
                 where: {
                     trainingId,
-                    status
+                    status: TrainingStatusEnum.rejected
                 },
                 include: [
                     {
