@@ -214,25 +214,9 @@ class EvaluationController {
         }
     }
 
-<<<<<<< HEAD
-    getStudentEvaluations = async (req: Request<unknown,unknown,{status:EvaluationType}>, res: Response, next: NextFunction) => {
-        try {
-            const userId = req.user.userId;
-            const status=req.body.status;
-            const trainingId = await getStudentTraining(userId)
-            if (!trainingId) {
-                return res.json({
-                    success: true,
-                    status: res.statusCode,
-                    message: "you have no running Trainings",
-                });
-            }
-
-=======
     getRejectedEvaluations = async (req: Request<unknown,unknown,{trainingId:number}>, res: Response, next: NextFunction) => {
         try {
             const trainingId = req.body.trainingId;
->>>>>>> 55b9342e3151fac5c7bd1ded0e0a2940ded48e40
             const rejectedEvaluations = await Evaluation.findAll({
                 where: {
                     trainingId,
@@ -257,8 +241,6 @@ class EvaluationController {
         }
     }
 
-<<<<<<< HEAD
-=======
     
     getStudentPendingEvaluations = async (req: Request<unknown,unknown,{trainingId:number}>, res: Response, next: NextFunction) => {
         try {
@@ -280,7 +262,6 @@ class EvaluationController {
             next(err);
         }
     }
->>>>>>> 55b9342e3151fac5c7bd1ded0e0a2940ded48e40
 
 }
 export default new EvaluationController();
