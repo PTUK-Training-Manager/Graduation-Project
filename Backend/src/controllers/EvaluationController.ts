@@ -214,6 +214,7 @@ class EvaluationController {
         }
     }
 
+<<<<<<< HEAD
     getStudentEvaluations = async (req: Request<unknown,unknown,{status:EvaluationType}>, res: Response, next: NextFunction) => {
         try {
             const userId = req.user.userId;
@@ -227,6 +228,11 @@ class EvaluationController {
                 });
             }
 
+=======
+    getRejectedEvaluations = async (req: Request<unknown,unknown,{trainingId:number}>, res: Response, next: NextFunction) => {
+        try {
+            const trainingId = req.body.trainingId;
+>>>>>>> 55b9342e3151fac5c7bd1ded0e0a2940ded48e40
             const rejectedEvaluations = await Evaluation.findAll({
                 where: {
                     trainingId,
@@ -251,6 +257,30 @@ class EvaluationController {
         }
     }
 
+<<<<<<< HEAD
+=======
+    
+    getStudentPendingEvaluations = async (req: Request<unknown,unknown,{trainingId:number}>, res: Response, next: NextFunction) => {
+        try {
+            const trainingId = req.body.trainingId;
+            const pendingEvaluations = await Evaluation.findAll({
+                where: {
+                    trainingId,
+                    status: EvaluationStatusEnum.pending
+                }
+            });
+            return res.json({
+                success: true,
+                status: res.statusCode,
+                message: " ",
+                data: pendingEvaluations
+            });
+
+        } catch (err) {
+            next(err);
+        }
+    }
+>>>>>>> 55b9342e3151fac5c7bd1ded0e0a2940ded48e40
 
 }
 export default new EvaluationController();
