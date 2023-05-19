@@ -671,6 +671,7 @@ class TrainingController {
         trainings = await Training.findAll({
           where: { studentId },
           attributes: [
+           "id",
             "type",
             "semester",
             "startDate",
