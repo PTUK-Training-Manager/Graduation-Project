@@ -186,7 +186,8 @@ export interface EditEvaluationBody extends Request {
         noteId?: number,
         note?: string,
         startTime?: Date,
-        endTime?: Date
+        endTime?: Date,
+        date?:Date
     }
 }
 

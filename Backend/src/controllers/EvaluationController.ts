@@ -180,8 +180,8 @@ class EvaluationController {
 
     editEvaluation = async (req: EditEvaluationBody, res: Response<BaseResponse>, next: NextFunction) => {
         try {
-            const { id, skills, startTime, endTime } = req.body;
-            if (!skills && !startTime && !endTime) {
+            const { id, skills, startTime, endTime, date } = req.body;
+            if (!skills && !startTime && !endTime && !date) {
                 return res.json({
                     success: true,
                     status: res.statusCode,
@@ -198,6 +198,10 @@ class EvaluationController {
             }
             if (endTime) {
                 await Evaluation.update({ endTime },
+                    { where: { id } });
+            }
+            if (date) {
+                await Evaluation.update({ date },
                     { where: { id } });
             }
 
