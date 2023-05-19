@@ -37,7 +37,8 @@ router.post('/upload', upload.single('file'), async (req: StudentRequestBody, re
     });
     let flag: any = true;
     for (let i = 1; i < data.length; i++) {
-      let nameArray = (data[i].name).split(" ");
+      if(Object.keys(data[i]).length === 0)
+        continue;
       req.body.name = data[i].name as string;
       req.body.id = data[i].id as string;
       req.body.email = data[i].email as string;
