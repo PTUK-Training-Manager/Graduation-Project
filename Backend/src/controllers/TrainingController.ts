@@ -698,6 +698,26 @@ class TrainingController {
       next(err);
     }
   };
+      getStudentTrainingId = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
+    try {
+      const userId = req.user.userId;
+      const studentId = await getStudentId(userId);
+      const runningTraining = await Training.findOne({
+        where: {
+          status: TrainingStatusEnum.running,
+          studentId
+        }
+      });
+      return res.json({
+        success: true,
+        status: res.statusCode,
+        message: "All Trainings",
+        data: {"trainingId":runningTraining?.id}
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 export default new TrainingController();
