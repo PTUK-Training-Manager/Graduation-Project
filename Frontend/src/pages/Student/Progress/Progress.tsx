@@ -45,7 +45,7 @@ const Progress: React.FC = () => {
   const [skills, setSkills] = useState('');
   const [endTimeType, setEndTimeType] = useState<string>('');
   const [startTimeType, setStartTimeType] = useState<string>('');
-
+ 
   const handleSubmit = (event: any) => {
     submitEvaluation({
       startTime: startTime,
@@ -53,11 +53,15 @@ const Progress: React.FC = () => {
       startTimeType: startTimeType,
       endTimeType: endTimeType,
       skills: skills,
-      trainingId: 3,
+      trainingId: 211,
       date: date,
     })
       .then((result) => {
-        console.log(result.data);
+        if (result.success === true) {
+          showSnackbar({ severity: 'success', message: result.message });
+        } else if (result.success === false) {
+          showSnackbar({ severity: 'warning', message: result.message });
+        }
       })
       .catch((error) => console.log(error));
   };

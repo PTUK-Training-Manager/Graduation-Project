@@ -38,10 +38,8 @@ const AddCompanyForm: React.FC = () => {
     console.log(isOpen);
     setIsOpen((prev) => !prev);
   };
-  const handleClickFillEvaluationReport = (trainingId: string) => {
-    setTrainingId(trainingId);
-    console.log(trainingId);
-    setFillEvaluation(true);
+  const handleClickFillEvaluationReport = () => {
+    navigate('/Progress');
   };
   const handleCloseDialog = () => {
     setIsOpen(false);
@@ -55,10 +53,6 @@ const AddCompanyForm: React.FC = () => {
     setOpenEvaluatin(false);
   };
   const navigate = useNavigate();
-
-  const navigateToAnotherPage = () => {
-    navigate('/Progress');
-  };
 
   return (
     <>
@@ -147,7 +141,6 @@ const AddCompanyForm: React.FC = () => {
                     {training.status == 'completed' && (
                       <Button
                         variant="contained"
-                        onClick={navigateToAnotherPage}
                         sx={{
                           background:
                             'linear-gradient(45deg, #1b5e20 30%, #388e3c 90%)',
@@ -167,9 +160,7 @@ const AddCompanyForm: React.FC = () => {
                           <Tooltip title="Fill Daily Evalution Report">
                             <IconButton
                               size="small"
-                              onClick={() =>
-                                handleClickFillEvaluationReport(training.id)
-                              }
+                              onClick={handleClickFillEvaluationReport}
                             >
                               <BorderColorIcon color="warning" />
                             </IconButton>

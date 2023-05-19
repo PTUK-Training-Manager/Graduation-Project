@@ -3,7 +3,6 @@ import trainingController from "../controllers/TrainingController"
 import verifyAccessToken from '../middlewares/verifyAccessToken';
 const router = express.Router();
 const { getAllTrainings, changeTrainingStatus, assignTrainer, getCompletedTrainings, getAcceptedTrainings, handleGenerateFormButton,getsubmittedStudents, getQuestions, getRunningTrainings, submitQuestions, generateEvaluationForm , getRunningAndFinishedStudents, getStudentTrainingId} = trainingController;
-const { getAllTrainings, changeTrainingStatus, assignTrainer, getCompletedTrainings, getAcceptedTrainings, handleGenerateFormButton,getsubmittedStudents, getQuestions, getRunningTrainings, submitQuestions, generateEvaluationForm , getRunningAndFinishedStudents, getStudentTrainingId} = trainingController;
 import verifyRoles from '../middlewares/verifyRole';
 import { UserRoleEnum } from '../enums';
 
