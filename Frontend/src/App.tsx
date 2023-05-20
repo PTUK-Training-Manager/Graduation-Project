@@ -4,7 +4,6 @@ import Snackbar from "./containers/Snackbar";
 import useVerifyAccessToken from "src/hooks/useVerifyAccessToken";
 import BlockUI from "src/containers/BlockUI";
 
-
 const App = () => {
 
     const {isVerifying} = useVerifyAccessToken();
