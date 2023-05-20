@@ -14,6 +14,7 @@ const EditorPlayground: FC = () => {
     const {saveContent, isLoading} = useEditorPlayground();
 
     const handleSaveContent = () => {
+        console.log(JSON.stringify(editorState));
         saveContent(JSON.stringify(editorState));
     }
 

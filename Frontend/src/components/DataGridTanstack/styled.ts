@@ -6,7 +6,7 @@ import {StyledTableRowProps} from "./types";
 export const StyledPagination = styled(Pagination)`
   display: flex;
   justify-content: center;
-  margin-top: 1rem;
+  //margin-top: 1rem;
 `;
 
 export const StyledTableRow = styled(TableRow, {

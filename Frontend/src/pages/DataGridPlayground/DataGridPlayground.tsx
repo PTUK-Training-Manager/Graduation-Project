@@ -1,20 +1,22 @@
 import React, {FC, useState} from 'react';
 import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import DataGrid from "src/components/DataGridTanstack";
 import {columns} from "./definition";
 import {UserData} from "./API/response.dto";
 import useDataGridPlaygroundAPI from "./hooks/useDataGridPlaygroundAPI";
+import {PageChangeParams} from "src/components/DataGridTanstack/types";
 
 const DataGridPlayground: FC = () => {
-    const [currentPage, setCurrentPage] = useState<number | undefined>(1);
+    const [pagination, setPagination] = useState<PageChangeParams>({pageIndex: 0, pageSize: 10});
     const [search, setSearch] = useState<string | undefined>("");
 
-    const {users, isFetching} = useDataGridPlaygroundAPI({search, currentPage});
+    const {users, totalRows, isFetching} = useDataGridPlaygroundAPI({search, pagination});
 
     const Header = (
-        <Box display="flex" justifyContent="space-between" sx={{pb: 1}}>
+        <Box display="flex" justifyContent="space-between">
             <Typography variant="h4" alignItems="center">
                 User Table
             </Typography>
@@ -22,20 +24,24 @@ const DataGridPlayground: FC = () => {
         </Box>
     );
 
+
     return (
-        <Box padding={3}>
+        <Stack gap={1} sx={{p: 3, pb: 0}}>
             {Header}
-            <DataGrid<UserData>
-                isFetching={isFetching}
-                data={users ?? []}
-                columns={columns}
-                totalPages={6}
-                skeletonRowCount={10}
-                onPageChange={(page) => setCurrentPage(page)}
-                onSearch={(search) => setSearch(search)}
-                onRowClick={(cell, row) => console.log({cell, row})}
-            />
-        </Box>
+            <Box sx={{height: `calc(100vh - 48px - 26px)`}}>
+                <DataGrid<UserData>
+                    isFetching={isFetching}
+                    data={users ?? []}
+                    columns={columns}
+                    totalPages={Math.floor(totalRows / pagination.pageSize)}
+                    totalRows={totalRows}
+                    skeletonRowCount={10}
+                    onPageChange={(pagination) => setPagination(pagination)}
+                    onSearch={(search) => setSearch(search)}
+                    onRowClick={(cell, row) => console.log({cell, row})}
+                />
+            </Box>
+        </Stack>
     );
 };
 
