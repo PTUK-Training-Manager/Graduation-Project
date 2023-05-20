@@ -12,6 +12,7 @@ const Login = lazy(() => import("src/pages/Login"));
 const NotFound = lazy(() => import("src/pages/NotFound"));
 const AccessDenied = lazy(() => import("src/pages/AccessDenied"));
 const EditorPlayground = lazy(() => import("src/pages/EditorPlayground"));
+const DataGridPlayground = lazy(() => import("src/pages/DataGridPlayground"));
 
 // university pages
 const TrainingRequestForm = lazy(() => import('src/pages/university/TrainingRequestForm'));
@@ -48,6 +49,7 @@ const AppRoutes: FC<AppRoutesProps> = () => {
                 <Route path="login" element={<Login/>}/>
                 <Route path="landing" element={<LandingPage/>}/>
                 <Route path="editor" element={<EditorPlayground/>}/>
+                <Route path="data-grid" element={<DataGridPlayground/>}/>
 
                 <Route path="/" element={<AppLayout/>}>
                     <Route element={<ProtectedRoute/>}>
