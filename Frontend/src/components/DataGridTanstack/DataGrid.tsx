@@ -9,42 +9,25 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableBodySkeleton from "./TableBodySkeleton";
 import {
-    Cell,
-    ColumnDef,
     flexRender,
     getCoreRowModel,
-    Row,
     useReactTable,
 } from "@tanstack/react-table";
 import {debounce} from "debounce";
-
-interface DataGridProps<T> {
-    data: T[];
-    columns: ColumnDef<T>[];
-    pageCount?: number; // total number of pages
-    onPageChange?: (page: number) => void; //for exposing the current page value to the outside of the table as a callback function.
-    onSearch?: (search: string) => void;
-    onRowClick?: (cell: Cell<T, unknown>, row: Row<T>) => void;
-    searchLabel?: string;
-    headerComponent?: JSX.Element;
-    isFetching?: boolean;
-    skeletonRowCount?: number;
-    skeletonRowHeight?: number;
-    isRowClickable?: boolean;
-    striped?: boolean;
-}
-
+import SearchIcon from '@mui/icons-material/Search';
+import InputAdornment from "@mui/material/InputAdornment";
+import {DataGridProps} from "./types";
 import {StyledPagination, StyledTableRow} from "./styled";
 
 const DataGrid = <T extends any>(props: DataGridProps<T>) => {
     const {
         data,
         columns,
-        pageCount,
+        totalPages,
         onPageChange,
         onSearch,
         onRowClick,
-        searchLabel = "Search",
+        searchPlaceholder = "Search",
         headerComponent,
         isFetching,
         skeletonRowCount = 4,
@@ -69,7 +52,7 @@ const DataGrid = <T extends any>(props: DataGridProps<T>) => {
         // getCoreRowModel: getCoreRowModel(),
         getCoreRowModel: getCoreRowModel<T>(),
         manualPagination: true,
-        pageCount,
+        pageCount: totalPages,
     });
 
 
@@ -94,9 +77,13 @@ const DataGrid = <T extends any>(props: DataGridProps<T>) => {
                     <TextField
                         onChange={debounce(handleSearchChange, 1000)}
                         size="small"
-                        label={searchLabel}
+                        placeholder={searchPlaceholder}
                         margin="normal"
-                        variant="standard"
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start"><SearchIcon color="disabled"/></InputAdornment>
+                            )
+                        }}
                     />
                 )}
             </Box>
@@ -145,9 +132,9 @@ const DataGrid = <T extends any>(props: DataGridProps<T>) => {
                     )}
                 </MuiTable>
             </Box>
-            {pageCount && onPageChange && (
+            {totalPages && onPageChange && (
                 <StyledPagination
-                    count={pageCount}
+                    count={totalPages}
                     page={currentPage}
                     onChange={handlePageChange}
                     color="primary"
