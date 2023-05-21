@@ -64,4 +64,5 @@ export interface RichTextEditorProps {
     showTreeView?: boolean;
     namespace?: string;
     shouldReadFromLocalStorage?: boolean;
+    content?: string;
 }
