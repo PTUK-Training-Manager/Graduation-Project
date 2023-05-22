@@ -1,11 +1,11 @@
 import React, {FC} from 'react';
-import {AppBar, Avatar, IconButton} from "@mui/material";
+import {AppBar , IconButton} from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
 import ImageListItem from "@mui/material/ImageListItem";
 import PTUK_CIRCLE from "src/images/assets/ptuk_logo_circle.png";
 import PTUK_TEXT from "src/images/assets/ptuk_text.png";
-import {NAVBAR_HEIGHT} from "src/constants";
+import {DRAWER_WIDTH, NAVBAR_HEIGHT} from "src/constants";
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import Stack from "@mui/material/Stack";

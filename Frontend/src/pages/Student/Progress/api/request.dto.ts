@@ -22,7 +22,6 @@ export interface editEvaluationBody {
     endTime?: string,
     endTimeType?: string
     skills?: string,
-    trainingId?: number | undefined,
     date?:Date
     id: number
 }

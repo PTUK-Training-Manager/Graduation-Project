@@ -29,8 +29,8 @@ import {
 } from '@mui/material';
 import { handleTrainingRequest } from '../TrainingRequest/api';
 import { HandleTrainingRequestBody } from '../TrainingRequest/types';
-import { assignTrainer } from 'src/assignTrainer';
-import { assignTrainerRequestBody } from 'src/assignTrainer/request.dto';
+import { assignTrainer } from '../AcceptedRequests/api'
+import { AssignTrainerRequestBody } from '../AcceptedRequests/api/request.dto';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import { getTrainers } from '../Trainers/api';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
@@ -159,7 +159,7 @@ const EditTraining: React.FC = () => {
   };
 
   const handleVerifyJoin = () => {
-    const body: assignTrainerRequestBody = {
+    const body: AssignTrainerRequestBody = {
       trainingId: trainingID,
       trainerId: trainerID,
     };

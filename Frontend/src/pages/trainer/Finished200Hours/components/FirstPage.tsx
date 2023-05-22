@@ -25,7 +25,7 @@ interface FirstPageProps {
 
 const FirstPage: FC<FirstPageProps> = ({ response, trainingID }) => {
   const { showSnackbar } = useSnackbar();
-
+  const [count, setCount] = useState<number>(0);
   const [answers, setAnswers] = useState<SubmitAnswersBody>({
     trainingId: trainingID,
     arrayData: [],
@@ -38,6 +38,8 @@ const FirstPage: FC<FirstPageProps> = ({ response, trainingID }) => {
     }).then((res: { success: boolean; message: any }) => {
       if (res.success === true) {
         showSnackbar({ severity: 'success', message: res.message });
+        setAnswers({ trainingId: trainingID,
+          arrayData: [],})
       } else if (res.success === false) {
         showSnackbar({ severity: 'warning', message: res.message });
       }
@@ -48,6 +50,12 @@ const FirstPage: FC<FirstPageProps> = ({ response, trainingID }) => {
     console.log(answers);
   }, [answers]);
 
+  const isFormComplete = (count != 6)
+  ;
+  useEffect(() => {
+    console.log(isFormComplete)
+    console.log(count)
+  }, [isFormComplete]);
   return (
     <>
       <Grid container sx={{ padding: '24px' }}>
@@ -126,6 +134,7 @@ const FirstPage: FC<FirstPageProps> = ({ response, trainingID }) => {
                                     ...prevState,
                                     arrayData: updatedArrayData,
                                   }));
+                                  setCount(count+1);
                                 }}
                               >
                                 <FormControlLabel
@@ -180,6 +189,8 @@ const FirstPage: FC<FirstPageProps> = ({ response, trainingID }) => {
                                   ...prevState,
                                   arrayData: updatedArrayData,
                                 }));
+                                if(index==7)
+                                setCount(count+1);
                               }}
                             />
                           </Stack>
@@ -192,6 +203,7 @@ const FirstPage: FC<FirstPageProps> = ({ response, trainingID }) => {
             </>
           ))}
           <Button
+            disabled={isFormComplete}
             size="small"
             variant="contained"
             color="primary"

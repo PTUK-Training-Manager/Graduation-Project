@@ -28,15 +28,16 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                                                             hasBorder = true,
                                                             showTreeView = false,
                                                             namespace = "",
-                                                            shouldReadFromLocalStorage = true,
+                                                            shouldReadFromLocalStorage = false,
+                                                            content
                                                         }) => {
 
     const classes = useStyles();
 
     // Retrieve content from local storage
-    const content = shouldReadFromLocalStorage
+    const initialContent = shouldReadFromLocalStorage
         ? localStorage.getItem(`${initialConfig.namespace}_${namespace}`)
-        : undefined;
+        : content ?? undefined;
 
     const handleChange = (editorState: EditorState) => {
         onChange(editorState);
@@ -44,25 +45,29 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
 
     return (
         <LexicalComposer
-            initialConfig={{...initialConfig, editorState: content, editable}}
+            initialConfig={{...initialConfig, editorState: initialContent, editable}}
         >
             <Stack className={classnames(classes.container, {
                 [classes.containerBorder]: hasBorder,
-            })}>
+            })}
+            >
                 <Toolbar editable={editable}/>
                 <RichTextPlugin
-                    contentEditable={<ContentEditable className={classes.contentEditable}/>}
-                    placeholder={<Placeholder className={classes.placeholder}>Enter some rich text...</Placeholder>}
+                    contentEditable={<ContentEditable className={classnames(classes.contentEditable, {
+                        [classes.contentEditableMinHeight]: editable,
+                    })}/>}
+                    placeholder={<Placeholder className={classes.placeholder}>Enter your Skills</Placeholder>}
                     ErrorBoundary={LexicalErrorBoundary}
                 />
                 <CodeHighlightPlugin/>
                 <OnChangePlugin onChange={handleChange}/>
                 <HistoryPlugin/>
-                {shouldReadFromLocalStorage && <LocalStoragePlugin namespace={`${initialConfig.namespace}_${namespace}`}/>}
+                {shouldReadFromLocalStorage &&
+                    <LocalStoragePlugin namespace={`${initialConfig.namespace}_${namespace}`}/>}
                 <ListPlugin/>
                 <HorizontalRulePlugin/>
                 <CheckListPlugin/>
-                {showTreeView && <TreeViewPlugin />}
+                {showTreeView && <TreeViewPlugin/>}
             </Stack>
         </LexicalComposer>
     )

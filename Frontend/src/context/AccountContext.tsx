@@ -50,7 +50,7 @@ export const AccountProvider: FC<AccountProviderProps> = ({children}) => {
         }
     };
 
-    const handleLogout = (options: OnLoginOptions = {shouldNavigate: false}) => {
+    const handleLogout = (options: OnLogoutOptions = {shouldNavigate: false}) => {
         const {shouldNavigate} = options;
         setUser(null);
 

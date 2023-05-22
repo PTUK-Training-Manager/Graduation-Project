@@ -16,9 +16,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import './AcceptedRequests.css';
 import theme from 'src/styling/customTheme';
-import { assignTrainerRequestBody } from 'src/assignTrainer/request.dto';
-import { getAcceptedTrainings } from './api';
-import { assignTrainer } from 'src/assignTrainer';
+import { AssignTrainerRequestBody } from './api/request.dto';
+import { getAcceptedTrainings, assignTrainer } from './api';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import {
@@ -170,9 +169,10 @@ const AcceptedTrainings: React.FC = () => {
   };
 
   const handleVerifyJoin = () => {
-    const body: assignTrainerRequestBody = {
+    const body: AssignTrainerRequestBody = {
       trainingId: trainingID,
       trainerId: trainerID,
+      //@ts-ignore
       startDate: selectedDate,
     };
     assignTrainer(body)

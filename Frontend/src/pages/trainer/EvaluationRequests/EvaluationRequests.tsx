@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import './EvaluRequest.css';
 import { rejectEvaluationRequest } from './api';
+import RichTextEditor from 'src/containers/RichTextEditor/RichTextEditor';
 import theme from 'src/styling/customTheme';
 import useEvaluationRequestController from './hooks/useEvaluationRequestController';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -229,7 +230,8 @@ const EvaluationRequests: React.FC = () => {
                           <Typography>End Time: {item.endTime} </Typography>
                         </Stack>
                         <Stack gap={1.5} direction="row">
-                          <Typography>Skills: {item.skills} </Typography>
+                          {/* <Typography>Skills: {item.skills} </Typography> */}
+                          <RichTextEditor namespace='1' editable={false} content={item?.skills} />
                         </Stack>
                       </Stack>
                     </CardContent>

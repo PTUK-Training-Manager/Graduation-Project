@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import BlockUI from 'src/containers/BlockUI';
 import AppLayout from 'src/AppLayout';
 import ProtectedRoute from 'src/routes/ProtectedRoute';
+const EditorPlayground = lazy(() => import("src/pages/EditorPlayground"));
 
 const LandingPage = lazy(() => import('src/pages/LandingPage'));
 const Admin = lazy(() => import('src/pages/Admin'));
@@ -19,8 +20,8 @@ const TrainingRequestForm = lazy(
 const PendingRequets = lazy(
   () => import('src/pages/university/PendingRequests')
 );
-const AddCompanyForm = lazy(
-  () => import('src/pages/university/AddCompanyForm')
+const Companies = lazy(
+  () => import('src/pages/university/Companies')
 );
 const CompletedTrainees = lazy(
   () => import('src/pages/university/CompletedTrainees')
@@ -83,9 +84,9 @@ const AppRoutes: FC<AppRoutesProps> = () => {
   return (
     <Suspense fallback={<BlockUI isBlocked />}>
       <Routes>
-        {/* <Route index path="/" element={<Home/>}/> */}
         <Route path="login" element={<Login />} />
         <Route path="landing" element={<LandingPage />} />
+        <Route path="editor" element={<EditorPlayground/>}/>
 
         <Route path="/" element={<AppLayout />}>
           <Route element={<ProtectedRoute />}>
@@ -96,21 +97,20 @@ const AppRoutes: FC<AppRoutesProps> = () => {
 
           <Route element={<ProtectedRoute allowedRoles={[SuperAdmin]} />} />
 
-          <Route
+          {/* <Route
             element={
               <ProtectedRoute allowedRoles={[UniTrainingOfficer, Company]} />
             }
           >
-            {/* <Route path="/all-trainings" element={<AllTrainings/>}/> */}
             <Route path="/add-student" element={<AddStudentForm />} />
-          </Route>
+          </Route> */}
 
           <Route
             element={<ProtectedRoute allowedRoles={[UniTrainingOfficer]} />}
           >
             <Route path="/training-request" element={<TrainingRequestForm />} />
             <Route path="/pending-requests" element={<PendingRequets />} />
-            <Route path="/add-company" element={<AddCompanyForm />} />
+            <Route path="/add-company" element={<Companies />} />
             <Route path="/all-trainings" element={<AllTrainings />} />
             <Route path="/add-branch" element={<AddBranchForm />} />
             <Route path="/completed-trainees" element={<CompletedTrainees />} />

@@ -48,22 +48,6 @@ const sharedMenuItems: IAppMenuItem[] = [
   },
 ];
 
-/**
- * Menu items shared by `University Training Officer` and `Company`
- */
-const uniAndCompanySharedMenuItems: IAppMenuItem[] = [
-  // {
-  //     label: "Search Trainings",
-  //     link: "/all-trainings",
-  //     // Icon: () => <ManageSearchIcon/>,
-  //     Icon: () => <RecentActorsIcon/>,
-  // },
-  // {
-  //     label: "Add Student",
-  //     link: "/add-student",
-  //     Icon: () => <PersonAddAlt1Icon/>,
-  // },
-];
 
 const uniTrainingOfficerMenuItems: IAppMenuItem[] = [
   {
@@ -114,10 +98,8 @@ const uniTrainingOfficerMenuItems: IAppMenuItem[] = [
   {
     label: 'Search Trainings',
     link: '/all-trainings',
-    // Icon: () => <ManageSearchIcon/>,
     Icon: () => <RecentActorsIcon />,
   },
-  // ...uniAndCompanySharedMenuItems,
 ];
 
 const companyMenuItems: IAppMenuItem[] = [
@@ -162,10 +144,8 @@ const companyMenuItems: IAppMenuItem[] = [
   {
     label: 'Search Trainings',
     link: '/company-all-trainings',
-    // Icon: () => <ManageSearchIcon/>,
     Icon: () => <RecentActorsIcon />,
   },
-  // ...uniAndCompanySharedMenuItems,
 ];
 
 const trainerMenuItems: IAppMenuItem[] = [
@@ -184,7 +164,7 @@ const trainerMenuItems: IAppMenuItem[] = [
         Icon: () => <PendingActionsIcon />,
       },
       {
-        label: 'Finished 200 Hours',
+        label: 'Finished Required Hours',
         link: '/finished-200-hours',
         Icon: () => <SchoolIcon />,
       },

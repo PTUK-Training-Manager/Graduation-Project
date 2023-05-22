@@ -7,6 +7,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import useEditorPlayground from "./hooks/useEditorPlayground";
 import {EditorState} from 'lexical';
 import SaveIcon from '@mui/icons-material/Save';
+import {exampleContent} from "./constants";
 
 const EditorPlayground: FC = () => {
 
@@ -14,8 +15,11 @@ const EditorPlayground: FC = () => {
     const {saveContent, isLoading} = useEditorPlayground();
 
     const handleSaveContent = () => {
+        // console.log(JSON.stringify(editorState));
+        // console.log(editorState?.toJSON());
         saveContent(JSON.stringify(editorState));
     }
+
 
     return (
         <Grid container gap={2} sx={{p: 3}}>
@@ -24,8 +28,10 @@ const EditorPlayground: FC = () => {
             </Typography>
             <RichTextEditor
                 // editable={false}
-                // shouldReadFromLocalStorage
-                onChange={(editorState: any) => {
+                shouldReadFromLocalStorage={false}
+                content={exampleContent}
+                onChange={editorState => {
+                    // console.log(editorState)
                     setEditorState(editorState);
                 }}
                 // hasBorder={false}

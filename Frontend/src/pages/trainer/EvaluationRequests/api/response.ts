@@ -10,9 +10,9 @@ export interface PendenigProgressData {
     trainingId: string;
     date: string;
     Training: {
+      StudentId: string;
         Student: {
             name: string;
-            StudentId: string;
         };
     };
   }

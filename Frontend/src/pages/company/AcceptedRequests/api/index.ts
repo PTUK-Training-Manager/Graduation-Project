@@ -1,5 +1,6 @@
 import axiosInstance from 'src/api';
-import { GetAcceptedTrainingsResponse } from './response.dto';
+import {AssignTrainerRequestBody} from './request.dto'
+import { GetAcceptedTrainingsResponse,AssignTrainerRequestResponse } from './response.dto';
 
 
 export const getAcceptedTrainings =
@@ -9,4 +10,9 @@ export const getAcceptedTrainings =
     return response.data;
   };
 
-  
+  export const assignTrainer = (body: AssignTrainerRequestBody) => {
+    const url = "/training/assignTrainer";
+    return axiosInstance
+      .patch<AssignTrainerRequestResponse>(url, body)
+      .then((res) => res.data);
+  };

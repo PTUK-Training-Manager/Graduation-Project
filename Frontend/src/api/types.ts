@@ -1,4 +1,3 @@
-import { string } from "joi";
 import {BaseResponse} from "src/types";
 
 export interface EvaluationFormResponse extends BaseResponse {

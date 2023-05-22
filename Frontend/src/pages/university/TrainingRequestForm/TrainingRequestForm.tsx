@@ -11,7 +11,6 @@ import {
   Autocomplete,
   Button,
   FormControl,
-  IconButton,
   InputLabel,
   Select,
   Stack,
@@ -21,8 +20,7 @@ import useTrainingRequestFormController from './hooks/useTrainingRequestFormCont
 import { LoadingButton } from '@mui/lab';
 import TextFieldWrapper from 'src/components/FormsUI/TextField';
 import { useEffect, useState } from 'react';
-import { useLocation, Navigate, useNavigate } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 
 interface CompanyOption {
   id: string;
@@ -35,33 +33,56 @@ interface BranchOption {
 }
 
 const TrainingRequestForm: React.FC = () => {
- const [selectedCompany, setSelectedCompany] = React.useState('');
+  const [selectedCompany, setSelectedCompany] = React.useState('');
   const { formikProps, isLoading } = useTrainingRequestFormController();
   const { isValid } = formikProps;
   const navigate = useNavigate();
 
-  const [addCompanyAppear, setAddCompanyAppear] = useState<boolean>(false);
-
-  const PaperComponentCustom = (options: { containerProps: any; children: CompanyOption; }) => {
-    const { containerProps, children } = options;
+  const PaperComponentCustom: React.FC<{
+    containerProps: any;
+    children: CompanyOption;
+  }> = ({ containerProps, children }) => {
     return (
-    <Paper {...containerProps}>
-    {children}
-    <Button fullWidth color="primary"  variant='contained' startIcon={<AddBusinessIcon sx={{color:"white"}} />}
- onClick={navigateToAnotherPage}
-    onMouseDown={(event)=>{event.preventDefault(); }}>
-   Add New Company </Button>
-    </Paper>);};
-    const PaperComponentBranch = (options: { containerProps: any; children: CompanyOption; }) => {
-      const { containerProps, children } = options;
-      return (
       <Paper {...containerProps}>
-      {children}
-      <Button fullWidth color="primary"  variant='contained' startIcon={<AddBusinessIcon sx={{color:"white"}} />}
-   onClick={navigateToAnotherPage}
-      onMouseDown={(event)=>{event.preventDefault(); }}>
-     Add New Branch </Button>
-      </Paper>);};
+        {children}
+        <Button
+          fullWidth
+          color="primary"
+          variant="contained"
+          startIcon={<AddBusinessIcon sx={{ color: 'white' }} />}
+          onClick={navigateToAnotherPage}
+          onMouseDown={(event) => {
+            event.preventDefault();
+          }}
+        >
+          Add New Company
+        </Button>
+      </Paper>
+    );
+  };
+
+  const PaperComponentBranch: React.FC<{
+    containerProps: any;
+    children: CompanyOption;
+  }> = ({ containerProps, children }) => {
+    return (
+      <Paper {...containerProps}>
+        {children}
+        <Button
+          fullWidth
+          color="primary"
+          variant="contained"
+          startIcon={<AddBusinessIcon sx={{ color: 'white' }} />}
+          onClick={navigateToAnotherPage}
+          onMouseDown={(event) => {
+            event.preventDefault();
+          }}
+        >
+          Add New Branch
+        </Button>
+      </Paper>
+    );
+  };
   const [companyOptions, setCompanyOptions] = useState<CompanyOption[]>([]);
   const [branchOptions, setBranchOptions] = useState<BranchOption[]>([]);
 
@@ -76,9 +97,6 @@ const TrainingRequestForm: React.FC = () => {
       }
     });
   }, []);
-  const options = ['Option 1', 'Option 2', 'Option 3'];
-const noOptionButton = <Button onClick={() => navigateToAnotherPage()}>Navigate to another page</Button>;
-
 
   useEffect(() => {
     if (selectedCompany) {
@@ -96,22 +114,19 @@ const noOptionButton = <Button onClick={() => navigateToAnotherPage()}>Navigate 
 
   console.log(formikProps.errors);
 
-  const location = useLocation();
-
   const navigateToAnotherPage = () => {
-    navigate('/add-company')
+    navigate('/add-company');
   };
-  
 
   return (
     <>
       <Grid
         container
         sx={{
-            py: 5,
-            display: 'flex',
-            justifyContent: "center",
-            alignItems: "center",
+          py: 5,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
       >
         <Paper
@@ -135,72 +150,85 @@ const noOptionButton = <Button onClick={() => navigateToAnotherPage()}>Navigate 
                   name="studentId"
                   autoFocus
                 />
-                
 
                 <FormControl fullWidth>
-  <InputLabel>Type</InputLabel>
-  <Select fullWidth label="Type" name="type" value={formikProps.values.type} onChange={formikProps.handleChange}>
-    <MenuItem value="first">first</MenuItem>
-    <MenuItem value="second">second</MenuItem>
-    <MenuItem value="compound">Compound</MenuItem>
-  </Select>
-</FormControl>
+                  <InputLabel>Type</InputLabel>
+                  <Select
+                    fullWidth
+                    label="Type"
+                    name="type"
+                    value={formikProps.values.type}
+                    onChange={formikProps.handleChange}
+                  >
+                    <MenuItem value="first">first</MenuItem>
+                    <MenuItem value="second">second</MenuItem>
+                    <MenuItem value="compound">Compound</MenuItem>
+                  </Select>
+                </FormControl>
 
-<FormControl fullWidth>
-  <InputLabel>Semester</InputLabel>
-  <Select label="Semester" name="semester" value={formikProps.values.semester} onChange={formikProps.handleChange}>
-    <MenuItem value="first">first</MenuItem>
-    <MenuItem value="second">second</MenuItem>
-    <MenuItem value="summer">summer</MenuItem>
-  </Select>
-</FormControl>
+                <FormControl fullWidth>
+                  <InputLabel>Semester</InputLabel>
+                  <Select
+                    label="Semester"
+                    name="semester"
+                    value={formikProps.values.semester}
+                    onChange={formikProps.handleChange}
+                  >
+                    <MenuItem value="first">first</MenuItem>
+                    <MenuItem value="second">second</MenuItem>
+                    <MenuItem value="summer">summer</MenuItem>
+                  </Select>
+                </FormControl>
 
-<FormControl fullWidth>
-<Autocomplete
-  disablePortal
-  PaperComponent={PaperComponentCustom} 
-  options={companyOptions}
-  getOptionLabel={(option) => option.name }
-  onChange={(event, newValue) => {
-    formikProps.setFieldValue('companyId', newValue?.id || '');
-      setSelectedCompany(newValue?.id || '');
-  }}
-  sx={{ width: '100%' }} 
-  renderInput={(params) => (
-    <TextField
-      {...params}
-      name="companyId"
-      label="Company Name" />
-  )}
-/>
-
-
-
-
-
-</FormControl>
-{selectedCompany && (
-  <FormControl fullWidth>
-  <Autocomplete
-    disablePortal
-    PaperComponent={PaperComponentBranch} 
-    options={branchOptions}
-    getOptionLabel={(option) => option.location}
-    onChange={(event, newValue) => {
-      formikProps.setFieldValue('companyBranchId', newValue?.id || '');
-    }}
-    
-    sx={{ width: '100%' }} 
-    renderInput={(params) => (
-      <TextField
-        {...params}
-        name="companyBranchId"
-        label="Location" />
-        
-    )}
-  />
-  </FormControl>
-)}
+                <FormControl fullWidth>
+                  <Autocomplete
+                    disablePortal
+                    //@ts-ignore
+                    PaperComponent={PaperComponentCustom}
+                    options={companyOptions}
+                    getOptionLabel={(option) => option.name}
+                    onChange={(event, newValue) => {
+                      formikProps.setFieldValue(
+                        'companyId',
+                        newValue?.id || ''
+                      );
+                      setSelectedCompany(newValue?.id || '');
+                    }}
+                    sx={{ width: '100%' }}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        name="companyId"
+                        label="Company Name"
+                      />
+                    )}
+                  />
+                </FormControl>
+                {selectedCompany && (
+                  <FormControl fullWidth>
+                    <Autocomplete
+                      disablePortal
+                      //@ts-ignore
+                      PaperComponent={PaperComponentBranch}
+                      options={branchOptions}
+                      getOptionLabel={(option) => option.location}
+                      onChange={(event, newValue) => {
+                        formikProps.setFieldValue(
+                          'companyBranchId',
+                          newValue?.id || ''
+                        );
+                      }}
+                      sx={{ width: '100%' }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          name="companyBranchId"
+                          label="Location"
+                        />
+                      )}
+                    />
+                  </FormControl>
+                )}
                 <LoadingButton
                   type="submit"
                   fullWidth

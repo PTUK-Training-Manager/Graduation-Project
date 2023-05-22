@@ -16,7 +16,6 @@ const useStyles = makeStyles(() => ({
     },
     contentEditable: {
         position: "relative",
-        minHeight: "150px",
         maxHeight: "500px",
         resize: "none",
         outline: "0",
@@ -30,6 +29,9 @@ const useStyles = makeStyles(() => ({
             height: "2px",
             backgroundColor: grey[400],
         }
+    },
+    contentEditableMinHeight: {
+        minHeight: "150px",
     },
     placeholder: {
         position: "absolute",

@@ -2,33 +2,36 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import dayjs, { Dayjs } from 'dayjs';
-import BorderColorIcon from '@mui/icons-material/BorderColor';
 import Stack from '@mui/material/Stack';
 import theme from 'src/styling/customTheme';
-import {
-  Box,
-  Button,
-  Collapse,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  FormLabel,
-  IconButton,
-  Tooltip,
-} from '@mui/material';
-import { useState } from 'react';
+import { Box, Button, Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { green } from '@mui/material/colors';
+import { useEffect, useState } from 'react';
+import Chip from '@mui/material/Chip';
 import EvaluStepper from './components/EvaluStepper';
 import ProgressFormDialog from './components/ProgressFormDialog';
 import Transition from 'src/components/Transition';
 import useAllTrainingsController from './hooks/useAllTrainingsController';
 import { useNavigate } from 'react-router-dom';
+import { progressForm } from 'src/api/progress';
+import { Response } from './types';
 
 const AddCompanyForm: React.FC = () => {
   const { trainingData } = useAllTrainingsController();
   const [isEvaluationReportOpen, setIsEvaluationReportOpen] = useState(false);
   const [isProgressReportOpen, setIsProgressReportOpen] = useState(false);
   const [trainingId, setTrainingId] = useState('');
+  const [response, setReponse] = useState<Response>();
+
+  const mapStatusToColor: Record<string, string> = {
+    completed: 'success',
+    rejected: 'error',
+    accepted: 'primary',
+    running: 'warning',
+    canceled: 'error',
+    submitted: 'info',
+    pending: 'action',
+  };
 
   const handleOpenEvaluationReportDialog = (trainingId: string) => {
     setTrainingId(trainingId);
@@ -41,7 +44,10 @@ const AddCompanyForm: React.FC = () => {
   const handleCloseEvaluationReportDialog = () => {
     setIsEvaluationReportOpen(false);
   };
-
+  const handleCloseDialog = () => {
+    setIsProgressReportOpen(false);
+    setTrainingId('');
+  };
   const handleCloseProgressReportDialog = () => {
     setIsProgressReportOpen(false);
   };
@@ -51,6 +57,11 @@ const AddCompanyForm: React.FC = () => {
     setIsProgressReportOpen((prev) => !prev);
   };
 
+  useEffect(() => {
+    progressForm({ trainingId: trainingId }).then((res) => {
+      setReponse(res.data);
+    });
+  }, [trainingId]);
   const navigate = useNavigate();
 
   return (
@@ -72,180 +83,119 @@ const AddCompanyForm: React.FC = () => {
           }}
         >
           <Typography component="h1" variant="h5" fontWeight={500}>
-            All Training
+            All Trainings
           </Typography>
 
           <>
-            {trainingData?.map((training, index: number) => (
+            {trainingData?.map((training) => (
               <Box
                 sx={{
                   justifyContent: 'space-between',
                   display: 'flex',
                   alignItems: 'center',
-                  mb: 2,
                 }}
               >
-                <Box
+                <Paper
+                  elevation={3}
                   sx={{
-                    bgcolor: '#1b5e20',
-                    minWidth: '6px',
-                    minHeight: '100%',
-                    mr: 2,
+                    p: 3.5,
+                    flexGrow: 1,
+                    borderLeft: `8px solid ${green['900']}`,
                   }}
-                ></Box>
-                <Paper elevation={3} sx={{ p: 3.5, flexGrow: 1 }}>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                    }}
-                  >
+                >
+                  <Stack spacing={1}>
                     <Stack
-                      gap={1}
-                      sx={{ display: 'flex', flexDirection: 'column' }}
+                      spacing={1}
+                      direction="row"
+                      sx={{ justifyContent: 'space-between' }}
                     >
-                      <FormLabel component="legend">Company Name </FormLabel>
+                      <Typography> Company Name </Typography>
+                      <Typography sx={{ color: 'white' }}>
+                        Evaluation Trainininasd Report..
+                      </Typography>
+                    </Stack>
+                    <Stack
+                      spacing={1}
+                      direction="row"
+                      sx={{ justifyContent: 'space-between' }}
+                    >
                       <Typography>
-                        {training.CompanyBranch.Company.name}
+                        {training.CompanyBranch.Company.name}{' '}
                       </Typography>
-                    </Stack>
-                    <Stack gap={1}>
-                      <FormLabel component="legend">State</FormLabel>
-                      <Typography
-                        sx={{
-                          color:
-                            training.status === 'submitted'
-                              ? '#82CD47'
-                              : training.status === 'rejected'
-                              ? 'red'
-                              : training.status === 'running'
-                              ? 'orange'
-                              : training.status === 'accepted'
-                              ? 'blue'
-                              : training.status === 'completed'
-                              ? 'green'
-                              : training.status === 'pending'
-                              ? 'gray'
-                              : training.status === 'canceled'
-                              ? 'red'
-                              : 'black',
-                          fontWeight: '600',
-                        }}
-                      >
-                        {training.status}
-                      </Typography>
-                    </Stack>
 
-                    {training.status == 'completed' && (
-                      <Stack
-                        direction="row"
-                        spacing={2}
-                        gap={2}
-                        sx={{
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                        }}
-                      >
+                      <Chip
+                        label={training.status}
+                        color={mapStatusToColor[training.status] as any}
+                        size="medium"
+                        variant="filled"
+                        sx={{ fontSize: '1rem', width: '8rem' }}
+                      />
+
+                      {training.status == 'completed' && (
                         <Button
+                          color="success"
                           onClick={() =>
                             handleOpenEvaluationReportDialog(training.id)
                           }
                           variant="contained"
                           sx={{
+                            width: '12rem',
                             background:
                               'linear-gradient(45deg, #1b5e20 30%, #388e3c 90%)',
                           }}
                         >
                           Evaluation Report
                         </Button>
-                      </Stack>
-                    )}
-                    {training.status == 'running' && (
-                      <>
-                        <Stack
-                          direction="row"
-                          spacing={2}
-                          gap={2}
+                      )}
+                      {training.status == 'running' && (
+                        <Button
+                          color="success"
+                          onClick={() =>
+                            handleOpenProgressReportDialog(training.id)
+                          }
+                          variant="contained"
                           sx={{
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
+                            width: '12rem',
                           }}
                         >
-                          <Tooltip title="Fill Daily Evalution Report">
-                            <IconButton
-                              size="small"
-                              onClick={handleClickFillEvaluationReport}
-                            >
-                              <BorderColorIcon color="warning" />
-                            </IconButton>
-                          </Tooltip>
-                          <Button
-                            onClick={() =>
-                              handleOpenProgressReportDialog(training.id)
-                            }
-                            variant="contained"
-                            sx={{
-                              background:
-                                'linear-gradient(45deg, #1b5e20 30%, #388e3c 90%)',
-                            }}
-                          >
-                            Progress Report
-                          </Button>
-                        </Stack>
-                      </>
-                    )}
+                          Progress Report
+                        </Button>
+                      )}
 
-                    {training.status == 'canceled' && (
-                      <>
-                        <Stack
-                          direction="row"
-                          spacing={2}
-                          gap={2}
+                      {training.status == 'canceled' && (
+                        <Button
+                          color="success"
+                          onClick={() =>
+                            handleOpenProgressReportDialog(training.id)
+                          }
+                          variant="contained"
                           sx={{
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
+                            width: '12rem',
+                            background:
+                              'linear-gradient(45deg, #1b5e20 30%, #388e3c 90%)',
                           }}
                         >
-                          <IconButton></IconButton>
-                          <Button
-                            onClick={() => handleOpenProgressReportDialog(training.id)}
-                            variant="contained"
-                            sx={{
-                              background:
-                                'linear-gradient(45deg, #1b5e20 30%, #388e3c 90%)',
-                            }}
-                          >
-                            Progress Report
-                          </Button>
-                        </Stack>
-                      </>
-                    )}
-                    {(training.status == 'submitted' ||
-                      training.status == 'rejected' ||
-                      training.status == 'accepted' ||
-                      training.status == 'pendeing' ||
-                      training.status == 'cancelled') && (
-                      <Stack
-                        direction="row"
-                        spacing={2}
-                        gap={2}
-                        sx={{
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                        }}
-                      >
-                        <IconButton></IconButton>
-                        <Button sx={{ color: 'white' }}> Progress Form</Button>
-                      </Stack>
-                    )}
-                  </Box>
+                          Progress Report
+                        </Button>
+                      )}
+                      {(training.status == 'submitted' ||
+                        training.status == 'rejected' ||
+                        training.status == 'accepted' ||
+                        training.status == 'pendeing' ||
+                        training.status == 'cancelled') && (
+                        <Typography sx={{ color: 'white' }}>
+                          Evaluation Traininingasd.
+                        </Typography>
+                      )}
+                    </Stack>
+                  </Stack>
                 </Paper>
               </Box>
             ))}
           </>
         </Stack>
       </Grid>
+
       <Dialog
         open={isEvaluationReportOpen}
         onClose={handleCloseEvaluationReportDialog}
@@ -267,7 +217,11 @@ const AddCompanyForm: React.FC = () => {
       >
         <DialogTitle gap={1.5} sx={{ textAlign: 'center' }}></DialogTitle>
         <DialogContent>
-          <ProgressFormDialog trainingId={trainingId} />
+          <ProgressFormDialog
+            handleCloseDialog={handleCloseDialog}
+            isOpen={isProgressReportOpen}
+            response={response}
+          />
         </DialogContent>
       </Dialog>
     </>

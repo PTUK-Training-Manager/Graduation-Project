@@ -10,9 +10,9 @@ export interface PendingProgressRequests {
     date: string;
     trainingId: string
     Training: {
+        StudentId: string;
         Student: {
             name: string;
-            StudentId: string;
         };
     };
 }

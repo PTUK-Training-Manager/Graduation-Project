@@ -183,10 +183,11 @@ export interface EditEvaluationBody extends Request {
     body: {
         id: number,
         skills?: string,
-        noteId?: number,
-        note?: string,
-        startTime?: Date,
-        endTime?: Date
+        startTime?: string,
+        startTimeType?: string,
+        endTime?: string,
+        endTimeType?: string,
+        date?:Date
     }
 }
 

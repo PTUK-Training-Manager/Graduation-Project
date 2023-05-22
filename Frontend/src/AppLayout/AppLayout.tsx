@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import {FC} from 'react';
 import AppNavbar from "src/components/AppNavbar";
 import Grid from "@mui/material/Grid";
 import useStyles from "./styles";

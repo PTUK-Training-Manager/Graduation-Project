@@ -39,6 +39,7 @@ const Finished200Hours: React.FC = () => {
     trainingId,
   } = useFinished200HoursController();
 
+  
   return (
     <>
       <Grid
@@ -58,7 +59,7 @@ const Finished200Hours: React.FC = () => {
           }}
         >
           <Typography component="h1" variant="h5" fontWeight={500}>
-            Trainees Finished 200 Houres
+            Trainees Finished Required Houres
           </Typography>
           <DataGrid
             className="dataGrid"

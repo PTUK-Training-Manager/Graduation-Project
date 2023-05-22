@@ -39,7 +39,7 @@ export interface RejectedEvaluationData {
   endTime: string,
   skills: string,
   trainingId: number | undefined,
-  date:Date,
+  date:string,
   noteId: number,
   status: string,
   Note: {
@@ -58,7 +58,7 @@ export interface PendingEvaluationData {
   endTime: string,
   skills: string,
   trainingId: number | undefined,
-  date:Date,
+  date:string,
   noteId: number,
   status: string,
 }

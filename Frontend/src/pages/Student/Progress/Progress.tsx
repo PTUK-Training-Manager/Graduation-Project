@@ -9,6 +9,8 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Stack from '@mui/material/Stack';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
+import RichTextEditor from 'src/containers/RichTextEditor/RichTextEditor';
+import { EditorState } from 'lexical';
 import { useRef } from 'react';
 import theme from 'src/styling/customTheme';
 import {
@@ -19,7 +21,6 @@ import {
   Button,
   Card,
   CardContent,
-  Chip,
   IconButton,
   TextField,
   Tooltip,
@@ -31,10 +32,7 @@ import Divider from '@mui/material/Divider';
 import Edit from '@mui/icons-material/Edit';
 import { submitEvaluation, editEvaluationForm } from './api';
 import dayjs, { Dayjs } from 'dayjs';
-import TimePicker from '@mui/lab/TimePicker';
 import useProgressController from './hooks/useProgressController';
-import { LibraryAddCheck, DisabledByDefault } from '@mui/icons-material';
-import { Link, useNavigate } from 'react-router-dom';
 
 const Root = styled('div')(({ theme }) => ({
   width: '100%',
@@ -52,14 +50,13 @@ const Progress: React.FC = () => {
   const [startTime, setStartTime] = useState<string>('');
   const [date, setDate] = useState<Dayjs | null>(dayjs(''));
   const [endTime, setEndTime] = useState<string>('');
-  const [skills, setSkills] = useState('');
+  // const [skills, setSkills] = useState('');
   const [endTimeType, setEndTimeType] = useState<string>('');
   const [startTimeType, setStartTimeType] = useState<string>('');
   const [fillEvaluation, setFillEvaluation] = useState(true);
   const [editEvaluation, setEditEvaluation] = useState(false);
   const [evaluationId, setEvaluationId] = useState<number>(-1);
-
-  const navigate = useNavigate();
+  const [skills, setSkills] = React.useState<EditorState | null>(null);
 
   const handleSubmit = () => {
     submitEvaluation({
@@ -67,8 +64,10 @@ const Progress: React.FC = () => {
       endTime: endTime,
       startTimeType: startTimeType,
       endTimeType: endTimeType,
-      skills: skills,
+      //@ts-ignore
+      skills: JSON.stringify(skills),
       trainingId: data?.trainingId,
+      //@ts-ignore
       date: date,
     })
       .then((result) => {
@@ -79,7 +78,6 @@ const Progress: React.FC = () => {
           setDate(dayjs(''));
           setStartTime('');
           setEndTime('');
-          setSkills('');
           setStartTimeType('');
           setEndTimeType('');
         } else if (result.success === false) {
@@ -94,8 +92,9 @@ const Progress: React.FC = () => {
       endTime: endTime,
       startTimeType: startTimeType,
       endTimeType: endTimeType,
-      skills: skills,
-      trainingId: data?.trainingId,
+      //@ts-ignore
+      skills: JSON.stringify(skills),
+      //@ts-ignore
       date: date,
       id: evaluationId,
     })
@@ -107,7 +106,6 @@ const Progress: React.FC = () => {
           setDate(dayjs(''));
           setStartTime('');
           setEndTime('');
-          setSkills('');
           setStartTimeType('');
           setEndTimeType('');
         } else if (result.success === false) {
@@ -163,117 +161,91 @@ const Progress: React.FC = () => {
       <Grid
         container
         sx={{
-          p: 3,
+          p: 2,
           justifyContent: 'center',
           alignItems: 'center',
           height: `calc(100vh - ${theme.mixins.toolbar.height}px)`,
         }}
       >
         <Stack
-          gap={1.5}
+          gap={1}
+          spacing={1}
           ref={topRef}
           sx={{
-            width: '100%',
+            width: '80%',
             height: '100%',
           }}
         >
           <Typography component="h1" variant="h5" fontWeight={500}>
             Evaluations
           </Typography>
-
           <Box
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              gap: '3.5rem',
+              gap: '1rem',
 
               alignItems: 'center',
             }}
           >
-            <Paper
-              elevation={3}
+            <Stack
+              gap={1}
               sx={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                p: 3.5,
-                minWidth: { xs: '90%', sm: '60%', md: '30%' },
+                width: '100%',
+                height: '100%',
               }}
             >
-              <Stack spacing={2} gap={2}>
-                <Stack
-                  spacing={2}
-                  gap={2}
-                  direction="row"
-                  sx={{
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer components={['DatePicker']}>
+              <Paper
+                elevation={3}
+                sx={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  p: 2,
+                }}
+              >
+                <Stack spacing={1} gap={1}>
+                  <Stack
+                    gap={1.5}
+                    direction="row"
+                    sx={{
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DatePicker
                         label="Date"
                         value={date}
                         onChange={(newValue) => setDate(newValue)}
                       />
-                    </DemoContainer>
-                  </LocalizationProvider>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer
-                      components={[
-                        'MobileTimePicker',
-                        'MobileTimePicker',
-                        'MobileTimePicker',
-                      ]}
-                      sx={{ minWidth: 210 }}
-                    >
+
                       <MobileTimePicker
                         value={startTime}
                         label={'Start Time'}
                         views={['hours', 'minutes', 'seconds']}
                         onChange={handleStartTimeChange}
                       />
-                    </DemoContainer>
-                  </LocalizationProvider>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DemoContainer
-                      components={[
-                        'MobileTimePicker',
-                        'MobileTimePicker',
-                        'MobileTimePicker',
-                      ]}
-                      sx={{ minWidth: 210 }}
-                    >
+
                       <MobileTimePicker
                         value={endTime}
                         label={'End Time'}
                         views={['hours', 'minutes', 'seconds']}
                         onChange={handleEndChange}
                       />
-                    </DemoContainer>
-                  </LocalizationProvider>
-                </Stack>
-                <Stack
-                  spacing={2}
-                  gap={2}
-                  direction="row"
-                  sx={{
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Typography sx={{ color: 'white' }}> </Typography>
-                  <Typography sx={{ color: 'white' }}> </Typography>
-                  <Typography sx={{ color: 'white' }}> </Typography>
-                  <Typography sx={{ color: 'white' }}> </Typography>
+                    </LocalizationProvider>
+                  </Stack>
 
-                  <TextField
-                    required
+                  <RichTextEditor
+                    onChange={(skills) => {
+                      setSkills(skills);
+                    }}
+                  />
+                  {/* <TextField
                     id="outlined-required"
                     label="Skills"
                     value={skills}
                     onChange={(event) => setSkills(event.target.value)}
-                  />
+                  /> */}
                   {fillEvaluation && (
                     <Button
                       variant="contained"
@@ -299,18 +271,12 @@ const Progress: React.FC = () => {
                       Submit Edits
                     </Button>
                   )}
-
-                  <Typography sx={{ color: 'white' }}> </Typography>
-                  <Typography sx={{ color: 'white' }}> </Typography>
-                  <Typography sx={{ color: 'white' }}> </Typography>
-                  <Typography sx={{ color: 'white' }}> </Typography>
                 </Stack>
-              </Stack>
-            </Paper>
+              </Paper>
+            </Stack>
             <Stack
-              gap={1.5}
               sx={{
-                width: '80%',
+                width: '100%',
                 height: '100%',
               }}
             >
@@ -343,6 +309,17 @@ const Progress: React.FC = () => {
                         >
                           <CardContent>
                             <Stack spacing={2}>
+                              <Typography fontWeight="600">
+                                Submitted Date:{' '}
+                                <Typography
+                                  sx={{
+                                    display: 'inline-block',
+                                    fontWeight: '400',
+                                  }}
+                                >
+                                  {evaluation.date}
+                                </Typography>
+                              </Typography>
                               <Typography fontWeight="600">
                                 Start Time:{' '}
                                 <Typography
@@ -416,9 +393,8 @@ const Progress: React.FC = () => {
               </Accordion>
             </Stack>
             <Stack
-              gap={1.5}
               sx={{
-                width: '80%',
+                width: '100%',
                 height: '100%',
               }}
             >
@@ -431,7 +407,8 @@ const Progress: React.FC = () => {
                   <Stack spacing={2} gap={2} direction="row">
                     <Typography
                       variant="body1"
-                      sx={{ fontWeight: '600', color: 'gray' }}
+                      color="gray"
+                      sx={{ fontWeight: '600' }}
                     >
                       Pending Evaluations
                     </Typography>
@@ -450,6 +427,17 @@ const Progress: React.FC = () => {
                         >
                           <CardContent>
                             <Stack spacing={2}>
+                              <Typography fontWeight="600">
+                                Submitted Date:{' '}
+                                <Typography
+                                  sx={{
+                                    display: 'inline-block',
+                                    fontWeight: '400',
+                                  }}
+                                >
+                                  {evaluation.date}
+                                </Typography>
+                              </Typography>
                               <Typography fontWeight="600">
                                 Start Time:{' '}
                                 <Typography
@@ -473,7 +461,6 @@ const Progress: React.FC = () => {
                                   {evaluation.endTime}
                                 </Typography>
                               </Typography>
-
                               <Stack
                                 direction="row"
                                 sx={{
