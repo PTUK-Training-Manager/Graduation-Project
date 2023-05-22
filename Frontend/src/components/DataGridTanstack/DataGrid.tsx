@@ -38,6 +38,7 @@ import {StyledPagination, StyledTableRow} from "./styled";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import theme from "src/styling/customTheme";
+import useStyles from "./styles";
 
 const DataGrid = <T extends any>(props: DataGridProps<T>) => {
     const {
@@ -55,6 +56,8 @@ const DataGrid = <T extends any>(props: DataGridProps<T>) => {
         skeletonRowHeight = 28,
         striped = false, // for adding striped effect to the table
     } = props;
+
+    const classes = useStyles();
 
 
     const memoizedData = useMemo(() => data, [data]);
@@ -92,10 +95,12 @@ const DataGrid = <T extends any>(props: DataGridProps<T>) => {
         setPageSize,
         setPageIndex,
         getAllColumns,
-        getState
+        getState,
+        getCenterTotalSize,
     } = useReactTable({
         data: memoizedData,
         columns: memoizedColumns,
+        columnResizeMode: "onChange",
         filterFns: {
             fuzzy: fuzzyFilter,
         },
@@ -183,8 +188,8 @@ const DataGrid = <T extends any>(props: DataGridProps<T>) => {
             {/*        />*/}
             {/*    )}*/}
             {/*</Box>*/}
-            <Paper>
-                <MuiTable sx={{borderRadius: 0, position: "relative"}}>
+            <Paper sx={{overflowX: "auto", ...theme.mixins.niceScroll()}}>
+                <MuiTable sx={{borderRadius: 0, position: "relative", minWidth: "100%", width: getCenterTotalSize()}}>
                     {!isFetching && (
                         <TableHead>
                             {getHeaderGroups().map((headerGroup) => (
@@ -194,7 +199,9 @@ const DataGrid = <T extends any>(props: DataGridProps<T>) => {
                                             {header.isPlaceholder ? null : (
                                                 <TableCell
                                                     key={header.id}
+                                                    colSpan={header.colSpan}
                                                     sx={{
+                                                        width: header.getSize(),
                                                         py: 0.5,
                                                         position: "sticky",
                                                         bgcolor: theme.palette.background.paper,
@@ -207,6 +214,9 @@ const DataGrid = <T extends any>(props: DataGridProps<T>) => {
                                                             bgcolor: theme.palette.grey[50],
                                                         },
                                                         "&:hover #sortable-indicator": {
+                                                            opacity: 1,
+                                                        },
+                                                        "&:hover #resizer": {
                                                             opacity: 1,
                                                         }
                                                     }}
@@ -229,6 +239,13 @@ const DataGrid = <T extends any>(props: DataGridProps<T>) => {
                                                                 fontSize: 18,
                                                                 opacity: 0,
                                                             }}/>)}
+                                                        <Box
+                                                            id="resizer"
+                                                            sx={{opacity: 0}}
+                                                            onMouseDown={header.getResizeHandler()}
+                                                            onTouchStart={header.getResizeHandler()}
+                                                            className={classes.resizer}
+                                                        />
                                                     </Box>
                                                 </TableCell>
                                             )}
@@ -252,6 +269,9 @@ const DataGrid = <T extends any>(props: DataGridProps<T>) => {
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell
                                             key={cell.id}
+                                            sx={{
+                                                width: cell.column.getSize(),
+                                            }}
                                             onClick={() => onRowClick?.(cell, row)}
                                         >
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -298,7 +318,7 @@ const DataGrid = <T extends any>(props: DataGridProps<T>) => {
                     />
                 )}
             </Grid>
-            {/*<pre>{JSON.stringify(getState(), null, 2)}</pre>*/}
+            <pre>{JSON.stringify(getState(), null, 2)}</pre>
         </Stack>
     )
 };
