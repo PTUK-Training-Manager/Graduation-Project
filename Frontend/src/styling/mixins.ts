@@ -6,11 +6,13 @@ const customMixins: CustomThemeMixins = {
             overflow: "auto",
             "&:hover": {
                 "&::-webkit-scrollbar-thumb": {
-                    background: "rgba(0,0,0,0.5)",
+                    background: "rgba(0,0,0,0.3)",
                 },
             },
             "&::-webkit-scrollbar": {
-                width: 10,
+                // width: 10,
+                height: 5,              /* height of horizontal scrollbar ← You're missing this */
+                width: 6,     /* width of vertical scrollbar */
                 position: "fixed",
                 backgroundColor: "rgba(0,0,0,0)",
                 borderRadius: 100,
@@ -23,7 +25,7 @@ const customMixins: CustomThemeMixins = {
                 backgroundClip: "padding-box",
                 border: "2px solid rgba(0, 0, 0, 0)",
                 borderRadius: 100,
-                minHeight: 10,
+                minHeight: 4,
             },
             "&::-webkit-scrollbar-thumb:active": {
                 background: "rgba(0,0,0,0.61)",

@@ -7,7 +7,7 @@ export const columns: ColumnDef<UserData, any>[] = [
     {
         accessorKey: "id",
         header: "ID",
-        maxSize: 40,
+        // maxSize: 40,
     },
     {
         accessorKey: "name",

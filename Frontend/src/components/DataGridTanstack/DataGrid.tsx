@@ -2,7 +2,6 @@ import React, {useState, useMemo, memo, ChangeEvent, MouseEvent, ReactNode} from
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
 import Paper from "@mui/material/Paper";
 import MuiTable from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -38,6 +37,7 @@ import {StyledPagination, StyledTableRow} from "./styled";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import theme from "src/styling/customTheme";
+import Tooltip from "@mui/material/Tooltip";
 import useStyles from "./styles";
 
 const DataGrid = <T extends any>(props: DataGridProps<T>) => {
@@ -58,7 +58,6 @@ const DataGrid = <T extends any>(props: DataGridProps<T>) => {
     } = props;
 
     const classes = useStyles();
-
 
     const memoizedData = useMemo(() => data, [data]);
     const memoizedColumns = useMemo(() => columns, [columns]);
@@ -126,7 +125,6 @@ const DataGrid = <T extends any>(props: DataGridProps<T>) => {
         debugColumns: false,
     });
 
-
     const columnCount = getAllColumns().length;
 
     const handleChangePage = (event: ChangeEvent<unknown>, selectedPage: number) => {
@@ -164,6 +162,10 @@ const DataGrid = <T extends any>(props: DataGridProps<T>) => {
 
     return (
         <Stack
+            sx={{
+                height: "100%",
+                position: "relative",
+            }}
             // sx={{height: "100%", position: "relative", overflow: "auto", ...theme.mixins.niceScroll()}}
         >
             {/*<Box sx={{*/}
@@ -188,10 +190,23 @@ const DataGrid = <T extends any>(props: DataGridProps<T>) => {
             {/*        />*/}
             {/*    )}*/}
             {/*</Box>*/}
-            <Paper sx={{overflowX: "auto", ...theme.mixins.niceScroll()}}>
-                <MuiTable sx={{borderRadius: 0, position: "relative", minWidth: "100%", width: getCenterTotalSize()}}>
+            <Paper
+                sx={{
+                    height: "100%",
+                    overflow: "auto",
+                    position: "relative",
+                    ...theme.mixins.niceScroll(),
+                }}
+            >
+                <MuiTable sx={{
+                    borderRadius: 0,
+                    position: "relative",
+                    height: "100%",
+                    minWidth: "100%",
+                    width: getCenterTotalSize()
+                }}>
                     {!isFetching && (
-                        <TableHead>
+                        <TableHead sx={{display: "table", width: "100%", tableLayout: "fixed"}}>
                             {getHeaderGroups().map((headerGroup) => (
                                 <TableRow key={headerGroup.id}>
                                     {headerGroup.headers.map((header) => (
@@ -211,42 +226,44 @@ const DataGrid = <T extends any>(props: DataGridProps<T>) => {
                                                             userSelect: "none",
                                                         }),
                                                         "&:hover": {
-                                                            bgcolor: theme.palette.grey[50],
+                                                            bgcolor: theme.palette.grey[100],
                                                         },
-                                                        "&:hover #sortable-indicator": {
-                                                            opacity: 1,
-                                                        },
-                                                        "&:hover #resizer": {
+                                                        ":is(:hover) :is(#sortable-indicator, #resizer)": {
                                                             opacity: 1,
                                                         }
                                                     }}
-                                                    onClick={header.column.getToggleSortingHandler()}
                                                 >
-                                                    <Box sx={{
-                                                        display: "flex",
-                                                        alignItems: "center",
-                                                        gap: 0.5,
-                                                    }}>
+                                                    <Box
+                                                        sx={{
+                                                            display: "flex",
+                                                            alignItems: "center",
+                                                            gap: 0.5,
+                                                        }}
+                                                        onClick={header.column.getToggleSortingHandler()}
+                                                    >
                                                         {flexRender(
                                                             header.column.columnDef.header,
                                                             header.getContext()
                                                         )}
                                                         {mapSortDirToIcon[header.column.getIsSorted() as SortDirection] ?? null}
                                                         {header.column.getCanFilter() && !header.column.getIsSorted() && (
-                                                            <ArrowUpwardIcon id="sortable-indicator"
-                                                                             color="disabled" sx={{
-                                                                transition: "0.5s all",
-                                                                fontSize: 18,
-                                                                opacity: 0,
-                                                            }}/>)}
-                                                        <Box
-                                                            id="resizer"
-                                                            sx={{opacity: 0}}
-                                                            onMouseDown={header.getResizeHandler()}
-                                                            onTouchStart={header.getResizeHandler()}
-                                                            className={classes.resizer}
-                                                        />
+                                                            <ArrowUpwardIcon
+                                                                id="sortable-indicator"
+                                                                color="disabled"
+                                                                sx={{
+                                                                    transition: "0.5s all",
+                                                                    fontSize: 18,
+                                                                    opacity: 0,
+                                                                }}/>
+                                                        )}
                                                     </Box>
+                                                    <Box
+                                                        id="resizer"
+                                                        sx={{opacity: 0}}
+                                                        onMouseDown={header.getResizeHandler()}
+                                                        onTouchStart={header.getResizeHandler()}
+                                                        className={classes.resizer}
+                                                    />
                                                 </TableCell>
                                             )}
                                         </>
@@ -263,16 +280,26 @@ const DataGrid = <T extends any>(props: DataGridProps<T>) => {
                         />
                     )}
                     {!isFetching && (
-                        <TableBody>
+                        <TableBody sx={{
+                            display: "block",
+                            height: `calc(100% - 33px)`,
+                            // overflowY: "scroll",
+                            ...theme.mixins.niceScroll(),
+                        }}>
                             {getRowModel().rows.map((row) => (
-                                <StyledTableRow key={row.id} striped={striped} isClickable={isRowClickable}>
+                                <StyledTableRow key={row.id} striped={striped} isClickable={isRowClickable}
+                                                sx={{display: "table", width: "100%", tableLayout: "fixed"}}>
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell
                                             key={cell.id}
+                                            onClick={() => onRowClick?.(cell, row)}
                                             sx={{
                                                 width: cell.column.getSize(),
+                                                whiteSpace: "nowrap",
+                                                textOverflow: "ellipsis",
+                                                overflow: "hidden",
                                             }}
-                                            onClick={() => onRowClick?.(cell, row)}
+
                                         >
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </TableCell>
@@ -318,7 +345,7 @@ const DataGrid = <T extends any>(props: DataGridProps<T>) => {
                     />
                 )}
             </Grid>
-            <pre>{JSON.stringify(getState(), null, 2)}</pre>
+            {/*<pre>{JSON.stringify(getState(), null, 2)}</pre>*/}
         </Stack>
     )
 };
