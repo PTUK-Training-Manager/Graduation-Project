@@ -8,6 +8,7 @@ export const columns: ColumnDef<UserData, any>[] = [
         accessorKey: "id",
         header: "ID",
         // maxSize: 40,
+        // size: 300,
     },
     {
         accessorKey: "name",
@@ -20,6 +21,7 @@ export const columns: ColumnDef<UserData, any>[] = [
     {
         accessorKey: "body",
         header: "Body",
+        // size: 1000,
     },
     {
         accessorKey: "postId",

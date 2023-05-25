@@ -206,9 +206,9 @@ const DataGrid = <T extends any>(props: DataGridProps<T>) => {
                     width: getCenterTotalSize()
                 }}>
                     {!isFetching && (
-                        <TableHead sx={{display: "table", width: "100%", tableLayout: "fixed"}}>
+                        <TableHead sx={{width: "100%"}}>
                             {getHeaderGroups().map((headerGroup) => (
-                                <TableRow key={headerGroup.id}>
+                                <TableRow key={headerGroup.id} sx={{display: "flex"}}>
                                     {headerGroup.headers.map((header) => (
                                         <>
                                             {header.isPlaceholder ? null : (
@@ -238,6 +238,7 @@ const DataGrid = <T extends any>(props: DataGridProps<T>) => {
                                                             display: "flex",
                                                             alignItems: "center",
                                                             gap: 0.5,
+                                                            height: "32px"
                                                         }}
                                                         onClick={header.column.getToggleSortingHandler()}
                                                     >
@@ -282,13 +283,23 @@ const DataGrid = <T extends any>(props: DataGridProps<T>) => {
                     {!isFetching && (
                         <TableBody sx={{
                             display: "block",
-                            height: `calc(100% - 33px)`,
+                            overflow: "auto",
+                            // height: `calc(100% - 33px)`,
+                            height: "100%",
                             // overflowY: "scroll",
                             ...theme.mixins.niceScroll(),
                         }}>
                             {getRowModel().rows.map((row) => (
-                                <StyledTableRow key={row.id} striped={striped} isClickable={isRowClickable}
-                                                sx={{display: "table", width: "100%", tableLayout: "fixed"}}>
+                                <StyledTableRow
+                                    key={row.id}
+                                    striped={striped}
+                                    isClickable={isRowClickable}
+                                    sx={{
+                                        width: "100%",
+                                        tableLayout: "fixed",
+                                        display: "flex",
+                                    }}
+                                >
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell
                                             key={cell.id}
