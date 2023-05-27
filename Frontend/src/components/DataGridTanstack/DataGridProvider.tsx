@@ -1,4 +1,4 @@
-import React, {FC, ChangeEvent, Context, MouseEvent, ReactNode, useMemo, useState} from "react";
+import React, {FC, ChangeEvent, Context, MouseEvent, ReactNode, useMemo, useState, PropsWithChildren} from "react";
 import {DataGridContextValues, PageChangeParams} from "./types";
 import {
     Cell,
@@ -14,18 +14,17 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import {CreateDataGridConfig} from "./types";
 
-export interface DataGridProviderProps<T> {
+export interface DataGridProviderProps<T> extends PropsWithChildren {
     data: T[];
     totalPages?: number; // total number of pages
     totalRows?: number; // total number of rows (needed for MUI TablePagination)
     onPaginationChange?: (params: PageChangeParams) => void; //for exposing the current page value to the outside of the table as a callback function.
     // onRowClick?: (cell: Cell<T, unknown>, row: Row<T>) => void;
-    searchPlaceholder?: string;
+    // searchPlaceholder?: string;
     headerComponent?: JSX.Element;
     isFetching?: boolean;
     skeletonRowCount?: number;
     skeletonRowHeight?: number;
-    isRowClickable?: boolean;
     striped?: boolean;
 }
 
@@ -33,25 +32,32 @@ export interface DataGridProviderProps<T> {
 export function makeDataGridProvider<T extends object>(configs: CreateDataGridConfig<T>) {
     const {
         name,
-        children,
+        // children,
         Context,
         columns,
     } = configs;
 
-    const DataGridProvider: FC<DataGridProviderProps<T>> = ({
-                                                                data,
-                                                                totalPages,
-                                                                totalRows,
-                                                                onPaginationChange,
-                                                                striped,
-                                                                isFetching,
-                                                                skeletonRowCount,
-                                                                skeletonRowHeight,
-                                                                headerComponent,
-                                                                // onRowClick,
-                                                                searchPlaceholder,
-                                                                ...rest
-                                                            }) => {
+    const DataGridProvider: FC<DataGridProviderProps<T>> = (props) => {
+        const {
+            children,
+            data,
+            totalPages,
+            totalRows,
+            onPaginationChange,
+            striped,
+            isFetching,
+            skeletonRowCount,
+            skeletonRowHeight,
+            headerComponent,
+            // onRowClick,
+            // searchPlaceholder,
+            ...rest
+        } = props;
+        console.log(props);
+        console.log({
+            totalPages,
+            totalRows,
+        });
 
         const dataMemoized = useMemo(() => data, [data]);
 
@@ -127,6 +133,7 @@ export function makeDataGridProvider<T extends object>(configs: CreateDataGridCo
             event: MouseEvent<HTMLButtonElement> | null,
             selectedPage: number,
         ) => {
+            console.log({selectedPage});
             const p = selectedPage === 0 ? 1 : selectedPage;
             // setCurrentPage(selectedPage);
             setPageIndex(selectedPage);
@@ -136,7 +143,10 @@ export function makeDataGridProvider<T extends object>(configs: CreateDataGridCo
         const handleChangeRowsPerPage = (
             event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
         ) => {
-            onPaginationChange?.({pageIndex: getState().pagination.pageIndex, pageSize: parseInt(event.target.value, 10)});
+            onPaginationChange?.({
+                pageIndex: getState().pagination.pageIndex,
+                pageSize: parseInt(event.target.value, 10)
+            });
             setPageSize(parseInt(event.target.value, 10));
             // setCurrentPage(0);
         };
@@ -164,9 +174,12 @@ export function makeDataGridProvider<T extends object>(configs: CreateDataGridCo
             onSetIsOpenFiltersModal,
             columnCount,
             handleChangePage,
+            onPaginationChange,
             handleChangeRowsPerPage,
             onHandleGlobalSearch,
             mapSortDirectionToIcon,
+            totalRows,
+            totalPages,
         }
 
         return (

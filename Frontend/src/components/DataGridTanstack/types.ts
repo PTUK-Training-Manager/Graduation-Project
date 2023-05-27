@@ -5,19 +5,24 @@ import React, {
     ChangeEvent,
     InputHTMLAttributes,
     MouseEvent,
-    PropsWithChildren
+    PropsWithChildren, FC
 } from "react";
 import {Cell, ColumnDef, ColumnFiltersState, Row, Table, SortDirection} from "@tanstack/react-table";
+import {DataGridProviderProps} from "src/components/DataGridTanstack/DataGridProvider";
+import {FiltersModalProps} from "src/components/DataGridTanstack/FiltersModal";
+import {BoxProps} from "@mui/material/Box";
 
-export interface DataGridProps<T> {
-    totalPages?: number; // total number of pages
-    totalRows?: number; // total number of rows (needed for MUI TablePagination)
-    onRowClick?: (cell: Cell<T, unknown>, row: Row<T>) => void;
-    searchPlaceholder?: string;
+export type OnRowClick<T> = (cell: Cell<T, unknown>, row: Row<T>) => void;
+
+export interface DataGridProps<T> extends PropsWithChildren {
+    // totalPages?: number; // total number of pages
+    // totalRows?: number; // total number of rows (needed for MUI TablePagination)
+    onRowClick?: OnRowClick<T>;
+    // isRowClickable?: boolean;
+    // searchPlaceholder?: string;
     isFetching?: boolean;
     skeletonRowCount?: number;
     skeletonRowHeight?: number;
-    isRowClickable?: boolean;
     striped?: boolean;
 }
 
@@ -53,9 +58,12 @@ export interface DataGridContextValues<T> {
     onSetIsOpenFiltersModal: (isOpenFiltersModal: boolean) => void;
     columnCount: number;
     handleChangePage?: (event: MouseEvent<HTMLButtonElement> | null, selectedPage: number) => void;
+    onPaginationChange?: (params: PageChangeParams) => void;
     handleChangeRowsPerPage: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
     onHandleGlobalSearch: (e: ChangeEvent<HTMLInputElement>) => void;
     mapSortDirectionToIcon: Record<SortDirection, React.ReactNode>;
+    totalPages?: number,
+    totalRows?: number,
 }
 
 
@@ -76,7 +84,24 @@ export interface CreateDataGridOptions<T> {
     // striped?: boolean;
 }
 
-export interface CreateDataGridConfig<T> extends CreateDataGridOptions<T>, PropsWithChildren {
+export interface CreateDataGridConfig<T> extends CreateDataGridOptions<T> {
     Context: Context<DataGridContextValues<T>>;
 }
 
+export interface SearchBoxProps {
+    searchPlaceholder?: string;
+}
+
+export type ToolbarLayoutProps = FC<BoxProps> & {
+    Start: FC<BoxProps>;
+    End: FC<BoxProps>;
+};
+
+export interface GridReturn<T> {
+    Provider: FC<DataGridProviderProps<T>>;
+    Table: FC<DataGridProps<T>>;
+    Filters: FC<FiltersModalProps<T>>;
+    SearchBox: FC<SearchBoxProps>;
+    Toolbar: ToolbarLayoutProps;
+    configs: CreateDataGridOptions<T> & { Context: Context<DataGridContextValues<T>> };
+}

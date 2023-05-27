@@ -44,10 +44,9 @@ import Tooltip from "@mui/material/Tooltip";
 import useStyles from "./styles";
 import ColumnFilter from "./ColumnFilter";
 import FilterListIcon from '@mui/icons-material/FilterList';
-import FiltersModal from "./FiltersModal";
 import {CreateDataGridConfig} from "./types";
 
-export function makeDataGridAllParts<T extends object>(configs: CreateDataGridConfig<T>) {
+export function makeDataGridTable<T extends object>(configs: CreateDataGridConfig<T>) {
 
     const {
         Context,
@@ -55,10 +54,8 @@ export function makeDataGridAllParts<T extends object>(configs: CreateDataGridCo
 
     const DataGrid = <T extends any>(props: DataGridProps<T>) => {
         const {
-            totalPages,
-            totalRows,
+            children,
             onRowClick,
-            searchPlaceholder,
             isFetching,
             skeletonRowCount = 4,
             skeletonRowHeight = 28,
@@ -66,68 +63,22 @@ export function makeDataGridAllParts<T extends object>(configs: CreateDataGridCo
         } = props;
 
         const {
-            dataMemoized,
-            columnsMemoized,
+            table,
             handleChangePage,
             handleChangeRowsPerPage,
             headerComponentMemoized,
+            onPaginationChange,
+            totalPages,
+            totalRows,
+            onSetGlobalFilter,
+            onSetIsOpenFiltersModal,
+            isOpenFiltersModal,
+            isRowClickable,
         } = useContext(configs.Context);
 
         const classes = useStyles();
 
-
-        const isRowClickable = props.isRowClickable ?? Boolean(props.onRowClick);
-
-        const [currentPage, setCurrentPage] = useState(1);
-
-        const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-
-        const [globalFilter, setGlobalFilter] = useState<string>("");
-
-        const [isOpenFiltersModal, setIsOpenFiltersModal] = useState<boolean>(false);
-
-        const fuzzyFilter: FilterFn<T> = (row, columnId, value, addMeta) => {
-            // Rank the item
-            const itemRank = rankItem(row.getValue(columnId), value)
-
-            // Store the itemRank info
-            addMeta({
-                itemRank,
-            })
-
-            // Return if the item should be filtered in/out
-            return itemRank.passed
-        }
-
-        const table = useReactTable({
-            // @ts-ignore
-            data: dataMemoized,
-            columns: columnsMemoized as ColumnDef<T, any>[],
-            columnResizeMode: "onChange",
-            filterFns: {
-                fuzzy: fuzzyFilter,
-            },
-            globalFilterFn: fuzzyFilter,
-            state: {
-                columnFilters,
-                globalFilter,
-            },
-            onColumnFiltersChange: (updaterOrValue) => setColumnFilters(updaterOrValue),
-            onGlobalFilterChange: (updaterOrValue) => setGlobalFilter(updaterOrValue),
-            // getCoreRowModel: getCoreRowModel(),
-            getCoreRowModel: getCoreRowModel<T>(),
-            getFilteredRowModel: getFilteredRowModel<T>(),
-            getSortedRowModel: getSortedRowModel<T>(),
-            getPaginationRowModel: getPaginationRowModel<T>(),
-            getFacetedRowModel: getFacetedRowModel<T>(),
-            getFacetedUniqueValues: getFacetedUniqueValues<T>(),
-            getFacetedMinMaxValues: getFacetedMinMaxValues<T>(),
-            manualPagination: true,
-            pageCount: totalPages,
-            debugTable: true,
-            debugHeaders: true,
-            debugColumns: false,
-        });
+        const isRowClickableBoolean = isRowClickable ?? Boolean(props.onRowClick);
 
         const {
             getHeaderGroups,
@@ -148,7 +99,7 @@ export function makeDataGridAllParts<T extends object>(configs: CreateDataGridCo
         //     getAllColumns: getAllColumns(),
         // })
 
-        const handleGlobalSearch = (e: ChangeEvent<HTMLInputElement>) => setGlobalFilter(e.target.value);
+        // const handleGlobalSearch = (e: ChangeEvent<HTMLInputElement>) => onSetGlobalFilter(e.target.value);
 
         const mapSortDirToIcon: Record<SortDirection, ReactNode> = {
             asc: <ArrowUpwardIcon sx={{fontSize: 18, color: "rgba(0,0,0,0.6)"}}/>,
@@ -175,31 +126,31 @@ export function makeDataGridAllParts<T extends object>(configs: CreateDataGridCo
                 <Stack sx={{height: "100%", position: "relative"}}>
                     {/*<button onClick={() => resetColumnFilters()}>Reset Filters</button>*/}
                     <button onClick={fun}>setColumnFilters</button>
-                    <Stack direction="row" sx={{pb: 2}}>
-                        {/*    {memoizedHeaderComponent && <Box>{memoizedHeaderComponent}</Box>}*/}
-                        <Box>
-                            <TextField
-                                sx={{
-                                    m: 0,
-                                    "& .MuiInputBase-root": {height: 34,}
-                                }}
-                                // onChange={debounce(handleSearchChange, 1000)}
-                                onChange={handleGlobalSearch}
-                                size="small"
-                                placeholder={searchPlaceholder}
-                                margin="normal"
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start"><SearchIcon color="disabled"/></InputAdornment>
-                                    ),
-                                }}
-                            />
-                        </Box>
-                        <Stack direction="row" sx={{flexGrow: 1, justifyContent: "flex-end", alignItems: "center"}}>
-                            <Chip icon={<FilterListIcon/>} label="Filter" variant="outlined" clickable
-                                  onClick={() => setIsOpenFiltersModal(true)}/>
-                        </Stack>
-                    </Stack>
+                    {/*<Stack direction="row" sx={{pb: 2}}>*/}
+                    {/*    /!*    {memoizedHeaderComponent && <Box>{memoizedHeaderComponent}</Box>}*!/*/}
+                    {/*    <Box>*/}
+                    {/*        <TextField*/}
+                    {/*            sx={{*/}
+                    {/*                m: 0,*/}
+                    {/*                "& .MuiInputBase-root": {height: 34,}*/}
+                    {/*            }}*/}
+                    {/*            // onChange={debounce(handleSearchChange, 1000)}*/}
+                    {/*            onChange={handleGlobalSearch}*/}
+                    {/*            size="small"*/}
+                    {/*            placeholder={searchPlaceholder}*/}
+                    {/*            margin="normal"*/}
+                    {/*            InputProps={{*/}
+                    {/*                startAdornment: (*/}
+                    {/*                    <InputAdornment position="start"><SearchIcon color="disabled"/></InputAdornment>*/}
+                    {/*                ),*/}
+                    {/*            }}*/}
+                    {/*        />*/}
+                    {/*    </Box>*/}
+                    {/*    <Stack direction="row" sx={{flexGrow: 1, justifyContent: "flex-end", alignItems: "center"}}>*/}
+                    {/*        /!*<Chip icon={<FilterListIcon/>} label="Filter" variant="outlined" clickable*!/*/}
+                    {/*        /!*      onClick={() => onSetIsOpenFiltersModal(true)}/>*!/*/}
+                    {/*    </Stack>*/}
+                    {/*</Stack>*/}
                     <Paper
                         sx={{
                             height: "100%",
@@ -311,7 +262,7 @@ export function makeDataGridAllParts<T extends object>(configs: CreateDataGridCo
                                         <StyledTableRow
                                             key={row.id}
                                             striped={striped}
-                                            isClickable={isRowClickable}
+                                            isClickable={isRowClickableBoolean}
                                             sx={{
                                                 width: "100%",
                                                 tableLayout: "fixed",
@@ -359,13 +310,13 @@ export function makeDataGridAllParts<T extends object>(configs: CreateDataGridCo
                         {/*        showLastButton*/}
                         {/*    />*/}
                         {/*)}*/}
-                        {totalPages && handleChangePage && (
+                        {totalPages && onPaginationChange && (
                             <TablePagination
                                 size="small"
                                 component="div"
                                 count={totalRows ?? -1} //The total number of rows.
                                 page={getState().pagination.pageIndex}
-                                onPageChange={handleChangePage}
+                                onPageChange={handleChangePage as any}
                                 rowsPerPage={getState().pagination.pageSize}
                                 onRowsPerPageChange={handleChangeRowsPerPage}
                                 labelRowsPerPage="page size"
@@ -375,7 +326,7 @@ export function makeDataGridAllParts<T extends object>(configs: CreateDataGridCo
                         )}
                     </Grid>
                 </Stack>
-                <FiltersModal table={table} isOpen={isOpenFiltersModal} onSetIsOpen={setIsOpenFiltersModal}/>
+                {/*<FiltersModal table={table} isOpen={isOpenFiltersModal} onSetIsOpen={onSetIsOpenFiltersModal}/>*/}
                 <pre>{JSON.stringify(getState(), null, 2)}</pre>
             </>
         )

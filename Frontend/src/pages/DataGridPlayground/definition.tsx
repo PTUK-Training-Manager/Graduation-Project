@@ -1,7 +1,7 @@
 import {Chip} from "@mui/material";
 import {ColumnDef} from "@tanstack/react-table";
 import {UserData} from "./API/response.dto";
-
+import {createDataGrid, GridReturn} from "src/components/DataGridTanstack";
 
 export const columns: ColumnDef<UserData, any>[] = [
     {
@@ -40,3 +40,10 @@ export const columns: ColumnDef<UserData, any>[] = [
         },
     },
 ];
+
+const UsersDataGrid = createDataGrid<UserData>({
+    name: "DataGridPlayground",
+    columns,
+});
+
+export default UsersDataGrid;
