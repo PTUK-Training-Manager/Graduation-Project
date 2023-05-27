@@ -8,20 +8,23 @@ export const columns: ColumnDef<UserData, any>[] = [
         accessorKey: "id",
         header: "ID",
         // maxSize: 40,
-        // size: 300,
+        size: 200,
     },
     {
         accessorKey: "name",
         header: "Name",
+        size: 200,
+        // filterFn: "arrIncludesSome",
     },
     {
         accessorKey: "email",
         header: "Email",
+        size: 250,
     },
     {
         accessorKey: "body",
         header: "Body",
-        // size: 1000,
+        minSize: 500,
     },
     {
         accessorKey: "postId",

@@ -11,7 +11,7 @@ const customMixins: CustomThemeMixins = {
             },
             "&::-webkit-scrollbar": {
                 // width: 10,
-                height: 5,              /* height of horizontal scrollbar ← You're missing this */
+                height: 7,              /* height of horizontal scrollbar ← You're missing this */
                 width: 6,     /* width of vertical scrollbar */
                 position: "fixed",
                 backgroundColor: "rgba(0,0,0,0)",
