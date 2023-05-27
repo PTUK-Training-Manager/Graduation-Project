@@ -1,1 +1,1 @@
-export {default} from "./DataGrid";
+export {createDataGrid} from "./createDataGrid";

@@ -52,10 +52,10 @@ export const AccountProvider: FC<AccountProviderProps> = ({children}) => {
         const {shouldNavigate} = options;
         setUser(null);
 
-        /**
-         * If the current pathname is "/login" don't navigate to "/login" again!
-         */
-        navigate("login", {replace: true});
+        // Navigate only if the path contains "/me"
+        if (location.pathname.includes("/me")) {
+            navigate("login", {replace: true});
+        }
 
         setIsSidebarOpen(false);
     };

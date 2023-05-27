@@ -46,38 +46,46 @@ const AppRoutes: FC<AppRoutesProps> = () => {
         <Suspense fallback={<BlockUI isBlocked/>}>
             <Routes>
                 {/* <Route index path="/" element={<Home/>}/> */}
+                {/*<Route path="public">*/}
+                {/*    <Route path="login" element={<Login/>}/>*/}
+                {/*    <Route path="landing" element={<LandingPage/>}/>*/}
+                {/*    <Route path="editor" element={<EditorPlayground/>}/>*/}
+                {/*    <Route path="data-grid" element={<DataGridPlayground/>}/>*/}
+                {/*</Route>*/}
+
+                <Route path="" element={<Login/>}/>
                 <Route path="login" element={<Login/>}/>
                 <Route path="landing" element={<LandingPage/>}/>
                 <Route path="editor" element={<EditorPlayground/>}/>
                 <Route path="data-grid" element={<DataGridPlayground/>}/>
 
-                <Route path="/" element={<AppLayout/>}>
+                <Route path="me" element={<AppLayout/>}>
                     <Route element={<ProtectedRoute/>}>
-                        <Route index path="/" element={<Home/>}/>
-                        <Route path="/dashboard" element={<Dashboard/>}/>
-                        <Route path="/admin" element={<Admin/>}/>
+                        <Route index path="" element={<Home/>}/>
+                        <Route path="dashboard" element={<Dashboard/>}/>
+                        <Route path="admin" element={<Admin/>}/>
                     </Route>
 
                     <Route element={<ProtectedRoute allowedRoles={[SuperAdmin]}/>}/>
 
                     <Route element={<ProtectedRoute allowedRoles={[UniTrainingOfficer, Company]}/>}>
-                        <Route path="/all-trainings" element={<AllTrainings/>}/>
-                        <Route path="/add-student" element={<AddStudentForm/>}/>
+                        <Route path="all-trainings" element={<AllTrainings/>}/>
+                        <Route path="add-student" element={<AddStudentForm/>}/>
                     </Route>
 
                     <Route element={<ProtectedRoute allowedRoles={[UniTrainingOfficer]}/>}>
-                        <Route path="/training-request" element={<TrainingRequestForm/>}/>
-                        <Route path="/add-company" element={<AddCompanyForm/>}/>
-                        <Route path="/add-branch" element={<AddBranchForm/>}/>
-                        <Route path="/completed-trainees" element={<CompletedTrainees/>}/>
-                        <Route path="/current-trainees" element={<CurrentTrainees/>}/>
+                        <Route path="training-request" element={<TrainingRequestForm/>}/>
+                        <Route path="add-company" element={<AddCompanyForm/>}/>
+                        <Route path="add-branch" element={<AddBranchForm/>}/>
+                        <Route path="completed-trainees" element={<CompletedTrainees/>}/>
+                        <Route path="current-trainees" element={<CurrentTrainees/>}/>
                     </Route>
 
                     <Route element={<ProtectedRoute allowedRoles={[Company]}/>}>
-                        <Route path="/accepted-requests" element={<AcceptedRequests/>}/>
-                        <Route path="/edit-training" element={<EditTraining/>}/>
-                        <Route path="/trainers" element={<Trainers/>}/>
-                        <Route path="/training-requests" element={<TrainingRequest/>}/>
+                        <Route path="accepted-requests" element={<AcceptedRequests/>}/>
+                        <Route path="edit-training" element={<EditTraining/>}/>
+                        <Route path="trainers" element={<Trainers/>}/>
+                        <Route path="training-requests" element={<TrainingRequest/>}/>
                     </Route>
 
                     <Route path="access-denied" element={<AccessDenied/>}/>

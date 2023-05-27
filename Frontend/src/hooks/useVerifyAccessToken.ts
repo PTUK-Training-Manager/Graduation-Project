@@ -32,7 +32,7 @@ const useVerifyAccessToken = () => {
                 // console.log(error);
                 onLogout();
                 const errorMessage = extractErrorMessage(error);
-                if (window.location.pathname !== "/login")
+                if (location.pathname.includes("/me"))
                     showSnackbar({severity: "error", message: errorMessage ?? "Invalid Access Token"});
             },
             onSettled: () => {
