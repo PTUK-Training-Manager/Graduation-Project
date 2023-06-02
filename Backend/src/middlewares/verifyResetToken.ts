@@ -26,7 +26,6 @@ const verifyResetToken = (req: Request, res: Response, next: NextFunction) => {
             roleId
         }
 
-    console.log(req.user)
     next();
   } catch (error) {
     return res.status(401).json({

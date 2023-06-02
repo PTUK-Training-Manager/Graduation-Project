@@ -69,7 +69,6 @@ const useBlockFormat = (props: UseBlockFormatProps) => {
 
 
     const formatCheckList = () => {
-        console.log(blockType);
         if (blockType !== 'check') {
             editor.dispatchCommand(INSERT_CHECK_LIST_COMMAND, undefined);
         } else {

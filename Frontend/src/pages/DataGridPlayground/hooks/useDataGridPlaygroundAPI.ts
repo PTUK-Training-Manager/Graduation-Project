@@ -16,7 +16,6 @@ const useDataGridPlaygroundAPI = ({pagination, search}: UseDataGridPlaygroundAPI
         = useQuery(
         ["users", pagination, search],
         () => fetchUsers({_start: pagination?.pageIndex, _limit: pagination?.pageSize, name: search}).then(res => {
-            console.log(res.headers);
             setTotalRows(res?.headers["x-total-count"] ?? 0);
             return res?.data ?? [];
         })

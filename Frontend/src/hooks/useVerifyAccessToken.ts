@@ -25,11 +25,9 @@ const useVerifyAccessToken = () => {
         verifyAccessToken, {
             retry: false, // don't retry if the API call fails
             onSuccess: ({data}) => {
-                // console.log(data);
                 onLogin(data);
             },
             onError: (error: AxiosBaseError) => {
-                // console.log(error);
                 onLogout();
                 const errorMessage = extractErrorMessage(error);
                 if (location.pathname.includes("/me"))
