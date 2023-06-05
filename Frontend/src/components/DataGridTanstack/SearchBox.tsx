@@ -8,13 +8,14 @@ import {SearchBoxProps} from "./types";
 
 export function makeSearchBox<T extends object>(configs: CreateDataGridConfig<T>) {
 
-    const SearchBox: FC<SearchBoxProps> = ({searchPlaceholder}) => {
+    const SearchBox: FC<SearchBoxProps> = ({searchPlaceholder = "Search"}) => {
         const {
-            onHandleGlobalSearch,
             onSetGlobalFilter,
         } = useContext(configs.Context);
 
-        const handleGlobalSearch = (e: ChangeEvent<HTMLInputElement>) => onSetGlobalFilter(e.target.value);
+        const handleGlobalSearch = (e: ChangeEvent<HTMLInputElement>) => {
+            onSetGlobalFilter(e.target.value);
+        };
 
         return (
           <Box>

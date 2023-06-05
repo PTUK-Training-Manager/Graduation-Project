@@ -1,4 +1,4 @@
-import React, {FC, useContext, useMemo, useState} from 'react';
+import React, {SyntheticEvent, useContext} from 'react';
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -7,141 +7,150 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
-import {ColumnFiltersState, Table} from "@tanstack/react-table";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
-import ColumnFilterText from "./ColumnFilterText";
-import ColumnFilter from "./ColumnFilter";
 import {v4 as uuidV4} from "uuid";
-import {CreateDataGridConfig} from "./types";
+import {
+    CreateDataGridConfig,
+    FiltersModalProps,
+    AutocompleteColumnOption,
+} from "./types";
 import Chip from "@mui/material/Chip";
 import FilterListIcon from "@mui/icons-material/FilterList";
-
-export interface FiltersModalProps<T> {
-    // table: Table<T>;
-    // isOpen: boolean;
-    // onSetIsOpenFiltersModal: (isOpen: boolean) => void;
-}
-
-export interface AutocompleteColumnOption {
-    id: string;
-    header: string;
-}
+import {makeColumnFilter} from "./ColumnFilter";
 
 export function makeFilters<T extends object>(configs: CreateDataGridConfig<T>) {
+
+    const ColumnFilter = makeColumnFilter(configs);
 
     const FiltersModal = <T extends any>(props: FiltersModalProps<T>) => {
         const {
             table,
             isOpenFiltersModal,
             onSetIsOpenFiltersModal,
+            columnFilters,
+            onSetColumnFilters,
         } = useContext(configs.Context);
 
-        const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+        const hasAppliedFilters = columnFilters.length > 0;
 
-        const columnOptions: AutocompleteColumnOption[] = table.getAllColumns().map((column) => ({
-            id: column.id ?? "",
-            header: column.columnDef.header as string,
-        }));
+        const columnOptions: AutocompleteColumnOption[] = table.getAllColumns()
+            .map((column) => ({
+                id: column.id ?? "",
+                header: column.columnDef.header as string,
+            }));
 
-
-        // const sortedUniqueValues: T[] = useMemo(
-        //     () => Array.from(column.getFacetedUniqueValues().keys()).sort(),
-        //     [column.getFacetedUniqueValues()]
-        // );
-
-        const handleClose = () => onSetIsOpenFiltersModal(false);
-
-        // table.setColumnFilters([
-        //     {
-        //         id: "id",
-        //         value: "1",
-        //     }
-        // ]);
+        const handleCloseFiltersModal = () => onSetIsOpenFiltersModal(false);
+        const handleOpenFiltersModal = () => onSetIsOpenFiltersModal(true);
 
         const handleAddFilter = () => {
-            setColumnFilters((prev) => [
+            const hasUnfilledFilters = columnFilters.some(cf => cf.id === "" || cf.value === "");
+            if (hasUnfilledFilters) return;
+
+            onSetColumnFilters((prev) => [
                 ...prev,
                 {
-                    index: uuidV4(),
-                    id: "",
+                    key: uuidV4(),
+                    id: columnOptions[0]?.id,
                     value: "",
                 }
             ]);
-            console.log(columnFilters);
         }
 
         const handleRemoveFilter = (index: number) => {
-            setColumnFilters((prev) => [
+            onSetColumnFilters((prev) => [
                 ...prev.slice(0, index),
                 ...prev.slice(index + 1),
             ]);
         }
 
+        const handleChangeColumn = (
+            event: SyntheticEvent<Element, Event>,
+            option: AutocompleteColumnOption | null,
+            index: number
+        ) => {
+            onSetColumnFilters((prev) => prev.map((cf, idx) => {
+                if (idx === index) return {...cf, id: option?.id ?? "", value: ""};
+                return cf;
+            }));
+        }
+
+        const getColumnAutoCompleteValue = (columnFilterId: string) =>
+            columnOptions.find((option) => option.id === columnFilterId) ?? null;
+
+        const clearAllFilters = () => {
+            onSetColumnFilters([]);
+        }
         return (
             <>
                 <Chip
                     icon={<FilterListIcon/>}
-                    label="Filter"
-                    variant="outlined"
+                    label={"Filter" + (hasAppliedFilters ? `: ${columnFilters.length} applied` : "")}
+                    variant={hasAppliedFilters ? "filled" : "outlined"}
+                    color={hasAppliedFilters ? "info" : "default"}
                     clickable
-                    onClick={() => onSetIsOpenFiltersModal(true)}
+                    onClick={handleOpenFiltersModal}
+                    sx={{
+                        border: "none",
+                    }}
                 />
                 <Dialog
                     open={isOpenFiltersModal}
-                    onClose={handleClose}
+                    // onClose={(event, reason) => {
+                    //     if (["backdropClick", "escapeKeyDown"].includes(reason))
+                    //         return;
+                    //     handleCloseFiltersModal();
+                    // }}
+                    onClose={handleCloseFiltersModal}
                     aria-labelledby="filters-dialog-title"
                     aria-describedby="filters-dialog-description"
                     fullWidth
+                    disableEscapeKeyDown
+                    sx={{
+                        "& .MuiDialog-paper": {
+                            maxWidth: "2000px",
+                        }
+                    }}
                 >
                     <DialogTitle id="filters-dialog-title">
                         <Stack direction="row" sx={{justifyContent: "space-between"}}>
                             Filter Columns
-                            <Button>Clear All</Button>
+                            <Button onClick={clearAllFilters}>Clear All</Button>
                         </Stack>
                     </DialogTitle>
-                    <DialogContent>
-                        <Stack gap={2} sx={{pt: 1, pb: 2}}>
-                            {/*<Grid container gap={2}>*/}
-                            {/*    <Grid item xs={5}>*/}
-                            {/*        Column*/}
-                            {/*    </Grid>*/}
-                            {/*    <Grid item xs={5}>*/}
-                            {/*        Value*/}
-                            {/*    </Grid>*/}
-                            {/*</Grid>*/}
+                    <DialogContent sx={{minHeight: "300px"}}>
+                        <Stack gap={2} sx={{
+                            ...(columnFilters.length && {
+                                pt: 1, pb: 2
+                            })
+                        }}>
                             {
-                                columnFilters.map((_, index) => (
-                                    <Grid container gap={2}
+                                columnFilters.map((cf, index) => (
+                                    <Grid container gap={1.5}
                                           sx={{alignItems: "center", justifyContent: "space-between"}}>
                                         <Grid item xs={5}>
                                             <Autocomplete<AutocompleteColumnOption>
+                                                value={getColumnAutoCompleteValue(cf.id)}
                                                 size="small"
                                                 disablePortal
                                                 id="combo-box-demo"
                                                 options={columnOptions}
                                                 getOptionLabel={(option) => option.header}
+                                                getOptionDisabled={(option) => columnFilters.some(cf => cf.id === option.id)}
                                                 renderInput={(params) => <TextField {...params} label="Column"/>}
-                                                onChange={(event, value) => {
-                                                    console.log(value);
-                                                }}
+                                                onChange={(event, option) => handleChangeColumn(event, option, index)}
                                             />
                                         </Grid>
-                                        <Grid item xs={5}>
-                                            {/*<Autocomplete*/}
-                                            {/*    size="small"*/}
-                                            {/*    disablePortal*/}
-                                            {/*    id="combo-box-demo"*/}
-                                            {/*    options={[]}*/}
-                                            {/*    renderInput={(params) => <TextField {...params} label="Value"/>}*/}
-                                            {/*/>*/}
-                                            <ColumnFilter table={table} column={table.getColumn("email")!}/>
-                                        </Grid>
+                                        {cf.id !== "" && (
+                                            <Grid item container xs={5}>
+                                                {/*<ColumnFilter column={table.getColumn(cf.id)!}/>*/}
+                                                <ColumnFilter key={index} index={index} columnId={cf.id}/>
+                                            </Grid>
+                                        )}
                                         <Grid item>
-                                            <IconButton aria-label="Remove filter">
+                                            <IconButton aria-label="Remove filter" size="small">
                                                 <DeleteIcon onClick={() => handleRemoveFilter(index)}/>
                                             </IconButton>
                                         </Grid>
@@ -154,9 +163,8 @@ export function makeFilters<T extends object>(configs: CreateDataGridConfig<T>) 
                         </Button>
                     </DialogContent>
                     <DialogActions>
-                        <Button sx={{color: (theme) => theme.palette.grey[700]}} onClick={handleClose}>Cancel</Button>
-                        <Button onClick={handleClose} autoFocus>
-                            Apply
+                        <Button onClick={handleCloseFiltersModal} autoFocus>
+                            Ok
                         </Button>
                     </DialogActions>
                 </Dialog>
@@ -164,7 +172,7 @@ export function makeFilters<T extends object>(configs: CreateDataGridConfig<T>) 
         );
     };
 
-    FiltersModal.displayName = `${configs.name}.Filters`;
+    FiltersModal.displayName = `${configs.name}.FiltersModal`;
 
     return FiltersModal;
 }

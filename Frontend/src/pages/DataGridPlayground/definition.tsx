@@ -1,20 +1,21 @@
 import {Chip} from "@mui/material";
 import {ColumnDef} from "@tanstack/react-table";
 import {UserData} from "./API/response.dto";
-import {createDataGrid, GridReturn} from "src/components/DataGridTanstack";
+import {createDataGrid} from "src/components/DataGridTanstack";
 
 export const columns: ColumnDef<UserData, any>[] = [
     {
         accessorKey: "id",
         header: "ID",
         // maxSize: 40,
+        // filterFn: "includesString",
         size: 200,
     },
     {
         accessorKey: "name",
         header: "Name",
         size: 200,
-        // filterFn: "arrIncludesSome",
+        filterFn: "arrIncludesSome",
     },
     {
         accessorKey: "email",

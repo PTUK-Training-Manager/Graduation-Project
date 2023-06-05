@@ -7,9 +7,8 @@ import React, {
     MouseEvent,
     PropsWithChildren, FC
 } from "react";
-import {Cell, ColumnDef, ColumnFiltersState, Row, Table, SortDirection} from "@tanstack/react-table";
+import {Cell, ColumnDef, ColumnFiltersState, Row, Table, SortDirection, Column} from "@tanstack/react-table";
 import {DataGridProviderProps} from "src/components/DataGridTanstack/DataGridProvider";
-import {FiltersModalProps} from "src/components/DataGridTanstack/FiltersModal";
 import {BoxProps} from "@mui/material/Box";
 
 export type OnRowClick<T> = (cell: Cell<T, unknown>, row: Row<T>) => void;
@@ -53,14 +52,15 @@ export interface DataGridContextValues<T> {
     globalFilter: string;
     isOpenFiltersModal: boolean;
     onSetCurrentPage: (page: number) => void;
-    onSetColumnFilters: (columnFiltersState: ColumnFiltersState) => void;
+    // onSetColumnFilters: (columnFiltersState: ColumnFiltersState) => void;
+    onSetColumnFilters: Dispatch<SetStateAction<ColumnFiltersState>>;
     onSetGlobalFilter: (globalFilter: string) => void;
     onSetIsOpenFiltersModal: (isOpenFiltersModal: boolean) => void;
     columnCount: number;
     handleChangePage?: (event: MouseEvent<HTMLButtonElement> | null, selectedPage: number) => void;
     onPaginationChange?: (params: PageChangeParams) => void;
     handleChangeRowsPerPage: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-    onHandleGlobalSearch: (e: ChangeEvent<HTMLInputElement>) => void;
+    // onHandleGlobalSearch: (e: ChangeEvent<HTMLInputElement>) => void;
     mapSortDirectionToIcon: Record<SortDirection, React.ReactNode>;
     totalPages?: number,
     totalRows?: number,
@@ -92,16 +92,50 @@ export interface SearchBoxProps {
     searchPlaceholder?: string;
 }
 
-export type ToolbarLayoutProps = FC<BoxProps> & {
+export interface ToolbarLayoutProps extends FC<BoxProps> {
     Start: FC<BoxProps>;
     End: FC<BoxProps>;
-};
+}
 
 export interface GridReturn<T> {
     Provider: FC<DataGridProviderProps<T>>;
+    Context: Context<DataGridContextValues<T>>;
     Table: FC<DataGridProps<T>>;
     Filters: FC<FiltersModalProps<T>>;
     SearchBox: FC<SearchBoxProps>;
     Toolbar: ToolbarLayoutProps;
     configs: CreateDataGridOptions<T> & { Context: Context<DataGridContextValues<T>> };
 }
+
+export interface ColumnFilterProps<T> {
+    // table: Table<T>;
+    // column: Column<T>;
+    columnId: string;
+    index: number;
+}
+
+export interface ColumnFilterTextProps<T> {
+    // column: Column<T>;
+    columnId: string;
+    index: number;
+}
+
+export interface ColumnFilterTextMultipleProps<T> {
+    // column: Column<T>;
+    columnId: string;
+    index: number;
+}
+
+export interface ColumnFilterNumericProps<T> {
+    // column: Column<T>;
+    columnId: string;
+    index: number;
+}
+
+export interface FiltersModalProps<T> {}
+
+export interface AutocompleteColumnOption {
+    id: string;
+    header: string;
+}
+

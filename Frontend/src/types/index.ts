@@ -22,3 +22,15 @@ export interface User {
 export type UserRoleKey = keyof typeof UserRole;
 
 export type MenuItemsMapKey = UserRoleKey | "Shared" | "Public";
+
+export interface IdNameGeneric<T> {
+    id: string;
+    name: T;
+}
+
+export interface IdName extends IdNameGeneric<string> {}
+
+export interface LabelValue<T> {
+    label: string;
+    value: T;
+}

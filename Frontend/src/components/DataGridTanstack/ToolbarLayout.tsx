@@ -38,6 +38,7 @@ const ToolbarEndCol: FC<BoxProps> = ({children, ...rest}) => (
             display: "flex",
             justifyContent: "flex-end",
             flexGrow: 1,
+            gap: 1,
             ...rest.sx,
         }}
     >
@@ -49,35 +50,3 @@ ToolbarLayout.Start = ToolbarStartCol;
 ToolbarLayout.End = ToolbarEndCol;
 
 export default ToolbarLayout;
-
-// const ToolbarLayout: FC<ToolbarLayoutProps> = (props) => {
-//   return (
-//       <Stack direction="row" sx={{pb: 2}}>
-//           {/*    {memoizedHeaderComponent && <Box>{memoizedHeaderComponent}</Box>}*/}
-//           <Box>
-//               <TextField
-//                   sx={{
-//                       m: 0,
-//                       "& .MuiInputBase-root": {height: 34,}
-//                   }}
-//                   // onChange={debounce(handleSearchChange, 1000)}
-//                   onChange={handleGlobalSearch}
-//                   size="small"
-//                   placeholder={searchPlaceholder}
-//                   margin="normal"
-//                   InputProps={{
-//                       startAdornment: (
-//                           <InputAdornment position="start"><SearchIcon color="disabled"/></InputAdornment>
-//                       ),
-//                   }}
-//               />
-//           </Box>
-//           <Stack direction="row" sx={{flexGrow: 1, justifyContent: "flex-end", alignItems: "center"}}>
-//               {/*<Chip icon={<FilterListIcon/>} label="Filter" variant="outlined" clickable*/}
-//               {/*      onClick={() => onSetIsOpenFiltersModal(true)}/>*/}
-//           </Stack>
-//       </Stack>
-//   );
-// };
-//
-// export default ToolbarLayout;

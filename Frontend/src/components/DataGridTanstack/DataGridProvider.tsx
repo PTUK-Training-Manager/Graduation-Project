@@ -1,12 +1,18 @@
-import React, {FC, ChangeEvent, Context, MouseEvent, ReactNode, useMemo, useState, PropsWithChildren} from "react";
+import React, {FC, ChangeEvent, Context, MouseEvent, ReactNode, useMemo, useState, PropsWithChildren, Dispatch} from "react";
 import {DataGridContextValues, PageChangeParams} from "./types";
 import {
     Cell,
     ColumnFiltersState,
     FilterFn,
-    getCoreRowModel, getFacetedMinMaxValues, getFacetedRowModel, getFacetedUniqueValues,
-    getFilteredRowModel, getPaginationRowModel,
-    getSortedRowModel, Row, SortDirection,
+    getCoreRowModel,
+    getFacetedMinMaxValues,
+    getFacetedRowModel,
+    getFacetedUniqueValues,
+    getFilteredRowModel,
+    getPaginationRowModel,
+    getSortedRowModel,
+    Row,
+    SortDirection,
     useReactTable
 } from "@tanstack/react-table";
 import {fuzzyFilter} from "src/components/DataGridTanstack/utils";
@@ -53,11 +59,6 @@ export function makeDataGridProvider<T extends object>(configs: CreateDataGridCo
             // searchPlaceholder,
             ...rest
         } = props;
-        console.log(props);
-        console.log({
-            totalPages,
-            totalRows,
-        });
 
         const dataMemoized = useMemo(() => data, [data]);
 
@@ -78,8 +79,6 @@ export function makeDataGridProvider<T extends object>(configs: CreateDataGridCo
 
         // ---
         const onSetCurrentPage = (currentPage: number) => setCurrentPage(currentPage);
-
-        const onSetColumnFilters = (columnFilters: ColumnFiltersState) => setColumnFilters(columnFilters);
 
         const onSetGlobalFilter = (globalFilter: string) => setGlobalFilter(globalFilter);
 
@@ -151,7 +150,7 @@ export function makeDataGridProvider<T extends object>(configs: CreateDataGridCo
             // setCurrentPage(0);
         };
 
-        const onHandleGlobalSearch = (e: ChangeEvent<HTMLInputElement>) => setGlobalFilter(e.target.value);
+        // const onHandleGlobalSearch = (e: ChangeEvent<HTMLInputElement>) => setGlobalFilter(e.target.value);
 
         const mapSortDirectionToIcon: Record<SortDirection, ReactNode> = {
             asc: <ArrowUpwardIcon sx={{fontSize: 18, color: "rgba(0,0,0,0.6)"}}/>,
@@ -169,14 +168,14 @@ export function makeDataGridProvider<T extends object>(configs: CreateDataGridCo
             globalFilter,
             isOpenFiltersModal,
             onSetCurrentPage,
-            onSetColumnFilters,
+            onSetColumnFilters: setColumnFilters,
             onSetGlobalFilter,
             onSetIsOpenFiltersModal,
             columnCount,
             handleChangePage,
             onPaginationChange,
             handleChangeRowsPerPage,
-            onHandleGlobalSearch,
+            // onHandleGlobalSearch,
             mapSortDirectionToIcon,
             totalRows,
             totalPages,

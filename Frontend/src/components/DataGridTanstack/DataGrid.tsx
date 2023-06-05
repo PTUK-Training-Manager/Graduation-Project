@@ -1,6 +1,5 @@
-import React, {useState, useMemo, memo, ChangeEvent, MouseEvent, ReactNode, useContext} from 'react';
+import React, { ReactNode, useContext} from 'react';
 import Box from "@mui/material/Box";
-import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
@@ -11,39 +10,16 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from '@mui/material/TablePagination';
 import TableBodySkeleton from "./TableBodySkeleton";
-import TextField from "@mui/material/TextField";
 import {
     flexRender,
-    getCoreRowModel,
-    getFilteredRowModel,
-    getSortedRowModel,
-    getPaginationRowModel,
-    getFacetedRowModel,
-    getFacetedUniqueValues,
-    getFacetedMinMaxValues,
-    useReactTable,
-    ColumnFiltersState,
-    FilterFn,
     SortDirection,
-    ColumnDef,
 } from "@tanstack/react-table";
-import {
-    RankingInfo,
-    rankItem,
-    compareItems,
-} from '@tanstack/match-sorter-utils';
-import {debounce} from "debounce";
-import SearchIcon from '@mui/icons-material/Search';
-import InputAdornment from "@mui/material/InputAdornment";
 import {DataGridProps} from "./types";
 import {StyledPagination, StyledTableRow} from "./styled";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import theme from "src/styling/customTheme";
-import Tooltip from "@mui/material/Tooltip";
 import useStyles from "./styles";
-import ColumnFilter from "./ColumnFilter";
-import FilterListIcon from '@mui/icons-material/FilterList';
 import {CreateDataGridConfig} from "./types";
 
 export function makeDataGridTable<T extends object>(configs: CreateDataGridConfig<T>) {
@@ -66,13 +42,9 @@ export function makeDataGridTable<T extends object>(configs: CreateDataGridConfi
             table,
             handleChangePage,
             handleChangeRowsPerPage,
-            headerComponentMemoized,
             onPaginationChange,
             totalPages,
             totalRows,
-            onSetGlobalFilter,
-            onSetIsOpenFiltersModal,
-            isOpenFiltersModal,
             isRowClickable,
         } = useContext(configs.Context);
 
@@ -83,74 +55,21 @@ export function makeDataGridTable<T extends object>(configs: CreateDataGridConfi
         const {
             getHeaderGroups,
             getRowModel,
-            getPreFilteredRowModel,
-            getPrePaginationRowModel,
-            setPageSize,
-            setPageIndex,
             getAllColumns,
             getState,
             getCenterTotalSize,
-            resetColumnFilters,
         } = table;
 
         const columnCount = getAllColumns().length;
-
-        // console.log({
-        //     getAllColumns: getAllColumns(),
-        // })
-
-        // const handleGlobalSearch = (e: ChangeEvent<HTMLInputElement>) => onSetGlobalFilter(e.target.value);
 
         const mapSortDirToIcon: Record<SortDirection, ReactNode> = {
             asc: <ArrowUpwardIcon sx={{fontSize: 18, color: "rgba(0,0,0,0.6)"}}/>,
             desc: <ArrowDownwardIcon sx={{fontSize: 18, color: "rgba(0,0,0,0.6)"}}/>,
         }
 
-        const fun = () => {
-            table.setColumnFilters([
-                {
-                    id: "name",
-                    // value: ["alias", "omnis"],
-                    value: "alias"
-                },
-                // {
-                //     id: "email",
-                //     value: "Nikita"
-                // },
-
-            ]);
-        }
-
         return (
             <>
                 <Stack sx={{height: "100%", position: "relative"}}>
-                    {/*<button onClick={() => resetColumnFilters()}>Reset Filters</button>*/}
-                    <button onClick={fun}>setColumnFilters</button>
-                    {/*<Stack direction="row" sx={{pb: 2}}>*/}
-                    {/*    /!*    {memoizedHeaderComponent && <Box>{memoizedHeaderComponent}</Box>}*!/*/}
-                    {/*    <Box>*/}
-                    {/*        <TextField*/}
-                    {/*            sx={{*/}
-                    {/*                m: 0,*/}
-                    {/*                "& .MuiInputBase-root": {height: 34,}*/}
-                    {/*            }}*/}
-                    {/*            // onChange={debounce(handleSearchChange, 1000)}*/}
-                    {/*            onChange={handleGlobalSearch}*/}
-                    {/*            size="small"*/}
-                    {/*            placeholder={searchPlaceholder}*/}
-                    {/*            margin="normal"*/}
-                    {/*            InputProps={{*/}
-                    {/*                startAdornment: (*/}
-                    {/*                    <InputAdornment position="start"><SearchIcon color="disabled"/></InputAdornment>*/}
-                    {/*                ),*/}
-                    {/*            }}*/}
-                    {/*        />*/}
-                    {/*    </Box>*/}
-                    {/*    <Stack direction="row" sx={{flexGrow: 1, justifyContent: "flex-end", alignItems: "center"}}>*/}
-                    {/*        /!*<Chip icon={<FilterListIcon/>} label="Filter" variant="outlined" clickable*!/*/}
-                    {/*        /!*      onClick={() => onSetIsOpenFiltersModal(true)}/>*!/*/}
-                    {/*    </Stack>*/}
-                    {/*</Stack>*/}
                     <Paper
                         sx={{
                             height: "100%",
@@ -227,13 +146,13 @@ export function makeDataGridTable<T extends object>(configs: CreateDataGridConfi
                                                                 onTouchStart={header.getResizeHandler()}
                                                                 className={classes.resizer}
                                                             />
-                                                            {header.column.getCanFilter() && (
-                                                                <ColumnFilter
-                                                                    key={header.id}
-                                                                    table={table}
-                                                                    column={header.column}
-                                                                />
-                                                            )}
+                                                            {/*{header.column.getCanFilter() && (*/}
+                                                            {/*    <ColumnFilter*/}
+                                                            {/*        key={header.id}*/}
+                                                            {/*        table={table}*/}
+                                                            {/*        column={header.column}*/}
+                                                            {/*    />*/}
+                                                            {/*)}*/}
                                                         </TableCell>
                                                     )}
                                                 </>
@@ -299,12 +218,12 @@ export function makeDataGridTable<T extends object>(configs: CreateDataGridConfi
                         borderTop: `1px solid ${theme.palette.grey[300]}`,
                         justifyContent: "flex-end",
                     }}>
-                        {/*{totalPages && onPageChange && (*/}
+                        {/*{totalPages && onPaginationChange && (*/}
                         {/*    <StyledPagination*/}
                         {/*        count={totalPages} //The total number of pages.*/}
                         {/*        // page={currentPage}*/}
-                        {/*        page={getState().pagination.pageIndex + 1}*/}
-                        {/*        onChange={handleChangePage}*/}
+                        {/*        page={getState().pagination.pageIndex}*/}
+                        {/*        onChange={handleChangePage as any}*/}
                         {/*        color="primary"*/}
                         {/*        showFirstButton*/}
                         {/*        showLastButton*/}
@@ -326,8 +245,7 @@ export function makeDataGridTable<T extends object>(configs: CreateDataGridConfi
                         )}
                     </Grid>
                 </Stack>
-                {/*<FiltersModal table={table} isOpen={isOpenFiltersModal} onSetIsOpen={onSetIsOpenFiltersModal}/>*/}
-                <pre>{JSON.stringify(getState(), null, 2)}</pre>
+                {/*<pre>{JSON.stringify(getState(), null, 2)}</pre>*/}
             </>
         )
     };
