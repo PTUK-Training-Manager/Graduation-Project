@@ -12,9 +12,7 @@ const useStyles = makeStyles(() => ({
             margin: "0 !important",
         }
     },
-    childWithIcon: {
-        paddingLeft: "41px !important",
-    },
+    
     listItemChild: {
         "&::before": {
             content: '""',
@@ -28,9 +26,9 @@ const useStyles = makeStyles(() => ({
         minWidth: "auto !important",
         color: `${grey[500]} !important`,
         marginRight: theme.spacing(2),
-        "& svg": {
-            fontSize: "1.5rem",
-        }
+        // "& svg": {
+        //     fontSize: "1.5rem",
+        // }
     },
     listItemText: {
         color: grey[500],
@@ -42,7 +40,6 @@ const useStyles = makeStyles(() => ({
     },
     selected: {
         background: `${theme.palette.appMenu.menuItemSelectedBackground} !important`,
-        // background: theme.palette.appMenu.menuItemSelectedBackground,
         color: theme.palette.appMenu.menuItemSelectedColor,
         "& .MuiListItemIcon-root, & .MuiListItemText-root": {
             color: `${theme.palette.appMenu.menuItemSelectedColor} !important`,

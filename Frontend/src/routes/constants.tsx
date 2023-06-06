@@ -48,22 +48,6 @@ const sharedMenuItems: IAppMenuItem[] = [
   },
 ];
 
-/**
- * Menu items shared by `University Training Officer` and `Company`
- */
-const uniAndCompanySharedMenuItems: IAppMenuItem[] = [
-  // {
-  //     label: "Search Trainings",
-  //     link: "/all-trainings",
-  //     // Icon: () => <ManageSearchIcon/>,
-  //     Icon: () => <RecentActorsIcon/>,
-  // },
-  // {
-  //     label: "Add Student",
-  //     link: "/add-student",
-  //     Icon: () => <PersonAddAlt1Icon/>,
-  // },
-];
 
 const uniTrainingOfficerMenuItems: IAppMenuItem[] = [
   {
@@ -114,10 +98,8 @@ const uniTrainingOfficerMenuItems: IAppMenuItem[] = [
   {
     label: 'Search Trainings',
     link: '/all-trainings',
-    // Icon: () => <ManageSearchIcon/>,
     Icon: () => <RecentActorsIcon />,
   },
-  // ...uniAndCompanySharedMenuItems,
 ];
 
 const companyMenuItems: IAppMenuItem[] = [
@@ -162,10 +144,8 @@ const companyMenuItems: IAppMenuItem[] = [
   {
     label: 'Search Trainings',
     link: '/company-all-trainings',
-    // Icon: () => <ManageSearchIcon/>,
     Icon: () => <RecentActorsIcon />,
   },
-  // ...uniAndCompanySharedMenuItems,
 ];
 
 const trainerMenuItems: IAppMenuItem[] = [
@@ -184,22 +164,39 @@ const trainerMenuItems: IAppMenuItem[] = [
         Icon: () => <PendingActionsIcon />,
       },
       {
-        label: 'Completed',
-        link: '/trainer-completed-trainees',
+        label: 'Finished Required Hours',
+        link: '/finished-200-hours',
         Icon: () => <SchoolIcon />,
       },
+      {
+        label: "Completed",
+        link: "/trainer-completed-trainees",
+        Icon: () => <FactCheckIcon/>,
+    },
     ],
   },
-  {
-    label: "Completed Trainings",
-    link: "/completed-trainings",
-    Icon: () => <FactCheckIcon/>,
-},
+ 
   {
     label: 'Search Trainings',
     link: '/trainer-all-trainings',
     Icon: () => <RecentActorsIcon />,
   },
+];
+
+const studentMenuItems: IAppMenuItem[] = [
+  {
+      label: "All Trainings",
+      link: "/all-training-student",
+      Icon: () => <IntegrationInstructionsIcon/>,
+  },
+  
+  {
+    label:"Progress",
+    link: "/Progress",
+    Icon: () => <IntegrationInstructionsIcon/>,
+    
+      },
+
 ];
 
 export const MENU_ITEMS_MAP: Partial<Record<MenuItemsMapKey, IAppMenuItem[]>> =
@@ -210,6 +207,6 @@ export const MENU_ITEMS_MAP: Partial<Record<MenuItemsMapKey, IAppMenuItem[]>> =
     Company: companyMenuItems,
     Trainer: trainerMenuItems,
     SuperAdmin: [],
-    Student: [],
+    Student: studentMenuItems,
     AdminAndRegistration: [],
   };

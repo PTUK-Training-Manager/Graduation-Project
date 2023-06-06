@@ -8,19 +8,36 @@ import Typography from '@mui/material/Typography';
 import FirstPage from './FirstPage';
 import SecondPage from './SecondPage';
 import ThirdPage from './ThirdPage';
-import useCompletedTraineesController from '../hooks/useCompletedTraineesController';
-const steps = ['Select campaign settings', 'Create an ad group', 'Create an ad'];
+import { FC, useEffect, useState } from 'react';
+import { getEvaluations } from 'src/api/getEvaluation';
+import { EvaluationData } from 'src/api/types';
 
-export default function EvaluStepper() {
-  const {
-    columns,
-    rows,
-    isOpen,
-    data,
-    currentTab,
-    handleChangeTab,
-    handleCloseDialog,
-} = useCompletedTraineesController();
+const steps = [
+  'Select campaign settings',
+  'Create an ad group',
+  'Create an ad',
+];
+
+interface EvaluStepperProps {
+  index: number;
+  studentId: string;
+}
+
+const EvaluStepper: FC<EvaluStepperProps> = ({ index, studentId }) => {
+  const [response, setResponse] = useState<EvaluationData[]>([]);
+
+  useEffect(() => {
+    console.log(index);
+    console.log(studentId);
+
+    getEvaluations({ index: index, studentId: studentId })
+      .then((result) => {
+        setResponse(result.data);
+        // console.log(result.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+  console.log(response);
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set<number>());
@@ -29,10 +46,7 @@ export default function EvaluStepper() {
     return step === 1;
   };
 
-
-
   const handleNext = () => {
-  
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
@@ -67,7 +81,7 @@ export default function EvaluStepper() {
           const labelProps: {
             optional?: React.ReactNode;
           } = {};
-         
+
           return (
             <Step key={label} {...stepProps}>
               <StepLabel {...labelProps}>{label}</StepLabel>
@@ -87,18 +101,10 @@ export default function EvaluStepper() {
         </React.Fragment>
       ) : (
         <React.Fragment>
-          {activeStep===0 && <FirstPage 
-          
-              // isOpen={isOpen}
-              // currentTab={currentTab}
-              // handleChangeTab={handleChangeTab}
-              // handleCloseDialog={handleCloseDialog}
-              // data={data}
-          />}
-          {activeStep===1 && <SecondPage/>}
+          {activeStep === 0 && <FirstPage response={response} />}
+          {activeStep === 1 && <SecondPage response={response} />}
+          {activeStep === 2 && <ThirdPage response={response} />}
 
-          {/* <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography> */}
-          {activeStep===2 && <ThirdPage/>}
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Button
               color="inherit"
@@ -109,13 +115,15 @@ export default function EvaluStepper() {
               Back
             </Button>
             <Box sx={{ flex: '1 1 auto' }} />
-      
+
             <Button onClick={handleNext}>
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next' }
+              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
             </Button>
           </Box>
         </React.Fragment>
       )}
     </Box>
   );
-}
+};
+
+export default EvaluStepper;

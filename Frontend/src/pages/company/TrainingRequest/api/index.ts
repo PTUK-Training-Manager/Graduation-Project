@@ -1,26 +1,18 @@
 import axiosInstance from 'src/api';
-import { BaseResponse } from 'src/types';
+import { GetTrainingRequestsResponse } from './response.dto';
+import { HandleTrainingRequestBody, HandleTrainingRequestResponse } from '../types';
 
-export interface AccessTokenData {
-  id: string;
-  studentId: string;
-  type: string;
-  companyBranchId: string;
-  Student: {
-    name: string;
-  };
-  CompanyBranch: {
-    location: string;
-  };
-}
 
-export interface GetTrainingRequestsResponse extends BaseResponse {
-  data: AccessTokenData[];
-}
 
 export const getTrainingRequests =
   async (): Promise<GetTrainingRequestsResponse> => {
     const url = '/request/trainingRequests';
     const response = await axiosInstance.get<GetTrainingRequestsResponse>(url);
     return response.data;
+  };
+  export const handleTrainingRequest = (body: HandleTrainingRequestBody) => {
+    const url = "/training/changeTrainingStatus";
+    return axiosInstance
+      .patch<HandleTrainingRequestResponse>(url, body)
+      .then((res) => res.data);
   };

@@ -5,4 +5,9 @@
 .manage-icon {
     font-size: 1.5em;
 }
-    
+.css-o4b71y-MuiAccordionSummary-content{
+    justify-content:space-between ;
+    align-items: center;
+    position: relative;
+    display: flex;
+}

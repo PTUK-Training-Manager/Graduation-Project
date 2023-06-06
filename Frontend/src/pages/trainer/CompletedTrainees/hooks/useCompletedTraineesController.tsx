@@ -1,89 +1,90 @@
-import React, {SyntheticEvent, useEffect, useState} from "react";
-import {getCompletedTrainees} from "src/pages/university/CompletedTrainees/api";
-import {Row,Evaluation} from "../types";
-import {IconButton, Tooltip} from "@mui/material";
-import PrintIcon from "@mui/icons-material/Print";
-
+import { SyntheticEvent, useEffect, useState } from 'react';
+import { getCompletedTrainees } from '../api';
+import { Row } from '../types';
+import { IconButton, Tooltip } from '@mui/material';
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 
 const useCompletedTraineesController = () => {
+  const [data, setData] = useState<Row[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [trainingId, setTrainingId] = useState('');
+  const [currentTab, setCurrentTab] = useState('one');
 
-    const [data, setData] = useState<Row[]>([]);
-    const [isOpen, setIsOpen] = useState(false);
-    const [currentTab, setCurrentTab] = useState('one');
-    const [response, setReponse] = useState<Evaluation>();
-    const [index, setIndex] = useState('');
-    const [studentId, setStudentId] = useState('');
+  const handleChangeTab = (event: SyntheticEvent, newValue: string) => {
+    setCurrentTab(newValue);
+  };
 
-    
-    const handleChangeTab = (event: SyntheticEvent, newValue: string) => {
-        setCurrentTab(newValue);
-      };
+  const handleOpenDialog = (id: string) => {
+    setTrainingId(id);
+    setIsOpen((prev) => !prev);
+  };
 
-      const handleOpenDialog = (id: string, count: string) => {
-        setIndex('0')
-        setStudentId('8');
-        console.log(isOpen);
-        setIsOpen((prev) => !prev);
-      };
+  const handleCloseDialog = () => {
+    setIsOpen(false);
+  };
 
-    const columns = [
-        {
-            field: 'studentId',
-            headerName: 'Student Number',
-            width: 400,
-            flex: .3,
-        },
-        {
-            field: 'studentName',
-            headerName: 'Student Name',
-            width: 400,
-            flex: .3,
-        },
-    ];
+  const columns = [
+    {
+      field: 'studentId',
+      headerName: 'Student Number',
+      width: 400,
+      flex: 0.3,
+    },
+    {
+      field: 'studentName',
+      headerName: 'Student Name',
+      width: 400,
+      flex: 0.3,
+    },
 
-    const rows = data.map((row) => ({
-        studentId: row.studentId,
-        studentName: row.Student.name,
-        count: row.count,
-        Student: row.Student,
-    }));
+    {
+      field: 'evalForm',
+      headerName: 'Evaluation Form',
+      width: 400,
+      flex: 0.3,
+      headerClassName: 'ctrainees',
+      filterable: false,
+      sortable: false,
+      renderCell: (params: { id: any }) => (
+        <IconButton
+          sx={{ ml: 3.5 }}
+          aria-label="progress form"
+          onClick={() => handleOpenDialog(params.id)}
+        >
+          <ManageSearchIcon sx={{ color: '#820000' }} className="manage-icon" />
+        </IconButton>
+      ),
+    },
+  ];
 
-    // useEffect(() => {
-    //     evaluation({index:'0',studentId: '8'})
-    //         .then((result) => {
-    //             setReponse(result.data);
-    //             console.log(result.data);
-    //         })
-    //         .catch((error) => console.log(error));
-    // }, []);
+  const rows = data.map((row) => ({
+    id: row.id,
+    studentId: row.studentId,
+    studentName: row.Student.name,
+    Student: row.Student,
+  }));
 
-      const handleCloseDialog = () => {
-        setIsOpen(false);
-      };
+  useEffect(() => {
+    getCompletedTrainees()
+      .then((result) => {
+        setData(result.data);
+        console.log(result.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
-    useEffect(() => {
-        getCompletedTrainees()
-            .then((result) => {
-                setData(result.data);
-                console.log(result.data);
-            })
-            .catch((error) => console.log(error));
-    }, []);
-
-    return {
-        currentTab,
-        handleChangeTab,
-        handleOpenDialog,
-        handleCloseDialog,
-        columns,
-        rows,
-        data,
-        isOpen,
-        response,
-        open: !!isOpen,
-        index,
-        studentId,
-    }
+  return {
+    currentTab,
+    handleChangeTab,
+    handleOpenDialog,
+    handleCloseDialog,
+    columns,
+    rows,
+    data,
+    isOpen,
+    open: !!isOpen,
+    trainingId,
+  };
 };
 
 export default useCompletedTraineesController;

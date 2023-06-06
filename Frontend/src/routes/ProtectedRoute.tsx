@@ -3,8 +3,6 @@ import {Navigate} from "react-router-dom";
 import useAccountContext from "../hooks/useAccountContext";
 import {Outlet} from "react-router-dom";
 import {useLocation} from 'react-router-dom';
-import useVerifyAccessToken from "src/hooks/useVerifyAccessToken";
-import BlockUI from "src/containers/BlockUI";
 
 interface ProtectedRouteProps {
     redirectPath?: string;
@@ -19,17 +17,14 @@ const ProtectedRoute: FC<PropsWithChildren<ProtectedRouteProps>> = ({
                                                                         allowedRoles
                                                                     }) => {
 
-    // const {isVerifying} = useVerifyAccessToken();
-    //
-    // if (isVerifying) return <BlockUI isBlocked/>;
-
-    const {user} = useAccountContext();
 
     const location = useLocation();
 
+    const {user} = useAccountContext();
+
     if (!user) return <Navigate to="/login" replace state={{from: location.pathname}}/>;
 
-    if (user && allowedRoles && !allowedRoles?.includes(user.roleId))
+    if (allowedRoles && !allowedRoles?.includes(user.roleId))
         return <Navigate to="/access-denied" replace state={{from: location.pathname}}/>;
 
     if (!isAllowed) return <Navigate to="/access-denied" replace state={{from: location.pathname}}/>;

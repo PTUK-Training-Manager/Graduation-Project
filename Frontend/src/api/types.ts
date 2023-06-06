@@ -24,11 +24,17 @@ export interface EvaluationData {
         name: string;
         phoneNumber: string;
         userId: string;
+        department: string;
     };
 
     CompanyBranch: {
         Company: {
+            User: {
+            email: string;
+            };
             name: string;
+            phoneNumber: string;
+            managerName: string;
         };
         location: string;
     };
@@ -42,9 +48,27 @@ export interface EvaluationData {
         status: string;
         trainingId: string;
     }[];
+
+    Answered_Questions: {
+      map(arg0: (item: { startTime: any; endTime: any; skills: any; }, index: number) => JSX.Element): import("react").ReactNode;
+        Answer?: {
+            answer: string;
+        };
+        Note?: {
+            note: string;
+        };
+        Question: {
+            question: string;
+        };
+       id: string; 
+    }[];
 }
 
 export interface EvaluationFormRequestBody {
-    index: string;
+    index: number;
     studentId: string;
+}
+
+export interface EvaluationFormRequestTrainerBody {
+    trainingId: string;
 }

@@ -1,17 +1,11 @@
-import {
-  DataGrid,
-  GridToolbar,
-} from '@mui/x-data-grid';
+import React, { SyntheticEvent, useEffect, useMemo, useState } from 'react';
+
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import EvaluStepper from './components/EvaluStepper';
 import './CompletedTrainees.css';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
- 
-} from '@mui/material';
+import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import theme from 'src/styling/customTheme';
 import Typography from '@mui/material/Typography';
 import Transition from 'src/components/Transition';
@@ -19,19 +13,9 @@ import DataGridPagination from 'src/components/DataGrid/DataGridPagination';
 import useCompletedTraineesController from './hooks/useCompletedTraineesController';
 
 
-
-const CompletedTrainees: React.FC = () => {
-  const {
-    columns,
-    rows,
-    isOpen,
-    data,
-    currentTab,
-    index,
-    studentId,
-    handleChangeTab,
-    handleCloseDialog,
-  } = useCompletedTraineesController();
+const SubmittedStudents: React.FC = () => {
+  const { columns, rows, isOpen, trainingId, handleCloseDialog } =
+  useCompletedTraineesController();
 
   return (
     <>
@@ -66,7 +50,7 @@ const CompletedTrainees: React.FC = () => {
             }}
             columns={columns}
             rows={rows}
-            getRowId={(row) => row['studentId']}
+            getRowId={(row) => row['id']}
             initialState={{
               pagination: { paginationModel: { pageSize: 30 } },
             }}
@@ -87,11 +71,11 @@ const CompletedTrainees: React.FC = () => {
       >
         <DialogTitle gap={1.5} sx={{ textAlign: 'center' }}></DialogTitle>
         <DialogContent>
-          <EvaluStepper />
+          <EvaluStepper trainingId={trainingId} />
         </DialogContent>
       </Dialog>
     </>
   );
 };
 
-export default CompletedTrainees;
+export default SubmittedStudents;

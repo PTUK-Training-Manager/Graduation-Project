@@ -30,18 +30,16 @@ const Login: React.FC = () => {
      */
     const {isSidebarOpen, user} = useAccountContext();
 
-    // if (user) return <Navigate to="/" replace state={{from: location.pathname}}/>;
-    //
-    // const {isVerifying} = useVerifyAccessToken();
-    //
-    // if (isVerifying) return <BlockUI/>;
+    if (user) return <Navigate to="/" replace state={{from: location.pathname}}/>;
+
+    const {isVerifying} = useVerifyAccessToken();
 
     const {formikProps, isLoading} = useLoginController();
 
     const {isValid} = formikProps;
     
 
-    const isMobileViewport = useMediaQuery('(max-width:600px)');
+    if (isVerifying) return <BlockUI/>;
 
     return (
         <>
@@ -54,7 +52,7 @@ const Login: React.FC = () => {
                       position: "relative",
                       pt: 8,
                       // top: `${NAVBAR_HEIGHT}px`,
-                      paddingLeft: (isSidebarOpen && !isMobileViewport) ? `${getContentPaddingLeft(isSidebarOpen)}px` : "0px",
+                      paddingLeft: isSidebarOpen ? `${getContentPaddingLeft(isSidebarOpen)}px` : "0px",
                       bgcolor: theme.palette.grey[100],
                       height: "100vh",
                       overflow: "auto",

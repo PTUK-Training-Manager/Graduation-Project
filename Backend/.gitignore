@@ -33,7 +33,6 @@
 
 # production
 /build
-/dist
 
 #VS code
 settings.json

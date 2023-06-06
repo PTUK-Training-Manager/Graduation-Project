@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import {FC} from 'react';
 import {TablePaginationProps} from "@mui/material/TablePagination";
 import {gridPageCountSelector, useGridApiContext, useGridSelector} from "@mui/x-data-grid";
 import MuiPagination from "@mui/material/Pagination";

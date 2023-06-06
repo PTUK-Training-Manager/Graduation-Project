@@ -1,9 +1,18 @@
 export interface Row {
-    studentId: string;
-    Student: {
-        name: string;
-    };
-    count: string;
+  studentId: string;
+  Student: {
+    name: string;
+  };
+  CompanyBranch: {
+    location: string;
+  };
+  Trainer: {
+    name: string;
+  };
+  count: string;
+  companyBranchId: string;
+  id: string;
+  trainerId: string;
 }
 
 export interface Evaluation {

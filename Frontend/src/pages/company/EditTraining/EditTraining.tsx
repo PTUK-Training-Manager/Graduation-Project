@@ -27,10 +27,10 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { handleTrainingRequest } from 'src/acceptRequest';
-import { handleTrainingRequestBody } from 'src/acceptRequest/request.dto';
-import { assignTrainer } from 'src/assignTrainer';
-import { assignTrainerRequestBody } from 'src/assignTrainer/request.dto';
+import { handleTrainingRequest } from '../TrainingRequest/api';
+import { HandleTrainingRequestBody } from '../TrainingRequest/types';
+import { assignTrainer } from '../AcceptedRequests/api'
+import { AssignTrainerRequestBody } from '../AcceptedRequests/api/request.dto';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import { getTrainers } from '../Trainers/api';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
@@ -77,12 +77,16 @@ interface Row {
 }
 
 interface Trainer {
-  id: string;
-  companyId: string;
-  field: string;
-  name: string;
-  status: string;
-  userId: string;
+    id: string;
+    companyId: string;
+    fieldId: string;
+    Field: {
+      id: string;
+      field: string;
+    };
+    name: string;
+    status: string;
+    userId: string;
 }
 
 const EditTraining: React.FC = () => {
@@ -155,7 +159,7 @@ const EditTraining: React.FC = () => {
   };
 
   const handleVerifyJoin = () => {
-    const body: assignTrainerRequestBody = {
+    const body: AssignTrainerRequestBody = {
       trainingId: trainingID,
       trainerId: trainerID,
     };
@@ -204,7 +208,7 @@ const EditTraining: React.FC = () => {
   };
 
   const handleCancel = () => {
-    const body: handleTrainingRequestBody = {
+    const body: HandleTrainingRequestBody = {
       trainingId: cancelId,
       status: 'canceled',
     };

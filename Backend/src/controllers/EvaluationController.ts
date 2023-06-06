@@ -10,8 +10,8 @@ import {
 } from "../models/index";
 import { fn, col, Op } from "sequelize";
 import { EvaluationStatusEnum, TrainingStatusEnum, TrainingTypeEnum } from "../enums";
-import { BaseResponse, EditEvaluationBody, ProgressFormBody, ProgressFormWithHours, RejectEvaluationBody, SubmitEvaluationBody } from "../types";
-import { getTrainingIds } from "../utils";
+import { BaseResponse, EditEvaluationBody, EvaluationType, ProgressFormBody, ProgressFormWithHours, RejectEvaluationBody, SubmitEvaluationBody } from "../types";
+import { getStudentTraining, getTrainingIds } from "../utils";
 
 
 class EvaluationController {
@@ -151,7 +151,7 @@ class EvaluationController {
 
     submitEvaluation = async (req: SubmitEvaluationBody, res: Response<BaseResponse>, next: NextFunction) => {
         try {
-            let { startTime, startTimeType, endTime, endTimeType, skills, trainingId } = req.body;
+            let { startTime, startTimeType, endTime, endTimeType, skills, trainingId,date } = req.body;
             if (startTimeType === 'pm')
                 startTime = this.convert12to24(startTime);
             if (endTimeType === 'pm')
@@ -162,6 +162,7 @@ class EvaluationController {
                 skills,
                 trainingId,
                 status: EvaluationStatusEnum.pending,
+                date
             });
 
             return res.json({
@@ -179,8 +180,8 @@ class EvaluationController {
 
     editEvaluation = async (req: EditEvaluationBody, res: Response<BaseResponse>, next: NextFunction) => {
         try {
-            const { id, skills, startTime, endTime } = req.body;
-            if (!skills && !startTime && !endTime) {
+            let { id, skills, startTime, endTime, date, startTimeType, endTimeType } = req.body;
+            if (!skills && !startTime && !endTime && !date) {
                 return res.json({
                     success: true,
                     status: res.statusCode,
@@ -192,11 +193,19 @@ class EvaluationController {
                     { where: { id } });
             }
             if (startTime) {
-                await Evaluation.update({ startTime },
+                if (startTimeType === 'pm')
+                startTime = this.convert12to24(startTime) ;
+                await Evaluation.update({ startTime: startTime as unknown as Date  },
                     { where: { id } });
             }
             if (endTime) {
-                await Evaluation.update({ endTime },
+                if (endTimeType === 'pm')
+                endTime = this.convert12to24(endTime);
+                await Evaluation.update({ endTime: endTime as unknown as Date },
+                    { where: { id } });
+            }
+            if (date) {
+                await Evaluation.update({ date },
                     { where: { id } });
             }
 
@@ -213,35 +222,9 @@ class EvaluationController {
         }
     }
 
-    getRejectedEvaluations = async (req: Request, res: Response, next: NextFunction) => {
+    getRejectedEvaluations = async (req: Request<unknown,unknown,{trainingId:number}>, res: Response, next: NextFunction) => {
         try {
-            const username = req.user.username;
-            const user = await User.findOne({
-                where: { username },
-                attributes: ['id']
-            });
-            const userId = user?.id;
-            const student = await Student.findOne({
-                where: { userId },
-                attributes: ['id']
-            });
-            const studentId = student?.id;
-            const training = await Training.findOne({
-                where: {
-                    studentId,
-                    status: TrainingStatusEnum.running
-                },
-                attributes: ['id'],
-            });
-            const trainingId = training?.id;
-            if (!trainingId) {
-                return res.json({
-                    success: true,
-                    status: res.statusCode,
-                    message: "you have no running Trainings",
-                });
-            }
-
+            const trainingId = req.body.trainingId;
             const rejectedEvaluations = await Evaluation.findAll({
                 where: {
                     trainingId,
@@ -259,6 +242,28 @@ class EvaluationController {
                 status: res.statusCode,
                 message: " ",
                 data: rejectedEvaluations
+            });
+
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    
+    getStudentPendingEvaluations = async (req: Request<unknown,unknown,{trainingId:number}>, res: Response, next: NextFunction) => {
+        try {
+            const trainingId = req.body.trainingId;
+            const pendingEvaluations = await Evaluation.findAll({
+                where: {
+                    trainingId,
+                    status: EvaluationStatusEnum.pending
+                }
+            });
+            return res.json({
+                success: true,
+                status: res.statusCode,
+                message: " ",
+                data: pendingEvaluations
             });
 
         } catch (err) {

@@ -16,6 +16,7 @@ const Snackbar: FC<SnackbarProps> = () => {
         <MuiSnackbar
             open={open}
             autoHideDuration={autoHideDuration}
+            //@ts-ignore
             onClose={hideSnackbar}
             anchorOrigin={anchorOrigin}
             TransitionComponent={Slide}
@@ -23,6 +24,7 @@ const Snackbar: FC<SnackbarProps> = () => {
             <Alert
                 icon={icon}
                 variant={variant}
+                //@ts-ignore
                 onClose={hideSnackbar}
                 severity={severity}
                 sx={{width: '100%'}}

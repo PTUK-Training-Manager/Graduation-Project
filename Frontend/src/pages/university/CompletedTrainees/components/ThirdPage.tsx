@@ -1,348 +1,108 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-import {
-  Box,
-  Card,
-  CardContent,
-  Container,
-  Divider,
-  Radio,
-  RadioGroup,
-} from '@mui/material';
+import { Box, Card, CardContent, Divider, Grid } from '@mui/material';
 import './style.css';
 
-import { FormControlLabel } from '@mui/material';
-import Checkbox from '@mui/material/Checkbox';
-import { FC, SyntheticEvent } from 'react';
+import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
+
 import useCompletedTraineesController from '../hooks/useCompletedTraineesController';
+import {
+  JSXElementConstructor,
+  ReactElement,
+  ReactFragment,
+  ReactPortal,
+} from 'react';
 
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-  >
-    •
-  </Box>
-);
+import WatchLaterIcon from '@mui/icons-material/WatchLater';
+import { EvaluationData } from 'src/api/types';
 
-const ThirdPage: FC = ({}) => {
-  const {
-    response,
-    isOpen,
-    currentTab,
-    handleChangeTab,
-    open,
-    evaluationTrainingReport,
-  } = useCompletedTraineesController();
+interface ThirdPageProps {
+  response: EvaluationData[];
+}
+
+const ThirdPage: React.FC<ThirdPageProps> = ({ response }) => {
+  const { isOpen } = useCompletedTraineesController();
   console.log(response);
   console.log(response[0]?.id);
   console.log(isOpen);
 
-  console.log({
-    evaluationTrainingReport,
-  });
-
   return (
     <>
-      <Container sx={{ p: '50px' }}>
-        <Stack sx={{ textAlign: 'center' }}>
-          <Typography variant="h6" sx={{ fontStyle: 'oblique', mb: '10px' }}>
-            Field Traning
-          </Typography>
-        </Stack>
-        <Divider />
+      <Grid sx={{ padding: '2' }}>
+        {response[0]?.Evaluations.map(
+          (
+            item,
+            index: number
+          ) => (
+            <>
+              <Stack gap={2} spacing={2}>
+                <Divider />
 
-        {/* Student */}
-
-        <Card sx={{ minWidth: 100, mb: '5px' }}>
-          <CardContent>
-            <Typography variant="h6" color="text.secondary" gutterBottom>
-              Student Information:
-            </Typography>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
-                Student Name: {response[0]?.Student.name}
-              </Typography>
-            </Stack>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
-                Student Number: {response[0]?.studentId}
-              </Typography>
-            </Stack>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
-                Phone: {response[0]?.Student.phoneNumber}
-              </Typography>
-            </Stack>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
-                academic specialization:
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
-                </Typography>
-              </Typography>
-            </Stack>
-          </CardContent>
-        </Card>
-        <Divider />
-
-        {/* Company */}
-
-        <Card sx={{ minWidth: 200, mb: '5px' }}>
-          <CardContent>
-            <Typography variant="h6" color="text.secondary" gutterBottom>
-              Company Information:
-            </Typography>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
-                Company Name: {response[0]?.CompanyBranch.Company.name}
-                <Typography sx={{ fontWeight: '600' }}>
-                  Company Branch: {response[0]?.CompanyBranch.location}
-                </Typography>
-              </Typography>
-            </Stack>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }}>Email:</Typography>
-            </Stack>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }}>Phone:</Typography>
-            </Stack>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
-                Manegar Name:
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
-                </Typography>
-              </Typography>
-            </Stack>
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
-                Trainer Name: {response[0]?.Trainer.name}
-              </Typography>
-            </Stack>
-          </CardContent>
-        </Card>
-        <Divider />
-
-        <Card sx={{ minWidth: 200, mb: '5px' }}>
-          <CardContent>
-            <Typography variant="h6" color="text.secondary" gutterBottom>
-              Student working time{' '}
-            </Typography>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
-                Starting Date: {response[0]?.startDate}
-              </Typography>
-            </Stack>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
-                Ending Date: {response[0]?.endDate}
-              </Typography>
-            </Stack>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
-                The daily working period
-                <Typography variant="h5">
-                  From{bull}nev{bull}To{bull}lent
-                </Typography>
-              </Typography>
-            </Stack>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
-                number of absence's Day
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
-                </Typography>
-              </Typography>
-            </Stack>
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
-                Number of training days for the student
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
-                </Typography>
-              </Typography>
-            </Stack>
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
-                Did the student keep working hours?
-                <FormControlLabel control={<Checkbox disabled />} label="yes" />
-                <FormControlLabel control={<Checkbox disabled />} label="No" />
-              </Typography>
-            </Stack>
-          </CardContent>
-        </Card>
-        <Divider />
-
-        <Card sx={{ minWidth: 200, mb: '5px' }}>
-          <CardContent>
-            <Typography variant="h6" color="text.secondary" gutterBottom>
-              Student benefit from training:
-            </Typography>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
-                The main work done by the student during the training
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  ..........
-                </Typography>
-              </Typography>
-            </Stack>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
-                The ability of the student to carry out the tasks assigned to
-                him
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  <RadioGroup
-                    row
-                    aria-labelledby="demo-row-radio-buttons-group-label"
-                    name="row-radio-buttons-group"
+                <Stack gap={5} spacing={2}>
+                  <Card
+                    sx={{
+                      minWidth: 275,
+                      borderLeft: 6,
+                      borderColor: 'black',
+                    }}
                   >
-                    <FormControlLabel
-                      disabled
-                      value="Exelant"
-                      control={<Radio />}
-                      label="Exelant"
-                    />
-                    <FormControlLabel
-                      disabled
-                      value="Very Good"
-                      control={<Radio />}
-                      label="Very Good "
-                    />
-                    <FormControlLabel
-                      disabled
-                      value="Good"
-                      control={<Radio />}
-                      label="Good"
-                    />
-                    <FormControlLabel
-                      disabled
-                      control={<Radio />}
-                      label="weak"
-                    />
-                  </RadioGroup>{' '}
-                </Typography>
-              </Typography>
-            </Stack>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
-                The student's ability to benefit from the work assigned to him
-                was:
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  <RadioGroup
-                    row
-                    aria-labelledby="demo-row-radio-buttons-group-label"
-                    name="row-radio-buttons-group"
-                  >
-                    <FormControlLabel
-                      disabled
-                      value="Exelant"
-                      control={<Radio />}
-                      label="Exelant"
-                    />
-                    <FormControlLabel
-                      disabled
-                      value="Very Good"
-                      control={<Radio />}
-                      label="Very Good "
-                    />
-                    <FormControlLabel
-                      disabled
-                      value="Good"
-                      control={<Radio />}
-                      label="Good"
-                    />
-                    <FormControlLabel
-                      disabled
-                      control={<Radio />}
-                      label="weak"
-                    />
-                  </RadioGroup>{' '}
-                </Typography>
-              </Typography>
-            </Stack>
-
-            <Stack>
-              <Typography sx={{ fontWeight: '600' }}>
-                The practical application of the theoretical subjects studied by
-                the student in the college was:
-                <Typography
-                  sx={{ mb: 1.5, display: 'inline-block' }}
-                  color="text.secondary"
-                >
-                  <RadioGroup
-                    row
-                    aria-labelledby="demo-row-radio-buttons-group-label"
-                    name="row-radio-buttons-group"
-                  >
-                    <FormControlLabel
-                      disabled
-                      value="Exelant"
-                      control={<Radio />}
-                      label="Exelant"
-                    />
-                    <FormControlLabel
-                      disabled
-                      value="Very Good"
-                      control={<Radio />}
-                      label="Very Good "
-                    />
-                    <FormControlLabel
-                      disabled
-                      value="Good"
-                      control={<Radio />}
-                      label="Good"
-                    />
-                    <FormControlLabel
-                      disabled
-                      control={<Radio />}
-                      label="weak"
-                    />
-                  </RadioGroup>{' '}
-                </Typography>
-              </Typography>
-            </Stack>
-          </CardContent>
-        </Card>
-        <Divider />
-      </Container>
+                    <CardContent>
+                      <Stack spacing={2}>
+                        <Typography sx={{ fontWeight: '600' }}>
+                          Day {index + 1}
+                        </Typography>
+                        <Stack gap={1.5} direction="row">
+                          <WatchLaterIcon color="action" />
+                          <Typography sx={{ fontWeight: '600' }}>
+                            Start Time :
+                            <Typography
+                              sx={{
+                                display: 'inline-block',
+                                fontWeight: '400',
+                              }}
+                            >
+                              {item.startTime}
+                            </Typography>
+                          </Typography>
+                        </Stack>
+                        <Stack gap={1.5} direction="row">
+                          <WatchLaterIcon color="action" />
+                          <Typography sx={{ fontWeight: '600' }}>
+                            End Time :
+                            <Typography
+                              sx={{
+                                display: 'inline-block',
+                                fontWeight: '400',
+                              }}
+                            >
+                              {item.endTime}
+                            </Typography>
+                          </Typography>
+                        </Stack>
+                        <Stack gap={1.5} direction="row">
+                          <FormatListNumberedIcon color="action" />
+                          <Typography sx={{ fontWeight: '600' }}>
+                            Skills :
+                            <Typography
+                              sx={{
+                                display: 'inline-block',
+                                fontWeight: '400',
+                              }}
+                            >
+                              {item.skills}
+                            </Typography>
+                          </Typography>
+                        </Stack>
+                      </Stack>
+                    </CardContent>
+                  </Card>
+                </Stack>
+              </Stack>
+            </>
+          )
+        )}
+      </Grid>
     </>
   );
 };

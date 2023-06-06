@@ -8,8 +8,8 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { Button, Grid, Stack, Typography} from '@mui/material';
 import { getTrainingRequests } from './api';
 import theme from "src/styling/customTheme";
-import { handleTrainingRequest } from 'src/acceptRequest';
-import { handleTrainingRequestBody } from 'src/acceptRequest/request.dto';
+import { handleTrainingRequest } from './api';
+import { HandleTrainingRequestBody } from './types';
 import useSnackbar from 'src/hooks/useSnackbar';
 
 interface Row {
@@ -135,7 +135,7 @@ const TrainingRequests: React.FC = () => {
 
   const handleAccept = (id: string) => {
     console.log(id)
-    const body: handleTrainingRequestBody = {
+    const body: HandleTrainingRequestBody = {
       trainingId: id,
       status: 'accepted',
     };
@@ -153,7 +153,7 @@ const TrainingRequests: React.FC = () => {
   };
   const handleReject = (id: string) => {
     console.log(id)
-    const body: handleTrainingRequestBody = {
+    const body: HandleTrainingRequestBody = {
       trainingId: id,
       status: 'rejected',
     };

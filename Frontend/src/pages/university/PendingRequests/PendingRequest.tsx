@@ -25,7 +25,7 @@ import {
 import './PendingRequests.css';
 import { getPendingRequests } from './api';
 import theme from "src/styling/customTheme";
-import { deleteRquest } from 'src/DeleteRequest';
+import { deleteRquest } from './api';
 import useSnackbar from 'src/hooks/useSnackbar';
 
 function Pagination({

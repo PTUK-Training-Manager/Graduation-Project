@@ -6,7 +6,6 @@ import {UserRole} from "src/constants/auth";
 import {UserRoleKey} from "src/types/index";
 import {IAppMenuItem} from "src/routes/types";
 
-// interface UseAppMenuNavigationResult {}
 
 const useAppMenuNavigation = () => {
 

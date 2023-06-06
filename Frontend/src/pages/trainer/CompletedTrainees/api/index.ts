@@ -6,7 +6,16 @@ export interface AccessTokenData {
   Student: {
     name: string;
   };
+  CompanyBranch: {
+    location: string;
+  };
+  Trainer: {
+    name: string;
+  };
   count: string;
+  companyBranchId: string;
+  id: string;
+  trainerId: string;
 }
 
 export interface GetCompletedTraineesResponse extends BaseResponse {
