@@ -6,3 +6,8 @@ export interface AddCompanyRequestBody {
     phoneNumber: string;
     managerName: string;
   }
+
+  export interface AddBranchRequestBody {
+    id: string;
+    location: string;
+}

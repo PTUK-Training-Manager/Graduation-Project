@@ -33,7 +33,7 @@ const EvaluStepper: FC<EvaluStepperProps> = ({ trainingId }) => {
     getQuestion()
       .then((result) => {
         setQuestion(result.data);
-        // console.log(result.data);
+        console.log(result.data);
       })
       .catch((error) => console.log(error));
   }, []);
@@ -46,7 +46,7 @@ const EvaluStepper: FC<EvaluStepperProps> = ({ trainingId }) => {
     getEvaluationsForTrainer({ trainingId: trainingId })
       .then((result) => {
         setResponse(result.data);
-        // console.log(result.data);
+        console.log(result.data);
       })
       .catch((error) => console.log(error));
   }, []);

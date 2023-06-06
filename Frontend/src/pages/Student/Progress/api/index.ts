@@ -2,13 +2,13 @@ import axiosInstance from 'src/api';
 import {
   SubmitEvaluationBody,
   RejectedEvaluationstionBody,
-  editEvaluationBody
+  editEvaluationBody,
 } from './request.dto';
 import {
   SubmitEvaluationResponse,
   TrainingRunningIDResponse,
   RejectedEvaluationResponse,
-  EditEvaluationResponse
+  EditEvaluationResponse,
 } from './response.dto';
 
 export const submitEvaluation = (body: SubmitEvaluationBody) => {
@@ -25,13 +25,19 @@ export const editEvaluationForm = (body: editEvaluationBody) => {
     .then((res) => res.data);
 };
 
-export const getTrainingIdForRunnigTraining =
-  async (): Promise<TrainingRunningIDResponse> => {
-    const url = '/training/studentsRunningTraining';
-    const response = await axiosInstance.get<TrainingRunningIDResponse>(url);
-    return response.data;
-  };
+// export const getTrainingIdForRunnigTraining =
+//   async (): Promise<TrainingRunningIDResponse> => {
+//     const url = '/training/studentsRunningTraining';
+//     const response = await axiosInstance.get<TrainingRunningIDResponse>(url);
+//     return response.data;
+//   };
 
+export const getTrainingIdForRunnigTraining = async () => {
+  const url = '/training/studentsRunningTraining';
+  return axiosInstance
+    .get<TrainingRunningIDResponse>(url)
+    .then((res) => res.data);
+};
 export const getRejectedEvaluations = (body: RejectedEvaluationstionBody) => {
   const url = '/evaluation/rejectedEvaluations';
   return axiosInstance
