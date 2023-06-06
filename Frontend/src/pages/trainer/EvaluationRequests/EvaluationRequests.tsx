@@ -81,7 +81,7 @@ const EvaluationRequests: React.FC = () => {
   };
 
   const handleWriteNoteSave = () => {
-    rejectEvaluationRequest({ id: requestId,note: note }).then(
+    rejectEvaluationRequest({ id: requestId, note: note }).then(
       (res: { success: boolean; message: any }) => {
         if (res.success === true) {
           showSnackbar({ severity: 'success', message: res.message });
@@ -89,13 +89,13 @@ const EvaluationRequests: React.FC = () => {
             prevData.filter((row) => row.id !== requestId)
           );
           setRequestId('');
-          setNote('')
-          handleWriteNoteClose()
+          setNote('');
+          handleWriteNoteClose();
         } else if (res.success === false) {
           showSnackbar({ severity: 'warning', message: res.message });
           setRequestId('');
-          setNote('')
-          handleWriteNoteClose()
+          setNote('');
+          handleWriteNoteClose();
         }
       }
     );
@@ -150,7 +150,7 @@ const EvaluationRequests: React.FC = () => {
           <Typography component="h1" variant="h5" fontWeight={500}>
             Evaluation Request
           </Typography>
-          {response?.map((item, index: number) => (
+          {response?.map((item) => (
             <Accordion>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon color="action" />}
@@ -230,8 +230,18 @@ const EvaluationRequests: React.FC = () => {
                           <Typography>End Time: {item.endTime} </Typography>
                         </Stack>
                         <Stack gap={1.5} direction="row">
-                          {/* <Typography>Skills: {item.skills} </Typography> */}
-                          <RichTextEditor namespace='1' editable={false} content={item?.skills} />
+                         
+                        {/* <RichTextEditor
+                            editable={false}
+                            content={`'${item.skills}'`}
+
+                          /> */}
+                          <RichTextEditor
+                            editable={false}
+                            content={
+                              '{"root":{"children":[{"children":[{"detail":0,"format":8,"mode":"normal","style":"","text":"Skills For Today:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1},{"children":[{"detail":0,"format":0,"mode":"normal","style":"color: #68bc00;","text":"1)","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":" ","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"color: #d33115;","text":"React Tables.","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1},{"children":[{"detail":0,"format":0,"mode":"normal","style":"color: #68bc00;","text":"2)","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
+                            }
+                          />
                         </Stack>
                       </Stack>
                     </CardContent>
@@ -300,10 +310,12 @@ const EvaluationRequests: React.FC = () => {
           Please write notes for the student why you rejected this progress
           Request!
           <TextField
-            margin='dense'
+            margin="dense"
             label="Note"
             value={note}
-            onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setNote(e.target.value)}
+            onChange={(e: {
+              target: { value: React.SetStateAction<string> };
+            }) => setNote(e.target.value)}
             fullWidth
           />
         </DialogContent>

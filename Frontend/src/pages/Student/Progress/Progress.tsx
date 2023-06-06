@@ -237,6 +237,7 @@ const Progress: React.FC = () => {
 
                   <RichTextEditor
                     onChange={(skills) => {
+                      console.log(JSON.stringify(skills))
                       setSkills(skills);
                     }}
                   />
@@ -343,7 +344,7 @@ const Progress: React.FC = () => {
                                   {evaluation.endTime}
                                 </Typography>
                               </Typography>
-                              <Typography fontWeight="600">
+                              {/* <Typography fontWeight="600">
                                 Skills:{' '}
                                 <Typography
                                   sx={{
@@ -352,8 +353,10 @@ const Progress: React.FC = () => {
                                   }}
                                 >
                                   {evaluation.skills}
-                                </Typography>
-                              </Typography>
+                                </Typography> */}
+                                                          <RichTextEditor  editable={false} content={'{"root":{"children":[{"children":[{"detail":0,"format":8,"mode":"normal","style":"","text":"Skills For Today:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1},{"children":[{"detail":0,"format":0,"mode":"normal","style":"color: #68bc00;","text":"1)","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":" ","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"color: #d33115;","text":"React Tables.","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1},{"children":[{"detail":0,"format":0,"mode":"normal","style":"color: #68bc00;","text":"2)","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'} />
+
+                              {/* </Typography> */}
                               <Stack
                                 direction="row"
                                 sx={{
