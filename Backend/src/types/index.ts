@@ -49,6 +49,10 @@ export interface BaseResponse {
     data?: any;
 }
 
+export interface LoginResponse extends BaseResponse {
+    accessToken?: string;
+}
+
 export interface ButtonHandler extends Request {
     body: {
         index: number;
@@ -156,7 +160,7 @@ export interface ProgressFormWithHours {
 }
 
 export type EvaluationType =
-    'pending'
+    | 'pending'
     | 'signed'
     | 'rejected';
 

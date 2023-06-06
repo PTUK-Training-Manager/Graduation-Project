@@ -7,12 +7,13 @@ import app from '../app';
  * CORS stands for Cross-Origin Resource Sharing. It is a mechanism that uses additional HTTP headers to tell browsers to give a web application running at one origin, access to selected resources from a different origin.
  */
 
+app.set("trust proxy", 3); // trust first proxy
+
 app.use(cors({
-    // origin: 'http://localhost:3000', // The origin of the client (frontend) that we allow to connect to our API
+    credentials: true, // This allows the session cookie to be sent back and forth from the client (frontend) to the server (backend)
     origin: (origin, callback) => {
         const msg = `Request Origin: ${origin}`;
         console.log(chalk.blue(msg));
         callback(null, true);
     },
-    credentials: true, // This allows the session cookie to be sent back and forth from the client (frontend) to the server (backend)
 }));

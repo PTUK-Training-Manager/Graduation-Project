@@ -2,22 +2,15 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import useAddCompanyFormController from './hooks/useAddCompanyFormController';
+import useAddCompanyFormController from './hooks/useAddCompanyFormController'
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Form, FormikProvider } from 'formik';
-import { useMutation } from '@tanstack/react-query';
-import { addCompany } from './api';
-import { useFormik } from 'formik';
-import { validationSchema } from './schema';
-import { INITIAL_FORM_STATE } from './constants';
-import { AxiosBaseError } from 'src/types';
 import MuiPagination from '@mui/material/Pagination';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import TextFieldWrapper from 'src/components/FormsUI/TextField';
 import Stack from '@mui/material/Stack';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import DataGridPagination from 'src/components/DataGrid/DataGridPagination';
 import { getBranch } from 'src/api/getBranch';
 import theme from 'src/styling/customTheme';
 import { addBranch } from '../AddBranchForm/api';
@@ -27,9 +20,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormControlLabel,
   IconButton,
-  Switch,
   TablePaginationProps,
   TextField,
 } from '@mui/material';
@@ -45,7 +36,6 @@ import { getCompany } from 'src/api/getCompany';
 import { useEffect, useState } from 'react';
 import Collapse from '@mui/material/Collapse';
 import useSnackbar from 'src/hooks/useSnackbar';
-import extractErrorMessage from 'src/utils/extractErrorMessage';
 
 function Pagination({
   page,
@@ -258,10 +248,10 @@ const AddCompanyForm: React.FC = () => {
                         justifyContent: 'center',
                         alignItems: 'center',
                         p: 3.5,
-                        minWidth: { xs: '90%', sm: '60%', md: '30%' },
-                      }}
-                    >
-                      <FormikProvider value={formikProps}>
+                        minWidth: {xs: "90%", md: "500px"},
+                    }}
+                >
+                    <FormikProvider value={formikProps}>
                         <Form>
                           <Stack gap={1} spacing={1} alignItems="center">
                             <Typography component="h1" variant="h5">

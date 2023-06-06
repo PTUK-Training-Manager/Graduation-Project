@@ -20,12 +20,7 @@ import Checkbox from '@mui/material/Checkbox';
 import {Navigate} from "react-router-dom";
 import useVerifyAccessToken from "src/hooks/useVerifyAccessToken";
 import BlockUI from "src/containers/BlockUI";
-import { useState } from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import TextField from '@mui/material/TextField';
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 
 const Login: React.FC = () => {
@@ -35,26 +30,18 @@ const Login: React.FC = () => {
      */
     const {isSidebarOpen, user} = useAccountContext();
 
-    if (user) return <Navigate to="/" replace state={{from: location.pathname}}/>;
-
-    const {isVerifying} = useVerifyAccessToken();
+    // if (user) return <Navigate to="/" replace state={{from: location.pathname}}/>;
+    //
+    // const {isVerifying} = useVerifyAccessToken();
+    //
+    // if (isVerifying) return <BlockUI/>;
 
     const {formikProps, isLoading} = useLoginController();
 
     const {isValid} = formikProps;
-    const [openDialog,setOpenDialog] = useState(false)
-    const [password,setPassword]=useState('');
-
-    const handleForggetClick = () => {
-       setOpenDialog(true)
-      };
-    
-      const handleCancel = () => {
-        setOpenDialog(false);
-      };
     
 
-    if (isVerifying) return <BlockUI/>;
+    const isMobileViewport = useMediaQuery('(max-width:600px)');
 
     return (
         <>
@@ -67,7 +54,7 @@ const Login: React.FC = () => {
                       position: "relative",
                       pt: 8,
                       // top: `${NAVBAR_HEIGHT}px`,
-                      paddingLeft: isSidebarOpen ? `${getContentPaddingLeft(isSidebarOpen)}px` : "0px",
+                      paddingLeft: (isSidebarOpen && !isMobileViewport) ? `${getContentPaddingLeft(isSidebarOpen)}px` : "0px",
                       bgcolor: theme.palette.grey[100],
                       height: "100vh",
                       overflow: "auto",
@@ -132,7 +119,7 @@ const Login: React.FC = () => {
                                 >
                                     Login
                                 </LoadingButton>
-                                <Button sx={{textTransform: "none"}} onClick={handleForggetClick}>
+                                <Button sx={{textTransform: "none"}}>
                                     Forgotten your username or password?
                                 </Button>
                             </Stack>
@@ -141,31 +128,7 @@ const Login: React.FC = () => {
                 </Paper>
             </Grid>
 
-            <Dialog
-        open={openDialog}
-        onClose={handleCancel}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog">Forgget Password</DialogTitle>
-        <DialogContent>
-        <TextField
-            autoFocus
-            label="New Password"
-            fullWidth
-            required
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCancel} color="error">
-            Cancel
-          </Button>
-          <Button color="primary">
-            Send
-          </Button>
-        </DialogActions>
-      </Dialog>
+           
         </>
     );
 }

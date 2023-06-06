@@ -1,6 +1,7 @@
 import React, {createContext, useState, ReactNode, Dispatch, SetStateAction, FC,} from "react";
 import {useNavigate, useLocation} from "react-router-dom";
 import {User} from "../types";
+import {noop} from "src/utils/functionsUtils";
 
 interface OnLoginOptions {
     shouldNavigate?: boolean;
@@ -20,13 +21,10 @@ export interface AccountContextValues {
 
 export const AccountContext = createContext<AccountContextValues>({
     user: null,
-    onLogin: () => {
-    },
-    onLogout: () => {
-    },
+    onLogin: noop,
+    onLogout: noop,
     isSidebarOpen: false,
-    setIsSidebarOpen: () => {
-    }
+    setIsSidebarOpen: noop,
 });
 
 interface AccountProviderProps {
@@ -45,7 +43,7 @@ export const AccountProvider: FC<AccountProviderProps> = ({children}) => {
         const {shouldNavigate} = options;
         setUser(user);
         if (shouldNavigate) {
-            const origin = location.state?.from || '/'; // remember the origin
+            const origin = location.state?.from || '/me'; // remember the origin
             navigate(origin);
         }
     };
@@ -54,11 +52,10 @@ export const AccountProvider: FC<AccountProviderProps> = ({children}) => {
         const {shouldNavigate} = options;
         setUser(null);
 
-        /**
-         * If the current pathname is "/login" don't navigate to "/login" again!
-         */
-        if (shouldNavigate && window.location.pathname !== "/login")
-            navigate("/login", {replace: true});
+        // Navigate only if the path contains "/me"
+        if (location.pathname.includes("/me")) {
+            navigate("login", {replace: true});
+        }
 
         setIsSidebarOpen(false);
     };

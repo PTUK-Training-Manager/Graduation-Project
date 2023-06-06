@@ -7,7 +7,12 @@ import {AccountProvider} from 'src/context/AccountContext';
 import SnackbarProvider from "./context/SnackbarContext";
 import {queryClient} from "src/queryClient";
 import {QueryClientProvider} from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import MUIThemeProvider from "src/styling/MUIThemeProvider";
+import {disableReactDevTools} from "@fvilers/disable-react-devtools";
+import {isProduction} from "./utils";
+
+if (isProduction) disableReactDevTools();
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
@@ -21,6 +26,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                             </Routes>
                         </AccountProvider>
                     </SnackbarProvider>
+                    <ReactQueryDevtools initialIsOpen={false} />
                 </QueryClientProvider>
             </MUIThemeProvider>
         </BrowserRouter>

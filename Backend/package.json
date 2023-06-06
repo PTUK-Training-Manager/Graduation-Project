@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "type": "module",
-  "main": "index.js",
+  "main": "server.js",
   "license": "MIT",
   "dependencies": {
     "@types/bcrypt": "^5.0.0",
@@ -39,9 +39,9 @@
     "tsconfig-paths": "^4.2.0"
   },
   "scripts": {
-    "dev": "nodemon",
-    "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register --esm build/app.js",
-    "build": "tsc"
+    "build": "tsc",
+    "start": "node --experimental-specifier-resolution=node dist/server.js",
+    "dev": "nodemon"
   },
   "author": "",
   "description": "Student's University Practical Training Management Information System"

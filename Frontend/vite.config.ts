@@ -4,13 +4,16 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+    build: {
+        outDir: "build",
+    },
     plugins: [
         react(),
         tsconfigPaths(),
         // [...(import.meta.env.PROD ? [] : [eslintPlugin()])]
     ],
     server: {
-        port: 3000,
+        port: 3500,
     }
     // test: {
     //   globals: true,
