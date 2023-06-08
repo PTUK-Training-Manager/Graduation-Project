@@ -13,7 +13,7 @@ Note.init({
     primaryKey: true
   },
   note: {
-    type: DataTypes.STRING,
+    type: DataTypes.JSON,
     allowNull: false
   }
 },
