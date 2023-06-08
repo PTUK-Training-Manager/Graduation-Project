@@ -4,14 +4,14 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 
 interface TableBodySkeletonProps {
-    skeletonRowCount: number;
-    skeletonRowHeight: number;
+    skeletonRowCount?: number;
+    skeletonRowHeight?: number;
     columnCount: number;
 }
 
 const TableBodySkeleton: FC<TableBodySkeletonProps> = ({
-                                                           skeletonRowCount,
-                                                           skeletonRowHeight ,
+                                                           skeletonRowCount = 10,
+                                                           skeletonRowHeight = 28 ,
                                                            columnCount,
                                                        }) => {
 

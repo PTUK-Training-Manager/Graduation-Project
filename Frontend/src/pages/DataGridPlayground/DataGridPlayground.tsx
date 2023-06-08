@@ -21,8 +21,8 @@ const DataGridPlayground: FC = () => {
                     data={users ?? []}
                     isFetching={isFetching}
                     totalRows={+totalRows}
-                    totalPages={Math.floor(totalRows / pagination.pageSize)}
-                    onPaginationChange={(pagination) => setPagination(pagination)}
+                    // totalPages={Math.floor(totalRows / pagination.pageSize)}
+                    onFetch={(pagination) => setPagination(pagination)}
                 >
                     <UsersDataGrid.Toolbar>
                         <UsersDataGrid.Toolbar.Start>
@@ -32,6 +32,7 @@ const DataGridPlayground: FC = () => {
                             <UsersDataGrid.Filters/>
                         </UsersDataGrid.Toolbar.End>
                     </UsersDataGrid.Toolbar>
+                    {/*<UsersDataGrid.Head/>*/}
                     <UsersDataGrid.Table onRowClick={handleOnRowClick}/>
                 </UsersDataGrid.Provider>
             </Box>

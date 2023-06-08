@@ -1,4 +1,14 @@
-import React, {FC, ChangeEvent, Context, MouseEvent, ReactNode, useMemo, useState, PropsWithChildren, Dispatch} from "react";
+import React, {
+    FC,
+    ChangeEvent,
+    Context,
+    MouseEvent,
+    ReactNode,
+    useMemo,
+    useState,
+    PropsWithChildren,
+    Dispatch
+} from "react";
 import {DataGridContextValues, PageChangeParams} from "./types";
 import {
     Cell,
@@ -24,7 +34,8 @@ export interface DataGridProviderProps<T> extends PropsWithChildren {
     data: T[];
     totalPages?: number; // total number of pages
     totalRows?: number; // total number of rows (needed for MUI TablePagination)
-    onPaginationChange?: (params: PageChangeParams) => void; //for exposing the current page value to the outside of the table as a callback function.
+    // onPaginationChange?: (params: PageChangeParams) => void; //for exposing the current page value to the outside of the table as a callback function.
+    onFetch?: (params: PageChangeParams) => void; //for exposing the current page value to the outside of the table as a callback function.
     // onRowClick?: (cell: Cell<T, unknown>, row: Row<T>) => void;
     // searchPlaceholder?: string;
     headerComponent?: JSX.Element;
@@ -49,7 +60,8 @@ export function makeDataGridProvider<T extends object>(configs: CreateDataGridCo
             data,
             totalPages,
             totalRows,
-            onPaginationChange,
+            // onPaginationChange,
+            onFetch,
             striped,
             isFetching,
             skeletonRowCount,
@@ -69,7 +81,9 @@ export function makeDataGridProvider<T extends object>(configs: CreateDataGridCo
             [headerComponent]
         );
 
-        const [currentPage, setCurrentPage] = useState(1);
+        const [pagination, setPagination] = useState<PageChangeParams>({pageIndex: 0, pageSize: 10});
+
+        // const [currentPage, setCurrentPage] = useState(1);
 
         const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
@@ -78,7 +92,7 @@ export function makeDataGridProvider<T extends object>(configs: CreateDataGridCo
         const [isOpenFiltersModal, setIsOpenFiltersModal] = useState<boolean>(false);
 
         // ---
-        const onSetCurrentPage = (currentPage: number) => setCurrentPage(currentPage);
+        // const onSetCurrentPage = (currentPage: number) => setCurrentPage(currentPage);
 
         const onSetGlobalFilter = (globalFilter: string) => setGlobalFilter(globalFilter);
 
@@ -134,19 +148,31 @@ export function makeDataGridProvider<T extends object>(configs: CreateDataGridCo
         ) => {
             console.log({selectedPage});
             const p = selectedPage === 0 ? 1 : selectedPage;
-            // setCurrentPage(selectedPage);
-            setPageIndex(selectedPage);
-            onPaginationChange?.({pageIndex: selectedPage, pageSize: getState().pagination.pageSize});
+            setPageIndex(selectedPage); // This is from tanstack react-table
+            // onPaginationChange?.({pageIndex: selectedPage, pageSize: getState().pagination.pageSize});
+            onFetch?.({pageIndex: selectedPage, pageSize: getState().pagination.pageSize});
+        };
+
+        const handleFetchMore = () => {
+            setPageIndex(getState().pagination.pageIndex + 1); // This is from tanstack react-table
+            onFetch?.({
+                ...getState().pagination,
+                pageIndex: getState().pagination.pageIndex + 1,
+            });
         };
 
         const handleChangeRowsPerPage = (
             event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
         ) => {
-            onPaginationChange?.({
+            // onPaginationChange?.({
+            //     pageIndex: getState().pagination.pageIndex,
+            //     pageSize: parseInt(event.target.value, 10)
+            // });
+            onFetch?.({
                 pageIndex: getState().pagination.pageIndex,
                 pageSize: parseInt(event.target.value, 10)
             });
-            setPageSize(parseInt(event.target.value, 10));
+            setPageSize(parseInt(event.target.value, 10)); // This is from tanstack react-table
             // setCurrentPage(0);
         };
 
@@ -163,22 +189,28 @@ export function makeDataGridProvider<T extends object>(configs: CreateDataGridCo
             columnsMemoized,
             headerComponentMemoized,
             // isRowClickable,
-            currentPage,
+            // currentPage,
+            // onSetCurrentPage,
             columnFilters,
             globalFilter,
             isOpenFiltersModal,
-            onSetCurrentPage,
             onSetColumnFilters: setColumnFilters,
             onSetGlobalFilter,
             onSetIsOpenFiltersModal,
             columnCount,
             handleChangePage,
-            onPaginationChange,
+            handleFetchMore,
+            // onPaginationChange,
+            onFetch,
             handleChangeRowsPerPage,
             // onHandleGlobalSearch,
             mapSortDirectionToIcon,
             totalRows,
             totalPages,
+            isFetching,
+            skeletonRowCount,
+            skeletonRowHeight,
+            striped
         }
 
         return (

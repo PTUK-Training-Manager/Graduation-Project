@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {useQuery} from "@tanstack/react-query";
-import {fetchUsers} from "../API";
+import {fetchUsers, fetchMoreUsers} from "../API";
 import {PageChangeParams} from "src/components/DataGridTanstack/types";
 
 export interface UseDataGridPlaygroundAPIProps {
@@ -14,7 +14,11 @@ const useDataGridPlaygroundAPI = ({pagination}: UseDataGridPlaygroundAPIProps) =
     const {data: users, isFetching, isError, error, isSuccess}
         = useQuery(
         ["users", pagination],
-        () => fetchUsers({_start: pagination?.pageIndex, _limit: pagination?.pageSize}).then(res => {
+        // () => fetchUsers({_start: pagination?.pageIndex, _limit: pagination?.pageSize}).then(res => {
+        //     setTotalRows(res?.headers["x-total-count"] ?? 0);
+        //     return res?.data ?? [];
+        // })
+        () => fetchMoreUsers({pageIndex: pagination?.pageIndex ?? 0}).then(res => {
             setTotalRows(res?.headers["x-total-count"] ?? 0);
             return res?.data ?? [];
         })

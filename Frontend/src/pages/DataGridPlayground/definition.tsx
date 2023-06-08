@@ -9,12 +9,12 @@ export const columns: ColumnDef<UserData, any>[] = [
         header: "ID",
         // maxSize: 40,
         // filterFn: "includesString",
-        size: 200,
+        size: 50,
     },
     {
         accessorKey: "name",
         header: "Name",
-        size: 200,
+        size: 300,
         filterFn: "arrIncludesSome",
     },
     {
@@ -25,12 +25,15 @@ export const columns: ColumnDef<UserData, any>[] = [
     {
         accessorKey: "body",
         header: "Body",
-        minSize: 500,
+        minSize: 400,
+        // size: "auto",
     },
     {
         accessorKey: "postId",
         header: "Post ID",
+        // filterFn: "includesString",
         cell: (row) => {
+
             return (
                 <Chip
                     label={row.getValue()}
@@ -45,6 +48,7 @@ export const columns: ColumnDef<UserData, any>[] = [
 const UsersDataGrid = createDataGrid<UserData>({
     name: "DataGridPlayground",
     columns,
+    // shouldFlexGrowCells: true,
 });
 
 export default UsersDataGrid;

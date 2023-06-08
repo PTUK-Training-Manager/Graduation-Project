@@ -25,6 +25,15 @@ export interface DataGridProps<T> extends PropsWithChildren {
     striped?: boolean;
 }
 
+export interface DataGridHeadProps<T> {
+}
+
+export interface DataGridBodyProps<T> {
+    onRowClick?: OnRowClick<T>;
+    skeletonRowHeight?: number;
+    skeletonRowCount?: number;
+}
+
 export interface PageChangeParams {
     pageIndex: number;
     pageSize: number;
@@ -47,23 +56,29 @@ export interface DataGridContextValues<T> {
     columnsMemoized: ColumnDef<T, unknown>[];
     headerComponentMemoized?: JSX.Element;
     isRowClickable?: boolean;
-    currentPage: number;
+    // currentPage: number;
+    // onSetCurrentPage: (page: number) => void;
     columnFilters: ColumnFiltersState;
     globalFilter: string;
     isOpenFiltersModal: boolean;
-    onSetCurrentPage: (page: number) => void;
     // onSetColumnFilters: (columnFiltersState: ColumnFiltersState) => void;
     onSetColumnFilters: Dispatch<SetStateAction<ColumnFiltersState>>;
     onSetGlobalFilter: (globalFilter: string) => void;
     onSetIsOpenFiltersModal: (isOpenFiltersModal: boolean) => void;
     columnCount: number;
     handleChangePage?: (event: MouseEvent<HTMLButtonElement> | null, selectedPage: number) => void;
-    onPaginationChange?: (params: PageChangeParams) => void;
+    handleFetchMore: () => void;
+    // onPaginationChange?: (params: PageChangeParams) => void;
+    onFetch?: (params: PageChangeParams) => void;
     handleChangeRowsPerPage: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
     // onHandleGlobalSearch: (e: ChangeEvent<HTMLInputElement>) => void;
     mapSortDirectionToIcon: Record<SortDirection, React.ReactNode>;
     totalPages?: number,
     totalRows?: number,
+    isFetching?: boolean,
+    skeletonRowCount?: number,
+    skeletonRowHeight?: number,
+    striped?: boolean, // for adding striped effect to the table
 }
 
 
@@ -71,6 +86,7 @@ export interface CreateDataGridOptions<T> {
     name: string;
     // data: T[];
     columns: ColumnDef<T>[];
+    shouldFlexGrowCells?: boolean;
     // totalPages?: number; // total number of pages
     // totalRows?: number; // total number of rows (needed for MUI TablePagination)
     // onPageChange?: (params: PageChangeParams) => void; //for exposing the current page value to the outside of the table as a callback function.
@@ -101,6 +117,8 @@ export interface GridReturn<T> {
     Provider: FC<DataGridProviderProps<T>>;
     Context: Context<DataGridContextValues<T>>;
     Table: FC<DataGridProps<T>>;
+    Head: FC<DataGridHeadProps<T>>;
+    Body: FC<DataGridBodyProps<T>>;
     Filters: FC<FiltersModalProps<T>>;
     SearchBox: FC<SearchBoxProps>;
     Toolbar: ToolbarLayoutProps;
@@ -132,7 +150,8 @@ export interface ColumnFilterNumericProps<T> {
     index: number;
 }
 
-export interface FiltersModalProps<T> {}
+export interface FiltersModalProps<T> {
+}
 
 export interface AutocompleteColumnOption {
     id: string;
