@@ -38,7 +38,7 @@ Evaluation.init({
     defaultValue: EvaluationStatusEnum.pending
   },
   skills: {
-    type: DataTypes.STRING,
+    type: DataTypes.JSON,
     allowNull: false
   }
 },
