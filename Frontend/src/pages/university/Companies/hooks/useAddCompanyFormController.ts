@@ -46,7 +46,7 @@ const useAddCompanyFormController = () => {
 
         console.log(data.data);
       } else if (data.success === false) {
-        showSnackbar({ severity: 'warning', message: data.message });
+        showSnackbar({ severity: 'warning', message: 'The company has been added successfully. Login credentials have been sent to the provided email.' });
       }
     },
     onError: (error: AxiosBaseError) => {

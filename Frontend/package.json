@@ -52,6 +52,7 @@
     "react-dom": "^18.2.0",
     "react-i18next": "^12.3.1",
     "react-router-dom": "^6.8.2",
+    "react-wavify": "^1.8.2",
     "uuid": "^9.0.0",
     "vite-tsconfig-paths": "^4.0.7",
     "vitest": "^0.29.2",

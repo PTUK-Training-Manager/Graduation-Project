@@ -60,7 +60,7 @@ export interface UpdateFieldForTrainerResponse extends BaseResponse {
 export interface AddTrainerData {
   id: string;
   companyId: string;
-  fieldId: string;
+  fieldId: string ;
   Field: {
     id: string;
     field: string;

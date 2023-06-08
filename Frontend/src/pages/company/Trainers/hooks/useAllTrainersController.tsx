@@ -6,7 +6,7 @@ import useSnackbar from 'src/hooks/useSnackbar';
 import { AxiosBaseError } from 'src/types';
 import EditIcon from '@mui/icons-material/Edit';
 import extractErrorMessage from 'src/utils/extractErrorMessage';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ClearIcon from '@mui/icons-material/Clear';
 import { addTrainerRequest } from '../api';
 import { getTrainers } from '../api';
@@ -24,6 +24,7 @@ const useAllTrainersFormController = () => {
     TrainersData[]
   >([]);
   const [deleteId, setDeleteId] = useState<string>('');
+  const [deleteTrainerName, setDeleteTrainerName] = useState<string>('');
   const [updatedTrainerID, setUpdatedTrainerID] = useState<string>('');
   const [newFieldId, setNewFieldId] = useState<string>('');
   const [fieldOptions, setFieldOptions] = useState<FieldData[]>([]);
@@ -44,19 +45,25 @@ const useAllTrainersFormController = () => {
             prevData.filter((row) => row.id !== deleteId)
           );
           setDeleteId('');
+          setDeleteTrainerName('');
           setDeleteTrainerDialogOpen(false);
         } else if (res.success === false) {
           showSnackbar({ severity: 'warning', message: res.message });
           setDeleteId('');
+          setDeleteTrainerName('');
           setDeleteTrainerDialogOpen(false);
         }
       }
     );
   };
 
-  const handleClickDeleteTrainerButton = (Trainerid: string) => {
+  const handleClickDeleteTrainerButton = (
+    Trainerid: string,
+    TrainerName: string
+  ) => {
     setDeleteId(Trainerid);
     setDeleteTrainerDialogOpen(true);
+    setDeleteTrainerName(TrainerName);
   };
 
   const handleCancelDeleteTrainer = () => {
@@ -137,16 +144,19 @@ const useAllTrainersFormController = () => {
       width: 220,
       filterable: false,
       alignContent: 'centre',
-      renderCell: (params: { [x: string]: any; id: any }) => (
-        <IconButton
-          sx={{ ml: 3.5 }}
-          color="error"
-          aria-label="delete trianer"
-          onClick={() => handleClickDeleteTrainerButton(params.row.id)}
-        >
-          <ClearIcon className="clear" />
-        </IconButton>
-      ),
+      renderCell: (params: { row: TrainersData }) => {
+        const name = params.row.name;
+        return (
+          <IconButton
+            sx={{ ml: 3.5 }}
+            color="error"
+            aria-label="delete trianer"
+            onClick={() => handleClickDeleteTrainerButton(params.row.id, name)}
+          >
+            <ClearIcon className="clear" />
+          </IconButton>
+        );
+      },
     },
   ];
 
@@ -177,7 +187,11 @@ const useAllTrainersFormController = () => {
       onSuccess: (data) => {
         console.log(data.data);
         if (data.success == true) {
-          showSnackbar({ severity: 'success', message: data.message });
+          showSnackbar({
+            severity: 'success',
+            message:
+              'The trainer has been added successfully. Login credentials have been sent to the provided email.',
+          });
           getTrainers()
             .then((result) => {
               setUpdatedTrainersInformation((prevData) => [
@@ -185,6 +199,7 @@ const useAllTrainersFormController = () => {
                 ...prevData,
               ]);
               console.log(result.data);
+              formikProps.setFieldValue('fieldId', '');
             })
             .catch((error) => console.log(error));
 
@@ -245,6 +260,7 @@ const useAllTrainersFormController = () => {
     handleCancelDeleteTrainer,
     onSetNewFieldId,
     updateFieldForTrainerDialogOpen,
+    deleteTrainerName,
   };
 };
 

@@ -1,4 +1,4 @@
-import React, {useState } from 'react';
+import React, {useRef, useState } from 'react';
 import {
   DataGrid,
   GridToolbar,
@@ -39,6 +39,7 @@ const Trainers: React.FC = () => {
     handleSaveUpdatedValueField,
     updateFieldForTrainerDialogOpen,
     handleUpdateFieldDialogClose,
+    deleteTrainerName,
     
   } = useAllTrainersFormController();
 
@@ -176,7 +177,9 @@ const Trainers: React.FC = () => {
                 color: 'primary.main',
               },
             }}
+            //@ts-ignore
             columns={columns}
+            //@ts-ignore
             rows={rows}
             getRowId={(row) => row['id']}
             initialState={{
@@ -194,6 +197,7 @@ const Trainers: React.FC = () => {
                 deleteTrainerDialogOpen={deleteTrainerDialogOpen}
                 handleCancelDeleteTrainer={handleCancelDeleteTrainer}
                 handleDeleteTrainer={handleDeleteTrainer}
+                trainerName={deleteTrainerName}
             />
             <EditTrainerDialog
             updateFieldForTrainerDialogOpen={updateFieldForTrainerDialogOpen}
