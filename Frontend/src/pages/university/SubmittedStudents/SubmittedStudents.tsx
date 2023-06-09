@@ -1,5 +1,5 @@
 import React, { SyntheticEvent, useEffect, useMemo, useState } from 'react';
-
+import { useTranslation } from 'react-i18next';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import EvaluStepper from './components/EvaluStepper';
 import './SubmittedStudents.css';
@@ -15,6 +15,7 @@ import useSubmittedTraineesController from './hooks/useSubmittedTraineesControll
 const SubmittedStudents: React.FC = () => {
   const { columns, rows, isOpen, trainingId, handleCloseDialog } =
   useSubmittedTraineesController();
+  const { t } = useTranslation();
 
   return (
     <>

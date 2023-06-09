@@ -11,6 +11,7 @@ import {
   Autocomplete,
   Button,
   FormControl,
+  IconButton,
   InputLabel,
   Select,
   Stack,
@@ -21,6 +22,8 @@ import { LoadingButton } from '@mui/lab';
 import TextFieldWrapper from 'src/components/FormsUI/TextField';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import LanguageIcon from '@mui/icons-material/Language';
 
 interface CompanyOption {
   id: string;
@@ -37,7 +40,10 @@ const TrainingRequestForm: React.FC = () => {
   const { formikProps, isLoading } = useTrainingRequestFormController();
   const { isValid } = formikProps;
   const navigate = useNavigate();
-
+  const { t ,i18n } = useTranslation();
+  const changeLanguage = (language: string) => {
+    i18n.changeLanguage(language);
+  };
   const PaperComponentCustom: React.FC<{
     containerProps: any;
     children: CompanyOption;
@@ -141,10 +147,9 @@ const TrainingRequestForm: React.FC = () => {
           <FormikProvider value={formikProps}>
             <Form>
               <Stack gap={2} alignItems="center">
-                <Typography component="h1" variant="h5">
-                  Submit Request
-                </Typography>
-
+              <Typography component="h1" variant="h5" fontWeight={500}>
+         {t('title')}
+          </Typography>
                 <TextFieldWrapper
                   label="Student Number"
                   name="studentId"
@@ -243,6 +248,20 @@ const TrainingRequestForm: React.FC = () => {
           </FormikProvider>
         </Paper>
       </Grid>
+      <IconButton
+      color="inherit"
+      onClick={() => changeLanguage('ar')}
+      aria-label="Change Language"
+    >
+      <LanguageIcon />
+    </IconButton>
+    <IconButton
+      color="inherit"
+      onClick={() => changeLanguage('en')}
+      aria-label="Change Language"
+    >
+      <LanguageIcon />
+    </IconButton>
     </>
   );
 };

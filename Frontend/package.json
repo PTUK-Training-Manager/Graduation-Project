@@ -40,6 +40,7 @@
     "formic": "^0.0.10",
     "formik": "^2.2.9",
     "i18next": "^22.5.0",
+    "i18next-browser-languagedetector": "^7.0.2",
     "joi": "^17.8.4",
     "jsdom": "^21.1.0",
     "jwt-decode": "^3.1.2",
