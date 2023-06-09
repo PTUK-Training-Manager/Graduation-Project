@@ -4,14 +4,7 @@ import BlockUI from 'src/containers/BlockUI';
 import AppLayout from 'src/AppLayout';
 import ProtectedRoute from 'src/routes/ProtectedRoute';
 const EditorPlayground = lazy(() => import("src/pages/EditorPlayground"));
-
-const LandingPage = lazy(() => import('src/pages/LandingPage'));
-const Admin = lazy(() => import('src/pages/Admin'));
-const Home = lazy(() => import('src/pages/Home'));
-const Dashboard = lazy(() => import('src/pages/Dashboard'));
-const Login = lazy(() => import('src/pages/Login'));
-const NotFound = lazy(() => import('src/pages/NotFound'));
-const AccessDenied = lazy(() => import('src/pages/AccessDenied'));
+const DataGridPlayground = lazy(() => import("src/pages/DataGridPlayground"));
 
 // university pages
 const TrainingRequestForm = lazy(
@@ -81,19 +74,29 @@ interface AppRoutesProps {}
 const AppRoutes: FC<AppRoutesProps> = () => {
   const { SuperAdmin, UniTrainingOfficer, Company, Trainer,Student } = UserRole;
 
-  return (
-    <Suspense fallback={<BlockUI isBlocked />}>
-      <Routes>
-        <Route path="login" element={<Login />} />
-        <Route path="landing" element={<LandingPage />} />
-        <Route path="editor" element={<EditorPlayground/>}/>
+    return (
+        <Suspense fallback={<BlockUI isBlocked/>}>
+            <Routes>
+                {/* <Route index path="/" element={<Home/>}/> */}
+                {/*<Route path="public">*/}
+                {/*    <Route path="login" element={<Login/>}/>*/}
+                {/*    <Route path="landing" element={<LandingPage/>}/>*/}
+                {/*    <Route path="editor" element={<EditorPlayground/>}/>*/}
+                {/*    <Route path="data-grid" element={<DataGridPlayground/>}/>*/}
+                {/*</Route>*/}
 
-        <Route path="/" element={<AppLayout />}>
-          <Route element={<ProtectedRoute />}>
-            <Route index path="/" element={<Home />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/admin" element={<Admin />} />
-          </Route>
+                <Route path="" element={<Login/>}/>
+                <Route path="login" element={<Login/>}/>
+                <Route path="landing" element={<LandingPage/>}/>
+                <Route path="editor" element={<EditorPlayground/>}/>
+                <Route path="data-grid" element={<DataGridPlayground/>}/>
+
+                <Route path="me" element={<AppLayout/>}>
+                    <Route element={<ProtectedRoute/>}>
+                        <Route index path="" element={<Home/>}/>
+                        <Route path="dashboard" element={<Dashboard/>}/>
+                        <Route path="admin" element={<Admin/>}/>
+                    </Route>
 
           <Route element={<ProtectedRoute allowedRoles={[SuperAdmin]} />} />
 
@@ -105,65 +108,25 @@ const AppRoutes: FC<AppRoutesProps> = () => {
             <Route path="/add-student" element={<AddStudentForm />} />
           </Route> */}
 
-          <Route
-            element={<ProtectedRoute allowedRoles={[UniTrainingOfficer]} />}
-          >
-            <Route path="/training-request" element={<TrainingRequestForm />} />
-            <Route path="/pending-requests" element={<PendingRequets />} />
-            <Route path="/add-company" element={<Companies />} />
-            <Route path="/all-trainings" element={<AllTrainings />} />
-            <Route path="/add-branch" element={<AddBranchForm />} />
-            <Route path="/completed-trainees" element={<CompletedTrainees />} />
-            <Route path="/submitted-trainees" element={<SubmittedRequests />} />
-            <Route path="/current-trainees" element={<CurrentTrainees />} />
-          </Route>
-          <Route element={<ProtectedRoute allowedRoles={[Trainer]} />}>
-            <Route
-              path="/trainer-current-trainees"
-              element={<TrainerCurrentTrainees />}
-            />
-            <Route
-              path="/trainer-all-trainings"
-              element={<TrainerAllTrainings />}
-            />
-            <Route
-              path="/finished-200-hours"
-              element={<Finished200Hours />}
-            />
-            <Route
-              path="/evaluation-requests"
-              element={<EvaluationRequests />}
-            />
-            <Route
-              path="/trainer-completed-trainees"
-              element={<TrainerCompletedTrainees />}
-            />
-          </Route>
+                    <Route element={<ProtectedRoute allowedRoles={[UniTrainingOfficer, Company]}/>}>
+                        <Route path="all-trainings" element={<AllTrainings/>}/>
+                        <Route path="add-student" element={<AddStudentForm/>}/>
+                    </Route>
 
-          <Route element={<ProtectedRoute allowedRoles={[Company]} />}>
-            <Route path="/accepted-requests" element={<AcceptedRequests />} />
-            <Route path="/edit-training" element={<EditTraining />} />
-            <Route
-              path="/company-all-trainings"
-              element={<CompanyAllTrainings />}
-            />{' '}
-            <Route path="/trainers" element={<Trainers />} />
-            <Route
-              path="/company-current-trainees"
-              element={<CompanyCurrentTrainees />}
-            />
-            <Route
-              path="/company-completed-trainees"
-              element={<CompanyCompletedTrainees />}
-            />
-            <Route path="/training-requests" element={<TrainingRequest />} />
-          </Route>
+                    <Route element={<ProtectedRoute allowedRoles={[UniTrainingOfficer]}/>}>
+                        <Route path="training-request" element={<TrainingRequestForm/>}/>
+                        <Route path="add-company" element={<AddCompanyForm/>}/>
+                        <Route path="add-branch" element={<AddBranchForm/>}/>
+                        <Route path="completed-trainees" element={<CompletedTrainees/>}/>
+                        <Route path="current-trainees" element={<CurrentTrainees/>}/>
+                    </Route>
 
-          <Route element={<ProtectedRoute allowedRoles={[Student]} />}>
-          <Route path="/Progress" element={<Progress />} />
-
-            <Route path="/all-training-student" element={<AllTrainingStudent />} />
-          </Route>
+                    <Route element={<ProtectedRoute allowedRoles={[Company]}/>}>
+                        <Route path="accepted-requests" element={<AcceptedRequests/>}/>
+                        <Route path="edit-training" element={<EditTraining/>}/>
+                        <Route path="trainers" element={<Trainers/>}/>
+                        <Route path="training-requests" element={<TrainingRequest/>}/>
+                    </Route>
 
           <Route path="access-denied" element={<AccessDenied />} />
           <Route path="*" element={<NotFound />} />

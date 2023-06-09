@@ -45,7 +45,7 @@ export const AccountProvider: FC<AccountProviderProps> = ({children}) => {
         const {shouldNavigate} = options;
         setUser(user);
         if (shouldNavigate) {
-            const origin = location.state?.from || '/'; // remember the origin
+            const origin = location.state?.from || '/me'; // remember the origin
             navigate(origin);
         }
     };
@@ -54,11 +54,10 @@ export const AccountProvider: FC<AccountProviderProps> = ({children}) => {
         const {shouldNavigate} = options;
         setUser(null);
 
-        /**
-         * If the current pathname is "/login" don't navigate to "/login" again!
-         */
-        if (shouldNavigate && window.location.pathname !== "/login")
-            navigate("/login", {replace: true});
+        // Navigate only if the path contains "/me"
+        if (location.pathname.includes("/me")) {
+            navigate("login", {replace: true});
+        }
 
         setIsSidebarOpen(false);
     };

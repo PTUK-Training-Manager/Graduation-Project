@@ -128,7 +128,6 @@ const useEditorToolbar = ({editable = true}: UseEditorToolbarProps) => {
 
     const insertLink = useCallback(() => {
         if (!isLink) {
-            console.log("TOGGLE_LINK_COMMAND");
             editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
         } else {
             editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);

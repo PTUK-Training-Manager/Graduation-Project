@@ -28,7 +28,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                                                             hasBorder = true,
                                                             showTreeView = false,
                                                             namespace = "",
-                                                            shouldReadFromLocalStorage = false,
+                                                            shouldReadFromLocalStorage = true,
                                                             content
                                                         }) => {
 
@@ -56,7 +56,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                     contentEditable={<ContentEditable className={classnames(classes.contentEditable, {
                         [classes.contentEditableMinHeight]: editable,
                     })}/>}
-                    placeholder={<Placeholder className={classes.placeholder}>Enter your Skills</Placeholder>}
+                    placeholder={<Placeholder className={classes.placeholder}>Enter some rich text...</Placeholder>}
                     ErrorBoundary={LexicalErrorBoundary}
                 />
                 <CodeHighlightPlugin/>

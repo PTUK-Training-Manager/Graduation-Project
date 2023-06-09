@@ -10,7 +10,7 @@ export default defineConfig({
         // [...(import.meta.env.PROD ? [] : [eslintPlugin()])]
     ],
     server: {
-        port: 3000,
+        port: 3500,
     }
     // test: {
     //   globals: true,
