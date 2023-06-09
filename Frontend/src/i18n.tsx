@@ -1,8 +1,9 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import TranslationEN from './locals/en.json';
-import TranslationAR from './locals/ar.json';
+import TranslationEN from './locals/en/translation.json';
+import TranslationAR from './locals/ar/translation.json';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import HttpApi from 'i18next-http-backend';
 
 const resources = {
   en: {
@@ -16,12 +17,22 @@ const resources = {
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
+  .use(HttpApi)
   .init({
     resources,
-    lng: 'en',
     interpolation: {
       escapeValue: false,
+      
     },
+      detection: {
+      order: ['path', 'cookie', 'htmlTag'],
+      caches: ['cookie'],
+    },
+     backend: {
+      loadPath: '/src/locals/{{lng}}/translation.json',
+    },
+    react:
+    {useSuspense:false},
   });
 
 export default i18n;
