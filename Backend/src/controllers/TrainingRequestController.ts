@@ -35,7 +35,10 @@ class TrainingRequestController {
                 record = await Training.findOne({
                     where: {
                         studentId: studentId,
-                        status: TrainingStatusEnum.submitted,
+                        [Op.or]: [
+                            { status: TrainingStatusEnum.submitted },
+                            { status: TrainingStatusEnum.completed }
+                        ],
                         type: TrainingTypeEnum.first
                     }
                 });
