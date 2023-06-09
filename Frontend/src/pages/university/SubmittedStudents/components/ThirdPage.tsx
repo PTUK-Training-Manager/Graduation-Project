@@ -11,6 +11,7 @@ import { SubmitAnswersBody } from 'src/pages/trainer/Finished200Hours/types';
 import { submitAnswers } from 'src/pages/trainer/Finished200Hours/api';
 import useSnackbar from 'src/hooks/useSnackbar';
 import { QuestionsRequestData } from 'src/api/getQuestions';
+import RichTextEditor from 'src/containers/RichTextEditor';
 
 interface SecondPageProps {
   response: EvaluationData[];
@@ -107,16 +108,13 @@ const ThirdPage: FC<SecondPageProps> = ({ response, trainingId, question }) => {
                           {item.Note?.note && (
                             <Stack gap={1.5} direction="row">
                               <Typography sx={{ fontWeight: '600' }}>
-                                Note :
-                                <Typography
-                                  sx={{
-                                    display: 'inline-block',
-                                    fontWeight: '400',
-                                  }}
-                                >
-                                  {item.Note?.note}
-                                </Typography>
+                                Note:
                               </Typography>
+                              <RichTextEditor
+                            editable={false}
+                            //@ts-ignore
+                            content={item.Note?.note}
+                          />
                             </Stack>
                           )}
                         </Stack>
@@ -138,17 +136,14 @@ const ThirdPage: FC<SecondPageProps> = ({ response, trainingId, question }) => {
             {question[0]?.isMultipleChoice == false && (
                           <Stack gap={1.5}>
                             <Typography sx={{ fontWeight: '600'}}>{question[0]?.question}</Typography>
-                            <TextField
-                              label="Note"
-                              fullWidth
-                              value={answers.arrayData[0]?.note || ''}
+                            <RichTextEditor
                               onChange={(
-                                e: React.ChangeEvent<HTMLInputElement>
+                               notee
                               ) => {
                                 const updatedArrayData = [...answers.arrayData];
                                 updatedArrayData[0] = {
                                   ...updatedArrayData[0],
-                                  note: e.target.value,
+                                  note:JSON.stringify(notee),
                                 };
                                 const answerId = null;
                                 updatedArrayData[0] = {

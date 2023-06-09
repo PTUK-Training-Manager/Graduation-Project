@@ -17,6 +17,8 @@ import { FC, useEffect, useState } from 'react';
 import { submitAnswers } from '../api';
 import { SubmitAnswersBody } from '../types';
 import { QuestionsRequestData } from 'src/api/getQuestions';
+import RichTextEditor from 'src/containers/RichTextEditor';
+import { EditorState } from 'lexical';
 
 interface FirstPageProps {
   response: QuestionsRequestData[];
@@ -163,17 +165,14 @@ const FirstPage: FC<FirstPageProps> = ({ response, trainingID }) => {
                         </>
                         {question.isMultipleChoice == false && (
                           <Stack direction="row">
-                            <TextField
-                              label="Note"
-                              fullWidth
-                              value={answers.arrayData[index]?.note || ''}
+                            <RichTextEditor
                               onChange={(
-                                e: React.ChangeEvent<HTMLInputElement>
+                               notee
                               ) => {
                                 const updatedArrayData = [...answers.arrayData];
                                 updatedArrayData[index] = {
                                   ...updatedArrayData[index],
-                                  note: e.target.value,
+                                  note: JSON.stringify(notee),
                                 };
                                 const answerId = null;
                                 updatedArrayData[index] = {
@@ -203,7 +202,7 @@ const FirstPage: FC<FirstPageProps> = ({ response, trainingID }) => {
             </>
           ))}
           <Button
-            disabled={isFormComplete}
+            // disabled={isFormComplete}
             size="small"
             variant="contained"
             color="primary"

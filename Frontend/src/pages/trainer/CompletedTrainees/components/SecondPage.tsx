@@ -7,6 +7,7 @@ import './style.css';
 import { FormControlLabel } from '@mui/material';
 import { FC } from 'react';
 import { EvaluationData } from 'src/api/types';
+import RichTextEditor from 'src/containers/RichTextEditor';
 
 interface SecondPageProps {
   response: EvaluationData[];
@@ -83,15 +84,12 @@ const SecondPage: FC<SecondPageProps> = ({ response }) => {
                             <Stack gap={1.5} direction="row">
                               <Typography sx={{ fontWeight: '600' }}>
                                 Note :
-                                <Typography
-                                  sx={{
-                                    display: 'inline-block',
-                                    fontWeight: '400',
-                                  }}
-                                >
-                                  {item.Note?.note}
-                                </Typography>
                               </Typography>
+                              <RichTextEditor
+                            editable={false}
+                            //@ts-ignore
+                            content={item.Note?.note}
+                          />
                             </Stack>
                           )}
                         </Stack>
@@ -102,7 +100,7 @@ const SecondPage: FC<SecondPageProps> = ({ response }) => {
               </>
             )
           )}
-          <Card
+          {/* <Card
             sx={{
               minWidth: 275,
               borderLeft: 6,
@@ -124,7 +122,7 @@ const SecondPage: FC<SecondPageProps> = ({ response }) => {
                               </Typography>
                             </Stack>
             </CardContent>
-          </Card>
+          </Card> */}
         </Stack>
       </Grid>
     </>

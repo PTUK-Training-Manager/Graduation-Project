@@ -246,7 +246,8 @@ const ProgressFormDialog: FC<ProgressFormDialogProps> = ({
                                   <FormatListNumberedIcon color="action" />
                                   <RichTextEditor
                                     editable={false}
-                                    content={result}
+                                    //@ts-ignore
+                                    content={item.skills}
                                   />
                                 </Stack>
                               </Stack>

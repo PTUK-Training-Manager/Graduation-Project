@@ -85,23 +85,17 @@ const SecondPage: FC<SecondPageProps> = ({ response }) => {
                             </>
                           )}
                           {item.Note?.note && (
-                            <Stack gap={1.5} direction="row">
+                            <Stack gap={1.5} >
                               <Typography sx={{ fontWeight: '600' }}>
                                 Note:{' '}
                                 </Typography>
                             
                                 <RichTextEditor
                             editable={false}
-                            content={result}
+                            //@ts-ignore
+                            content={item.Note?.note}
                           />
-                                {/* <Typography
-                                  sx={{
-                                    display: 'inline-block',
-                                    fontWeight: '400',
-                                  }}
-                                >
-                                  {item.Note?.note}
-                                </Typography> */}
+                              
 
                             </Stack>
                           )}
@@ -114,7 +108,7 @@ const SecondPage: FC<SecondPageProps> = ({ response }) => {
               );
             }
           )}
-          {/* <Card
+          <Card
             sx={{
               minWidth: 275,
               borderLeft: 6,
@@ -125,21 +119,19 @@ const SecondPage: FC<SecondPageProps> = ({ response }) => {
               <Stack spacing={2} gap={2}>
                 <Typography sx={{ fontWeight: '600' }}>
                   {response[0]?.Answered_Questions[8]?.Question.question}
+                  </Typography>
                   <Typography sx={{ fontWeight: '600' }}>
                     Note:{' '}
-                    <Typography
-                      sx={{
-                        display: 'inline-block',
-                        fontWeight: '400',
-                      }}
-                    >
-                      {response[0]?.Answered_Questions[8]?.Note?.note}
-                    </Typography>
                   </Typography>
-                </Typography>
+                  <RichTextEditor
+                            editable={false}
+                            //@ts-ignore
+                            content={response[0]?.Answered_Questions[8]?.Note?.note}
+                          />
+                              
               </Stack>
             </CardContent>
-          </Card> */}
+          </Card>
         </Stack>
       </Grid>
     </>

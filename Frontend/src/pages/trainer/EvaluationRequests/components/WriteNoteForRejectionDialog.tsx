@@ -16,7 +16,7 @@ interface DeleteTrainerDialogProps {
   handleWriteNoteClose: () => void;
   handleWriteNoteSave: () => void;
   onSetNote: (note: EditorState) => void;
-  note: EditorState;
+  notee: EditorState;
 }
 
 const WriteNoteForRejectionDialog: FC<DeleteTrainerDialogProps> = ({
@@ -24,33 +24,25 @@ const WriteNoteForRejectionDialog: FC<DeleteTrainerDialogProps> = ({
   handleWriteNoteClose,
   handleWriteNoteSave,
   onSetNote,
-  note,
+  notee,
 }) => {
   return (
     <Dialog
       open={writeNoteOpenDialog}
       onClose={handleWriteNoteClose}
-      maxWidth="xs"
+      maxWidth="lg"
       fullWidth
     >
       <DialogTitle>Write a Note </DialogTitle>
       <DialogContent>
         Please write notes for the student why you rejected this progress
         Request!
-        {/* <TextField
-          margin="dense"
-          label="Note"
-          onChange={(e: { target: { value: React.SetStateAction<string> } }) =>
-          //@ts-ignore
-          onSetNote(e.target.value)
-          }
-          fullWidth
-        /> */}
+      
         <Stack>
          <RichTextEditor
-                    onChange={(skills) => {
-                      console.log(JSON.stringify(skills));
-                      onSetNote(skills);
+                    onChange={(notee) => {
+                      console.log(JSON.stringify(notee));
+                      onSetNote(notee);
                     }}
                   />
                   </Stack>

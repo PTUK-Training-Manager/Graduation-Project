@@ -33,7 +33,7 @@ const EvaluationRequests: React.FC = () => {
     handleWriteNoteOpen,
     onSetNote,
     response,
-    note,
+    notee,
   } = useEvaluationRequestController();
 
   return (
@@ -151,7 +151,7 @@ const EvaluationRequests: React.FC = () => {
                           <Stack gap={1.5} direction="row">
                             <RichTextEditor
                             editable={false}
-                            content={result}
+                            content={item.skills}
                           />
                            
                           </Stack>
@@ -182,7 +182,7 @@ const EvaluationRequests: React.FC = () => {
         handleWriteNoteSave={handleWriteNoteSave}
         onSetNote={onSetNote}
         //@ts-ignore
-        note={note}
+        notee={notee}
       />
     </>
   );
