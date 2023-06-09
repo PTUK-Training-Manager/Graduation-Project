@@ -34,7 +34,7 @@ const ColorPicker: FC<ColorPickerProps> = ({title, icon, onChange}) => {
                     {icon}
                 </Badge>
             </IconButton>
-            <Popper id="color-picker" open={open} anchorEl={anchorEl} placement="bottom" transition>
+            <Popper sx={{zIndex:9999,}} id="color-picker" open={open} anchorEl={anchorEl} placement="bottom" transition>
                 {({TransitionProps}) => (
                     <ClickAwayListener onClickAway={handleClose}>
                         <Fade {...TransitionProps} timeout={350}>

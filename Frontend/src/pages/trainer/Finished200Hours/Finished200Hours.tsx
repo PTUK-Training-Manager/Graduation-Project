@@ -90,7 +90,7 @@ const Finished200Hours: React.FC = () => {
         onClose={handleCloseDialog}
         fullScreen
         TransitionComponent={Transition}
-        sx={{ left: '50%' }}
+        sx={{ left: '25%' }}
       >
         <DialogTitle gap={1.5} sx={{ textAlign: 'center' }}></DialogTitle>
         <DialogContent>

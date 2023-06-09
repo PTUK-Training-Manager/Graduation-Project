@@ -15,6 +15,7 @@ import {
 
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
 import { EvaluationData } from 'src/api/types';
+import RichTextEditor from 'src/containers/RichTextEditor';
 
 interface ThirdPageProps {
   response: EvaluationData[];
@@ -76,19 +77,18 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ response }) => {
                             </Typography>
                           </Typography>
                         </Stack>
-                        <Stack gap={1.5} direction="row">
+                        <Stack gap={1.5} >
+                        <Stack gap={1.5} direction='row'>
                           <FormatListNumberedIcon color="action" />
                           <Typography sx={{ fontWeight: '600' }}>
-                            Skills :
-                            <Typography
-                              sx={{
-                                display: 'inline-block',
-                                fontWeight: '400',
-                              }}
-                            >
-                              {item.skills}
-                            </Typography>
+                            Skills:
                           </Typography>
+                          </Stack>
+                          <RichTextEditor
+                            editable={false}
+                            //@ts-ignore
+                            content={item.skills}
+                          />
                         </Stack>
                       </Stack>
                     </CardContent>

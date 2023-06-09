@@ -14,12 +14,14 @@ interface DeleteTrainerDialogProps {
         deleteTrainerDialogOpen: boolean;
         handleCancelDeleteTrainer: () => void;
         handleDeleteTrainer: () => void;
+        trainerName: string;
       }
       
 const DeleteTrainerDialog: FC<DeleteTrainerDialogProps> = ({
   deleteTrainerDialogOpen,
   handleCancelDeleteTrainer,
   handleDeleteTrainer,
+  trainerName,
 })  => {
   
   return (
@@ -31,7 +33,7 @@ const DeleteTrainerDialog: FC<DeleteTrainerDialogProps> = ({
     >
       <DialogTitle>Delete Trainer</DialogTitle>
       <DialogContent>
-        Are you sure you want to delete this trainer?
+        Are you sure you want to delete trainer {trainerName}?
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCancelDeleteTrainer} color="primary">

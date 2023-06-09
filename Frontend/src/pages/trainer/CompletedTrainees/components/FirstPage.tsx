@@ -181,7 +181,7 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
                 </Typography>
               </Stack>
 
-              <Stack>
+              {/* <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
                   {response[0]?.Answered_Questions[7]?.Question?.question}:{' '}
                   <Typography
@@ -190,7 +190,7 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
                     {response[0]?.Answered_Questions[7]?.Note?.note} days
                   </Typography>
                 </Typography>
-              </Stack>
+              </Stack> */}
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>

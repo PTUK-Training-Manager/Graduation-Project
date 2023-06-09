@@ -8,8 +8,8 @@ export interface ProgressData {
     {
     endTime: string,
     id: string,
-    noteId: string,
-    skills: string,
+    noteId?: string,
+    skills: JSON,
     startTime: string,
     status: string,
     trainingId: string

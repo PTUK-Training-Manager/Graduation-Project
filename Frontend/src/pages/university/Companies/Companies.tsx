@@ -12,7 +12,7 @@ import Stack from '@mui/material/Stack';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import { getBranch } from 'src/api/getBranch';
 import theme from 'src/styling/customTheme';
-import { addBranch } from '../AddBranchForm/api';
+import { addBranch } from './api';
 import {
   Button,
   Dialog,

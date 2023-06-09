@@ -1,6 +1,6 @@
 import {BaseResponse} from "src/types";
 
-export interface AccessTokenData {
+export interface AddCompanyData {
   id: string;
   name: string;
   email: string;
@@ -9,5 +9,15 @@ export interface AccessTokenData {
   }
 
   export interface AddCompanyResponse extends BaseResponse {
-    tokenData: AccessTokenData;
+    tokenData: AddCompanyData;
   }
+
+
+export interface AddBranchData {
+    id: string;
+    location: string;
+}
+
+export interface AddBranchResponse extends BaseResponse {
+    data: AddBranchData;
+}

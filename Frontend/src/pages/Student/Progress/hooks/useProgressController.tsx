@@ -20,8 +20,8 @@ const useProgressController = () => {
     getTrainingIdForRunnigTraining()
       .then((result) => {
         setData(result.data);
+        console.log(result.data)
         setTrainingId(result.data.trainingId);
-        console.log(result.data);
       })
       .catch((error) => console.log(error));
   }, []);
