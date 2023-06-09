@@ -209,9 +209,14 @@ const ProgressFormDialog: FC<ProgressFormDialogProps> = ({
                                   End Time:{item.endTime}{' '}
                                 </Typography>
                               </Stack>
-                              <Stack gap={1.5} direction="row">
-                                <FormatListNumberedIcon color="action" />
-                                <RichTextEditor
+                              <Stack gap={1.5} >
+                        <Stack gap={1.5} direction='row'>
+                          <FormatListNumberedIcon color="action" />
+                          <Typography sx={{ fontWeight: '600' }}>
+                            Skills:
+                          </Typography>
+                          </Stack>
+                          <RichTextEditor
                             editable={false}
                             //@ts-ignore
                             content={item.skills}

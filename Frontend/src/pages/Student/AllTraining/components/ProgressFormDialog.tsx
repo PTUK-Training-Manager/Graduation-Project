@@ -40,6 +40,7 @@ import {
   CircularProgressProps,
   Tooltip,
 } from '@mui/material';
+import RichTextEditor from 'src/containers/RichTextEditor';
 
 function LinearProgressWithLabel(
   props: LinearProgressProps & { value: number }
@@ -146,35 +147,7 @@ const ProgressFormDialog: FC<ProgressFormDialogProps> = ({
 
               {response?.progressForm.map(
                 (
-                  item: {
-                    startTime:
-                      | string
-                      | number
-                      | boolean
-                      | ReactElement<any, string | JSXElementConstructor<any>>
-                      | ReactFragment
-                      | ReactPortal
-                      | null
-                      | undefined;
-                    endTime:
-                      | string
-                      | number
-                      | boolean
-                      | ReactElement<any, string | JSXElementConstructor<any>>
-                      | ReactFragment
-                      | ReactPortal
-                      | null
-                      | undefined;
-                    skills:
-                      | string
-                      | number
-                      | boolean
-                      | ReactElement<any, string | JSXElementConstructor<any>>
-                      | ReactFragment
-                      | ReactPortal
-                      | null
-                      | undefined;
-                  },
+                  item,
                   index: number
                 ) => (
                   <Accordion>
@@ -212,9 +185,13 @@ const ProgressFormDialog: FC<ProgressFormDialogProps> = ({
                                 </Typography>
                               </Stack>
                               <Stack gap={1.5} direction="row">
-                                <FormatListNumberedIcon color="action" />
-                                <Typography>Skills:{item.skills} </Typography>
-                              </Stack>
+                                  <FormatListNumberedIcon color="action" />
+                                  <RichTextEditor
+                                    editable={false}
+                                    //@ts-ignore
+                                    content={item.skills}
+                                  />
+                                </Stack>
                             </Stack>
                           </CardContent>
                         </Card>
