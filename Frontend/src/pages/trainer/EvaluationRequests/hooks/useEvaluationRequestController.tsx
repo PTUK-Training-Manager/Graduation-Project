@@ -7,12 +7,13 @@ import { PendingProgressRequests } from '../types';
 import { Row } from '../../CompletedTrainees/types';
 import useSnackbar from 'src/hooks/useSnackbar';
 import { acceptEvaluationRequest, rejectEvaluationRequest } from '../api';
+import { EditorState } from 'lexical';
 
 const useEvaluationRequestController = () => {
   const [data, setData] = useState<Row[]>([]);
   const [response, setReponse] = useState<PendingProgressRequests[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [note, setNote] = useState('');
+  const [note, setNote] = useState<EditorState>();
   const [trainingId, setTrainingId] = useState('');
   const [openAcceptRequestDialog, setOpenAcceptRequestDialog] = useState(false);
   const [openRejectRequestDialog, setOpenRejectRequestDialog] = useState(false);
@@ -55,7 +56,7 @@ const useEvaluationRequestController = () => {
 
   const handleWriteNoteOpen = () => {
     setWriteNoteOpenDialog(true);
-    setNote('');
+    // setNote('');
   };
 
   const handleWriteNoteClose = () => {
@@ -63,7 +64,7 @@ const useEvaluationRequestController = () => {
     setWriteNoteOpenDialog(false);
   };
 
-  const onSetNote = (note: string) => setNote(note);
+  const onSetNote = (note: EditorState) => setNote(note);
 
   const handleAcceptRequestClick = () => {
     acceptEvaluationRequest({ id: requestId }).then(
@@ -84,6 +85,7 @@ const useEvaluationRequestController = () => {
     );
   };
   const handleWriteNoteSave = () => {
+    //@ts-ignore
     rejectEvaluationRequest({ id: requestId, note: note }).then(
       (res: { success: boolean; message: any }) => {
         if (res.success === true) {
@@ -92,12 +94,12 @@ const useEvaluationRequestController = () => {
             prevData.filter((row) => row.id !== requestId)
           );
           setRequestId('');
-          setNote('');
+          // setNote('');
           handleWriteNoteClose();
         } else if (res.success === false) {
           showSnackbar({ severity: 'warning', message: res.message });
           setRequestId('');
-          setNote('');
+          // setNote('');
           handleWriteNoteClose();
         }
       }
@@ -154,6 +156,7 @@ const useEvaluationRequestController = () => {
   useEffect(() => {
     getPendingEvaluations()
       .then((result) => {
+        //@ts-ignore
         setReponse(result.data);
         console.log(result.data);
       })
@@ -184,6 +187,7 @@ const useEvaluationRequestController = () => {
     handleWriteNoteOpen,
     handleWriteNoteClose,
     onSetNote,
+    note,
   };
 };
 

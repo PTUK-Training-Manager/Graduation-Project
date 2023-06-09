@@ -33,6 +33,7 @@ const EvaluationRequests: React.FC = () => {
     handleWriteNoteOpen,
     onSetNote,
     response,
+    note,
   } = useEvaluationRequestController();
 
   return (
@@ -57,13 +58,10 @@ const EvaluationRequests: React.FC = () => {
             Evaluation Request
           </Typography>
           {response?.map((item) => {
-            //  const result = item.skills?.replace(/"/g, '\\" ');
-            const result = `'${item.skills}'`;
-
-            const convertedString = `'${item.skills.replace(/'/g, "\\'")}'`;
-            // console.log(result)
+            const re = JSON.stringify(item.skills);
+            const result = `${re}`;
             console.log(item.skills);
-            console.log(convertedString);
+            console.log(result);
             return (
               <Accordion>
                 <AccordionSummary
@@ -151,17 +149,11 @@ const EvaluationRequests: React.FC = () => {
                             <Typography>End Time: {item.endTime} </Typography>
                           </Stack>
                           <Stack gap={1.5} direction="row">
-                            {/* <RichTextEditor
+                            <RichTextEditor
                             editable={false}
                             content={result}
-
-                          /> */}
-                            <RichTextEditor
-                              editable={false}
-                              content={
-                                '{"root":{"children":[{"children":[{"detail":0,"format":8,"mode":"normal","style":"","text":"Skills For Today:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1},{"children":[{"detail":0,"format":0,"mode":"normal","style":"color: #68bc00;","text":"1)","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":" ","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"color: #d33115;","text":"React Tables.","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1},{"children":[{"detail":0,"format":0,"mode":"normal","style":"color: #68bc00;","text":"2)","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'
-                              }
-                            />
+                          />
+                           
                           </Stack>
                         </Stack>
                       </CardContent>
@@ -189,6 +181,8 @@ const EvaluationRequests: React.FC = () => {
         handleWriteNoteClose={handleWriteNoteClose}
         handleWriteNoteSave={handleWriteNoteSave}
         onSetNote={onSetNote}
+        //@ts-ignore
+        note={note}
       />
     </>
   );

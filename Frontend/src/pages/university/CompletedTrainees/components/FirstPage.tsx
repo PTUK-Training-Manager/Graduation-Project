@@ -181,16 +181,17 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
                 </Typography>
               </Stack>
 
-              <Stack>
+              {/* <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
                   {response[0]?.Answered_Questions[7]?.Question?.question}:{' '}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
+                    //@ts-ignore
                     {response[0]?.Answered_Questions[7]?.Note?.note} days
                   </Typography>
                 </Typography>
-              </Stack>
+              </Stack> */}
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>

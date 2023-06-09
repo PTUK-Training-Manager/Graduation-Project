@@ -7,7 +7,7 @@ import './style.css';
 import { FormControlLabel } from '@mui/material';
 import { FC } from 'react';
 import { EvaluationData } from 'src/api/types';
-
+import RichTextEditor from 'src/containers/RichTextEditor/RichTextEditor';
 interface SecondPageProps {
   response: EvaluationData[];
 }
@@ -21,7 +21,12 @@ const SecondPage: FC<SecondPageProps> = ({ response }) => {
             Student benefit from training:
           </Typography>
           {response[0]?.Answered_Questions?.slice(0, length - 2).map(
-            (item, index) => (
+            (item, index) => {
+              const re = JSON.stringify(item.Note?.note);
+              const result = `${re}`;
+              console.log(item.Note?.note);
+              console.log(result);
+              return(
               <>
                 <Stack gap={2} spacing={2}>
                   <Stack gap={5} spacing={2}>
@@ -83,15 +88,21 @@ const SecondPage: FC<SecondPageProps> = ({ response }) => {
                             <Stack gap={1.5} direction="row">
                               <Typography sx={{ fontWeight: '600' }}>
                                 Note:{' '}
-                                <Typography
+                                </Typography>
+                            
+                                <RichTextEditor
+                            editable={false}
+                            content={result}
+                          />
+                                {/* <Typography
                                   sx={{
                                     display: 'inline-block',
                                     fontWeight: '400',
                                   }}
                                 >
                                   {item.Note?.note}
-                                </Typography>
-                              </Typography>
+                                </Typography> */}
+
                             </Stack>
                           )}
                         </Stack>
@@ -100,9 +111,10 @@ const SecondPage: FC<SecondPageProps> = ({ response }) => {
                   </Stack>
                 </Stack>
               </>
-            )
+              );
+            }
           )}
-          <Card
+          {/* <Card
             sx={{
               minWidth: 275,
               borderLeft: 6,
@@ -127,7 +139,7 @@ const SecondPage: FC<SecondPageProps> = ({ response }) => {
                 </Typography>
               </Stack>
             </CardContent>
-          </Card>
+          </Card> */}
         </Stack>
       </Grid>
     </>

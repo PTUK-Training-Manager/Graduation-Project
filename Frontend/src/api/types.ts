@@ -43,7 +43,7 @@ export interface EvaluationData {
         endTime: string;
         id: string;
         noteId: string;
-        skills: string;
+        skills: JSON;
         startTime: string;
         status: string;
         trainingId: string;
@@ -55,7 +55,7 @@ export interface EvaluationData {
             answer: string;
         };
         Note?: {
-            note: string;
+            note: JSON;
         };
         Question: {
             question: string;

@@ -4,15 +4,19 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Stack,
   TextField,
 } from '@mui/material';
 import { FC } from 'react';
+import RichTextEditor from 'src/containers/RichTextEditor';
+import { EditorState } from 'lexical';
 
 interface DeleteTrainerDialogProps {
   writeNoteOpenDialog: boolean;
   handleWriteNoteClose: () => void;
   handleWriteNoteSave: () => void;
-  onSetNote: (note: string) => void;
+  onSetNote: (note: EditorState) => void;
+  note: EditorState;
 }
 
 const WriteNoteForRejectionDialog: FC<DeleteTrainerDialogProps> = ({
@@ -20,6 +24,7 @@ const WriteNoteForRejectionDialog: FC<DeleteTrainerDialogProps> = ({
   handleWriteNoteClose,
   handleWriteNoteSave,
   onSetNote,
+  note,
 }) => {
   return (
     <Dialog
@@ -32,7 +37,7 @@ const WriteNoteForRejectionDialog: FC<DeleteTrainerDialogProps> = ({
       <DialogContent>
         Please write notes for the student why you rejected this progress
         Request!
-        <TextField
+        {/* <TextField
           margin="dense"
           label="Note"
           onChange={(e: { target: { value: React.SetStateAction<string> } }) =>
@@ -40,7 +45,15 @@ const WriteNoteForRejectionDialog: FC<DeleteTrainerDialogProps> = ({
           onSetNote(e.target.value)
           }
           fullWidth
-        />
+        /> */}
+        <Stack>
+         <RichTextEditor
+                    onChange={(skills) => {
+                      console.log(JSON.stringify(skills));
+                      onSetNote(skills);
+                    }}
+                  />
+                  </Stack>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleWriteNoteClose} color="primary">

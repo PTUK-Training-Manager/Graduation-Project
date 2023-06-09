@@ -41,6 +41,7 @@ import {
   CircularProgressProps,
   Tooltip,
 } from '@mui/material';
+import RichTextEditor from 'src/containers/RichTextEditor';
 
 function LinearProgressWithLabel(
   props: LinearProgressProps & { value: number }
@@ -201,52 +202,61 @@ const ProgressFormDialog: FC<ProgressFormDialogProps> = ({
                       | undefined;
                   },
                   index: number
-                ) => (
-                  <Accordion>
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreIcon color="action" />}
-                      aria-controls="panel1a-content"
-                      id="panel1a-header"
-                    >
-                      <Typography>Day {index + 1}</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Box sx={{ width: '100%', typography: 'body1' }}>
-                        <Box
-                          sx={{ borderBottom: 1, borderColor: 'divider' }}
-                        ></Box>
-                        <Card
-                          sx={{
-                            minWidth: 275,
-                            borderLeft: 6,
-                            borderColor: 'orange',
-                          }}
-                        >
-                          <CardContent>
-                            <Stack spacing={2}>
-                              <Stack gap={1.5} direction="row">
-                                <WatchLaterIcon color="action" />
-                                <Typography>
-                                  Start Time: {item.startTime}{' '}
-                                </Typography>
+                ) => {
+                  const re = JSON.stringify(item.skills);
+                  const result = `${re}`;
+                  console.log(item.skills);
+                  console.log(result);
+                  return (
+                    <Accordion>
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon color="action" />}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                      >
+                        <Typography>Day {index + 1}</Typography>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <Box sx={{ width: '100%', typography: 'body1' }}>
+                          <Box
+                            sx={{ borderBottom: 1, borderColor: 'divider' }}
+                          ></Box>
+                          <Card
+                            sx={{
+                              minWidth: 275,
+                              borderLeft: 6,
+                              borderColor: 'orange',
+                            }}
+                          >
+                            <CardContent>
+                              <Stack spacing={2}>
+                                <Stack gap={1.5} direction="row">
+                                  <WatchLaterIcon color="action" />
+                                  <Typography>
+                                    Start Time: {item.startTime}{' '}
+                                  </Typography>
+                                </Stack>
+                                <Stack gap={1.5} direction="row">
+                                  <WatchLaterIcon color="action" />
+                                  <Typography>
+                                    End Time:{item.endTime}{' '}
+                                  </Typography>
+                                </Stack>
+                                <Stack gap={1.5} direction="row">
+                                  <FormatListNumberedIcon color="action" />
+                                  <RichTextEditor
+                                    editable={false}
+                                    content={result}
+                                  />
+                                </Stack>
                               </Stack>
-                              <Stack gap={1.5} direction="row">
-                                <WatchLaterIcon color="action" />
-                                <Typography>
-                                  End Time:{item.endTime}{' '}
-                                </Typography>
-                              </Stack>
-                              <Stack gap={1.5} direction="row">
-                                <FormatListNumberedIcon color="action" />
-                                <Typography>Skills:{item.skills} </Typography>
-                              </Stack>
-                            </Stack>
-                          </CardContent>
-                        </Card>
-                      </Box>
-                    </AccordionDetails>
-                  </Accordion>
-                )
+                            </CardContent>
+                          </Card>
+                        </Box>
+                      </AccordionDetails>
+                    </Accordion>
+                  );
+                }
               )}
             </Stack>
           </Grid>

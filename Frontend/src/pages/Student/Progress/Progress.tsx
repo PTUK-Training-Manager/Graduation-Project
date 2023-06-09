@@ -237,16 +237,11 @@ const Progress: React.FC = () => {
 
                   <RichTextEditor
                     onChange={(skills) => {
-                      console.log(JSON.stringify(skills))
+                      console.log(JSON.stringify(skills));
                       setSkills(skills);
                     }}
                   />
-                  {/* <TextField
-                    id="outlined-required"
-                    label="Skills"
-                    value={skills}
-                    onChange={(event) => setSkills(event.target.value)}
-                  /> */}
+
                   {fillEvaluation && (
                     <Button
                       variant="contained"
@@ -298,100 +293,96 @@ const Progress: React.FC = () => {
                   </Stack>
                 </AccordionSummary>
                 <AccordionDetails>
-                  {rejectedEvaluations?.map((evaluation) => (
-                    <>
-                      <Stack spacing={2}>
-                        <Card
-                          sx={{
-                            minWidth: 275,
-                            borderLeft: 6,
-                            borderColor: 'orange',
-                          }}
-                        >
-                          <CardContent>
-                            <Stack spacing={2}>
-                              <Typography fontWeight="600">
-                                Submitted Date:{' '}
-                                <Typography
-                                  sx={{
-                                    display: 'inline-block',
-                                    fontWeight: '400',
-                                  }}
-                                >
-                                  {evaluation.date}
-                                </Typography>
-                              </Typography>
-                              <Typography fontWeight="600">
-                                Start Time:{' '}
-                                <Typography
-                                  sx={{
-                                    display: 'inline-block',
-                                    fontWeight: '400',
-                                  }}
-                                >
-                                  {evaluation.startTime}
-                                </Typography>
-                              </Typography>
-                              <Typography fontWeight="600">
-                                End Time:{' '}
-                                <Typography
-                                  sx={{
-                                    display: 'inline-block',
-                                    fontWeight: '400',
-                                  }}
-                                >
-                                  {' '}
-                                  {evaluation.endTime}
-                                </Typography>
-                              </Typography>
-                              {/* <Typography fontWeight="600">
-                                Skills:{' '}
-                                <Typography
-                                  sx={{
-                                    display: 'inline-block',
-                                    fontWeight: '400',
-                                  }}
-                                >
-                                  {evaluation.skills}
-                                </Typography> */}
-                                                          <RichTextEditor  editable={false} content={'{"root":{"children":[{"children":[{"detail":0,"format":8,"mode":"normal","style":"","text":"Skills For Today:","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1},{"children":[{"detail":0,"format":0,"mode":"normal","style":"color: #68bc00;","text":"1)","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"","text":" ","type":"text","version":1},{"detail":0,"format":0,"mode":"normal","style":"color: #d33115;","text":"React Tables.","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1},{"children":[{"detail":0,"format":0,"mode":"normal","style":"color: #68bc00;","text":"2)","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}'} />
-
-                              {/* </Typography> */}
-                              <Stack
-                                direction="row"
-                                sx={{
-                                  justifyContent: 'space-between',
-                                  alignItems: 'center',
-                                }}
-                              >
+                  {rejectedEvaluations?.map((evaluation) => {
+                    const re = JSON.stringify(evaluation.skills);
+                    const result = `${re}`;
+                    const reject = JSON.stringify(evaluation.Note?.note);
+                    const rejectResult = `${reject}`;
+                    return (
+                      <>
+                        <Stack spacing={2}>
+                          <Card
+                            sx={{
+                              minWidth: 275,
+                              borderLeft: 6,
+                              borderColor: 'orange',
+                            }}
+                          >
+                            <CardContent>
+                              <Stack spacing={2}>
                                 <Typography fontWeight="600">
-                                  Trainer's Note for reject this:{' '}
+                                  Submitted Date:{' '}
                                   <Typography
                                     sx={{
                                       display: 'inline-block',
                                       fontWeight: '400',
                                     }}
                                   >
-                                    {evaluation.Note.note}
+                                    {evaluation.date}
                                   </Typography>
                                 </Typography>
-                                <IconButton
-                                  onClick={() =>
-                                    handleEditEvaluation(evaluation.id)
-                                  }
+                                <Typography fontWeight="600">
+                                  Start Time:{' '}
+                                  <Typography
+                                    sx={{
+                                      display: 'inline-block',
+                                      fontWeight: '400',
+                                    }}
+                                  >
+                                    {evaluation.startTime}
+                                  </Typography>
+                                </Typography>
+                                <Typography fontWeight="600">
+                                  End Time:{' '}
+                                  <Typography
+                                    sx={{
+                                      display: 'inline-block',
+                                      fontWeight: '400',
+                                    }}
+                                  >
+                                    {' '}
+                                    {evaluation.endTime}
+                                  </Typography>
+                                </Typography>
+                                <Typography fontWeight="600">
+                                  Skills:{' '}
+                                </Typography>
+                                <RichTextEditor
+                                  editable={false}
+                                  content={result}
+                                />
+                                <Stack
+                                  direction="row"
+                                  sx={{
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                  }}
                                 >
-                                  <Tooltip title="Edit This Evaluation">
-                                    <Edit color="warning" />
-                                  </Tooltip>
-                                </IconButton>
+                                  <Typography fontWeight="600">
+                                    Trainer's Note for reject this:{' '}
+                                  </Typography>
+                                  <RichTextEditor
+                                    editable={false}
+                                    content={rejectResult}
+                                  />
+                                  <IconButton
+                                    onClick={() =>
+                                      handleEditEvaluation(evaluation.id)
+                                    }
+                                  >
+                                    <Tooltip title="Edit This Evaluation">
+                                      <Edit color="warning" />
+                                    </Tooltip>
+                                  </IconButton>
+                                </Stack>
                               </Stack>
-                            </Stack>
-                          </CardContent>
-                        </Card>
-                        <Divider />
-                      </Stack>
-                    </>
-                  ))}
+                            </CardContent>
+                          </Card>
+                          <Divider />
+                        </Stack>
+                      </>
+                    );
+                  })}
                 </AccordionDetails>
               </Accordion>
             </Stack>
@@ -418,87 +409,87 @@ const Progress: React.FC = () => {
                   </Stack>
                 </AccordionSummary>
                 <AccordionDetails>
-                  {pendingEvaluations?.map((evaluation) => (
-                    <>
-                      <Stack spacing={2}>
-                        <Card
-                          sx={{
-                            minWidth: 275,
-                            borderLeft: 6,
-                            borderColor: 'orange',
-                          }}
-                        >
-                          <CardContent>
-                            <Stack spacing={2}>
-                              <Typography fontWeight="600">
-                                Submitted Date:{' '}
-                                <Typography
-                                  sx={{
-                                    display: 'inline-block',
-                                    fontWeight: '400',
-                                  }}
-                                >
-                                  {evaluation.date}
-                                </Typography>
-                              </Typography>
-                              <Typography fontWeight="600">
-                                Start Time:{' '}
-                                <Typography
-                                  sx={{
-                                    display: 'inline-block',
-                                    fontWeight: '400',
-                                  }}
-                                >
-                                  {evaluation.startTime}
-                                </Typography>
-                              </Typography>
-                              <Typography fontWeight="600">
-                                End Time:{' '}
-                                <Typography
-                                  sx={{
-                                    display: 'inline-block',
-                                    fontWeight: '400',
-                                  }}
-                                >
-                                  {' '}
-                                  {evaluation.endTime}
-                                </Typography>
-                              </Typography>
-                              <Stack
-                                direction="row"
-                                sx={{
-                                  justifyContent: 'space-between',
-                                  alignItems: 'center',
-                                }}
-                              >
+                  {pendingEvaluations?.map((evaluation) => {
+                    const re = JSON.stringify(evaluation.skills);
+                    const result = `${re}`;
+                    return (
+                      <>
+                        <Stack spacing={2}>
+                          <Card
+                            sx={{
+                              minWidth: 275,
+                              borderLeft: 6,
+                              borderColor: 'orange',
+                            }}
+                          >
+                            <CardContent>
+                              <Stack spacing={2}>
                                 <Typography fontWeight="600">
-                                  Skills:{' '}
+                                  Submitted Date:{' '}
                                   <Typography
                                     sx={{
                                       display: 'inline-block',
                                       fontWeight: '400',
                                     }}
                                   >
-                                    {evaluation.skills}
+                                    {evaluation.date}
                                   </Typography>
                                 </Typography>
-                                <IconButton
-                                  onClick={() =>
-                                    handleEditEvaluation(evaluation.id)
-                                  }
+                                <Typography fontWeight="600">
+                                  Start Time:{' '}
+                                  <Typography
+                                    sx={{
+                                      display: 'inline-block',
+                                      fontWeight: '400',
+                                    }}
+                                  >
+                                    {evaluation.startTime}
+                                  </Typography>
+                                </Typography>
+                                <Typography fontWeight="600">
+                                  End Time:{' '}
+                                  <Typography
+                                    sx={{
+                                      display: 'inline-block',
+                                      fontWeight: '400',
+                                    }}
+                                  >
+                                    {' '}
+                                    {evaluation.endTime}
+                                  </Typography>
+                                </Typography>
+                                <Stack
+                                  direction="row"
+                                  sx={{
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                  }}
                                 >
-                                  <Tooltip title="Edit This Evaluation">
-                                    <Edit color="warning" />
-                                  </Tooltip>
-                                </IconButton>
+                                  <Typography fontWeight="600">
+                                    Skills:{' '}
+                                  </Typography>
+                                  <RichTextEditor
+                                    editable={false}
+                                    content={result}
+                                  />
+                                  <IconButton
+                                    onClick={() =>
+                                      handleEditEvaluation(evaluation.id)
+                                    }
+                                  >
+                                    <Tooltip title="Edit This Evaluation">
+                                      <Edit color="warning" />
+                                    </Tooltip>
+                                  </IconButton>
+                                </Stack>
                               </Stack>
-                            </Stack>
-                          </CardContent>
-                        </Card>
-                        <Divider />
-                      </Stack>
-                    </>
-                  ))}
+                            </CardContent>
+                          </Card>
+                          <Divider />
+                        </Stack>
+                      </>
+                    );
+                  })}
                 </AccordionDetails>
               </Accordion>
             </Stack>
