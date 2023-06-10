@@ -14,7 +14,7 @@ router.get('/submittedStudents', verifyRoles([UserRoleEnum.UNI_TRAINING_OFFICER]
 router.post('/submitQuestions', submitQuestions);
 // router.post('/students', getRecords);
 router.get('/completedTrainings', getCompletedTrainings);
-router.get('/runningTrainings', getRunningTrainings);
+router.get('/runningTrainings/:limit/:start', getRunningTrainings);
 router.get('/acceptedTrainings', getAcceptedTrainings);
 router.get('/questions', getQuestions);
 router.get('/trainings', getAllTrainings);

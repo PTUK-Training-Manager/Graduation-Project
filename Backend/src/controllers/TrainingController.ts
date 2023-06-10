@@ -403,11 +403,12 @@ class TrainingController {
   };
 
   getRunningTrainings = async (
-    req: Request,
+    req: Request<{ limit: number, start: number }>,
     res: Response<BaseResponse>,
     next: NextFunction
   ) => {
     try {
+      
       const roleId = req.user.roleId;
       let runningTrainings: Training[] = [];
       if (roleId == UserRoleEnum.Company) {
@@ -473,11 +474,15 @@ class TrainingController {
         });
       }
 
+
+        const {limit, start}= req.params
+        const paginatedData = runningTrainings.slice(start, start+limit);
+       
       return res.json({
         success: true,
         status: res.statusCode,
         message: `running Requests: `,
-        data: runningTrainings,
+        data: paginatedData,
       });
     } catch (err) {
       next(err);
