@@ -1,0 +1,267 @@
+import React, { FC, useState, MouseEvent, useEffect } from 'react';
+import Box from '@mui/material/Box';
+import Avatar from '@mui/material/Avatar';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import PersonAdd from '@mui/icons-material/PersonAdd';
+import AddIcon from '@mui/icons-material/Add';
+import Settings from '@mui/icons-material/Settings';
+import Logout from '@mui/icons-material/Logout';
+import useAccountContext from 'src/hooks/useAccountContext';
+import { cyan, grey } from '@mui/material/colors';
+import { addField } from 'src/api/addField';
+import { GetAllFieldsData, getAllFields } from 'src/api/getAllFields';
+import useAccountMenuAPI from '../hooks/useAccountMenuAPI';
+import {
+  Autocomplete,
+  Button,
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from '@mui/material';
+import TextField from '@mui/material/TextField';
+import useSnackbar from 'src/hooks/useSnackbar';
+import { AddFieldData } from 'src/api/addField';
+
+interface AccountMenuProps {}
+
+const AccountMenu: FC<AccountMenuProps> = (props) => {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [fieldOptions, setFieldOptions] = useState<GetAllFieldsData[]>([]);
+  const [selectedFields, setSelectedFields] = useState<
+    { id: string; label: string }[]
+  >([]);
+  const [newField, setNewField] = useState('');
+
+  const open = Boolean(anchorEl);
+
+  const { user } = useAccountContext();
+
+  const { logout, isLoggingOut } = useAccountMenuAPI();
+  const [openAddFieldDialog, setOpenAddFieldDialog] = useState(false);
+  const { showSnackbar } = useSnackbar();
+
+  const userInitial = user?.username[0].toUpperCase();
+
+  const handleClick = (event: MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    logout();
+    handleClose();
+  };
+
+  const handleAddField = () => {
+    console.log(selectedFields);
+    const fields = selectedFields.map((field) => {
+      if (field.id) {
+        // If the field has an ID, send only the ID in the request body
+        return { id: field.id };
+      } else {
+        // If the field doesn't have an ID, send the label in the request body
+        return { label: field.label };
+      }
+    });
+    console.log(fields);
+    //@ts-ignore
+    addField({ fields }).then(
+      (res: { success: boolean; message: any }) => {
+        if (res.success === true) {
+          showSnackbar({ severity: 'success', message: res.message });
+          setSelectedFields([]);
+          setNewField('');
+          setOpenAddFieldDialog(false);
+        } else if (res.success === false) {
+          showSnackbar({ severity: 'warning', message: res.message });
+          setSelectedFields([]);
+          setNewField('');
+          setOpenAddFieldDialog(false);
+        }
+      }
+    );
+  };
+
+  const handleCancelAddField = () => {
+    setOpenAddFieldDialog(false);
+  };
+
+  const handleClickAddField = () => {
+    setOpenAddFieldDialog(true);
+  };
+
+  useEffect(() => {
+    getAllFields().then((res) => {
+      if (res.success) {
+        //@ts-ignore
+        const options = res.data.map((field) => ({
+          id: field.id,
+          label: field.field,
+        })) as GetAllFieldsData[];
+        setFieldOptions(options);
+      }
+    });
+  }, []);
+
+  return (
+    <>
+      <>
+        <Tooltip title="Account settings">
+          <IconButton
+            onClick={handleClick}
+            size="small"
+            aria-controls={open ? 'account-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+          >
+            <Avatar sx={{ bgcolor: cyan[50], color: grey[800] }}>
+              {userInitial}
+            </Avatar>
+          </IconButton>
+        </Tooltip>
+        <Menu
+          anchorEl={anchorEl}
+          id="account-menu"
+          open={open}
+          onClose={handleClose}
+          onClick={handleClose}
+          PaperProps={{
+            elevation: 0,
+            sx: {
+              overflow: 'visible',
+              filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+              mt: 1.5,
+              '& .MuiAvatar-root': {
+                width: 32,
+                height: 32,
+                ml: -0.5,
+                mr: 1,
+              },
+              '&:before': {
+                content: '""',
+                display: 'block',
+                position: 'absolute',
+                top: 0,
+                right: 14,
+                width: 10,
+                height: 10,
+                bgcolor: 'background.paper',
+                transform: 'translateY(-50%) rotate(45deg)',
+                zIndex: 0,
+              },
+            },
+          }}
+          transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        >
+          <MenuItem onClick={handleClose}>
+            <Avatar /> Profile
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <Avatar /> My account
+          </MenuItem>
+          <Divider />
+          <MenuItem onClick={handleClose}>
+            <ListItemIcon>
+              <Settings fontSize="small" />
+            </ListItemIcon>
+            Settings
+          </MenuItem>
+
+          {user?.roleId == 6 && (
+            <MenuItem onClick={handleClickAddField}>
+              <ListItemIcon>
+                <AddIcon fontSize="small" />
+              </ListItemIcon>
+              Add Field
+            </MenuItem>
+          )}
+          <MenuItem onClick={handleLogout}>
+            <ListItemIcon>
+              <Logout fontSize="small" />
+            </ListItemIcon>
+            Logout
+          </MenuItem>
+        </Menu>
+      </>
+      <Dialog
+        open={openAddFieldDialog}
+        onClose={handleCancelAddField}
+        maxWidth="xs"
+        fullWidth
+      >
+        <DialogTitle>Add New Field</DialogTitle>
+        <DialogContent>
+          Please write a new field or select from the options:
+          <TextField
+            margin="dense"
+            label="New Field"
+            value={newField}
+            variant="outlined"
+            onChange={(e) => setNewField(e.target.value)}
+          />
+  
+  <Autocomplete
+  multiple
+  id="field"
+  //@ts-ignore
+  options={fieldOptions}
+  //@ts-ignore
+  getOptionLabel={(option) => option.label}
+  onChange={(event, newValue) => {
+    //@ts-ignore
+    setSelectedFields(newValue);
+  }}
+  //@ts-ignore
+  getOptionSelected={(option, value) =>
+    //@ts-ignore
+    option.id === value.id || option.label === value.label
+  }
+  renderTags={(value, getTagProps) =>
+    value.map((option, index) => (
+      <Chip
+        variant="outlined"
+        //@ts-ignore
+        label={option.label}
+        {...getTagProps({ index })}
+      />
+    ))
+  }
+  renderInput={(params) => (
+    <TextField
+      {...params}
+      margin="dense"
+      variant="filled"
+      label="Fields"
+    />
+  )}
+/>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={handleCancelAddField}
+            color="error"
+            variant="contained"
+          >
+            Cancel
+          </Button>
+          <Button onClick={handleAddField} color="success" variant="contained">
+            Add
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  );
+};
+
+export default AccountMenu;
