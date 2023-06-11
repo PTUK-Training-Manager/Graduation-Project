@@ -203,39 +203,65 @@ const AccountMenu: FC<AccountMenuProps> = (props) => {
         <DialogTitle>Add New Field</DialogTitle>
         <DialogContent>
           Please write a new field or select from the options:
-          <TextField
-            margin="dense"
-            label="New Field"
-            value={newField}
-            variant="outlined"
-            onChange={(e) => setNewField(e.target.value)}
-          />
+         
   
   <Autocomplete
   multiple
   id="field"
-  //@ts-ignore
   options={fieldOptions}
   //@ts-ignore
   getOptionLabel={(option) => option.label}
+  // onChange={(event, newValue) => {
+  //   //@ts-ignore
+  //   setSelectedFields(newValue);
+  // }}
   onChange={(event, newValue) => {
-    //@ts-ignore
-    setSelectedFields(newValue);
+    if (Array.isArray(newValue)) {
+      const newSelectedFields = newValue.map((option) => {
+        //@ts-ignore
+        if (option.label) {
+          // Existing option
+          return option;
+        } else {
+          // New value entered
+          return { label: option, id: '' };
+        }
+      });
+      //@ts-ignore
+      setSelectedFields(newSelectedFields);
+    }
   }}
   //@ts-ignore
   getOptionSelected={(option, value) =>
-    //@ts-ignore
     option.id === value.id || option.label === value.label
   }
+  freeSolo
+  //@ts-ignore
   renderTags={(value, getTagProps) =>
-    value.map((option, index) => (
-      <Chip
-        variant="outlined"
-        //@ts-ignore
-        label={option.label}
-        {...getTagProps({ index })}
-      />
-    ))
+    value.map((option, index) => {
+      //@ts-ignore
+      if (option.label) {
+        // Render existing options
+        return (
+          <Chip
+            variant="outlined"
+                  //@ts-ignore
+            label={option.label}
+            {...getTagProps({ index })}
+          />
+        );
+      } else {
+        // Render new values
+        return (
+          <Chip
+            variant="outlined"
+                  //@ts-ignore
+
+            label={option}
+            {...getTagProps({ index })}
+          />
+        );}
+  })
   }
   renderInput={(params) => (
     <TextField
@@ -243,8 +269,22 @@ const AccountMenu: FC<AccountMenuProps> = (props) => {
       margin="dense"
       variant="filled"
       label="Fields"
+      onKeyDown={(event) => {
+        //@ts-ignore
+        if (event.key === "Enter" && event.target.value) {
+          //@ts-ignore
+          const newField = { id: "", label: event.target.value };
+          setSelectedFields((prevSelectedFields) => [
+            ...prevSelectedFields,
+            newField,
+          ]);
+          //@ts-ignore
+          event.target.value = "";
+        }
+      }}
     />
   )}
+  
 />
         </DialogContent>
         <DialogActions>
