@@ -23,10 +23,7 @@ import {
   IconButton,
   TextField,
 } from '@mui/material';
-import {
-  DataGrid,
-  GridToolbar,
-} from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { getCompany } from 'src/api/getCompany';
 import { useEffect, useState } from 'react';
 import Collapse from '@mui/material/Collapse';
@@ -82,7 +79,7 @@ const AddCompanyForm: React.FC = () => {
     setCompanyId(id);
     console.log(id);
     console.log(companyId);
-    console.log(companyName)
+    console.log(companyName);
     setShowBranches(true);
     getBranch({ companyId: id }).then((res) => {
       if (res.success === true) {
@@ -144,14 +141,14 @@ const AddCompanyForm: React.FC = () => {
       renderCell: (params: { row: Row }) => {
         const com = params.row.name;
         console.log(com);
-        return(
-        <IconButton
-          sx={{ ml: 1.5 }}
-          aria-label="progress form"
-          onClick={() => handleShowBranchesOpen(params.row.id,com)}
-        >
-          <AddBusinessIcon sx={{ color: '#820000' }} />
-        </IconButton>
+        return (
+          <IconButton
+            sx={{ ml: 1.5 }}
+            aria-label="progress form"
+            onClick={() => handleShowBranchesOpen(params.row.id, com)}
+          >
+            <AddBusinessIcon sx={{ color: '#820000' }} />
+          </IconButton>
         );
       },
     },
@@ -168,179 +165,191 @@ const AddCompanyForm: React.FC = () => {
 
   return (
     <>
-      <>
-        <>
+      <Grid
+        container
+        sx={{
+          p: 3,
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: `calc(100vh - ${theme.mixins.toolbar.height}px)`,
+        }}
+      >
+        <Stack
+          gap={1.5}
+          sx={{
+            width: '100%',
+            height: '100%',
+          }}
+        >
+          <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
+            <Typography component="h1" variant="h5" fontWeight={500}>
+              Companies
+            </Typography>
+            <Button
+              variant="contained"
+              sx={{ width: 'auto' }}
+              color={open ? 'error' : 'success'}
+              onClick={handleChange}
+              startIcon={open ? <RemoveIcon /> : <AddIcon />}
+            >
+              {open ? 'Close' : 'Add Company'}
+            </Button>
+          </Stack>
+
           <Grid
             container
             sx={{
-              p: 3,
+              p: 2,
+              display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              height: `calc(100vh - ${theme.mixins.toolbar.height}px)`,
             }}
           >
             <Stack
-              gap={1.5}
+              gap={0.5}
               sx={{
                 width: '100%',
                 height: '100%',
               }}
             >
-              <Stack
-                sx={{ px: 2 }}
-                direction="row"
-                justifyContent="space-between"
-              >
-                <Typography component="h1" variant="h5" fontWeight={500}>
-                  Companies
-                </Typography>
-                <Button
-                  variant="contained"
-                  sx={{ width: 'auto' }}
-                  color={open ? 'error' : 'success'}
-                  onClick={handleChange}
-                  startIcon={open ? <RemoveIcon /> : <AddIcon />}
-                >
-                  {open ? 'Close' : 'Add Company'}
-                </Button>
-              </Stack>
-
-              <Grid
-                container
-                sx={{
-                  p: 2,
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <Stack
-                  gap={0.5}
+              <Collapse in={open}>
+                <Paper
+                  elevation={3}
                   sx={{
-                    width: '100%',
-                    height: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    p: 3.5,
+                    minWidth: { xs: '90%', sm: '60%', md: '30%' },
                   }}
                 >
-                  <Collapse in={open}>
-                    <Paper
-                      elevation={3}
-                      sx={{
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        p: 3.5,
-                        minWidth: { xs: '90%', sm: '60%', md: '30%' },
-                      }}
-                    >
-                      <FormikProvider value={formikProps}>
-                        <Form>
-                          <Stack gap={1} spacing={1} alignItems="center">
-                            <Typography component="h1" variant="h5">
-                              Add Company
-                            </Typography>
-                            <Stack gap={1} direction="row">
-                              <TextFieldWrapper
-                                label="Company Id"
-                                name="id"
-                                autoFocus
-                              />
-                              <TextFieldWrapper
-                                label="Company Name"
-                                name="name"
-                              />
-                              <TextFieldWrapper
-                                label="Phone Number"
-                                name="phoneNumber"
-                              />
-                              <TextFieldWrapper
-                                label="E-mail"
-                                type="email"
-                                name="email"
-                              />
-                              <TextFieldWrapper
-                                label="Location"
-                                name="location"
-                              />
-                              <TextFieldWrapper
-                                label="Manager Name"
-                                name="managerName"
-                              />
-                            </Stack>
-                            <LoadingButton
-                              type="submit"
-                              // fullWidth
-                              variant="contained"
-                              disabled={!isValid}
-                              loading={isLoading}
-                            >
-                              Generate Account
-                            </LoadingButton>
-                          </Stack>
-                        </Form>
-                      </FormikProvider>
-                    </Paper>
-                  </Collapse>
-                </Stack>
-              </Grid>
-
-              <DataGrid
-                className="dataGrid"
-                sx={{
-                  boxShadow: 5,
-                  border: 1,
-                  borderColor: '#cacaca',
-                  '& .MuiDataGrid-cell:hover': {
-                    color: 'primary.main',
-                  },
-                }}
-                columns={columns}
-                //@ts-ignore
-                rows={rows}
-                getRowId={(row) => row['id']}
-                initialState={{
-                  pagination: { paginationModel: { pageSize: 30 } },
-                }}
-                pageSizeOptions={[10, 20, 30]}
-                slots={{
-                  toolbar: GridToolbar,
-                  pagination: DataGridPagination,
-                }}
-              />
+                  <FormikProvider value={formikProps}>
+                    <Form>
+                      <Stack gap={1} spacing={1} alignItems="center">
+                        <Typography component="h1" variant="h5">
+                          Add Company
+                        </Typography>
+                        <Grid
+                          sx={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}
+                          container
+                          spacing={2}
+                        >
+                          <Grid item xs={12} sm={6} md={1.9}>
+                            <TextFieldWrapper
+                              label="Company Id"
+                              name="id"
+                              autoFocus
+                            />
+                          </Grid>
+                          <Grid item xs={12} sm={6} md={1.9}>
+                            <TextFieldWrapper
+                              label="Company Name"
+                              name="name"
+                            />
+                          </Grid>
+                          <Grid item xs={12} sm={6} md={1.9}>
+                            <TextFieldWrapper
+                              label="Phone Number"
+                              name="phoneNumber"
+                            />
+                          </Grid>
+                          <Grid item xs={12} sm={6} md={1.9}>
+                            <TextFieldWrapper
+                              label="E-mail"
+                              type="email"
+                              name="email"
+                            />
+                          </Grid>
+                          <Grid item xs={12} sm={6} md={1.9}>
+                            <TextFieldWrapper
+                              label="Location"
+                              name="location"
+                            />
+                          </Grid>
+                          <Grid item xs={12} sm={6} md={1.9}>
+                            <TextFieldWrapper
+                              label="Manager Name"
+                              name="managerName"
+                            />
+                          </Grid>
+                        </Grid>
+                        <LoadingButton
+                          type="submit"
+                          // fullWidth
+                          variant="contained"
+                          disabled={!isValid}
+                          loading={isLoading}
+                        >
+                          Generate Account
+                        </LoadingButton>
+                      </Stack>
+                    </Form>
+                  </FormikProvider>
+                </Paper>
+              </Collapse>
             </Stack>
           </Grid>
-        </>
-        <Dialog
-          open={addBranchDiolog}
-          onClose={handleAddBranchDialogClose}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogTitle id="form-dialog">Add Branch</DialogTitle>
-          <DialogContent>
-            <TextField
-              margin="dense"
-              autoFocus
-              label="Location"
-              fullWidth
-              required
-              value={location}
-              onChange={(event) => setLocation(event.target.value)}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleAddBranchDialogClose} color="primary">
-              Cancel
-            </Button>
-            <Button color="primary" onClick={handleAddBranch}>
-              Add
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </>
+
+          <DataGrid
+            className="dataGrid"
+            sx={{
+              boxShadow: 5,
+              border: 1,
+              borderColor: '#cacaca',
+              '& .MuiDataGrid-cell:hover': {
+                color: 'primary.main',
+              },
+            }}
+            columns={columns}
+            //@ts-ignore
+            rows={rows}
+            getRowId={(row) => row['id']}
+            initialState={{
+              pagination: { paginationModel: { pageSize: 30 } },
+            }}
+            pageSizeOptions={[10, 20, 30]}
+            slots={{
+              toolbar: GridToolbar,
+              pagination: DataGridPagination,
+            }}
+          />
+        </Stack>
+      </Grid>
+      <Dialog
+        open={addBranchDiolog}
+        onClose={handleAddBranchDialogClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog">Add Branch</DialogTitle>
+        <DialogContent>
+          <TextField
+            margin="dense"
+            autoFocus
+            label="Location"
+            fullWidth
+            required
+            value={location}
+            onChange={(event) => setLocation(event.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleAddBranchDialogClose} color="primary">
+            Cancel
+          </Button>
+          <Button color="primary" onClick={handleAddBranch}>
+            Add
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Stack spacing={2}>
         <Dialog open={showBranches} onClose={handleshowBranchesClose}>
           <DialogContent>
             <div style={{ height: 400, width: '100%' }}>
-              <Typography sx={{fontSize:"600"}}>exalt company</Typography>
-              <Divider/>
+              <Typography sx={{ fontSize: '600' }}>exalt company</Typography>
+              <Divider />
               <DataGrid
                 sx={{
                   width: '500px', // set the width to 800px

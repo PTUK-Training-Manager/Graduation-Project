@@ -25,7 +25,7 @@ class TrainingRequestController {
                 return res.json({
                     success: false,
                     status: res.statusCode,
-                    message: `student ${studentId} has ${record.status} traing `,
+                    message: `student ${studentId} has ${record.status} training `,
                     data: record
                 });
             }
@@ -67,7 +67,7 @@ class TrainingRequestController {
                     return res.json({
                         success: false,
                         status: res.statusCode,
-                        message: `student ${studentId} has ${record.type} traing `,
+                        message: `student ${studentId} has ${record.type} training `,
                         data: record
                     });
                 }

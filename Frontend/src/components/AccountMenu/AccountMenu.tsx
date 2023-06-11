@@ -75,21 +75,19 @@ const AccountMenu: FC<AccountMenuProps> = (props) => {
     });
     console.log(fields);
     //@ts-ignore
-    addField({ fields }).then(
-      (res: { success: boolean; message: any }) => {
-        if (res.success === true) {
-          showSnackbar({ severity: 'success', message: res.message });
-          setSelectedFields([]);
-          setNewField('');
-          setOpenAddFieldDialog(false);
-        } else if (res.success === false) {
-          showSnackbar({ severity: 'warning', message: res.message });
-          setSelectedFields([]);
-          setNewField('');
-          setOpenAddFieldDialog(false);
-        }
+    addField({ fields }).then((res: { success: boolean; message: any }) => {
+      if (res.success === true) {
+        showSnackbar({ severity: 'success', message: res.message });
+        setSelectedFields([]);
+        setNewField('');
+        setOpenAddFieldDialog(false);
+      } else if (res.success === false) {
+        showSnackbar({ severity: 'warning', message: res.message });
+        setSelectedFields([]);
+        setNewField('');
+        setOpenAddFieldDialog(false);
       }
-    );
+    });
   };
 
   const handleCancelAddField = () => {
@@ -100,6 +98,7 @@ const AccountMenu: FC<AccountMenuProps> = (props) => {
     setOpenAddFieldDialog(true);
   };
 
+  {user?.roleId == 6 && (
   useEffect(() => {
     getAllFields().then((res) => {
       if (res.success) {
@@ -111,7 +110,8 @@ const AccountMenu: FC<AccountMenuProps> = (props) => {
         setFieldOptions(options);
       }
     });
-  }, []);
+  }, [])
+  )}
 
   return (
     <>
@@ -203,89 +203,83 @@ const AccountMenu: FC<AccountMenuProps> = (props) => {
         <DialogTitle>Add New Field</DialogTitle>
         <DialogContent>
           Please write a new field or select from the options:
-         
-  
-  <Autocomplete
-  multiple
-  id="field"
-  options={fieldOptions}
-  //@ts-ignore
-  getOptionLabel={(option) => option.label}
-  // onChange={(event, newValue) => {
-  //   //@ts-ignore
-  //   setSelectedFields(newValue);
-  // }}
-  onChange={(event, newValue) => {
-    if (Array.isArray(newValue)) {
-      const newSelectedFields = newValue.map((option) => {
-        //@ts-ignore
-        if (option.label) {
-          // Existing option
-          return option;
-        } else {
-          // New value entered
-          return { label: option, id: '' };
-        }
-      });
-      //@ts-ignore
-      setSelectedFields(newSelectedFields);
-    }
-  }}
-  //@ts-ignore
-  getOptionSelected={(option, value) =>
-    option.id === value.id || option.label === value.label
-  }
-  freeSolo
-  //@ts-ignore
-  renderTags={(value, getTagProps) =>
-    value.map((option, index) => {
-      //@ts-ignore
-      if (option.label) {
-        // Render existing options
-        return (
-          <Chip
-            variant="outlined"
+          <Autocomplete
+            multiple
+            id="field"
+            options={fieldOptions}
+            //@ts-ignore
+            getOptionLabel={(option) => option.label}
+            onChange={(event, newValue) => {
+              if (Array.isArray(newValue)) {
+                const newSelectedFields = newValue.map((option) => {
                   //@ts-ignore
-            label={option.label}
-            {...getTagProps({ index })}
-          />
-        );
-      } else {
-        // Render new values
-        return (
-          <Chip
-            variant="outlined"
-                  //@ts-ignore
+                  if (option.label) {
+                    // Existing option
+                    return option;
+                  } else {
+                    // New value entered
+                    return { label: option, id: '' };
+                  }
+                });
+                //@ts-ignore
+                setSelectedFields(newSelectedFields);
+              }
+            }}
+            //@ts-ignore
+            getOptionSelected={(option, value) =>
+              option.id === value.id || option.label === value.label
+            }
+            freeSolo
+            //@ts-ignore
+            renderTags={(value, getTagProps) =>
+              value.map((option, index) => {
+                //@ts-ignore
+                if (option.label) {
+                  // Render existing options
+                  return (
+                    <Chip
+                      variant="outlined"
+                      //@ts-ignore
+                      label={option.label}
+                      {...getTagProps({ index })}
+                    />
+                  );
+                } else {
+                  // Render new values
+                  return (
+                    <Chip
+                      variant="outlined"
+                      //@ts-ignore
 
-            label={option}
-            {...getTagProps({ index })}
+                      label={option}
+                      {...getTagProps({ index })}
+                    />
+                  );
+                }
+              })
+            }
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                margin="dense"
+                variant="filled"
+                label="Fields"
+                onKeyDown={(event) => {
+                  //@ts-ignore
+                  if (event.key === 'Enter' && event.target.value) {
+                    //@ts-ignore
+                    const newField = { id: '', label: event.target.value };
+                    setSelectedFields((prevSelectedFields) => [
+                      ...prevSelectedFields,
+                      newField,
+                    ]);
+                    //@ts-ignore
+                    event.target.value = '';
+                  }
+                }}
+              />
+            )}
           />
-        );}
-  })
-  }
-  renderInput={(params) => (
-    <TextField
-      {...params}
-      margin="dense"
-      variant="filled"
-      label="Fields"
-      onKeyDown={(event) => {
-        //@ts-ignore
-        if (event.key === "Enter" && event.target.value) {
-          //@ts-ignore
-          const newField = { id: "", label: event.target.value };
-          setSelectedFields((prevSelectedFields) => [
-            ...prevSelectedFields,
-            newField,
-          ]);
-          //@ts-ignore
-          event.target.value = "";
-        }
-      }}
-    />
-  )}
-  
-/>
         </DialogContent>
         <DialogActions>
           <Button
