@@ -19,17 +19,19 @@ i18n
   .use(initReactI18next)
   .use(HttpApi)
   .init({
+    // supportedLanguage:['en','ar'],
     resources,
     interpolation: {
       escapeValue: false,
       
     },
       detection: {
-      order: ['path', 'cookie', 'htmlTag'],
+      order: ['cookie','path', 'htmlTag'],
       caches: ['cookie'],
     },
      backend: {
-      loadPath: '/src/locals/{{lng}}/translation.json',
+      loadPath: 'src/locals/{{lng}}/translation.json',
+      
     },
     react:
     {useSuspense:false},

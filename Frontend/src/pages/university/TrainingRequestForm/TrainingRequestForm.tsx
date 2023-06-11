@@ -15,6 +15,8 @@ import {
   InputLabel,
   Select,
   Stack,
+  Menu,
+  Container,
 } from '@mui/material';
 import { Form, FormikProvider } from 'formik';
 import useTrainingRequestFormController from './hooks/useTrainingRequestFormController';
@@ -23,8 +25,9 @@ import TextFieldWrapper from 'src/components/FormsUI/TextField';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import LanguageIcon from '@mui/icons-material/Language';
-
+import { makeStyles } from '@material-ui/core/styles';
+import LanguageIcon from '@material-ui/icons/Language';
+import LanguageSelector from 'src/components/Language/LanguageSelector';
 interface CompanyOption {
   id: string;
   name: string;
@@ -40,15 +43,16 @@ const TrainingRequestForm: React.FC = () => {
   const { formikProps, isLoading } = useTrainingRequestFormController();
   const { isValid } = formikProps;
   const navigate = useNavigate();
-  const { t ,i18n } = useTranslation();
-  const changeLanguage = (language: string) => {
-    i18n.changeLanguage(language);
-  };
+  const { t, i18n } = useTranslation();
+  const [currentLanguage, setCurrentLanguage] = useState('en'); // Replace with your language state or context value
+
+
   const PaperComponentCustom: React.FC<{
     containerProps: any;
     children: CompanyOption;
   }> = ({ containerProps, children }) => {
     return (
+      
       <Paper {...containerProps}>
         {children}
         <Button
@@ -61,7 +65,7 @@ const TrainingRequestForm: React.FC = () => {
             event.preventDefault();
           }}
         >
-          Add New Company
+        {t('AddNewCompany')}
         </Button>
       </Paper>
     );
@@ -151,37 +155,37 @@ const TrainingRequestForm: React.FC = () => {
          {t('title')}
           </Typography>
                 <TextFieldWrapper
-                  label="Student Number"
+                  label=   {t('StudentNumber')}
                   name="studentId"
                   autoFocus
                 />
 
                 <FormControl fullWidth>
-                  <InputLabel>Type</InputLabel>
+                  <InputLabel>{t('TrainingType')}</InputLabel>
                   <Select
                     fullWidth
-                    label="Type"
+                    label={t('TrainingType')}
                     name="type"
                     value={formikProps.values.type}
                     onChange={formikProps.handleChange}
                   >
-                    <MenuItem value="first">first</MenuItem>
-                    <MenuItem value="second">second</MenuItem>
-                    <MenuItem value="compound">Compound</MenuItem>
+                    <MenuItem value="First">{t('value1')}</MenuItem>
+                    <MenuItem value="Second">{t('value2')}</MenuItem>
+                    <MenuItem value="Compound">{t('value3')}</MenuItem>
                   </Select>
                 </FormControl>
 
                 <FormControl fullWidth>
-                  <InputLabel>Semester</InputLabel>
+                  <InputLabel>{t('Semester')}</InputLabel>
                   <Select
-                    label="Semester"
+                    label={t('Semester')}
                     name="semester"
                     value={formikProps.values.semester}
                     onChange={formikProps.handleChange}
                   >
-                    <MenuItem value="first">first</MenuItem>
-                    <MenuItem value="second">second</MenuItem>
-                    <MenuItem value="summer">summer</MenuItem>
+                    <MenuItem value="first">{t('FirstSemester')}</MenuItem>
+                    <MenuItem value="second">{t('SecondSemester')}</MenuItem>
+                    <MenuItem value="summer">{t('SummerSemester')}</MenuItem>
                   </Select>
                 </FormControl>
 
@@ -204,7 +208,7 @@ const TrainingRequestForm: React.FC = () => {
                       <TextField
                         {...params}
                         name="companyId"
-                        label="Company Name"
+                        label={t('CompanyName')}
                       />
                     )}
                   />
@@ -241,27 +245,15 @@ const TrainingRequestForm: React.FC = () => {
                   disabled={!isValid}
                   loading={isLoading}
                 >
-                  Submit
+                  {t('Submit')}
                 </LoadingButton>
               </Stack>
             </Form>
           </FormikProvider>
         </Paper>
       </Grid>
-      <IconButton
-      color="inherit"
-      onClick={() => changeLanguage('ar')}
-      aria-label="Change Language"
-    >
-      <LanguageIcon />
-    </IconButton>
-    <IconButton
-      color="inherit"
-      onClick={() => changeLanguage('en')}
-      aria-label="Change Language"
-    >
-      <LanguageIcon />
-    </IconButton>
+ <LanguageSelector/>
+    
     </>
   );
 };

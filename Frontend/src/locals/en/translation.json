@@ -1,3 +1,15 @@
 {
-    "title": "Submit Request"
-  }
+  "title": "Submit Request",
+  "StudentNumber": "Student Number",
+  "TrainingType": "Type",
+  "value1": "First",
+  "value2": "Second",
+  "value3": "Compound",
+  "Semester": "Semester",
+  "FirstSemester": "First Semester",
+  "SecondSemester": "Second Semester",
+  "SummerSemester": "Summer Semester",
+  "CompanyName": "Company Name",
+   "AddNewCompany": " Add New Company",
+   "Submit":"Submit"
+}

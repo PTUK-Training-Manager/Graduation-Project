@@ -1,3 +1,18 @@
 {
-    "title": "تقديم الطلب "
+    "title": "تقديم الطلب ",
+    "StudentNumber":"رقم تسجيل الطالب",
+    "TrainingType":"نوع التدريب",
+    "value1":"تدريب اول",
+    "value2":"تدريب ثاني",
+    "value3":"Third",
+    "Semester":"الفصل الدراسي",
+    "FirstSemester":"الفصل الدراسي الأول",
+    "SecondSemester":"الفصل الدراسي الثاني",
+    "SummerSemester":"الفصل الصيفي",
+    "CompanyName":"اسم الشركة",
+    "AddNewCompany": "إضافة شركة جديدة",
+    "Submit":"تثبيت"
+
+
+
   }

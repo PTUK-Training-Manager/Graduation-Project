@@ -20,10 +20,11 @@ const AppNavbar: FC = () => {
     const handleOpenSidebar = () => setIsSidebarOpen((prev) => !prev);
 
     return (
+        
         <AppBar
             position="fixed"
             sx={{
-                zIndex: (theme) => theme.zIndex.drawer + 1,
+                zIndex: (theme: { zIndex: { drawer: number; }; }) => theme.zIndex.drawer + 1,
                 backgroundColor: "primary.light",
                 height: NAVBAR_HEIGHT,
                 // Uncomment the below if you want the AppSidebar to be beside the AppBar when opened
@@ -33,6 +34,7 @@ const AppNavbar: FC = () => {
                 // }),
             }}
         >
+            
             <Toolbar sx={{height: "100%", justifyContent: "space-between"}}>
                 <IconButton
                     color="inherit"
