@@ -198,6 +198,21 @@ const studentMenuItems: IAppMenuItem[] = [
       },
 
 ];
+const AdminMenuItems: IAppMenuItem[] = [
+  {
+      label: "Add Faculty",
+      link: "/add-faculty",
+      Icon: () => <IntegrationInstructionsIcon/>,
+  },
+  
+  {
+    label:"Progress",
+    link: "/Progress",
+    Icon: () => <IntegrationInstructionsIcon/>,
+    
+      },
+
+];
 
 export const MENU_ITEMS_MAP: Partial<Record<MenuItemsMapKey, IAppMenuItem[]>> =
   {
@@ -206,7 +221,7 @@ export const MENU_ITEMS_MAP: Partial<Record<MenuItemsMapKey, IAppMenuItem[]>> =
     UniTrainingOfficer: uniTrainingOfficerMenuItems,
     Company: companyMenuItems,
     Trainer: trainerMenuItems,
-    SuperAdmin: [],
+    SuperAdmin: AdminMenuItems,
     Student: studentMenuItems,
     AdminAndRegistration: [],
   };

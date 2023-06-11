@@ -19,6 +19,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Divider,
   IconButton,
   TextField,
 } from '@mui/material';
@@ -76,10 +77,12 @@ const AddCompanyForm: React.FC = () => {
       .catch((error) => console.log(error));
   }, [updatedata]);
 
-  const handleShowBranchesOpen = (id: string) => {
+  const handleShowBranchesOpen = (id: string, name: string) => {
+    setCompanyName(name);
     setCompanyId(id);
     console.log(id);
     console.log(companyId);
+    console.log(companyName)
     setShowBranches(true);
     getBranch({ companyId: id }).then((res) => {
       if (res.success === true) {
@@ -138,15 +141,19 @@ const AddCompanyForm: React.FC = () => {
       headerClassName: 'ctrainees',
       filterable: false,
       sortable: false,
-      renderCell: (params: { id: any }) => (
+      renderCell: (params: { row: Row }) => {
+        const com = params.row.name;
+        console.log(com);
+        return(
         <IconButton
           sx={{ ml: 1.5 }}
           aria-label="progress form"
-          onClick={() => handleShowBranchesOpen(params.id)}
+          onClick={() => handleShowBranchesOpen(params.row.id,com)}
         >
           <AddBusinessIcon sx={{ color: '#820000' }} />
         </IconButton>
-      ),
+        );
+      },
     },
   ];
 
@@ -286,6 +293,7 @@ const AddCompanyForm: React.FC = () => {
                   },
                 }}
                 columns={columns}
+                //@ts-ignore
                 rows={rows}
                 getRowId={(row) => row['id']}
                 initialState={{
@@ -331,7 +339,8 @@ const AddCompanyForm: React.FC = () => {
         <Dialog open={showBranches} onClose={handleshowBranchesClose}>
           <DialogContent>
             <div style={{ height: 400, width: '100%' }}>
-              <Typography>Branches</Typography>
+              <Typography sx={{fontSize:"600"}}>exalt company</Typography>
+              <Divider/>
               <DataGrid
                 sx={{
                   width: '500px', // set the width to 800px

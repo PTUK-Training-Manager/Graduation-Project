@@ -403,7 +403,7 @@ class TrainingController {
   };
 
   getRunningTrainings = async (
-    req: Request<{ limit: number, start: number }>,
+    req: Request<{ start: number, limit: number }>,
     res: Response<BaseResponse>,
     next: NextFunction
   ) => {
@@ -475,7 +475,7 @@ class TrainingController {
       }
 
 
-        const {limit, start}= req.params
+        const {start, limit}= req.params
         const paginatedData = runningTrainings.slice(start, start+limit);
        
       return res.json({

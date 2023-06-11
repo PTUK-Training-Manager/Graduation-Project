@@ -68,6 +68,9 @@ const TrainerCompletedTrainees = lazy(
 const AllTrainingStudent = lazy(() => import('src/pages/Student/AllTraining'));
 const Progress = lazy(() => import('src/pages/Student/Progress'));
 
+const AddFaculty = lazy(() => import('src/pages/Admin/AddFaculty'));
+
+
 import { UserRole } from '../constants/auth';
 
 interface AppRoutesProps {}
@@ -79,6 +82,7 @@ const AppRoutes: FC<AppRoutesProps> = () => {
   return (
     <Suspense fallback={<BlockUI isBlocked />}>
       <Routes>
+      <Route path="" element={<Login/>}/>
         <Route path="login" element={<Login />} />
         <Route path="landing" element={<LandingPage />} />
         <Route path="editor" element={<EditorPlayground />} />
@@ -91,7 +95,10 @@ const AppRoutes: FC<AppRoutesProps> = () => {
             <Route path="/admin" element={<Admin />} />
           </Route>
 
-          <Route element={<ProtectedRoute allowedRoles={[SuperAdmin]} />} />
+          <Route element={<ProtectedRoute allowedRoles={[SuperAdmin]} />} >
+          <Route path="/add-faculty" element={<AddFaculty />} />
+
+            </Route>
 
           <Route
             element={<ProtectedRoute allowedRoles={[UniTrainingOfficer]} />}
