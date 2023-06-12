@@ -69,6 +69,7 @@ const AllTrainingStudent = lazy(() => import('src/pages/Student/AllTraining'));
 const Progress = lazy(() => import('src/pages/Student/Progress'));
 
 const AddFaculty = lazy(() => import('src/pages/Admin/AddFaculty'));
+const Charts = lazy(() => import('src/pages/Admin/Charts'));
 
 
 import { UserRole } from '../constants/auth';
@@ -97,6 +98,7 @@ const AppRoutes: FC<AppRoutesProps> = () => {
 
           <Route element={<ProtectedRoute allowedRoles={[SuperAdmin]} />} >
           <Route path="/add-faculty" element={<AddFaculty />} />
+          <Route path="/charts" element={<Charts />} />
 
             </Route>
 
