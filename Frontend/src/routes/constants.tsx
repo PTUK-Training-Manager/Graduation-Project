@@ -205,13 +205,7 @@ const AdminMenuItems: IAppMenuItem[] = [
       Icon: () => <IntegrationInstructionsIcon/>,
   },
   
-  {
-    label:"Progress",
-    link: "/Progress",
-    Icon: () => <IntegrationInstructionsIcon/>,
-    
-      },
-
+  
 ];
 
 export const MENU_ITEMS_MAP: Partial<Record<MenuItemsMapKey, IAppMenuItem[]>> =

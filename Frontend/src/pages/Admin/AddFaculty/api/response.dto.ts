@@ -12,3 +12,16 @@ export interface AploadExcelFileData {
   export interface AploadExcelFileResponse extends BaseResponse {
     tokenData: AploadExcelFileData;
   }
+
+  export interface AddFieldData {
+    id: string;
+    type: string;
+    semester: string;
+    status: string;
+    studentId: string;
+    companyBranchId: string;
+  }
+
+  export interface AddFieldResponse extends BaseResponse {
+    tokenData: AddFieldData;
+  }
