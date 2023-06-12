@@ -27,6 +27,7 @@ import {
   SubmitBody,
   EditTrainerRequestBody,
   ChangeTrainingStatusBody,
+  GridResponse,
 } from "../types";
 import { getBranchesIds, getStudentId, getTrainingIds } from "../utils";
 import EvaluationController from "./EvaluationController";
@@ -428,7 +429,7 @@ class TrainingController {
 
   getRunningTrainings = async (
     req: Request<{ start: number; limit: number }>,
-    res: Response<BaseResponse>,
+    res: Response<GridResponse>,
     next: NextFunction
   ) => {
     try {
@@ -498,13 +499,15 @@ class TrainingController {
       }
 
       const { start, limit } = req.params;
-      const paginatedData = runningTrainings.slice(start, start + limit);
+      const paginatedData = runningTrainings.slice(start*limit, start*limit + limit);
 
+      console.log(runningTrainings)
       return res.json({
-        success: true,
-        status: res.statusCode,
-        message: `running Requests: `,
-        data: paginatedData,
+        items: paginatedData,
+        pageNumber: start,
+        pageSzie: limit,
+        totalItems: runningTrainings.length,
+        totalPages: Math.ceil(runningTrainings.length/limit)
       });
     } catch (err) {
       next(err);
