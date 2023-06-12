@@ -7,11 +7,12 @@ import { Secret } from "jsonwebtoken";
 import { AddedUser, BaseResponse } from "../types";
 import { sendEmail } from "../services/email";
 import { isProduction } from "../utils";
+import { UserRoleEnum } from "../enums";
 
 class UserController {
   constructor() {
     this.generateAccount = this.generateAccount.bind(this);
-    // this.handleAddUser = this.handleAddUser.bind(this);
+    this.handleAddUser = this.handleAddUser.bind(this);
     this.addUser = this.addUser.bind(this);
     // this.sendEmail = this.sendEmail.bind(this);
   }
@@ -59,27 +60,27 @@ class UserController {
     return { temp, password };
   }
 
-  async handleAddUser(
-    req: Request,
+    async handleAddUser(
+    req: Request<unknown,unknown,{name:string, email:string}>,
     res: Response<BaseResponse>,
     next: NextFunction
-  ) {
-    // I think we should cancel this request!, not completely finished
+  ){
     try {
-      const { username, email, password, roleId } = req.body;
+      const { name, email } = req.body;
       const saltRounds = 10;
+      const {temp, password} = await this.generateAccount('ptuk',name);
       const id = await this.addUser({
-        username,
+        username:temp,
         password,
         email,
         saltRounds,
-        roleId,
+        roleId:UserRoleEnum.UNI_TRAINING_OFFICER
       });
       if (id)
         return res.json({
           success: true,
           status: res.statusCode,
-          message: "Successfully create User",
+          message: "Successfully create Faculty",
           data: id,
         });
     } catch (err) {
