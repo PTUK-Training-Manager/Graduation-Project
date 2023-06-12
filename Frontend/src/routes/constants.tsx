@@ -37,12 +37,12 @@ const publicMenuItems: IAppMenuItem[] = [
 const sharedMenuItems: IAppMenuItem[] = [
     {
         label: "Home",
-        link: "/",
+        link: "/me",
         Icon: () => <HomeIcon/>,
     },
     {
         label: "Dashboard",
-        link: "/dashboard",
+        link: "/me/dashboard",
         Icon: () => <DashboardIcon/>,
     }
 ];
@@ -53,13 +53,13 @@ const sharedMenuItems: IAppMenuItem[] = [
 const uniAndCompanySharedMenuItems: IAppMenuItem[] = [
     {
         label: "Search Trainings",
-        link: "/all-trainings",
+        link: "/me/all-trainings",
         // Icon: () => <ManageSearchIcon/>,
         Icon: () => <RecentActorsIcon/>,
     },
     {
         label: "Add Student",
-        link: "/add-student",
+        link: "/me/add-student",
         Icon: () => <PersonAddAlt1Icon/>,
     },
 ];
@@ -67,7 +67,7 @@ const uniAndCompanySharedMenuItems: IAppMenuItem[] = [
 const uniTrainingOfficerMenuItems: IAppMenuItem[] = [
     {
         label: "Training Request",
-        link: "/training-request",
+        link: "/me/training-request",
         Icon: () => <PostAddIcon/>,
     },
     {
@@ -76,12 +76,12 @@ const uniTrainingOfficerMenuItems: IAppMenuItem[] = [
         items: [
             {
                 label: "Add Company",
-                link: "/add-company",
+                link: "/me/add-company",
                 // Icon: () => <AddBusinessIcon/>,
             },
             {
                 label: "Add Branch",
-                link: "/add-branch",
+                link: "/me/add-branch",
                 // Icon: () => <DomainAddIcon/>,
             },
         ]
@@ -92,12 +92,12 @@ const uniTrainingOfficerMenuItems: IAppMenuItem[] = [
         items: [
             {
                 label: "Current",
-                link: "/current-trainees",
+                link: "/me/current-trainees",
                 Icon: () => <PendingActionsIcon/>,
             },
             {
                 label: "Completed",
-                link: "/completed-trainees",
+                link: "/me/completed-trainees",
                 Icon: () => <SchoolIcon/>,
             },
         ]
@@ -108,22 +108,22 @@ const uniTrainingOfficerMenuItems: IAppMenuItem[] = [
 const companyMenuItems: IAppMenuItem[] = [
     {
         label: "Accepted Requests",
-        link: "/accepted-requests",
+        link: "/me/accepted-requests",
         Icon: () => <FactCheckIcon/>,
     },
     {
         label: "Training Requests",
-        link: "/training-requests",
+        link: "/me/training-requests",
         Icon: () => <FormatListBulletedIcon/>,
     },
     {
         label: "Trainers",
-        link: "/trainers",
+        link: "/me/trainers",
         Icon: () => <Groups3Icon/>,
     },
     {
         label: "Edit Training",
-        link: "/edit-training",
+        link: "/me/edit-training",
         Icon: () => <BorderColorIcon/>,
     },
     ...uniAndCompanySharedMenuItems,
@@ -132,12 +132,12 @@ const companyMenuItems: IAppMenuItem[] = [
 const trainerMenuItems: IAppMenuItem[] = [
     {
         label: "Evaluation Requests",
-        link: "/evaluation-requests",
+        link: "/me/evaluation-requests",
         Icon: () => <IntegrationInstructionsIcon/>,
     },
     {
         label: "Completed Trainings",
-        link: "/completed-trainings",
+        link: "/me/completed-trainings",
         Icon: () => <FactCheckIcon/>,
     }
 ];
