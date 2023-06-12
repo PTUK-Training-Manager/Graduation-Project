@@ -9,6 +9,7 @@ import StoreSharpIcon from '@mui/icons-material/StoreSharp';
 import GroupsSharpIcon from '@mui/icons-material/GroupsSharp';
 import RecentActorsSharpIcon from '@mui/icons-material/RecentActorsSharp';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const styles = {
   root: {
@@ -48,12 +49,14 @@ const styles = {
 interface HomeProps {}
 
 const Home: FC<HomeProps> = (props) => {
+  const { t } = useTranslation();
+
   return (
     <>
       <Box sx={styles.root}>
         <Box sx={styles.overlay}></Box>
         <Stack gap={5} sx={{ zIndex: 1 }}>
-          <Typography variant="h1">Welcome</Typography>
+          <Typography variant="h1">{t('Welcome')}</Typography>
           <Chip avatar={<Avatar>A</Avatar>} label="Arafat" variant="outlined" />
           <Grid
             container
@@ -61,22 +64,22 @@ const Home: FC<HomeProps> = (props) => {
             spacing={2}
             gap={8}
             sx={{
-              backgroundColor: 'rgba(0,0,0,0.5)' ,
+              backgroundColor: 'rgba(0,0,0,0.5)',
               borderRadius: '5px',
               padding: '32px',
             }}
           >
             <Grid item>
               <Link to={'/university/AllTrainings'}>
-              <IconButton sx={{ ...styles.circle, m: 'auto' }}>
-                <PostAddIcon sx={styles.icon} />
-              </IconButton>
+                <IconButton sx={{ ...styles.circle, m: 'auto' }}>
+                  <PostAddIcon sx={styles.icon} />
+                </IconButton>
               </Link>
               <Typography
                 variant="h6"
                 sx={{ color: '#217A94', fontSize: '18px' }}
               >
-                Requests
+                {t("Requests")}
               </Typography>
             </Grid>
             <Grid item>
@@ -87,7 +90,7 @@ const Home: FC<HomeProps> = (props) => {
                 variant="h6"
                 sx={{ color: '#217A94', fontSize: '18px' }}
               >
-                Submitted Trainees
+                {t('SubmittedTrainees')}
               </Typography>
             </Grid>
             <Grid item>

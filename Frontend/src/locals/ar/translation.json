@@ -11,8 +11,11 @@
     "SummerSemester":"الفصل الصيفي",
     "CompanyName":"اسم الشركة",
     "AddNewCompany": "إضافة شركة جديدة",
-    "Submit":"تثبيت"
+    "Submit":"تثبيت",
 
+    "Welcome": "أهلاً بك",
+    "Requests": "طلبات التدريب",
+    "SubmittedTrainees": "المتدربين المقدمين"
 
 
   }

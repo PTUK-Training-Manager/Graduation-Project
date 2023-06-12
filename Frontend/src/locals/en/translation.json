@@ -1,4 +1,5 @@
 {
+
   "title": "Submit Request",
   "StudentNumber": "Student Number",
   "TrainingType": "Type",
@@ -11,5 +12,14 @@
   "SummerSemester": "Summer Semester",
   "CompanyName": "Company Name",
    "AddNewCompany": " Add New Company",
-   "Submit":"Submit"
+   "Submit":"Submit",
+
+   "Welcome": "Welcome",
+   "Requests": "Requests",
+   "SubmittedTrainees": "Submitted Trainees"
+
+
+
+   
 }
+

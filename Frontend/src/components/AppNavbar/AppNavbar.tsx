@@ -11,6 +11,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import Stack from "@mui/material/Stack";
 import useAccountContext from "src/hooks/useAccountContext";
 import AccountMenu from "../AccountMenu";
+import LanguageSelector from '../Language/LanguageSelector';
 
 
 const AppNavbar: FC = () => {
@@ -34,8 +35,9 @@ const AppNavbar: FC = () => {
                 // }),
             }}
         >
-            
+ 
             <Toolbar sx={{height: "100%", justifyContent: "space-between"}}>
+                
                 <IconButton
                     color="inherit"
                     aria-label="open drawer"
@@ -59,6 +61,9 @@ const AppNavbar: FC = () => {
                     </ImageListItem>
                 </Stack>
                 {user ? (<AccountMenu/>) : <Box/>}
+                
+                <LanguageSelector/>
+
             </Toolbar>
         </AppBar>
     );
