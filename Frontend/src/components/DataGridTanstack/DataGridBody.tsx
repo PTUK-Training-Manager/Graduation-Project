@@ -45,8 +45,8 @@ export function makeDataGridBody<T extends object>(configs: CreateDataGridConfig
                             key={cell.id}
                             onClick={() => onRowClick?.(cell, row)}
                             sx={{
-                                width: shouldFlexGrowCells ? "150px" : cell.column.getSize(),
-                                // width: cell.column.getSize(),
+                                // width: shouldFlexGrowCells ? "150px" : cell.column.getSize(),
+                                width: cell.column.getSize(),
                                 whiteSpace: "nowrap",
                                 textOverflow: "ellipsis",
                                 overflow: "hidden",

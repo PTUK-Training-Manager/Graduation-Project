@@ -1,4 +1,4 @@
-import {AxiosError} from "axios";
+import {AxiosError, AxiosResponse} from "axios";
 import {UserRole} from "src/constants/auth";
 
 export interface BaseResponse {

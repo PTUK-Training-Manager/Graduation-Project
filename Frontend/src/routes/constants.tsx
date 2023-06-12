@@ -93,6 +93,11 @@ const uniTrainingOfficerMenuItems: IAppMenuItem[] = [
         link: '/completed-trainees',
         Icon: () => <SchoolIcon />,
       },
+      {
+        label: "CurrentV2",
+        link: "/current-trainees-v2",
+        Icon: () => <PendingActionsIcon/>,
+    },
     ],
   },
   {

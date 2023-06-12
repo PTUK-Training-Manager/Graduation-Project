@@ -15,6 +15,7 @@ const EditorPlayground = lazy(() => import("src/pages/EditorPlayground"));
 const DataGridInfinitePlayground = lazy(() => import("src/pages/DataGridInfinitePlayground"));
 const DataGridPaginatedPlayground = lazy(() => import("src/pages/DataGridPaginatedPlayground"));
 const InfiniteScrollPlayground = lazy(() => import("src/pages/InfiniteScrollPlayground"));
+const CurrentTraineesV2 = lazy(() => import('src/pages/university/CurrentTraineesV2/CurrentTrainees'));
 
 // university pages
 const TrainingRequestForm = lazy(
@@ -116,6 +117,8 @@ const AppRoutes: FC<AppRoutesProps> = () => {
             <Route path="/completed-trainees" element={<CompletedTrainees />} />
             <Route path="/submitted-trainees" element={<SubmittedRequests />} />
             <Route path="/current-trainees" element={<CurrentTrainees />} />
+            <Route path="/current-trainees-v2" element={<CurrentTraineesV2/>}/>
+
           </Route>
           <Route element={<ProtectedRoute allowedRoles={[Trainer]} />}>
             <Route
