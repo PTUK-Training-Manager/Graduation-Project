@@ -54,6 +54,7 @@ const CurrentTrainees: React.FC = () => {
             isFetching={isFetching}
             totalRows={+totalRows}
             totalPages={Math.floor(totalRows / pagination.pageSize)}
+            //@ts-ignore
             onPaginationChange={(pagination) => setPagination(pagination)}
           >
             <UsersDataGrid.Toolbar>
