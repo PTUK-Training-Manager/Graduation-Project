@@ -7,6 +7,7 @@ import { Secret } from "jsonwebtoken";
 import { AddedUser, BaseResponse } from "../types";
 import { sendEmail } from "../services/email";
 import { isProduction } from "../utils";
+import { UserRoleEnum } from "../enums";
 
 class UserController {
   constructor() {
@@ -73,7 +74,7 @@ class UserController {
         password,
         email,
         saltRounds,
-        roleId:2
+        roleId:UserRoleEnum.UNI_TRAINING_OFFICER
       });
       if (id)
         return res.json({
