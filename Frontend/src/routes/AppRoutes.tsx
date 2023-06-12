@@ -21,7 +21,7 @@ const TrainingRequestForm = lazy(() => import('src/pages/university/TrainingRequ
 const AddCompanyForm = lazy(() => import('src/pages/university/AddCompanyForm'));
 const CompletedTrainees = lazy(() => import('src/pages/university/CompletedTrainees'));
 const CurrentTrainees = lazy(() => import('src/pages/university/CurrentTrainees'));
-const CurrentTraineesV2 = lazy(() => import('src/pages/university/CurrentTraineesV2/CurrentTraineesGrid'));
+const CurrentTraineesV2 = lazy(() => import('src/pages/university/CurrentTraineesV2/CurrentTrainees'));
 const AllTrainings = lazy(() => import('src/pages/university/AllTrainings'));
 const AddStudentForm = lazy(() => import('src/pages/university/AddStudentForm/AddStudentForm'));
 const AddBranchForm = lazy(() => import('src/pages/university/AddBranchForm'));

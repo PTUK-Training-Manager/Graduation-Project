@@ -1,30 +1,21 @@
 import React, {FC} from 'react';
 import IconButton from "@mui/material/IconButton";
 import {Feed} from "@mui/icons-material";
-import {CellContext} from "@tanstack/react-table";
-import {RunningTraineesData} from "./API/types";
 import {useTraineesContext} from "../context/TraineesContext";
 import {TrainingDialog} from "src/pages/university/constants";
-
-interface ProgressFormCellProps extends CellContext<RunningTraineesData, any> {
-}
+import {ProgressFormCellProps} from "./types";
 
 const ProgressFormCell: FC<ProgressFormCellProps> = (props) => {
 
     const {
         row: {original},
     } = props;
-    //
-    // const {onOpenDialog, openDialog, onSetSelectedTrainingId, selectedTrainingId} = useTraineesContext();
-    //
-    // console.log(useTraineesContext());
+
+    const {onOpenDialog, onSetSelectedTrainingId} = useTraineesContext();
 
     const handleRowClick = () => {
-        // console.log(openDialog);
-        // onOpenDialog(TrainingDialog.Progress);
-        //
-        // onSetSelectedTrainingId(1);
-        // console.log(selectedTrainingId)
+        onSetSelectedTrainingId(+original.id);
+        onOpenDialog(TrainingDialog.Progress);
     }
 
     return (
