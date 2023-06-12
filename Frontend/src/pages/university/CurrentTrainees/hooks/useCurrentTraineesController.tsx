@@ -12,11 +12,6 @@ export interface UseDataGridPlaygroundAPIProps {
 }
 
 const useCurrentTraineesController = ({pagination}: UseDataGridPlaygroundAPIProps) => {
-    const [data, setData] = useState<Row[]>([]);
-    const [response, setReponse] = useState<Response>();
-    const [isOpen, setIsOpen] = useState(false);
-    const [currentTab, setCurrentTab] = useState('one');
-    const [trainingId, setTrainingId] =useState(''); 
                   
     const [totalRows, setTotalRows] = useState<number>(0);
 

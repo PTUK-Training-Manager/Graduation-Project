@@ -3,7 +3,7 @@ import { FetchUsersParams } from './request.dto';
 import { GetCurrentTraineesResponse } from './response.dto';
 
 export const getCurrentTrainees = async (params: FetchUsersParams) => {
-  return axiosInstance.get<GetCurrentTraineesResponse[]>(
+  return axiosInstance.get<GetCurrentTraineesResponse>(
     `/training/runningTrainings/${params.start}/${params.limit}`,
     {
       params: {
