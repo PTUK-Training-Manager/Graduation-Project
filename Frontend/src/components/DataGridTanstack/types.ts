@@ -8,24 +8,67 @@ import React, {
     PropsWithChildren, FC
 } from "react";
 import {Cell, ColumnDef, ColumnFiltersState, Row, Table, SortDirection, Column} from "@tanstack/react-table";
-import {DataGridProviderProps} from "src/components/DataGridTanstack/DataGridProvider";
 import {BoxProps} from "@mui/material/Box";
+import {GridProps} from "@mui/material/Grid";
+import { TableBodyProps } from "@mui/material/TableBody";
+import {TableContainerProps, TableHeadProps, TableProps} from "@mui/material";
 
 export type OnRowClick<T> = (cell: Cell<T, unknown>, row: Row<T>) => void;
 
-export interface DataGridProps<T> extends PropsWithChildren {
-    // totalPages?: number; // total number of pages
-    // totalRows?: number; // total number of rows (needed for MUI TablePagination)
-    onRowClick?: OnRowClick<T>;
-    // isRowClickable?: boolean;
+export interface CompoundGridProps<T> extends FC<DataGridProviderProps<T>>, CompoundGridReturn<T> {}
+
+export interface DataGridProviderProps<T> extends PropsWithChildren {
+    data: T[];
+    totalPages?: number; // total number of pages
+    totalRows?: number; // total number of rows (needed for MUI TablePagination)
+    // onPaginationChange?: (params: PageChangeParams) => void; //for exposing the current page value to the outside of the table as a callback function.
+    onFetch?: (query: DataGridFetchQuery) => void; //for exposing the current page value to the outside of the table as a callback function.
+    // onRowClick?: (cell: Cell<T, unknown>, row: Row<T>) => void;
     // searchPlaceholder?: string;
+    headerComponent?: JSX.Element;
     isFetching?: boolean;
     skeletonRowCount?: number;
     skeletonRowHeight?: number;
     striped?: boolean;
 }
 
+export interface DataGridTableProps<T> extends PropsWithChildren {
+    // totalPages?: number; // total number of pages
+    // totalRows?: number; // total number of rows (needed for MUI TablePagination)
+    // onRowClick?: OnRowClick<T>;
+    // isRowClickable?: boolean;
+    // searchPlaceholder?: string;
+    isFetching?: boolean;
+    skeletonRowCount?: number;
+    skeletonRowHeight?: number;
+    striped?: boolean;
+    TableContainerProps?: TableContainerProps;
+    TableProps?: TableProps;
+}
+
+export interface DataGridHeadProps<T> extends TableHeadProps {
+}
+
+export interface DataGridContainerProps<T> extends PropsWithChildren {}
+
+export interface DataGridBodyProps<T> extends TableBodyProps {
+    onRowClick?: OnRowClick<T>;
+    isRowClickable?: boolean;
+    skeletonRowHeight?: number;
+    skeletonRowCount?: number;
+}
+
+export interface TableBodySkeletonProps {
+    rowsCount?: number;
+    skeletonRowHeight?: number;
+}
+
 export interface PageChangeParams {
+    pageIndex: number;
+    pageSize: number;
+}
+
+export interface DataGridFetchQuery {
     pageIndex: number;
     pageSize: number;
 }
@@ -46,45 +89,46 @@ export interface DataGridContextValues<T> {
     dataMemoized: T[];
     columnsMemoized: ColumnDef<T, unknown>[];
     headerComponentMemoized?: JSX.Element;
-    isRowClickable?: boolean;
-    currentPage: number;
+    // isRowClickable?: boolean;
+    // currentPage: number;
+    // onSetCurrentPage: (page: number) => void;
     columnFilters: ColumnFiltersState;
     globalFilter: string;
     isOpenFiltersModal: boolean;
-    onSetCurrentPage: (page: number) => void;
     // onSetColumnFilters: (columnFiltersState: ColumnFiltersState) => void;
     onSetColumnFilters: Dispatch<SetStateAction<ColumnFiltersState>>;
     onSetGlobalFilter: (globalFilter: string) => void;
     onSetIsOpenFiltersModal: (isOpenFiltersModal: boolean) => void;
     columnCount: number;
-    handleChangePage?: (event: MouseEvent<HTMLButtonElement> | null, selectedPage: number) => void;
-    onPaginationChange?: (params: PageChangeParams) => void;
+    handleChangePage: (event: MouseEvent<HTMLButtonElement> | null, selectedPage: number) => void;
+    handleFetchMore: () => void;
+    // onPaginationChange?: (params: PageChangeParams) => void;
+    onFetch?: (params: PageChangeParams) => void;
     handleChangeRowsPerPage: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
     // onHandleGlobalSearch: (e: ChangeEvent<HTMLInputElement>) => void;
     mapSortDirectionToIcon: Record<SortDirection, React.ReactNode>;
     totalPages?: number,
     totalRows?: number,
+    isFetching?: boolean,
+    skeletonRowCount?: number,
+    skeletonRowHeight?: number,
+    striped?: boolean, // for adding striped effect to the table
 }
 
 
 export interface CreateDataGridOptions<T> {
     name: string;
-    // data: T[];
     columns: ColumnDef<T>[];
-    // totalPages?: number; // total number of pages
-    // totalRows?: number; // total number of rows (needed for MUI TablePagination)
-    // onPageChange?: (params: PageChangeParams) => void; //for exposing the current page value to the outside of the table as a callback function.
-    // onRowClick?: (cell: Cell<T, unknown>, row: Row<T>) => void;
-    // searchPlaceholder?: string;
-    // headerComponent?: JSX.Element;
-    // isFetching?: boolean;
-    // skeletonRowCount?: number;
-    // skeletonRowHeight?: number;
-    // isRowClickable?: boolean;
-    // striped?: boolean;
+    shouldFlexGrowCells?: boolean;
+    pagination?: "on" | "off"; // when `off`, infinite scroll will be used
+    pageSize?: number; // page size
 }
 
 export interface CreateDataGridConfig<T> extends CreateDataGridOptions<T> {
+    Context: Context<DataGridContextValues<T>>;
+}
+
+export interface CreateDataGridConfigWithDefaults<T> extends Required<CreateDataGridOptions<T>> {
     Context: Context<DataGridContextValues<T>>;
 }
 
@@ -97,14 +141,29 @@ export interface ToolbarLayoutProps extends FC<BoxProps> {
     End: FC<BoxProps>;
 }
 
-export interface GridReturn<T> {
+export interface FooterSkeletonProps extends FC<GridProps> {
+    Start: FC<BoxProps>;
+    End: FC<BoxProps>;
+}
+
+export interface DataGridInfiniteFooterProps {}
+
+export interface DataGridPaginatedFooterProps {}
+
+export interface CompoundGridReturn<T> {
     Provider: FC<DataGridProviderProps<T>>;
     Context: Context<DataGridContextValues<T>>;
-    Table: FC<DataGridProps<T>>;
+    Container: FC<DataGridContainerProps<T>>;
+    Head: FC<DataGridHeadProps<T>>;
+    Table: FC<DataGridTableProps<T>>;
+    Body: FC<DataGridBodyProps<T>>;
+    Placeholder: FC<TableBodySkeletonProps>;
+    Footer: FC;
     Filters: FC<FiltersModalProps<T>>;
     SearchBox: FC<SearchBoxProps>;
     Toolbar: ToolbarLayoutProps;
-    configs: CreateDataGridOptions<T> & { Context: Context<DataGridContextValues<T>> };
+    TableStateTree: FC;
+    configs: Required<CreateDataGridOptions<T>> & { Context: Context<DataGridContextValues<T>> };
 }
 
 export interface ColumnFilterProps<T> {
@@ -132,7 +191,8 @@ export interface ColumnFilterNumericProps<T> {
     index: number;
 }
 
-export interface FiltersModalProps<T> {}
+export interface FiltersModalProps<T> {
+}
 
 export interface AutocompleteColumnOption {
     id: string;

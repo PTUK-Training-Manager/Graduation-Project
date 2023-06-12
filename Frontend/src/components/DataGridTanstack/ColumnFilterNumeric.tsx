@@ -1,45 +1,69 @@
-import React from "react";
-import {Column} from "@tanstack/react-table";
-import DebouncedInput from "./DebouncedInput";
+import {ColumnFilterNumericProps, CreateDataGridConfig} from "src/components/DataGridTanstack/types";
+import React, {ChangeEvent, useContext} from "react";
 import Grid from "@mui/material/Grid";
+import NumericInput from "src/components/Inputs/NumericInput";
 
-interface ColumnFilterNumericProps<T> {
-    column: Column<T>;
+export function makeColumnFilterNumeric<T extends object>(configs: CreateDataGridConfig<T>) {
+
+    const ColumnFilterNumeric = <T extends any>({columnId, index}: ColumnFilterNumericProps<T>) => {
+        if (columnId === "") return null;
+        const {table, onSetColumnFilters} = useContext(configs.Context);
+
+        const column = table.getColumn(columnId);
+
+        if (!column) return null;
+
+        const min = Number(column.getFacetedMinMaxValues()?.[0] ?? "");
+        const max = Number(column.getFacetedMinMaxValues()?.[1] ?? "");
+
+        const columnFilterValue = column.getFilterValue() as [number, number];
+
+        const currentMin = columnFilterValue?.[0] ?? "";
+        const currentMax = columnFilterValue?.[1] ?? "";
+
+        const handleOnChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+            const {name, value} = event.target;
+
+            onSetColumnFilters((prev) => prev.map((cf, idx) => {
+                if (idx !== index) return cf;
+                return {
+                    ...cf,
+                    value: name === "min" ? [+value, currentMax] : [+currentMin, +value]
+                };
+            }));
+        }
+
+        return (
+            <Grid container gap={1} sx={{maxWidth: "100%", flexWrap: "nowrap"}}>
+                <Grid item xs={6}>
+                    <NumericInput
+                        fullWidth
+                        name="min"
+                        value={currentMin}
+                        size="small"
+                        placeholder="Min"
+                        onChange={handleOnChange}
+                        min={min}
+                        max={max}
+                    />
+                </Grid>
+                <Grid item xs={6}>
+                    <NumericInput
+                        fullWidth
+                        name="max"
+                        value={currentMax}
+                        size="small"
+                        placeholder="Max"
+                        onChange={handleOnChange}
+                        min={currentMin}
+                        max={max}
+                    />
+                </Grid>
+            </Grid>
+        )
+    };
+
+    ColumnFilterNumeric.displayName = "ColumnFilterNumeric";
+
+    return ColumnFilterNumeric;
 }
-
-const ColumnFilterNumeric = <T extends any>({column}: ColumnFilterNumericProps<T>) => {
-
-    const min = Number(column.getFacetedMinMaxValues()?.[0] ?? "");
-    const max = Number(column.getFacetedMinMaxValues()?.[1] ?? "");
-
-    const columnFilterValue = column.getFilterValue() as [number, number];
-    const currentMin = columnFilterValue?.[0] ?? "";
-    const currentMax = columnFilterValue?.[1] ?? "";
-
-    const handleChangeValue = (type: "min" | "max") => (value: string | number) => {
-        column.setFilterValue((old: [number, number]) => type === "min" ?  [value, old?.[1]] : [old?.[0], value])
-    }
-
-    return (
-        <Grid container gap={0.5}>
-            <DebouncedInput
-                type="number"
-                min={min}
-                max={max}
-                value={currentMin}
-                onChange={handleChangeValue("min")}
-                placeholder={`Min ${min ? `(${min})` : ""}`}
-            />
-            <DebouncedInput
-                type="number"
-                min={min}
-                max={max}
-                value={currentMax}
-                onChange={handleChangeValue("max")}
-                placeholder={`Max ${max ? `(${max})` : ""}`}
-            />
-        </Grid>
-    )
-};
-
-export default ColumnFilterNumeric;
