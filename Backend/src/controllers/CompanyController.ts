@@ -228,12 +228,7 @@ class CompanyController {
   };
 
   getAllFields = async (
-    req: Request<
-      ParamsDictionary,
-      any,
-      any,
-      { start?: number; limit?: number }
-    >,
+    req: Request,
     res: Response<BaseResponse>,
     next: NextFunction
   ) => {
@@ -253,18 +248,11 @@ class CompanyController {
         },
       });
 
-      const { start, limit } = req.params;
-      const parsedStart = parseInt(start, 10);
-      const parsedLimit = parseInt(limit, 10);
-      const paginatedData = fields.slice(
-        parsedStart,
-        parsedStart + parsedLimit
-      );
       return res.json({
         success: true,
         status: res.statusCode,
         message: "Fields: ",
-        data: paginatedData,
+        data: fields,
       });
     } catch (err) {
       next(err);
@@ -272,12 +260,7 @@ class CompanyController {
   };
 
   getCompanyFields = async (
-    req: Request<
-      ParamsDictionary,
-      any,
-      any,
-      { start?: number; limit?: number }
-    >,
+    req: Request,
     res: Response<BaseResponse>,
     next: NextFunction
   ) => {
@@ -290,18 +273,11 @@ class CompanyController {
         include: [{ model: Field }],
       });
 
-      const { start, limit } = req.params;
-      const parsedStart = parseInt(start, 10);
-      const parsedLimit = parseInt(limit, 10);
-      const paginatedData = fields.slice(
-        parsedStart,
-        parsedStart + parsedLimit
-      );
       return res.json({
         success: true,
         status: res.statusCode,
         message: "Fields: ",
-        data: paginatedData,
+        data: fields,
       });
     } catch (err) {
       next(err);
