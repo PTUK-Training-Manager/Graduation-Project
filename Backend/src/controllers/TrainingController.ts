@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { ParamsDictionary } from "express-serve-static-core";
 import {
   Student,
   AnsweredQuestion,
@@ -25,14 +26,14 @@ import {
   TrainingRequestBody,
   SubmitBody,
   EditTrainerRequestBody,
-  ChangeTrainingStatusBody
+  ChangeTrainingStatusBody,
 } from "../types";
 import { getBranchesIds, getStudentId, getTrainingIds } from "../utils";
 import EvaluationController from "./EvaluationController";
 
 class TrainingController {
   getCompletedTrainings = async (
-    req: Request,
+    req: Request<{ start: number; limit: number }>,
     res: Response<BaseResponse>,
     next: NextFunction
   ) => {
@@ -92,11 +93,14 @@ class TrainingController {
           ],
         });
       }
+
+      const { start, limit } = req.params;
+      const paginatedData = completedTrainings.slice(start, start + limit);
       return res.json({
         success: true,
         status: res.statusCode,
         message: "Completed Trainings",
-        data: completedTrainings,
+        data: paginatedData,
       });
     } catch (err) {
       next(err);
@@ -192,7 +196,7 @@ class TrainingController {
   };
 
   getRunningAndFinishedStudents = async (
-    req: Request,
+    req: Request<ParamsDictionary, any, { start: number; limit: number }>,
     res: Response<BaseResponse>,
     next: NextFunction
   ) => {
@@ -231,11 +235,18 @@ class TrainingController {
         })
       );
 
+      const { start, limit } = req.params;
+      const parsedStart = parseInt(start, 10);
+      const parsedLimit = parseInt(limit, 10);
+      const paginatedData = students.slice(
+        parsedStart,
+        parsedStart + parsedLimit
+      );
       return res.json({
         success: true,
         status: res.statusCode,
         message: "Students: ",
-        data: students,
+        data: paginatedData,
       });
     } catch (err) {
       next(err);
@@ -243,7 +254,7 @@ class TrainingController {
   };
 
   getsubmittedStudents = async (
-    req: Request,
+    req: Request<ParamsDictionary, any, { start: number; limit: number }>,
     res: Response<BaseResponse>,
     next: NextFunction
   ) => {
@@ -259,11 +270,19 @@ class TrainingController {
           },
         ],
       });
+
+      const { start, limit } = req.params;
+      const parsedStart = parseInt(start, 10);
+      const parsedLimit = parseInt(limit, 10);
+      const paginatedData = record.slice(
+        parsedStart,
+        parsedStart + parsedLimit
+      );
       return res.json({
         success: true,
         status: res.statusCode,
         message: "Submitted Students: ",
-        data: record,
+        data: paginatedData,
       });
     } catch (err) {
       next(err);
@@ -291,7 +310,7 @@ class TrainingController {
     } catch (err) {
       next(err);
     }
-  }
+  };
 
   submitQuestions = async (
     req: SubmitBody,
@@ -370,7 +389,7 @@ class TrainingController {
   };
 
   getAcceptedTrainings = async (
-    req: Request,
+    req: Request<{ start: number; limit: number }>,
     res: Response<BaseResponse>,
     next: NextFunction
   ) => {
@@ -393,22 +412,26 @@ class TrainingController {
           },
         ],
       });
+
+      const { start, limit } = req.params;
+      const paginatedData = acceptedTrainings.slice(start, start + limit);
       return res.json({
         success: true,
         status: res.statusCode,
         message: `acceptedRequests: `,
-        data: acceptedTrainings,
+        data: paginatedData,
       });
-    } catch (err) { }
+    } catch (err) {
+      next(err);
+    }
   };
 
   getRunningTrainings = async (
-    req: Request<{ start: number, limit: number }>,
+    req: Request<{ start: number; limit: number }>,
     res: Response<BaseResponse>,
     next: NextFunction
   ) => {
     try {
-      
       const roleId = req.user.roleId;
       let runningTrainings: Training[] = [];
       if (roleId == UserRoleEnum.Company) {
@@ -474,10 +497,9 @@ class TrainingController {
         });
       }
 
+      const { start, limit } = req.params;
+      const paginatedData = runningTrainings.slice(start, start + limit);
 
-        const {start, limit}= req.params
-        const paginatedData = runningTrainings.slice(start, start+limit);
-       
       return res.json({
         success: true,
         status: res.statusCode,
@@ -572,7 +594,7 @@ class TrainingController {
   };
 
   getAllTrainings = async (
-    req: Request,
+    req: Request<{ start: number; limit: number }>,
     res: Response<BaseResponse>,
     next: NextFunction
   ) => {
@@ -671,7 +693,7 @@ class TrainingController {
         trainings = await Training.findAll({
           where: { studentId },
           attributes: [
-           "id",
+            "id",
             "type",
             "semester",
             "startDate",
@@ -693,39 +715,44 @@ class TrainingController {
           ],
         });
       }
+
+      const { start, limit } = req.params;
+      const paginatedData = trainings.slice(start, start + limit);
       return res.json({
         success: true,
         status: res.statusCode,
         message: "All Trainings",
-        data: trainings,
+        data: paginatedData,
       });
     } catch (err) {
       next(err);
     }
   };
 
-  getStudentTrainingId = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
+  getStudentTrainingId = async (
+    req: Request,
+    res: Response<BaseResponse>,
+    next: NextFunction
+  ) => {
     try {
       const userId = req.user.userId;
       const studentId = await getStudentId(userId);
       const runningTraining = await Training.findOne({
         where: {
           status: TrainingStatusEnum.running,
-          studentId
-        }
+          studentId,
+        },
       });
       return res.json({
         success: true,
         status: res.statusCode,
         message: "All Trainings",
-        data: {"trainingId":runningTraining?.id}
+        data: { trainingId: runningTraining?.id },
       });
     } catch (err) {
       next(err);
     }
-
-  }
+  };
 }
-
 
 export default new TrainingController();
