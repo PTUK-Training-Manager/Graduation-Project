@@ -85,7 +85,6 @@ export interface StudentRequestBody extends Request {
         name: string;
         phoneNumber: string;
         email: string;
-        userId: number;
         department: string;
     }
 }
