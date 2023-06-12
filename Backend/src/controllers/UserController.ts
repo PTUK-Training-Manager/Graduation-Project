@@ -87,14 +87,26 @@ class UserController {
     }
   }
 
-  async getAll(req: Request, res: Response<BaseResponse>, next: NextFunction) {
+  async getAll(
+    req: Request<{ start: string; limit: string }>,
+    res: Response<BaseResponse>,
+    next: NextFunction
+  ) {
     try {
       const records = await User.findAll();
+
+      const { start, limit } = req.params;
+      const parsedStart = parseInt(start, 10);
+      const parsedLimit = parseInt(limit, 10);
+      const paginatedData = records.slice(
+        parsedStart,
+        parsedStart + parsedLimit
+      );
       return res.json({
         success: true,
         status: res.statusCode,
         message: "Users:",
-        data: records,
+        data: paginatedData,
       });
     } catch (err) {
       next(err);
@@ -134,7 +146,7 @@ class UserController {
         const payload = {
           userId: user.id,
           username: user.username,
-          roleId:user.roleId,
+          roleId: user.roleId,
         };
 
         const resetToken = jwt.sign(payload, resetTokenSecret, {
@@ -144,23 +156,20 @@ class UserController {
         res.status(202).cookie("reset-token", resetToken, {
           maxAge: 60 * 60 * 24 * 1000, // = 1 day in milliseconds
           httpOnly: true,
-                secure: true, // limits the scope of the cookie to "secure" channels.
-                sameSite: "none",
-                domain: isProduction
-                    ? ".onrender.com"
-                    : "localhost",
+          secure: true, // limits the scope of the cookie to "secure" channels.
+          sameSite: "none",
+          domain: isProduction ? ".onrender.com" : "localhost",
         });
         const message = `
                 <a href="http://localhost:5000/api/v1/user/enterData"> reset password </a> 
                 `;
         sendEmail(user.email, "Forget Password", message);
 
-
         return res.json({
           success: true,
           status: res.statusCode,
           message: "a Link sent successfully to ur email to reset ur password",
-          data:resetToken
+          data: resetToken,
         });
       }
     } catch (err) {
@@ -184,14 +193,14 @@ class UserController {
     res: Response<BaseResponse>,
     next: NextFunction
   ) => {
-    const { newPassword , confirmNewPassword } = req.body;
+    const { newPassword, confirmNewPassword } = req.body;
 
-    if(newPassword!=confirmNewPassword)
-    return res.json({
-      success: false,
-      status: res.statusCode,
-      message: "Passwords are not matched"
-    });
+    if (newPassword != confirmNewPassword)
+      return res.json({
+        success: false,
+        status: res.statusCode,
+        message: "Passwords are not matched",
+      });
 
     const hash = await bcrypt.hash(newPassword, 10);
     const user = await User.findOne({ where: { username: req.user.username } });
@@ -214,7 +223,7 @@ class UserController {
     next: NextFunction
   ) => {
     try {
-      const { oldPassword, newPassword,confirmNewPassword } = req.body;
+      const { oldPassword, newPassword, confirmNewPassword } = req.body;
 
       const username = req.user.username;
       const user = await User.findOne({
@@ -224,13 +233,12 @@ class UserController {
       if (user) {
         const isCorrect = await bcrypt.compare(oldPassword, user?.password);
         if (isCorrect) {
-
-      if(newPassword!=confirmNewPassword)
-      return res.json({
-        success: false,
-        status: res.statusCode,
-        message: "Passwords are not matched"
-      });
+          if (newPassword != confirmNewPassword)
+            return res.json({
+              success: false,
+              status: res.statusCode,
+              message: "Passwords are not matched",
+            });
           const hash = await bcrypt.hash(newPassword, 10);
           await User.update({ password: hash }, { where: { id: user?.id } });
 
