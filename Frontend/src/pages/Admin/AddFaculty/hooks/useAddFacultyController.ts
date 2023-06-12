@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { aploadExcelFile } from '../api';
+import { aploadExcelFile, addFaculty } from '../api';
 import { useFormik } from 'formik';
 import { validationSchema } from '../schema';
 import { INITIAL_FORM_STATE } from '../constants';
@@ -7,7 +7,7 @@ import useSnackbar from 'src/hooks/useSnackbar';
 import { AxiosBaseError } from 'src/types';
 import extractErrorMessage from 'src/utils/extractErrorMessage';
 
-const AploadExcelFileQueryKey = ['aploadExcelFile'];
+const AddFacultyQueryKey = ['addFaculty'];
 
 const useAddFacultyController = () => {
   const { showSnackbar } = useSnackbar();
@@ -15,18 +15,16 @@ const useAddFacultyController = () => {
   const formikProps = useFormik({
     initialValues: INITIAL_FORM_STATE,
     onSubmit: (values, { resetForm }) => {
-    //   mutate(values);
+      mutate(values);
       resetForm();
-      formikProps.setFieldValue('companyId', null);
-      formikProps.setFieldValue('companyBranchId', null);
     },
     validationSchema,
     validateOnMount: true,
   });
 
   const { mutate, isLoading } = useMutation(
-    AploadExcelFileQueryKey,
-    aploadExcelFile,
+    AddFacultyQueryKey,
+    addFaculty,
     {
       onSuccess: (data) => {
         console.log(data.data);
@@ -39,7 +37,7 @@ const useAddFacultyController = () => {
         const errorMessage = extractErrorMessage(error);
         showSnackbar({
           severity: 'error',
-          message: errorMessage ?? 'Error in Adding Company',
+          message: errorMessage ?? 'Error in Adding Faculty',
         });
       },
     }

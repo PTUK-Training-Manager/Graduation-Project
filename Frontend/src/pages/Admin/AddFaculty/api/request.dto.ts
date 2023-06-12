@@ -1,3 +1,8 @@
 export interface AploadExcelFileBody {
-    file: FileReader;
+    file: File;
+  }
+
+  export interface AddFacultyBody {
+    name: string;
+    email: string;
   }
