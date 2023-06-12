@@ -21,6 +21,7 @@ const TrainingRequestForm = lazy(() => import('src/pages/university/TrainingRequ
 const AddCompanyForm = lazy(() => import('src/pages/university/AddCompanyForm'));
 const CompletedTrainees = lazy(() => import('src/pages/university/CompletedTrainees'));
 const CurrentTrainees = lazy(() => import('src/pages/university/CurrentTrainees'));
+const CurrentTraineesV2 = lazy(() => import('src/pages/university/CurrentTraineesV2/CurrentTraineesGrid'));
 const AllTrainings = lazy(() => import('src/pages/university/AllTrainings'));
 const AddStudentForm = lazy(() => import('src/pages/university/AddStudentForm/AddStudentForm'));
 const AddBranchForm = lazy(() => import('src/pages/university/AddBranchForm'));
@@ -75,6 +76,7 @@ const AppRoutes: FC<AppRoutesProps> = () => {
                         <Route path="add-branch" element={<AddBranchForm/>}/>
                         <Route path="completed-trainees" element={<CompletedTrainees/>}/>
                         <Route path="current-trainees" element={<CurrentTrainees/>}/>
+                        <Route path="current-trainees-v2" element={<CurrentTraineesV2/>}/>
                     </Route>
 
                     <Route element={<ProtectedRoute allowedRoles={[Company]}/>}>

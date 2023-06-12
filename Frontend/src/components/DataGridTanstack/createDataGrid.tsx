@@ -47,8 +47,10 @@ export function createDataGrid<T extends object>(initialOptions: CreateDataGridO
                             <Grid.Filters/>
                         </Grid.Toolbar.End>
                     </Grid.Toolbar>
-                    <Grid.Head/>
-                    <Grid.Body/>
+                    <Grid.Table>
+                        <Grid.Head/>
+                        <Grid.Body/>
+                    </Grid.Table>
                     <Grid.Footer/>
                 </Grid.Container>
             </Grid.Provider>
@@ -62,8 +64,8 @@ export function createDataGrid<T extends object>(initialOptions: CreateDataGridO
     Grid.Table = makeDataGridTable(configs);
     Grid.Head = makeDataGridHead(configs); //TableHead
     Grid.Body = pagination === "on"
-    ? makeDataGridBody(configs)
-    : makeDataGridInfiniteBody(configs);
+        ? makeDataGridBody(configs)
+        : makeDataGridInfiniteBody(configs);
     Grid.Placeholder = makePlaceholder(configs);
     Grid.Footer = pagination === "on"
         ? makeDataGridPaginatedFooter<T>(configs)
