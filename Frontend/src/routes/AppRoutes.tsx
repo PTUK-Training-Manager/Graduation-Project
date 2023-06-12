@@ -12,7 +12,9 @@ const Login = lazy(() => import("src/pages/Login"));
 const NotFound = lazy(() => import("src/pages/NotFound"));
 const AccessDenied = lazy(() => import("src/pages/AccessDenied"));
 const EditorPlayground = lazy(() => import("src/pages/EditorPlayground"));
-const DataGridPlayground = lazy(() => import("src/pages/DataGridPlayground"));
+const DataGridInfinitePlayground = lazy(() => import("src/pages/DataGridInfinitePlayground"));
+const DataGridPaginatedPlayground = lazy(() => import("src/pages/DataGridPaginatedPlayground"));
+const InfiniteScrollPlayground = lazy(() => import("src/pages/InfiniteScrollPlayground"));
 
 // university pages
 const TrainingRequestForm = lazy(() => import('src/pages/university/TrainingRequestForm'));
@@ -45,19 +47,13 @@ const AppRoutes: FC<AppRoutesProps> = () => {
     return (
         <Suspense fallback={<BlockUI isBlocked/>}>
             <Routes>
-                {/* <Route index path="/" element={<Home/>}/> */}
-                {/*<Route path="public">*/}
-                {/*    <Route path="login" element={<Login/>}/>*/}
-                {/*    <Route path="landing" element={<LandingPage/>}/>*/}
-                {/*    <Route path="editor" element={<EditorPlayground/>}/>*/}
-                {/*    <Route path="data-grid" element={<DataGridPlayground/>}/>*/}
-                {/*</Route>*/}
-
                 <Route path="" element={<Login/>}/>
                 <Route path="login" element={<Login/>}/>
                 <Route path="landing" element={<LandingPage/>}/>
                 <Route path="editor" element={<EditorPlayground/>}/>
-                <Route path="data-grid" element={<DataGridPlayground/>}/>
+                <Route path="data-grid-infinite" element={<DataGridInfinitePlayground/>}/>
+                <Route path="data-grid-paginated" element={<DataGridPaginatedPlayground/>}/>
+                <Route path="infinite-scroll" element={<InfiniteScrollPlayground/>}/>
 
                 <Route path="me" element={<AppLayout/>}>
                     <Route element={<ProtectedRoute/>}>

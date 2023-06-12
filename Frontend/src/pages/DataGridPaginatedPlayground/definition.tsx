@@ -1,6 +1,6 @@
-import {Chip} from "@mui/material";
+import Chip from "@mui/material/Chip";
 import {ColumnDef} from "@tanstack/react-table";
-import {UserData} from "./API/response.dto";
+import {UserData} from "./API/types";
 import {createDataGrid} from "src/components/DataGridTanstack";
 
 export const columns: ColumnDef<UserData, any>[] = [
@@ -9,12 +9,13 @@ export const columns: ColumnDef<UserData, any>[] = [
         header: "ID",
         // maxSize: 40,
         // filterFn: "includesString",
-        size: 200,
+        size: 100,
+        filterFn: "inNumberRange",
     },
     {
         accessorKey: "name",
         header: "Name",
-        size: 200,
+        size: 300,
         filterFn: "arrIncludesSome",
     },
     {
@@ -25,7 +26,9 @@ export const columns: ColumnDef<UserData, any>[] = [
     {
         accessorKey: "body",
         header: "Body",
-        minSize: 500,
+        // minSize: 400,
+        filterFn: "dateBetween",
+        // size: "auto",
     },
     {
         accessorKey: "postId",
@@ -40,11 +43,19 @@ export const columns: ColumnDef<UserData, any>[] = [
             );
         },
     },
+    {
+        accessorKey: "birthDate",
+        header: "Birth Date",
+        filterFn: "dateBetween",
+    }
 ];
 
-const UsersDataGrid = createDataGrid<UserData>({
+const UsersDataGrid = createDataGrid({
     name: "DataGridPlayground",
     columns,
+    pageSize: 15,
+    // pagination: "on", // No need, "on" is the default
+    // shouldFlexGrowCells: true,
 });
 
 export default UsersDataGrid;
