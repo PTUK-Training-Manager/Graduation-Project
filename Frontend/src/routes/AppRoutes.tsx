@@ -3,16 +3,18 @@ import { Route, Routes } from 'react-router-dom';
 import BlockUI from 'src/containers/BlockUI';
 import AppLayout from 'src/AppLayout';
 import ProtectedRoute from 'src/routes/ProtectedRoute';
-const EditorPlayground = lazy(() => import('src/pages/EditorPlayground'));
-const DataGridPlayground = lazy(() => import('src/pages/DataGridPlayground'));
 
-const LandingPage = lazy(() => import('src/pages/LandingPage'));
-const Admin = lazy(() => import('src/pages/Admin'));
-const Home = lazy(() => import('src/pages/Home'));
-const Dashboard = lazy(() => import('src/pages/Dashboard'));
-const Login = lazy(() => import('src/pages/Login'));
-const NotFound = lazy(() => import('src/pages/NotFound'));
-const AccessDenied = lazy(() => import('src/pages/AccessDenied'));
+const LandingPage = lazy(() => import("src/pages/LandingPage"));
+const Admin = lazy(() => import("src/pages/Admin"));
+const Home = lazy(() => import("src/pages/Home"));
+const Dashboard = lazy(() => import("src/pages/Dashboard"));
+const Login = lazy(() => import("src/pages/Login"));
+const NotFound = lazy(() => import("src/pages/NotFound"));
+const AccessDenied = lazy(() => import("src/pages/AccessDenied"));
+const EditorPlayground = lazy(() => import("src/pages/EditorPlayground"));
+const DataGridInfinitePlayground = lazy(() => import("src/pages/DataGridInfinitePlayground"));
+const DataGridPaginatedPlayground = lazy(() => import("src/pages/DataGridPaginatedPlayground"));
+const InfiniteScrollPlayground = lazy(() => import("src/pages/InfiniteScrollPlayground"));
 
 // university pages
 const TrainingRequestForm = lazy(
@@ -87,7 +89,9 @@ const AppRoutes: FC<AppRoutesProps> = () => {
         <Route path="login" element={<Login />} />
         <Route path="landing" element={<LandingPage />} />
         <Route path="editor" element={<EditorPlayground />} />
-        <Route path="data-grid" element={<DataGridPlayground />} />
+        <Route path="data-grid-infinite" element={<DataGridInfinitePlayground/>}/>
+                <Route path="data-grid-paginated" element={<DataGridPaginatedPlayground/>}/>
+                <Route path="infinite-scroll" element={<InfiniteScrollPlayground/>}/>
 
         <Route path="/" element={<AppLayout />}>
           <Route element={<ProtectedRoute />}>
