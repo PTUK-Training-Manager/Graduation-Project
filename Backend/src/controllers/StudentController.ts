@@ -17,7 +17,7 @@ class studentController {
     async addStudent(req: StudentRequestBody, res: Response<BaseResponse>, next: NextFunction) {
         try {
             const { id, name, email, phoneNumber, department } = req.body;
-            let nameArray = (name).split(" ");
+            let nameArray = (name)?.split(" ");
             const firstName = nameArray[0]; // Get the first section
             const lastName = nameArray[nameArray.length - 1]; 
             const student = await Student.findByPk(id);
