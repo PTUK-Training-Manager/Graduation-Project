@@ -1,11 +1,10 @@
 import React, {FC} from 'react';
-import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import theme from "src/styling/customTheme";
-
+import { Card, CardContent, Typography, makeStyles, Theme, Chip, Avatar } from '@mui/material';
+import { Icon } from '@mui/material';
 interface HomeProps {
 }
-
 const Home: FC<HomeProps> = (props) => {
 
     return (
@@ -15,11 +14,21 @@ const Home: FC<HomeProps> = (props) => {
             alignItems: "center",
         }}>
             <Typography variant="h1">
-                Home
+                Welcome 
             </Typography>
-            <Typography variant="h5">
-                Not implemented yet...
-            </Typography>
+            <Chip
+  avatar={<Avatar>A</Avatar>}
+  label="Avatar"
+  variant="outlined"
+/>
+            <Card sx={{ maxWidth: 300, margin: '0 auto' }}>
+      <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
+        <Icon sx={{ marginRight: 1 }}>star</Icon>
+        <Typography variant="body1">
+          This is a sample text inside the Card component.
+        </Typography>
+      </CardContent>
+    </Card>
         </Stack>
     );
 };
