@@ -10,9 +10,9 @@ const { addCompany, handleAddBranch, getCompanies, getBranches, getCompanyFields
 router.use(verifyAccessToken)
 router.post('/company', verifyRoles([UserRoleEnum.UNI_TRAINING_OFFICER]), addCompany);
 router.post('/branch', verifyRoles([UserRoleEnum.UNI_TRAINING_OFFICER]), handleAddBranch);
-router.get('/company', verifyRoles([UserRoleEnum.UNI_TRAINING_OFFICER]), getCompanies);
+router.get('/company/:page/:size', verifyRoles([UserRoleEnum.UNI_TRAINING_OFFICER]), getCompanies);
 router.post('/branches', verifyRoles([UserRoleEnum.UNI_TRAINING_OFFICER]), getBranches);
-router.get('/trainers', verifyRoles([UserRoleEnum.Company]), TrainerController.getMyTrainers)
+router.get('/trainers/:page/:size', verifyRoles([UserRoleEnum.Company]), TrainerController.getMyTrainers)
 router.get('/fields', verifyRoles([UserRoleEnum.UNI_TRAINING_OFFICER, UserRoleEnum.Company]), getCompanyFields)
 router.get('/allFields', verifyRoles([UserRoleEnum.UNI_TRAINING_OFFICER, UserRoleEnum.Company]), getAllFields)
 router.post('/fields', verifyRoles([UserRoleEnum.Company]), addFields)

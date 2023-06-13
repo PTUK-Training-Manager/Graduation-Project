@@ -5,6 +5,7 @@ import {
   CompanyRequestBody,
   BaseResponse,
   AddFieldBody,
+  GridResponse,
 } from "../types";
 import { UserRoleEnum } from "../enums";
 import { getCompanyId } from "../utils";
@@ -139,8 +140,8 @@ class CompanyController {
   }
 
   async getCompanies(
-    req: Request<ParamsDictionary, any, { start: number; limit: number }>,
-    res: Response<BaseResponse>,
+    req: Request<{ page?: number; size?: number }>,
+    res: Response<GridResponse>,
     next: NextFunction
   ) {
     try {
@@ -153,19 +154,31 @@ class CompanyController {
         ],
       });
 
-      const { start, limit } = req.params;
-      const parsedStart = parseInt(start, 10);
-      const parsedLimit = parseInt(limit, 10);
+      const { page, size } = req.params;
+      if(page==null ||size==null ||page==-1 || size==-1){
+        
+        return res.json({
+          items: companies,
+          pageNumber: -1,
+          pageSize: -1,
+          totalItems: companies.length,
+          totalPages:1
+        });
+      }
+      else{
       const paginatedData = companies.slice(
-        parsedStart,
-        parsedStart + parsedLimit
+        page*size,
+        page*size + size
       );
       return res.json({
-        success: true,
-        status: res.statusCode,
-        message: "success retrieve all companies",
-        data: paginatedData,
+        items: paginatedData,
+        pageNumber: page,
+        pageSize: size,
+        totalItems: companies.length,
+        totalPages: Math.ceil(companies.length/size)
       });
+
+    }
     } catch (err) {
       next(err);
     }
@@ -178,7 +191,6 @@ class CompanyController {
   ) {
     try {
       const companyId = req.body.companyId;
-      console.log(companyId);
       const locations = await CompanyBranch.findAll({
         where: { companyId },
         attributes: ["id", "location"],

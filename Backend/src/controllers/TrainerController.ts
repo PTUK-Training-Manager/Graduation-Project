@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { BaseResponse, TrainerRequestBody } from "../types";
+import { BaseResponse, GridResponse, TrainerRequestBody } from "../types";
 import { Trainer, Company, User, Training, Field } from "../models";
 import UserController from "./UserController";
 import { TrainerStatusEnum, TrainingStatusEnum, UserRoleEnum } from "../enums";
@@ -160,27 +160,27 @@ class TrainierController {
     }
   };
 
-  getAll = async (
-    req: TrainerRequestBody,
-    res: Response<BaseResponse>,
-    next: NextFunction
-  ) => {
-    try {
-      const records = await Trainer.findAll({});
-      return res.json({
-        success: true,
-        status: res.statusCode,
-        message: "Trainers: ",
-        data: records,
-      });
-    } catch (err) {
-      next(err);
-    }
-  };
+  // getAll = async (
+  //   req: TrainerRequestBody,
+  //   res: Response<BaseResponse>,
+  //   next: NextFunction
+  // ) => {
+  //   try {
+  //     const records = await Trainer.findAll({});
+  //     return res.json({
+  //       success: true,
+  //       status: res.statusCode,
+  //       message: "Trainers: ",
+  //       data: records,
+  //     });
+  //   } catch (err) {
+  //     next(err);
+  //   }
+  // };
 
   getMyTrainers = async (
-    req: Request<{ start: string; limit: string }>,
-    res: Response<BaseResponse>,
+    req: Request<{ page?: number; size?: number }>,
+    res: Response<GridResponse>,
     next: NextFunction
   ) => {
     try {
@@ -200,19 +200,30 @@ class TrainierController {
         include: { model: Field },
       });
 
-      const { start, limit } = req.params;
-      const parsedStart = parseInt(start, 10);
-      const parsedLimit = parseInt(limit, 10);
+      const { page, size } = req.params;
+      if(page==null ||size==null ||page==-1 || size==-1){
+        
+        return res.json({
+          items: records,
+          pageNumber: -1,
+          pageSize: -1,
+          totalItems: records.length,
+          totalPages:1
+        });
+      }
+      else{
       const paginatedData = records.slice(
-        parsedStart,
-        parsedStart + parsedLimit
+        page*size,
+        page*size + size
       );
       return res.json({
-        success: true,
-        status: res.statusCode,
-        message: "Trainers: ",
-        data: paginatedData,
+        items: paginatedData,
+        pageNumber: page,
+        pageSize: size,
+        totalItems: records.length,
+        totalPages: Math.ceil(records.length/size)
       });
+    }
     } catch (err) {
       next(err);
     }

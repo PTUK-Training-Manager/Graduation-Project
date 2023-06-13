@@ -52,7 +52,7 @@ export interface BaseResponse {
 export interface GridResponse {
     items: object[],
     pageNumber: number,
-    pageSzie: number,
+    pageSize: number,
     totalItems: number,
     totalPages: number
 }

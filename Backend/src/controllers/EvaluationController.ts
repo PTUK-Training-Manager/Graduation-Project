@@ -18,6 +18,7 @@ import {
   BaseResponse,
   EditEvaluationBody,
   EvaluationType,
+  GridResponse,
   ProgressFormBody,
   ProgressFormWithHours,
   RejectEvaluationBody,
@@ -85,8 +86,8 @@ class EvaluationController {
   };
 
   getPendingEvaluations = async (
-    req: Request<{ start: string; limit: string }>,
-    res: Response<BaseResponse>,
+    req: Request<{ page?: number; size?: number }>,
+    res: Response<GridResponse>,
     next: NextFunction
   ) => {
     try {
@@ -111,19 +112,20 @@ class EvaluationController {
         ],
       });
 
-      const { start, limit } = req.params;
-      const parsedStart = parseInt(start, 10);
-      const parsedLimit = parseInt(limit, 10);
+      const { page, size } = req.params;
+      if(page!=null&&size!=null){
       const paginatedData = pendingEvaluations.slice(
-        parsedStart,
-        parsedStart + parsedLimit
+        page*size,
+        page*size + size
       );
+
       return res.json({
-        success: true,
-        status: res.statusCode,
-        message: "pending evaluations",
-        data: paginatedData,
-      });
+        items: paginatedData,
+        pageNumber: page,
+        pageSize: size,
+        totalItems: pendingEvaluations.length,
+        totalPages: Math.ceil(pendingEvaluations.length/size)
+      });}
     } catch (err) {
       next(err);
     }
@@ -280,7 +282,7 @@ class EvaluationController {
 
   getRejectedEvaluations = async (
     req: Request<
-      { start: string; limit: string },
+      unknown,
       unknown,
       { trainingId: number }
     >,
@@ -301,18 +303,12 @@ class EvaluationController {
           },
         ],
       });
-      const { start, limit } = req.params;
-      const parsedStart = parseInt(start, 10);
-      const parsedLimit = parseInt(limit, 10);
-      const paginatedData = rejectedEvaluations.slice(
-        parsedStart,
-        parsedStart + parsedLimit
-      );
+      
       return res.json({
         success: true,
         status: res.statusCode,
         message: " ",
-        data: paginatedData,
+        data: rejectedEvaluations,
       });
     } catch (err) {
       next(err);
@@ -321,7 +317,7 @@ class EvaluationController {
 
   getStudentPendingEvaluations = async (
     req: Request<
-      { start: string; limit: string },
+      unknown,
       unknown,
       { trainingId: number }
     >,
@@ -337,18 +333,11 @@ class EvaluationController {
         },
       });
 
-      const { start, limit } = req.params;
-      const parsedStart = parseInt(start, 10);
-      const parsedLimit = parseInt(limit, 10);
-      const paginatedData = pendingEvaluations.slice(
-        parsedStart,
-        parsedStart + parsedLimit
-      );
       return res.json({
         success: true,
         status: res.statusCode,
         message: " ",
-        data: paginatedData,
+        data: pendingEvaluations,
       });
     } catch (err) {
       next(err);
