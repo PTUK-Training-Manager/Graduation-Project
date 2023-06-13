@@ -194,7 +194,14 @@ class UserController {
     res: Response<BaseResponse>,
     next: NextFunction
   ) => {
-    const { newPassword } = req.body;
+    const { newPassword, confirmNewPassword } = req.body;
+
+    if (newPassword != confirmNewPassword)
+      return res.json({
+        success: false,
+        status: res.statusCode,
+        message: "Passwords are not matched",
+      });
 
     const hash = await bcrypt.hash(newPassword, 10);
     const user = await User.findOne({ where: { username: req.user.username } });
