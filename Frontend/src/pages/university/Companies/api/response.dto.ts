@@ -21,3 +21,22 @@ export interface AddBranchData {
 export interface AddBranchResponse extends BaseResponse {
     data: AddBranchData;
 }
+export interface GetCompanyData {
+  map(arg0: (company: any) => { id: any; name: any; }): unknown;
+  id: string;
+  name: string;
+  phoneNumber: string;
+  managerName: string;
+  userId: string;
+  User: {
+    email: string;
+  };
+}
+
+export interface GetCompanyResponse extends BaseResponse {
+  items: GetCompanyData[];
+  pageNumber: string;
+  pageSzie: string;
+  totalItems: number;
+  totalPages: number;
+}

@@ -4,9 +4,9 @@ dotenv.config();
 import { Request, Response, NextFunction } from "express";
 
 const verifyResetToken = (req: Request, res: Response, next: NextFunction) => {
-  // const resetToken = req.cookies["reset-token"];
+  const resetToken = req.cookies["reset-token"];
 
-  const resetToken = req.headers["reset-token"] as string;
+  // const resetToken = req.headers["reset-token"] as string;
 
   if (!resetToken)
     return res.status(401).json({

@@ -37,13 +37,9 @@ const ForgetPassword: React.FC = () => {
   const { formikProps, isLoading } = useForgetController();
   const { isValid } = formikProps;
   const navigate = useNavigate();
+  const [response,setResponse]= useState(null);
 
-  useEffect(() => {
-    getForgetPage().then((res) => {
-      //@ts-ignore
-      setReponse(res.data);
-    });
-  }, []);
+  
 
   return (
     <>
@@ -77,12 +73,6 @@ const ForgetPassword: React.FC = () => {
                   name="newPassword"
                   autoFocus
                 />
-                 <TextFieldWrapper
-                  label="Confirm New Password"
-                  name="confirmNewPassword"
-                  autoFocus
-                />
-
                 
                 <LoadingButton
                   type="submit"

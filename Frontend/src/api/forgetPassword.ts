@@ -20,7 +20,6 @@ export interface forggetResponse extends BaseResponse {
 }
 export interface SubmitforggetBody {
     newPassword: string;
-    confirmNewPassword: string;
 
 }
 export const submitNewForgettenPassword = (body: SubmitforggetBody) => {
