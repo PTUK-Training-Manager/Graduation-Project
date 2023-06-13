@@ -62,7 +62,9 @@ const AppNavbar: FC = () => {
                 </Stack>
                 {user ? (<AccountMenu/>) : <Box/>}
                 
-                <LanguageSelector/>
+                 <Box sx={{ position: 'absolute',right:'64px' }}>
+      <LanguageSelector  />
+      </Box>
 
             </Toolbar>
         </AppBar>

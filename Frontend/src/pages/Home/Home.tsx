@@ -3,7 +3,7 @@ import Stack from '@mui/material/Stack';
 import { Typography, Chip, Avatar, Box, IconButton, Grid } from '@mui/material';
 import Playground from '@mui/lab';
 import PostAddIcon from '@mui/icons-material/PostAdd';
-// import backgroundImage from './9e9303661f991a048054650aaaee2d50.jpg';
+import backgroundImage from './t5.jpg';
 import PeopleAltSharpIcon from '@mui/icons-material/PeopleAltSharp';
 import StoreSharpIcon from '@mui/icons-material/StoreSharp';
 import GroupsSharpIcon from '@mui/icons-material/GroupsSharp';
@@ -18,8 +18,9 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundImage: `linear-gradient(to bottom right, #00c6ff, #0072ff)`,
+    background: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${backgroundImage})`,
     backgroundSize: 'cover',
+    backgroundPosition: 'center',
     overflow: 'hidden',
     color: 'white',
   },
@@ -43,6 +44,7 @@ const styles = {
   icon: {
     fontSize: 50,
     color: '#136a8a',
+    
   },
 };
 
@@ -54,10 +56,10 @@ const Home: FC<HomeProps> = (props) => {
   return (
     <>
       <Box sx={styles.root}>
-        <Box sx={styles.overlay}></Box>
+        {/* <Box sx={styles.overlay}></Box> */}
         <Stack gap={5} sx={{ zIndex: 1 }}>
           <Typography variant="h1">{t('Welcome')}</Typography>
-          <Chip avatar={<Avatar>A</Avatar>} label="Arafat" variant="outlined" />
+          {/* <Chip avatar={<Avatar>A</Avatar>} label="Arafat" variant="outlined" /> */}
           <Grid
             container
             alignItems="center"

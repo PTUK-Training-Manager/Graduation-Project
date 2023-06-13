@@ -35,7 +35,7 @@ const LanguageSelector = () => {
         IconComponent={LanguageIcon}
         onChange={handleClick}
         defaultValue={i18next.language}
-        sx={{color:'white'}}
+        sx={{ color: 'white', border: 'none' }} 
       >
         {languages.map(({ code, name, country_code }) => (
           <MenuItem key={country_code} value={code}>
