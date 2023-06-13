@@ -29,7 +29,7 @@ function Charts() {
     <Grid container sx={{ p: 3,justifyContent:"space-between"}} >
     <><div style={{ width: 700 }}>
       <BarChart chartData={userData} />
-    </div><div style={{ width: 500 }}>
+    </div><div style={{ width: 400 }}>
         <PieChart chartData={userData} />
       </div>
       </>

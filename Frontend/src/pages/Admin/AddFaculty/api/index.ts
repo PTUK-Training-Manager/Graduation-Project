@@ -11,7 +11,9 @@ export const addFaculty = async (body: AddFacultyBody) => {
 
 export const aploadExcelFile = async (file: File) => {
     const url = "/admin/upload";
-    return axiosInstance.post<AploadExcelFileResponse>(url, file).then(res => res.data);
+    const formData = new FormData();
+    formData.set("files" , file);
+    return axiosInstance.post<AploadExcelFileResponse>(url, formData).then(res => res.data);
   };
   
   

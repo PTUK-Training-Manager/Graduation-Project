@@ -205,7 +205,7 @@ const studentMenuItems: IAppMenuItem[] = [
 ];
 const AdminMenuItems: IAppMenuItem[] = [
   {
-      label: "Add Faculty",
+      label: "Admin Processes",
       link: "/add-faculty",
       Icon: () => <IntegrationInstructionsIcon/>,
   },

@@ -27,29 +27,13 @@ const AddFaculty: React.FC = () => {
 
   // onchange event
   const handleFile = (e: { target: { files: any[]; }; }) => {
-    let fileTypes = [
-      'application/vnd.ms-excel',
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      'text/csv',
-    ];
-    let selectedFile = e.target.files[0];
-    if (selectedFile) {
-      if (selectedFile && fileTypes.includes(selectedFile.type)) {
-        setTypeError(null);
-        let reader = new FileReader();
-        reader.readAsArrayBuffer(selectedFile);
-        reader.onload = (e) => {
-          //@ts-ignore
-          setExcelFile(e.target.result);
-        };
+   if(e.target.files[0]){
+          setExcelFile(e.target.files[0]);
       } else {
         //@ts-ignore
         setTypeError('Please select only excel file types');
         setExcelFile(null);
       }
-    } else {
-      console.log('Please select your file');
-    }
   };
 
   // submit event
