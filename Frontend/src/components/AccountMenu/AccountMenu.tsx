@@ -47,7 +47,7 @@ const AccountMenu: FC<AccountMenuProps> = (props) => {
             <Tooltip title="Account settings">
                 <IconButton
                     onClick={handleClick}
-                    size="small"
+                    // size="small"
                     // sx={{ ml: 2 }}
                     aria-controls={open ? 'account-menu' : undefined}
                     aria-haspopup="true"
