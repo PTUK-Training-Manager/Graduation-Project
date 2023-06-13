@@ -1,5 +1,5 @@
 {
-
+  "AppTitle": "Trainerize",
   "title": "Submit Request",
   "StudentNumber": "Student Number",
   "TrainingType": "Type",
@@ -13,13 +13,8 @@
   "CompanyName": "Company Name",
    "AddNewCompany": " Add New Company",
    "Submit":"Submit",
-
    "Welcome": "Welcome",
    "Requests": "Requests",
    "SubmittedTrainees": "Submitted Trainees"
-
-
-
-   
 }
 

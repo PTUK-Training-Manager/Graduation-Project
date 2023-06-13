@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {AppBar , IconButton} from "@mui/material";
+import {AppBar, IconButton} from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
 import ImageListItem from "@mui/material/ImageListItem";
@@ -21,7 +21,6 @@ const AppNavbar: FC = () => {
     const handleOpenSidebar = () => setIsSidebarOpen((prev) => !prev);
 
     return (
-        
         <AppBar
             position="fixed"
             sx={{
@@ -35,9 +34,9 @@ const AppNavbar: FC = () => {
                 // }),
             }}
         >
- 
+
             <Toolbar sx={{height: "100%", justifyContent: "space-between"}}>
-                
+
                 <IconButton
                     color="inherit"
                     aria-label="open drawer"
@@ -51,6 +50,7 @@ const AppNavbar: FC = () => {
                     }}/>}
                     <MenuIcon/>
                 </IconButton>
+
                 <Stack direction="row"
                        sx={{height: NAVBAR_HEIGHT, alignItems: "baseline", maxWidth: "275px", gap: 1, mb: 0.5}}>
                     <ImageListItem>
@@ -60,10 +60,11 @@ const AppNavbar: FC = () => {
                         <img src={PTUK_TEXT} style={{filter: `brightness(0) invert(1)`}}></img>
                     </ImageListItem>
                 </Stack>
-                {user ? (<AccountMenu/>) : <Box/>}
-                
-                <LanguageSelector/>
 
+                <Stack direction="row">
+                    <LanguageSelector/>
+                    {user ? (<AccountMenu/>) : <Box/>}
+                </Stack>
             </Toolbar>
         </AppBar>
     );
