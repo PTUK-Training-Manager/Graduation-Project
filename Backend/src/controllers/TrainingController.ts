@@ -438,7 +438,7 @@ class TrainingController {
   };
 
   getRunningTrainings = async (
-    req: Request<{ start: number; limit: number }>,
+    req: Request<{ page: number; size: number }>,
     res: Response<GridResponse>,
     next: NextFunction
   ) => {
@@ -508,14 +508,14 @@ class TrainingController {
         });
       }
 
-      const { start, limit } = req.params;
-      const paginatedData = runningTrainings.slice(start*limit, start*limit + limit);
+      const { page, size } = req.params;
+      const paginatedData = runningTrainings.slice(page*size, page*size + size);
       return res.json({
         items: paginatedData,
-        pageNumber: start,
-        pageSize: limit,
+        pageNumber: page,
+        pageSize: size,
         totalItems: runningTrainings.length,
-        totalPages: Math.ceil(runningTrainings.length/limit)
+        totalPages: Math.ceil(runningTrainings.length/size)
       });
     } catch (err) {
       next(err);
@@ -605,7 +605,7 @@ class TrainingController {
   };
 
   getAllTrainings = async (
-    req: Request<{ start: number; limit: number }>,
+    req: Request<{ page: number; size: number }>,
     res: Response<GridResponse>,
     next: NextFunction
   ) => {
@@ -727,14 +727,14 @@ class TrainingController {
         });
       }
 
-      const { start, limit } = req.params;
-      const paginatedData = trainings.slice(start*limit, start*limit + limit);
+      const { page, size } = req.params;
+      const paginatedData = trainings.slice(page*size, page*size + size);
       return res.json({
         items: paginatedData,
-        pageNumber: start,
-        pageSize: limit,
+        pageNumber: page,
+        pageSize: size,
         totalItems: trainings.length,
-        totalPages: Math.ceil(trainings.length/limit)
+        totalPages: Math.ceil(trainings.length/size)
       });
     } catch (err) {
       next(err);

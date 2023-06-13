@@ -4,12 +4,12 @@ import { GetCurrentTraineesResponse } from './response.dto';
 
 export const getCurrentTrainees = async (params: FetchUsersParams) => {
   return axiosInstance.get<GetCurrentTraineesResponse>(
-    `/training/runningTrainings/${params.page}/${params.size}`/* ,
+    `/training/runningTrainings/${params.page}/${params.size}` ,
     {
       params: {
-        start: (params.start ?? 0) * (params.limit ?? 10),
-        limit: params.limit,
+        page: (params.page ?? 0) * (params.size ?? 10),
+        size: params.size,
       },
-    } */
+    } 
   );
 };
