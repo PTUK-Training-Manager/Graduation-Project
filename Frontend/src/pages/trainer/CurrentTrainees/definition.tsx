@@ -1,15 +1,14 @@
 import { Chip, IconButton } from '@mui/material';
 import { CellContext, ColumnDef } from '@tanstack/react-table';
-import { RunningTraineesData } from './api/response.dto';
+import { CurrentTraineesData } from './api/response.dto';
 import { createDataGrid } from 'src/components/DataGridTanstack';
 import { Feed } from '@mui/icons-material';
 import { FC, useEffect, useState } from 'react';
 import { progressForm } from 'src/api/progress';
-import ProgressFormCell from '../CurrentTraineesV2/ProgressFormCell';
 import useCurrentTraineesController from './hooks/useCurrentTraineesController';
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 
-interface ProgressFormCellProps extends CellContext<RunningTraineesData, any> {}
+interface ProgressFormCellProps extends CellContext<CurrentTraineesData, any> {}
 const uselogic = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [trainingId, setTrainingId] = useState('');
@@ -41,7 +40,7 @@ const uselogic = () => {
     setTrainingId('');
   };
 
-  const columns: ColumnDef<RunningTraineesData, any>[] = [
+  const columns: ColumnDef<CurrentTraineesData, any>[] = [
     {
       accessorKey: 'studentId',
       header: 'Student Number',
@@ -51,20 +50,20 @@ const uselogic = () => {
       header: 'Student Name',
       filterFn: 'arrIncludesSome',
     },
-  
+
     {
       header: 'Progress Form',
       //@ts-ignore
       cell: (params: { row: RunningTraineesData }) => {
         const rowData = rows;
         console.log(rowData);
-        const ids=rowData.map((data) => data.id);
+        const ids = rowData.map((data) => data.id);
         return (
           <IconButton
             sx={{ ml: 3.5 }}
             aria-label="progress form"
             //@ts-ignore
-            onClick={() => handleOpenDialog(24)}
+            onClick={() => handleOpenDialog(219)}
           >
             <Feed
               color="warning"

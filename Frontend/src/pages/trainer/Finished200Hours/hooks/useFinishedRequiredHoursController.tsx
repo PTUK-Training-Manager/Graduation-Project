@@ -1,6 +1,5 @@
 import React, {useEffect, useState, SyntheticEvent} from "react";
-import {Row,Response} from "../types";
-import {getCurrentTrainees} from "../api";
+import {getTraineesFinishedRequiredHours} from "../api";
 import {IconButton} from "@mui/material";
 import {Feed} from "@mui/icons-material";
 import { progressForm } from "src/api/progress";
@@ -11,14 +10,14 @@ export interface UseDataGridPlaygroundAPIProps {
     pagination?: PageChangeParams;
 }
 
-const useCurrentTraineesController = ({pagination}: UseDataGridPlaygroundAPIProps) => {
+const useFinishedRequiredHoursController = ({pagination}: UseDataGridPlaygroundAPIProps) => {
                   
     const [totalRows, setTotalRows] = useState<number>(0);
 
     const {data}
         = useQuery(
         ["users", pagination],
-        () => getCurrentTrainees({page: pagination?.pageIndex, size: pagination?.pageSize}).then(res => {
+        () => getTraineesFinishedRequiredHours({page: pagination?.pageIndex, size: pagination?.pageSize}).then(res => {
             setTotalRows(res?.headers["x-total-count"] ?? 0);
             return res?.data.items ?? [];
         })
@@ -31,7 +30,7 @@ const useCurrentTraineesController = ({pagination}: UseDataGridPlaygroundAPIProp
             rows: data ?? [],
     };
 };
-export default useCurrentTraineesController;
+export default useFinishedRequiredHoursController;
 
 
 

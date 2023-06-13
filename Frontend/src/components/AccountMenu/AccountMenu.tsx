@@ -168,7 +168,7 @@ const AccountMenu: FC<AccountMenuProps> = (props) => {
             <Avatar /> Profile
           </MenuItem>
           <MenuItem onClick={handleClose}>
-            <Avatar /> My account
+            <Avatar /> Reset My Password
           </MenuItem>
           <Divider />
           <MenuItem onClick={handleClose}>

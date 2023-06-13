@@ -87,6 +87,7 @@ const useCurrentTraineesController = () => {
 
   useEffect(() => {
     progressForm({ trainingId: trainingId }).then((res) => {
+      //@ts-ignore
       setReponse(res.data);
     });
   }, [trainingId]);

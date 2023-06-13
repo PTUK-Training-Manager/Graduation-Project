@@ -11,7 +11,7 @@ import ProgressFormDialog from './components/ProgressFormDialog';
 const CurrentTrainees: React.FC = () => {
   const [pagination, setPagination] = useState<PageChangeParams>({
     pageIndex: 0,
-    pageSize: 10,
+    pageSize: 30,
   });
 
   const { rows } = useCurrentTraineesController({

@@ -1,6 +1,6 @@
 import { BaseResponse } from "src/types";
 
-export interface GetTrainingRequestsData {
+export interface TrainingRequestsData {
     id: string;
     studentId: string;
     type: string;
@@ -13,6 +13,10 @@ export interface GetTrainingRequestsData {
     };
   }
   
-  export interface GetTrainingRequestsResponse extends BaseResponse {
-    data: GetTrainingRequestsData[];
+  export interface TrainingRequestsResponse {
+    items: TrainingRequestsData[];
+    pageNumber: string;
+    pageSzie: string;
+    totalItems: number;
+    totalPages: number;
   }

@@ -49,7 +49,7 @@ const CompanyCurrentTrainees = lazy(
 const CompanyCompletedTrainees = lazy(
   () => import('src/pages/company/CompletedTrainees')
 );
-const CompanyAllTrainings = lazy(() => import('src/pages/company/AllTraining'));
+const CompanyAllTrainings = lazy(() => import('src/pages/company/AllTrainings'));
 
 // trainer pages
 const TrainerCurrentTrainees = lazy(

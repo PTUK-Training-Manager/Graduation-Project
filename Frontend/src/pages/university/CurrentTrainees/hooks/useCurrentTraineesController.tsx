@@ -18,7 +18,7 @@ const useCurrentTraineesController = ({pagination}: UseDataGridPlaygroundAPIProp
     const {data}
         = useQuery(
         ["users", pagination],
-        () => getCurrentTrainees({start: pagination?.pageIndex, limit: pagination?.pageSize}).then(res => {
+        () => getCurrentTrainees({page: pagination?.pageIndex, size: pagination?.pageSize}).then(res => {
             setTotalRows(res?.headers["x-total-count"] ?? 0);
             return res?.data.items ?? [];
         })
