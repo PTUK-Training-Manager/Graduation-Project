@@ -728,7 +728,21 @@ class TrainingController {
       }
 
       const { page, size } = req.params;
-      const paginatedData = trainings.slice(page*size, page*size + size);
+      if(page==null ||size==null ||page==-1 || size==-1){
+        
+        return res.json({
+          items: trainings,
+          pageNumber: -1,
+          pageSize: -1,
+          totalItems: trainings.length,
+          totalPages:1
+        });
+      }
+      else{
+      const paginatedData = trainings.slice(
+        page*size,
+        page*size + size
+      );
       return res.json({
         items: paginatedData,
         pageNumber: page,
@@ -736,6 +750,8 @@ class TrainingController {
         totalItems: trainings.length,
         totalPages: Math.ceil(trainings.length/size)
       });
+
+    }
     } catch (err) {
       next(err);
     }
