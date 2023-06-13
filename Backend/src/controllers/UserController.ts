@@ -162,7 +162,7 @@ class UserController {
           domain: isProduction ? ".onrender.com" : "localhost",
         });
         const message = `
-                <a href="http://localhost:5000/api/v1/user/enterData"> reset password </a> 
+                <a href="http://localhost:3500/forget-password"> reset password </a> 
                 `;
         sendEmail(user.email, "Forget Password", message);
 
