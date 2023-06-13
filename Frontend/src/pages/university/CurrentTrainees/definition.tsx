@@ -1,15 +1,26 @@
 import { Chip, IconButton } from '@mui/material';
-import { ColumnDef } from '@tanstack/react-table';
+import { CellContext, ColumnDef } from '@tanstack/react-table';
 import { RunningTraineesData } from './api/response.dto';
 import { createDataGrid } from 'src/components/DataGridTanstack';
 import { Feed } from '@mui/icons-material';
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { progressForm } from 'src/api/progress';
+import ProgressFormCell from '../CurrentTraineesV2/ProgressFormCell';
+import useCurrentTraineesController from './hooks/useCurrentTraineesController';
+import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 
+interface ProgressFormCellProps extends CellContext<RunningTraineesData, any> {}
 const uselogic = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [trainingId, setTrainingId] = useState('');
   const [response, setReponse] = useState<Response>();
+  const [pagination, setPagination] = useState<PageChangeParams>({
+    pageIndex: 0,
+    pageSize: 10,
+  });
+  const { rows } = useCurrentTraineesController({
+    pagination,
+  });
 
   useEffect(() => {
     progressForm({ trainingId: trainingId }).then((res) => {
@@ -18,8 +29,8 @@ const uselogic = () => {
     });
   }, [trainingId]);
 
-  const handleOpenDialog = (id: string) => {
-    setTrainingId(id);
+  const handleOpenDialog = () => {
+    console.log(trainingId);
     console.log(isOpen);
     setIsOpen((prev) => !prev);
   };
@@ -33,27 +44,33 @@ const uselogic = () => {
     {
       accessorKey: 'studentId',
       header: 'Student Number',
-      filterFn: 'includesString',
-      size: 372,
+      // size: 50,
+      // filterFn: 'includesString',
+      // size: 372,
     },
     {
-      accessorKey: 'name',
+      accessorKey: 'Student.name',
       header: 'Student Name',
-      size: 372,
+      // size: 372,
       filterFn: 'arrIncludesSome',
     },
     {
-      accessorKey: 'name',
+      accessorKey: 'CompanyBranch.Company.name',
       header: 'Company Name',
-      size: 372,
+      // size: 372,
     },
     {
-      accessorKey: 'progressForm',
       header: 'Progress Form',
-      size: 372,
-      cell: (row) => {
+      // size: 372,
+      //@ts-ignore
+      // cell: ProgressFormCell,
+      cell: () => {
         return (
-          <IconButton sx={{ ml: 3.5 }} aria-label="progress form">
+          <IconButton
+            sx={{ ml: 3.5 }}
+            aria-label="progress form"
+            onClick={handleOpenDialog}
+          >
             <Feed
               color="warning"
               sx={{
@@ -67,9 +84,10 @@ const uselogic = () => {
     },
   ];
 
-  const UsersDataGrid = createDataGrid<RunningTraineesData>({
-    name: 'DataGridRunningTrainees',
+  const CurrentTraineesDataGrid = createDataGrid({
+    name: 'CurrentTraineesDataGrid',
     columns,
+    shouldFlexGrowCells: true,
   });
 
   return {
@@ -79,7 +97,7 @@ const uselogic = () => {
     open: !!isOpen,
     response,
     trainingId,
-    UsersDataGrid,
+    CurrentTraineesDataGrid,
   };
 };
 export default uselogic;

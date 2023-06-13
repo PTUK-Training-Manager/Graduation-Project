@@ -14,17 +14,18 @@ const ProgressFormCell: FC<ProgressFormCellProps> = (props) => {
     const {
         row: {original},
     } = props;
-    //
-    // const {onOpenDialog, openDialog, onSetSelectedTrainingId, selectedTrainingId} = useTraineesContext();
-    //
-    // console.log(useTraineesContext());
+    
+    const {onOpenDialog, openDialog, onSetSelectedTrainingId, selectedTrainingId} = useTraineesContext();
+    
+    console.log(useTraineesContext());
 
     const handleRowClick = () => {
-        // console.log(openDialog);
-        // onOpenDialog(TrainingDialog.Progress);
-        //
-        // onSetSelectedTrainingId(1);
-        // console.log(selectedTrainingId)
+        console.log(openDialog);
+        onOpenDialog(TrainingDialog.Progress);
+        
+        //@ts-ignore
+        onSetSelectedTrainingId(original.id);
+        console.log(selectedTrainingId)
     }
 
     return (

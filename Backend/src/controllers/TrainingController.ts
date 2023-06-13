@@ -513,6 +513,88 @@ class TrainingController {
       next(err);
     }
   };
+  // getRunningTrainings = async (
+  //   req: Request,
+  //   res: Response<BaseResponse>,
+  //   next: NextFunction
+  // ) => {
+  //   try {
+  //     const roleId = req.user.roleId;
+  //     let runningTrainings: Training[] = [];
+  //     if (roleId == UserRoleEnum.Company) {
+  //       const branchesId = await getBranchesIds(req.user.userId);
+  //       runningTrainings = await Training.findAll({
+  //         where: {
+  //           status: TrainingStatusEnum.running,
+  //           companyBranchId: { [Op.in]: branchesId },
+  //         },
+  //         attributes: ["id", "studentId", "companyBranchId", "trainerId"],
+  //         include: [
+  //           {
+  //             model: Student,
+  //             attributes: ["name"],
+  //           },
+  //           {
+  //             model: CompanyBranch,
+  //             attributes: ["location"],
+  //           },
+  //           {
+  //             model: Trainer,
+  //             attributes: ["name"],
+  //           },
+  //         ],
+  //       });
+  //     } else if (roleId == UserRoleEnum.UNI_TRAINING_OFFICER) {
+  //       runningTrainings = await Training.findAll({
+  //         where: {
+  //           status: TrainingStatusEnum.running,
+  //         },
+  //         attributes: ["id", "studentId", "companyBranchId"],
+  //         include: [
+  //           {
+  //             model: Student,
+  //             attributes: ["name"],
+  //           },
+  //           {
+  //             model: CompanyBranch,
+  //             include: [
+  //               {
+  //                 model: Company,
+  //                 attributes: ["name"],
+  //               },
+  //             ],
+  //             attributes: ["location"],
+  //           },
+  //         ],
+  //       });
+  //     } else if (roleId == UserRoleEnum.TRAINER) {
+  //       const trainingIds = await getTrainingIds(req.user.userId);
+  //       runningTrainings = await Training.findAll({
+  //         where: {
+  //           status: TrainingStatusEnum.running,
+  //           id: { [Op.in]: trainingIds },
+  //         },
+  //         attributes: ["id", "studentId"],
+  //         include: [
+  //           {
+  //             model: Student,
+  //             attributes: ["name"],
+  //           },
+  //         ],
+  //       });
+  //     }
+
+  //     return res.json({
+  //       success: true,
+  //       status: res.statusCode,
+  //       message: `running Requests: `,
+  //       data: runningTrainings,
+  //     });
+  //   } catch (err) {
+  //     next(err);
+  //   }
+  // };
+
 
   assignTrainer = async (
     req: EditTrainerRequestBody,

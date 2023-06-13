@@ -15,9 +15,11 @@ router.post('/submitQuestions', submitQuestions);
 // router.post('/students', getRecords);
 router.get('/completedTrainings', getCompletedTrainings);
 router.get('/runningTrainings/:start/:limit', getRunningTrainings);
+// router.get('/runningTrainings', getRunningTrainings);
 router.get('/acceptedTrainings', getAcceptedTrainings);
 router.get('/questions', getQuestions);
 router.get('/trainings', getAllTrainings);
+
 router.post('/evaluationFormForUniversity', verifyRoles([UserRoleEnum.UNI_TRAINING_OFFICER]), handleGenerateFormButton);
 router.post('/evaluationForm', verifyRoles([UserRoleEnum.Company, UserRoleEnum.TRAINER, UserRoleEnum.STUDENT, UserRoleEnum.UNI_TRAINING_OFFICER]), generateEvaluationForm);
 router.get('/studentsRunningTraining', getStudentTrainingId);

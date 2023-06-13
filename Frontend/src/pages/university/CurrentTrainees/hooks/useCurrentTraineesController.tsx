@@ -15,21 +15,24 @@ const useCurrentTraineesController = ({pagination}: UseDataGridPlaygroundAPIProp
                   
     const [totalRows, setTotalRows] = useState<number>(0);
 
-    const {data: users, isFetching, isError, error, isSuccess}
+    const {data}
         = useQuery(
         ["users", pagination],
         () => getCurrentTrainees({start: pagination?.pageIndex, limit: pagination?.pageSize}).then(res => {
             setTotalRows(res?.headers["x-total-count"] ?? 0);
-            return res?.data ?? [];
+            return res?.data.items ?? [];
         })
         , {
             keepPreviousData: true, //for a smooth transition between the pages in the table.
         }
     );
      return {
-        users, isFetching, isError, error, isSuccess,
-        totalRows,
+      
+            rows: data ?? [],
     };
 };
 export default useCurrentTraineesController;
+
+
+
 

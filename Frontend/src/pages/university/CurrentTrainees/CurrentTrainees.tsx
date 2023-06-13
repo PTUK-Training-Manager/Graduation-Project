@@ -5,11 +5,7 @@ import useCurrentTraineesController from './hooks/useCurrentTraineesController';
 import uselogic from './definition';
 import theme from 'src/styling/customTheme';
 import { Box, Grid, Typography } from '@mui/material';
-import {
-  PageChangeParams,
-  OnRowClick,
-} from 'src/components/DataGridTanstack/types';
-import { RunningTraineesData } from './api/response.dto';
+import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import ProgressFormDialog from './components/ProgressFormDialog';
 
 const CurrentTrainees: React.FC = () => {
@@ -18,13 +14,16 @@ const CurrentTrainees: React.FC = () => {
     pageSize: 10,
   });
 
-  const { users, totalRows, isFetching } = useCurrentTraineesController({
+  const { rows } = useCurrentTraineesController({
     pagination,
   });
-  const { UsersDataGrid, isOpen, response, trainingId, handleCloseDialog } = uselogic();
-
-  const handleOnRowClick: OnRowClick<RunningTraineesData> = (cell, row) =>
-    console.log({ cell, row });
+  const {
+    CurrentTraineesDataGrid,
+    isOpen,
+    response,
+    trainingId,
+    handleCloseDialog,
+  } = uselogic();
 
   return (
     <>
@@ -47,37 +46,18 @@ const CurrentTrainees: React.FC = () => {
           <Typography component="h1" variant="h5" fontWeight={500}>
             Current Trainees
           </Typography>
-
-          <UsersDataGrid.Provider
-            //@ts-ignore
-            data={users ?? []}
-            isFetching={isFetching}
-            totalRows={+totalRows}
-            totalPages={Math.floor(totalRows / pagination.pageSize)}
-            //@ts-ignore
-            onPaginationChange={(pagination) => setPagination(pagination)}
-          >
-            <UsersDataGrid.Toolbar>
-              <UsersDataGrid.Toolbar.Start>
-                <UsersDataGrid.SearchBox />
-              </UsersDataGrid.Toolbar.Start>
-              <UsersDataGrid.Toolbar.End>
-                <UsersDataGrid.Filters />
-              </UsersDataGrid.Toolbar.End>
-            </UsersDataGrid.Toolbar>
-            <UsersDataGrid.Table onRowClick={handleOnRowClick} />
-          </UsersDataGrid.Provider>
+          <CurrentTraineesDataGrid data={rows} />
         </Stack>
       </Grid>
-      {/* <ProgressFormDialog
-                isOpen={isOpen}
-                handleCloseDialog={handleCloseDialog}
-                //@ts-ignore
-                response={response}
-                //@ts-ignore
-                data={users}
-                trainingId={trainingId}
-            /> */}
+      <ProgressFormDialog
+        isOpen={isOpen}
+        handleCloseDialog={handleCloseDialog}
+        //@ts-ignore
+        response={response}
+        //@ts-ignore
+        data={rows}
+        trainingId={trainingId}
+      />
     </>
   );
 };

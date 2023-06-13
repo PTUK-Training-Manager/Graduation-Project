@@ -1,6 +1,6 @@
 import axiosInstance from 'src/api';
 import { FetchUsersParams } from './request.dto';
-import { GetCurrentTraineesResponse } from './response.dto';
+import { GetCurrentTraineesResponse, RunningTraineesData } from './response.dto';
 
 export const getCurrentTrainees = async (params: FetchUsersParams) => {
   return axiosInstance.get<GetCurrentTraineesResponse>(
@@ -9,7 +9,6 @@ export const getCurrentTrainees = async (params: FetchUsersParams) => {
       params: {
         start: (params.start ?? 0) * (params.limit ?? 10),
         limit: params.limit,
-        ...(params.name && { name: params.name }),
       },
     }
   );
