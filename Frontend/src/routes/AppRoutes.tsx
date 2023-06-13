@@ -4,18 +4,26 @@ import BlockUI from 'src/containers/BlockUI';
 import AppLayout from 'src/AppLayout';
 import ProtectedRoute from 'src/routes/ProtectedRoute';
 
-const LandingPage = lazy(() => import("src/pages/LandingPage"));
-const Admin = lazy(() => import("src/pages/Admin"));
-const Home = lazy(() => import("src/pages/Home"));
-const Dashboard = lazy(() => import("src/pages/Dashboard"));
-const Login = lazy(() => import("src/pages/Login"));
-const NotFound = lazy(() => import("src/pages/NotFound"));
-const AccessDenied = lazy(() => import("src/pages/AccessDenied"));
-const EditorPlayground = lazy(() => import("src/pages/EditorPlayground"));
-const DataGridInfinitePlayground = lazy(() => import("src/pages/DataGridInfinitePlayground"));
-const DataGridPaginatedPlayground = lazy(() => import("src/pages/DataGridPaginatedPlayground"));
-const InfiniteScrollPlayground = lazy(() => import("src/pages/InfiniteScrollPlayground"));
-const CurrentTraineesV2 = lazy(() => import('src/pages/university/CurrentTraineesV2/CurrentTrainees'));
+const LandingPage = lazy(() => import('src/pages/LandingPage'));
+const Admin = lazy(() => import('src/pages/Admin'));
+const Home = lazy(() => import('src/pages/Home'));
+const Dashboard = lazy(() => import('src/pages/Dashboard'));
+const Login = lazy(() => import('src/pages/Login'));
+const NotFound = lazy(() => import('src/pages/NotFound'));
+const AccessDenied = lazy(() => import('src/pages/AccessDenied'));
+const EditorPlayground = lazy(() => import('src/pages/EditorPlayground'));
+const DataGridInfinitePlayground = lazy(
+  () => import('src/pages/DataGridInfinitePlayground')
+);
+const DataGridPaginatedPlayground = lazy(
+  () => import('src/pages/DataGridPaginatedPlayground')
+);
+const InfiniteScrollPlayground = lazy(
+  () => import('src/pages/InfiniteScrollPlayground')
+);
+const CurrentTraineesV2 = lazy(
+  () => import('src/pages/university/CurrentTraineesV2/CurrentTrainees')
+);
 
 // university pages
 const TrainingRequestForm = lazy(
@@ -49,7 +57,9 @@ const CompanyCurrentTrainees = lazy(
 const CompanyCompletedTrainees = lazy(
   () => import('src/pages/company/CompletedTrainees')
 );
-const CompanyAllTrainings = lazy(() => import('src/pages/company/AllTrainings'));
+const CompanyAllTrainings = lazy(
+  () => import('src/pages/company/AllTrainings')
+);
 
 // trainer pages
 const TrainerCurrentTrainees = lazy(
@@ -73,7 +83,7 @@ const Progress = lazy(() => import('src/pages/Student/Progress'));
 
 const AddFaculty = lazy(() => import('src/pages/Admin/AddFaculty'));
 const Charts = lazy(() => import('src/pages/Admin/Charts'));
-
+const ForgettPassword = lazy(() => import('src/pages/ForgetPassword'));
 
 import { UserRole } from '../constants/auth';
 
@@ -86,26 +96,32 @@ const AppRoutes: FC<AppRoutesProps> = () => {
   return (
     <Suspense fallback={<BlockUI isBlocked />}>
       <Routes>
-      <Route path="" element={<Login/>}/>
+        <Route path="" element={<Login />} />
         <Route path="login" element={<Login />} />
         <Route path="landing" element={<LandingPage />} />
         <Route path="editor" element={<EditorPlayground />} />
-        <Route path="data-grid-infinite" element={<DataGridInfinitePlayground/>}/>
-                <Route path="data-grid-paginated" element={<DataGridPaginatedPlayground/>}/>
-                <Route path="infinite-scroll" element={<InfiniteScrollPlayground/>}/>
+        <Route
+          path="data-grid-infinite"
+          element={<DataGridInfinitePlayground />}
+        />
+        <Route
+          path="data-grid-paginated"
+          element={<DataGridPaginatedPlayground />}
+        />
+        <Route path="infinite-scroll" element={<InfiniteScrollPlayground />} />
 
         <Route path="/" element={<AppLayout />}>
+        <Route path="forget-password" element={<ForgettPassword />} />
           <Route element={<ProtectedRoute />}>
             <Route index path="/" element={<Home />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/admin" element={<Admin />} />
           </Route>
 
-          <Route element={<ProtectedRoute allowedRoles={[SuperAdmin]} />} >
-          <Route path="/add-faculty" element={<AddFaculty />} />
-          <Route path="/charts" element={<Charts />} />
-
-            </Route>
+          <Route element={<ProtectedRoute allowedRoles={[SuperAdmin]} />}>
+            <Route path="/add-faculty" element={<AddFaculty />} />
+            <Route path="/charts" element={<Charts />} />
+          </Route>
 
           <Route
             element={<ProtectedRoute allowedRoles={[UniTrainingOfficer]} />}
@@ -117,8 +133,10 @@ const AppRoutes: FC<AppRoutesProps> = () => {
             <Route path="/completed-trainees" element={<CompletedTrainees />} />
             <Route path="/submitted-trainees" element={<SubmittedRequests />} />
             <Route path="/current-trainees" element={<CurrentTrainees />} />
-            <Route path="/current-trainees-v2" element={<CurrentTraineesV2/>}/>
-
+            <Route
+              path="/current-trainees-v2"
+              element={<CurrentTraineesV2 />}
+            />
           </Route>
           <Route element={<ProtectedRoute allowedRoles={[Trainer]} />}>
             <Route
