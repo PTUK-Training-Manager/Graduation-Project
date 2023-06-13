@@ -34,8 +34,8 @@ import EvaluationController from "./EvaluationController";
 
 class TrainingController {
   getCompletedTrainings = async (
-    req: Request<{ start: number; limit: number }>,
-    res: Response<BaseResponse>,
+    req: Request<{ page?: number; size?: number }>,
+    res: Response<GridResponse>,
     next: NextFunction
   ) => {
     try {
@@ -95,14 +95,20 @@ class TrainingController {
         });
       }
 
-      const { start, limit } = req.params;
-      const paginatedData = completedTrainings.slice(start, start + limit);
-      return res.json({
-        success: true,
-        status: res.statusCode,
-        message: "Completed Trainings",
-        data: paginatedData,
-      });
+      const { page, size } = req.params;
+      if(page!=null&&size!=null){
+      const paginatedData = completedTrainings.slice(
+        page*size,
+        page*size + size
+        );
+        return res.json({
+          items: paginatedData,
+          pageNumber: page,
+          pageSize: size,
+          totalItems: completedTrainings.length,
+          totalPages: Math.ceil(completedTrainings.length/size)
+        });
+    }
     } catch (err) {
       next(err);
     }
@@ -197,8 +203,8 @@ class TrainingController {
   };
 
   getRunningAndFinishedStudents = async (
-    req: Request<ParamsDictionary, any, { start: number; limit: number }>,
-    res: Response<BaseResponse>,
+    req: Request<{ page?: number; size?: number }>,
+    res: Response<GridResponse>,
     next: NextFunction
   ) => {
     try {
@@ -230,37 +236,37 @@ class TrainingController {
             hours = 400;
           }
 
-          if (calcHours > 30) {
+          if (calcHours >= hours) {
             students.push(student);
           }
         })
       );
 
-      const { start, limit } = req.params;
-      const parsedStart = parseInt(start, 10);
-      const parsedLimit = parseInt(limit, 10);
+      const { page, size } = req.params;
+      if(page!=null&&size!=null){
       const paginatedData = students.slice(
-        parsedStart,
-        parsedStart + parsedLimit
+        page*size,
+        page*size + size
       );
       return res.json({
-        success: true,
-        status: res.statusCode,
-        message: "Students: ",
-        data: paginatedData,
-      });
+        items: paginatedData,
+        pageNumber: page,
+        pageSize: size,
+        totalItems: students.length,
+        totalPages: Math.ceil(students.length/size)})
+    }
     } catch (err) {
       next(err);
     }
   };
 
   getsubmittedStudents = async (
-    req: Request<ParamsDictionary, any, { start: number; limit: number }>,
-    res: Response<BaseResponse>,
+    req: Request<{ page?: number; size?: number }>,
+    res: Response<GridResponse>,
     next: NextFunction
   ) => {
     try {
-      const record = await Training.findAll({
+      const records = await Training.findAll({
         where: {
           status: TrainingStatusEnum.submitted,
         },
@@ -272,19 +278,19 @@ class TrainingController {
         ],
       });
 
-      const { start, limit } = req.params;
-      const parsedStart = parseInt(start, 10);
-      const parsedLimit = parseInt(limit, 10);
-      const paginatedData = record.slice(
-        parsedStart,
-        parsedStart + parsedLimit
+      const { page, size } = req.params;
+      if(page!=null&&size!=null){
+      const paginatedData = records.slice(
+        page*size,
+        page*size + size
       );
       return res.json({
-        success: true,
-        status: res.statusCode,
-        message: "Submitted Students: ",
-        data: paginatedData,
-      });
+        items: paginatedData,
+        pageNumber: page,
+        pageSize: size,
+        totalItems: records.length,
+        totalPages: Math.ceil(records.length/size)})
+    }
     } catch (err) {
       next(err);
     }
@@ -390,8 +396,8 @@ class TrainingController {
   };
 
   getAcceptedTrainings = async (
-    req: Request<{ start: number; limit: number }>,
-    res: Response<BaseResponse>,
+    req: Request<{ page: number; size: number }>,
+    res: Response<GridResponse>,
     next: NextFunction
   ) => {
     try {
@@ -414,14 +420,18 @@ class TrainingController {
         ],
       });
 
-      const { start, limit } = req.params;
-      const paginatedData = acceptedTrainings.slice(start, start + limit);
-      return res.json({
-        success: true,
-        status: res.statusCode,
-        message: `acceptedRequests: `,
-        data: paginatedData,
-      });
+      const { page, size } = req.params;
+      const paginatedData = acceptedTrainings.slice(
+        page*size,
+        page*size + size
+        );
+        return res.json({
+          items: paginatedData,
+          pageNumber: page,
+          pageSize: size,
+          totalItems: acceptedTrainings.length,
+          totalPages: Math.ceil(acceptedTrainings.length/size)
+        });
     } catch (err) {
       next(err);
     }
@@ -500,12 +510,10 @@ class TrainingController {
 
       const { start, limit } = req.params;
       const paginatedData = runningTrainings.slice(start*limit, start*limit + limit);
-
-      console.log(runningTrainings)
       return res.json({
         items: paginatedData,
         pageNumber: start,
-        pageSzie: limit,
+        pageSize: limit,
         totalItems: runningTrainings.length,
         totalPages: Math.ceil(runningTrainings.length/limit)
       });
@@ -513,88 +521,6 @@ class TrainingController {
       next(err);
     }
   };
-  // getRunningTrainings = async (
-  //   req: Request,
-  //   res: Response<BaseResponse>,
-  //   next: NextFunction
-  // ) => {
-  //   try {
-  //     const roleId = req.user.roleId;
-  //     let runningTrainings: Training[] = [];
-  //     if (roleId == UserRoleEnum.Company) {
-  //       const branchesId = await getBranchesIds(req.user.userId);
-  //       runningTrainings = await Training.findAll({
-  //         where: {
-  //           status: TrainingStatusEnum.running,
-  //           companyBranchId: { [Op.in]: branchesId },
-  //         },
-  //         attributes: ["id", "studentId", "companyBranchId", "trainerId"],
-  //         include: [
-  //           {
-  //             model: Student,
-  //             attributes: ["name"],
-  //           },
-  //           {
-  //             model: CompanyBranch,
-  //             attributes: ["location"],
-  //           },
-  //           {
-  //             model: Trainer,
-  //             attributes: ["name"],
-  //           },
-  //         ],
-  //       });
-  //     } else if (roleId == UserRoleEnum.UNI_TRAINING_OFFICER) {
-  //       runningTrainings = await Training.findAll({
-  //         where: {
-  //           status: TrainingStatusEnum.running,
-  //         },
-  //         attributes: ["id", "studentId", "companyBranchId"],
-  //         include: [
-  //           {
-  //             model: Student,
-  //             attributes: ["name"],
-  //           },
-  //           {
-  //             model: CompanyBranch,
-  //             include: [
-  //               {
-  //                 model: Company,
-  //                 attributes: ["name"],
-  //               },
-  //             ],
-  //             attributes: ["location"],
-  //           },
-  //         ],
-  //       });
-  //     } else if (roleId == UserRoleEnum.TRAINER) {
-  //       const trainingIds = await getTrainingIds(req.user.userId);
-  //       runningTrainings = await Training.findAll({
-  //         where: {
-  //           status: TrainingStatusEnum.running,
-  //           id: { [Op.in]: trainingIds },
-  //         },
-  //         attributes: ["id", "studentId"],
-  //         include: [
-  //           {
-  //             model: Student,
-  //             attributes: ["name"],
-  //           },
-  //         ],
-  //       });
-  //     }
-
-  //     return res.json({
-  //       success: true,
-  //       status: res.statusCode,
-  //       message: `running Requests: `,
-  //       data: runningTrainings,
-  //     });
-  //   } catch (err) {
-  //     next(err);
-  //   }
-  // };
-
 
   assignTrainer = async (
     req: EditTrainerRequestBody,
@@ -680,7 +606,7 @@ class TrainingController {
 
   getAllTrainings = async (
     req: Request<{ start: number; limit: number }>,
-    res: Response<BaseResponse>,
+    res: Response<GridResponse>,
     next: NextFunction
   ) => {
     try {
@@ -802,12 +728,13 @@ class TrainingController {
       }
 
       const { start, limit } = req.params;
-      const paginatedData = trainings.slice(start, start + limit);
+      const paginatedData = trainings.slice(start*limit, start*limit + limit);
       return res.json({
-        success: true,
-        status: res.statusCode,
-        message: "All Trainings",
-        data: paginatedData,
+        items: paginatedData,
+        pageNumber: start,
+        pageSize: limit,
+        totalItems: trainings.length,
+        totalPages: Math.ceil(trainings.length/limit)
       });
     } catch (err) {
       next(err);

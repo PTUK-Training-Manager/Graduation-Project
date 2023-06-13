@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { CompanyBranch, Student, Training, Company, User } from "../models";
 import { TrainingStatusEnum, TrainingTypeEnum } from "../enums";
 import { Op } from "sequelize";
-import { BaseResponse } from "../types";
+import { BaseResponse, GridResponse } from "../types";
 import { getBranchesIds } from "../utils";
 
 class TrainingRequestController {
@@ -112,8 +112,8 @@ class TrainingRequestController {
   };
 
   getPendingRequest = async (
-    req: Request<{ start: string; limit: string }>,
-    res: Response<BaseResponse>,
+    req: Request<{ page?: number; size?: number }>,
+    res: Response<GridResponse>,
     next: NextFunction
   ) => {
     try {
@@ -140,19 +140,19 @@ class TrainingRequestController {
         ],
       });
 
-      const { start, limit } = req.params;
-      const parsedStart = parseInt(start, 10);
-      const parsedLimit = parseInt(limit, 10);
-      const paginatedData = trainingRequestsRecords.slice(
-        parsedStart,
-        parsedStart + parsedLimit
-      );
-      return res.json({
-        success: true,
-        status: res.statusCode,
-        message: "pending request",
-        data: paginatedData,
-      });
+      const { page, size } = req.params;
+      if(page!=null&&size!=null){
+        const paginatedData = trainingRequestsRecords.slice(
+          page*size,
+          page*size + size
+        );
+        return res.json({
+          items: paginatedData,
+          pageNumber: page,
+          pageSize: size,
+          totalItems: trainingRequestsRecords.length,
+          totalPages: Math.ceil(trainingRequestsRecords.length/size)})
+      }
     } catch (err) {
       next(err);
     }
@@ -187,8 +187,8 @@ class TrainingRequestController {
   };
 
   getTrainingRequest = async (
-    req: Request<{ start: string; limit: string }>,
-    res: Response<BaseResponse>,
+    req: Request<{ page?: number; size?: number }>,
+    res: Response<GridResponse>,
     next: NextFunction
   ) => {
     try {
@@ -211,19 +211,19 @@ class TrainingRequestController {
         ],
       });
 
-      const { start, limit } = req.params;
-      const parsedStart = parseInt(start, 10);
-      const parsedLimit = parseInt(limit, 10);
-      const paginatedData = trainingRequests.slice(
-        parsedStart,
-        parsedStart + parsedLimit
-      );
-      return res.json({
-        success: true,
-        status: res.statusCode,
-        message: `training requests: `,
-        data: paginatedData,
-      });
+      const { page, size } = req.params;
+      if(page!=null&&size!=null){
+        const paginatedData = trainingRequests.slice(
+          page*size,
+          page*size + size
+        );
+        return res.json({
+          items: paginatedData,
+          pageNumber: page,
+          pageSize: size,
+          totalItems: trainingRequests.length,
+          totalPages: Math.ceil(trainingRequests.length/size)})
+      }
     } catch (err) {
       next(err);
     }
