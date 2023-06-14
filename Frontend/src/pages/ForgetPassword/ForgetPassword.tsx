@@ -71,7 +71,10 @@ const ForgetPassword: React.FC = () => {
                 <TextFieldWrapper
                   label="Password"
                   name="newPassword"
-                  autoFocus
+                />
+                <TextFieldWrapper
+                  label="Password"
+                  name="confirmNewPassword"
                 />
                 
                 <LoadingButton

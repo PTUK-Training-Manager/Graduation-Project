@@ -45,6 +45,7 @@ const columns: ColumnDef<AllTrainingsData, any>[] = [
     },
     
     
+    
 ];
 
 const AllTrainingsCompanyDataGrid = createDataGrid({

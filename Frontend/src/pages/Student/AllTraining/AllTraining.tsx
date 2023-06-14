@@ -15,9 +15,9 @@ import useAllTrainingsController from './hooks/useAllTrainingsController';
 import { useNavigate } from 'react-router-dom';
 import { progressForm } from 'src/api/progress';
 import { Response } from './types';
+import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 
 const AddCompanyForm: React.FC = () => {
-  const { trainingData } = useAllTrainingsController();
   const [isEvaluationReportOpen, setIsEvaluationReportOpen] = useState(false);
   const [isProgressReportOpen, setIsProgressReportOpen] = useState(false);
   const [trainingId, setTrainingId] = useState('');
@@ -59,11 +59,19 @@ const AddCompanyForm: React.FC = () => {
 
   useEffect(() => {
     progressForm({ trainingId: trainingId }).then((res) => {
+      //@ts-ignore
       setReponse(res.data);
     });
   }, [trainingId]);
   const navigate = useNavigate();
+  const [pagination, setPagination] = useState<PageChangeParams>({
+    pageIndex: 0,
+    pageSize: 30,
+  });
 
+  const { rows } = useAllTrainingsController({
+    pagination,
+  });
   return (
     <>
       <Grid
@@ -87,7 +95,7 @@ const AddCompanyForm: React.FC = () => {
           </Typography>
 
           <>
-            {trainingData?.map((training) => (
+            {rows?.map((training) => (
               <Box
                 sx={{
                   justifyContent: 'space-between',

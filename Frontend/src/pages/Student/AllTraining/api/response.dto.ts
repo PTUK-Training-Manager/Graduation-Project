@@ -20,6 +20,10 @@ export interface AllTrainingsData {
     };
   }
   
-  export interface GetAllTrainingsResponse extends BaseResponse {
-    data: AllTrainingsData[];
+  export interface GetAllTrainingsResponse {
+    items: AllTrainingsData[];
+    pageNumber: string;
+    pageSzie: string;
+    totalItems: number;
+    totalPages: number;
   }

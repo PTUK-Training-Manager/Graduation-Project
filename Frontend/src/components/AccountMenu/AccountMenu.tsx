@@ -28,6 +28,7 @@ import {
 import TextField from '@mui/material/TextField';
 import useSnackbar from 'src/hooks/useSnackbar';
 import { AddFieldData } from 'src/api/addField';
+import { useNavigate } from 'react-router-dom';
 
 interface AccountMenuProps {}
 
@@ -46,7 +47,10 @@ const AccountMenu: FC<AccountMenuProps> = (props) => {
   const { logout, isLoggingOut } = useAccountMenuAPI();
   const [openAddFieldDialog, setOpenAddFieldDialog] = useState(false);
   const { showSnackbar } = useSnackbar();
-
+  const navigate = useNavigate();
+  const navigateToResetPasswordPagePage = () => {
+    navigate('/reset-password');
+  };
   const userInitial = user?.username[0].toUpperCase();
 
   const handleClick = (event: MouseEvent<HTMLElement>) => {
@@ -167,7 +171,7 @@ const AccountMenu: FC<AccountMenuProps> = (props) => {
           <MenuItem onClick={handleClose}>
             <Avatar /> Profile
           </MenuItem>
-          <MenuItem onClick={handleClose}>
+          <MenuItem onClick={navigateToResetPasswordPagePage}>
             <Avatar /> Reset My Password
           </MenuItem>
           <Divider />

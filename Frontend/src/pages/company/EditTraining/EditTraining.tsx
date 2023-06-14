@@ -35,6 +35,9 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import { getTrainers } from '../Trainers/api';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import useSnackbar from 'src/hooks/useSnackbar';
+import useCurrentTraineesController from './hooks/useCurrentTraineesController';
+import uselogic from './definition';
+import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 
 function Pagination({
   page,
@@ -135,29 +138,36 @@ const EditTraining: React.FC = () => {
     },
   ];
 
-  const handleJoinClick = (id: string) => {
-    setTrainingID(id);
-    setJoinDialogOpen(true);
-    handleJoinDialogOpen();
-  };
-  const handleJoinDialogClose = () => {
-    setJoinDialogOpen(false);
-  };
+  // const handleJoinClick = (id: string) => {
+  //   setTrainingID(id);
+  //   setJoinDialogOpen(true);
+  //   handleJoinDialogOpen();
+  // };
+  // const handleJoinDialogClose = () => {
+  //   setJoinDialogOpen(false);
+  // };
 
-  const handleJoinDialogOpen = async () => {
-    try {
-      const result = await getTrainers();
-      setAvailableTrainers(result.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const handleJoinDialogOpen = async () => {
+  //   try {
+  //     const result = await getTrainers();
+  //     setAvailableTrainers(result.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const handleJoin = (trainerId: string) => {
     setTrainerID(trainerId);
     handleverifyClick();
   };
+  const [pagination, setPagination] = useState<PageChangeParams>({
+    pageIndex: 0,
+    pageSize: 30,
+  });
 
+  const { rows } = useCurrentTraineesController({
+    pagination,
+  });
   const handleVerifyJoin = () => {
     const body: AssignTrainerRequestBody = {
       trainingId: trainingID,
@@ -189,14 +199,14 @@ const EditTraining: React.FC = () => {
       .catch((error) => console.log(error));
   };
 
-  useEffect(() => {
-    getCurrentTrainees()
-      .then((result) => {
-        setData(result.data);
-        console.log(result.data);
-      })
-      .catch((error) => console.log(error));
-  }, []);
+  // useEffect(() => {
+  //   getCurrentTrainees()
+  //     .then((result) => {
+  //       setData(result.data);
+  //       console.log(result.data);
+  //     })
+  //     .catch((error) => console.log(error));
+  // }, []);
 
   const handleCancelClick = (id: string) => {
     setCanceledId(id);
@@ -206,7 +216,9 @@ const EditTraining: React.FC = () => {
   const handleDeleteCancel = () => {
     setConfirmDialogOpen(false);
   };
-
+  const {
+    CurrentTraineesDataGrid,
+  } = uselogic();
   const handleCancel = () => {
     const body: HandleTrainingRequestBody = {
       trainingId: cancelId,
@@ -250,7 +262,7 @@ const EditTraining: React.FC = () => {
       renderCell: (params: { id: any }) => (
         <>
           <IconButton aria-label="edit field"
-                    onClick={() => handleJoinClick(params.id)}
+                    // onClick={() => handleJoinClick(params.id)}
           >
             <EditIcon
               sx={{ color: 'white', backgroundColor: 'orange' }}
@@ -283,94 +295,10 @@ const EditTraining: React.FC = () => {
     },
   ];
 
-  const rows = data.map((row) => ({
-    id: row.id,
-    studentId: row.studentId,
-    studentName: row.Student.name,
-    companyBranch: row.CompanyBranch.location,
-    trainerName: row.Trainer.name,
-    Trainer: row.Trainer,
-    Student: row.Student,
-    trainerId: row.trainerId,
-    companyBranchId: row.companyBranchId,
-  }));
+  
 
   return (
     <>
-      <Dialog
-        open={confirmDialogOpen}
-        onClose={handleDeleteCancel}
-        maxWidth="xs"
-        fullWidth
-      >
-        <DialogTitle>Cancel Training</DialogTitle>
-        <DialogContent>
-          Are you sure you want to cancel this training?
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleDeleteCancel} color="primary">
-            No
-          </Button>
-          <Button onClick={handleCancel} color="error" variant="contained">
-            Yes
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <Dialog open={joinDialogOpen} onClose={handleJoinDialogClose}>
-        <DialogContent>
-          <div style={{ height: 400, width: '100%' }}>
-            <DataGrid
-              sx={{
-                width: '500px', // set the width to 800px
-              }}
-              columns={trainerColumns}
-              rows={availableTrainers}
-              getRowId={(row) => row['id']}
-              initialState={{
-                pagination: { paginationModel: { pageSize: 30 } },
-              }}
-              pageSizeOptions={[5, 10, 20, 30]}
-              slots={{
-                toolbar: GridToolbar,
-                pagination: CustomPagination,
-              }}
-            />
-          </div>
-          {/* <div style={{ height: 400, width: '100%' }}>
-    <DataGrid rows={availableTrainers} columns={trainerColumns} />
-  </div> */}
-        </DialogContent>
-        <DialogActions>
-          <Button
-            variant="contained"
-            color="error"
-            onClick={handleJoinDialogClose}
-          >
-            Cancel
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog
-        open={confirmEditOpen}
-        onClose={handleVerifyCancel}
-        maxWidth="xs"
-        fullWidth
-      >
-        <DialogTitle>Verify Edit Joining</DialogTitle>
-        <DialogContent>
-          Are you sure you want to join this trainer to this training?
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleVerifyCancel} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleVerifyJoin} color="error" variant="contained">
-            Yes
-          </Button>
-        </DialogActions>
-      </Dialog>
-
       <Grid container sx={{
             p: 3,
             justifyContent: "center",
@@ -384,28 +312,8 @@ const EditTraining: React.FC = () => {
                 <Typography component="h1" variant="h5" fontWeight={500}>
                     Edit Training
                 </Typography>
-                <DataGrid
-                    className="dataGrid"
-                    sx={{
-                        boxShadow: 10,
-                        border: 1,
-                        borderColor: '#cacaca',
-                        '& .MuiDataGrid-cell:hover': {
-                            color: 'primary.main'
-                        }
-                    }}
-                    columns={columns}
-                    rows={rows}
-                    getRowId={(row) => row['id']}
-                    initialState={{
-                        pagination: {paginationModel: {pageSize: 30}},
-                    }}
-                    pageSizeOptions={[10, 20, 30]}
-                    slots={{
-                        toolbar: GridToolbar,
-                        pagination: CustomPagination,
-                    }}
-                />
+                <CurrentTraineesDataGrid data={rows} />
+
             </Stack>
         </Grid>
     </>

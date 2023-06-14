@@ -1,29 +1,16 @@
 import axiosInstance from "src/api";
 import { BaseResponse } from "src/types";
+import { CompletedTraineesResponse } from "./response.dto";
+import { FetchUsersParams } from "./request.dto";
 
-export interface AccessTokenData {
-  studentId: string;
-  Student: {
-    name: string;
-  };
-  CompanyBranch: {
-    location: string;
-  };
-  Trainer: {
-    name: string;
-  };
-  count: string;
-  companyBranchId: string;
-  id: string;
-  trainerId: string;
-}
-
-export interface GetCompletedTraineesResponse extends BaseResponse {
-  data: AccessTokenData[];
-}
-
-export const getCompletedTrainees = async (): Promise<GetCompletedTraineesResponse> => {
-  const url = "/training/completedTrainings";
-  const response = await axiosInstance.get<GetCompletedTraineesResponse>(url);
-  return response.data;
+export const getCompletedTrainees = async (params: FetchUsersParams) => {
+  return axiosInstance.get<CompletedTraineesResponse>(
+    `/training/completedTrainings/${params.page}/${params.size}` ,
+    {
+      params: {
+        page: (params.page ?? 0) * (params.size ?? 10),
+        size: params.size,
+      },
+    } 
+  );
 };

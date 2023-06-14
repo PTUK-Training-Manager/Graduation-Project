@@ -84,6 +84,7 @@ const Progress = lazy(() => import('src/pages/Student/Progress'));
 const AddFaculty = lazy(() => import('src/pages/Admin/AddFaculty'));
 const Charts = lazy(() => import('src/pages/Admin/Charts'));
 const ForgettPassword = lazy(() => import('src/pages/ForgetPassword'));
+const ResetPassword = lazy(() => import('src/pages/resetPassword'));
 
 import { UserRole } from '../constants/auth';
 
@@ -115,6 +116,7 @@ const AppRoutes: FC<AppRoutesProps> = () => {
           <Route element={<ProtectedRoute />}>
             <Route index path="/" element={<Home />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/admin" element={<Admin />} />
           </Route>
 
@@ -128,7 +130,7 @@ const AppRoutes: FC<AppRoutesProps> = () => {
           >
             <Route path="/training-request" element={<TrainingRequestForm />} />
             <Route path="/pending-requests" element={<PendingRequets />} />
-            <Route path="/add-company" element={<Companies />} />
+            <Route path="/companies" element={<Companies />} />
             <Route path="/all-trainings" element={<AllTrainings />} />
             <Route path="/completed-trainees" element={<CompletedTrainees />} />
             <Route path="/submitted-trainees" element={<SubmittedRequests />} />
