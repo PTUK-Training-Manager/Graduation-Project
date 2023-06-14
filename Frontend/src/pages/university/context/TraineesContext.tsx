@@ -8,22 +8,15 @@ export interface TraineesContextValues {
     openDialog: TrainingDialog | null;
     onOpenDialog: (dialog: TrainingDialog) => void;
     onCloseDialog: () => void;
-    // onOpenEvaluationDialog: (trainingId: number) => void;
-    // onCloseEvaluationDialog: () => void;
 }
 
-// const TraineesContext = createContext<TraineesContextValues>({
-//     selectedTrainingId: null,
-//     onSetSelectedTrainingId: noop,
-//     openDialog: null,
-//     onOpenDialog: noop,
-// });
-
-const TraineesContext = createContext<TraineesContextValues | null>(null);
-
-export interface TraineesProviderProps {
-    children: ReactNode;
-}
+const TraineesContext = createContext<TraineesContextValues>({
+    selectedTrainingId: null,
+    onSetSelectedTrainingId: noop,
+    openDialog: null,
+    onOpenDialog: noop,
+    onCloseDialog: noop,
+});
 
 export const useTraineesContext = () => {
     const context = useContext(TraineesContext);
@@ -35,22 +28,25 @@ export const useTraineesContext = () => {
     return context;
 }
 
-export const TraineesProvider: PropsWithChildren<FC<TraineesProviderProps>> = ({children}) => {
+export interface TraineesProviderProps {
+    children: ReactNode;
+}
 
+export const TraineesProvider: FC<TraineesProviderProps> = ({children}) => {
     const [selectedTrainingId, setSelectedTrainingId] = useState<number | null>(null);
+
     const [openDialog, setOpenDialog] = useState<TrainingDialog | null>(null);
 
     const onSetSelectedTrainingId = (trainingId: number) => setSelectedTrainingId(trainingId);
-    const onOpenDialog = (dialog: TrainingDialog) => {
-        console.log(dialog);
-        setOpenDialog(dialog);
-    };
+
+    const onOpenDialog = (dialog: TrainingDialog) => setOpenDialog(dialog);
+
     const onCloseDialog = () => setOpenDialog(null);
 
-    const handleOpenProgressDialog = (trainingId: number) => {
-        setSelectedTrainingId(trainingId);
-        onOpenDialog(TrainingDialog.Progress);
-    }
+    // const onOpenProgressDialog = (trainingId: number) => {
+    //     onSetSelectedTrainingId(trainingId);
+    //     onOpenDialog(TrainingDialog.Progress);
+    // }
 
     const contextValues: TraineesContextValues = {
         selectedTrainingId,
@@ -60,10 +56,11 @@ export const TraineesProvider: PropsWithChildren<FC<TraineesProviderProps>> = ({
         onCloseDialog,
     }
 
+    console.log(contextValues);
+
     return (
         <TraineesContext.Provider value={contextValues}>
             {children}
         </TraineesContext.Provider>
-
     )
 }

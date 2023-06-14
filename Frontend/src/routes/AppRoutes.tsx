@@ -21,9 +21,7 @@ const DataGridPaginatedPlayground = lazy(
 const InfiniteScrollPlayground = lazy(
   () => import('src/pages/InfiniteScrollPlayground')
 );
-const CurrentTraineesV2 = lazy(
-  () => import('src/pages/university/CurrentTraineesV2/CurrentTrainees')
-);
+
 
 // university pages
 const TrainingRequestForm = lazy(
@@ -36,12 +34,12 @@ const Companies = lazy(() => import('src/pages/university/Companies'));
 const CompletedTrainees = lazy(
   () => import('src/pages/university/CompletedTrainees')
 );
-const CurrentTrainees = lazy(
-  () => import('src/pages/university/CurrentTrainees')
-);
+
 const SubmittedRequests = lazy(
   () => import('src/pages/university/SubmittedStudents')
 );
+const CurrentTrainees = lazy(() => import('src/pages/university/CurrentTrainees'));
+const CurrentTraineesV2 = lazy(() => import('src/pages/university/CurrentTraineesV2/CurrentTrainees'));
 const AllTrainings = lazy(() => import('src/pages/university/AllTrainings'));
 
 // company pages

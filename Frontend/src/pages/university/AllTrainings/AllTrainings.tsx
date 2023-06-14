@@ -9,14 +9,10 @@ import { AllTrainingsData } from './api/response.dto';
 import { CellContext } from '@tanstack/react-table';
 import AllTrainingss from './definition';
 
-interface ProgressFormCellProps extends CellContext<AllTrainingsData, any> {
-}
+
 
     
-const AllTrainings: FC<ProgressFormCellProps> = (props) => {
-  const {
-    row: {original},
-} = props;
+const AllTrainings: FC = () => {
 
   const [pagination, setPagination] = useState<PageChangeParams>({
     pageIndex: 0,

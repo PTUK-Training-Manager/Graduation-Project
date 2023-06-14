@@ -7,11 +7,21 @@ import React, {
     MouseEvent,
     PropsWithChildren, FC
 } from "react";
-import {Cell, ColumnDef, ColumnFiltersState, Row, Table, SortDirection, Column} from "@tanstack/react-table";
+import {
+    Cell,
+    ColumnDef,
+    ColumnFiltersState,
+    Row,
+    Table,
+    SortDirection,
+    Column,
+    CellContext
+} from "@tanstack/react-table";
 import {BoxProps} from "@mui/material/Box";
 import {GridProps} from "@mui/material/Grid";
 import { TableBodyProps } from "@mui/material/TableBody";
 import {TableContainerProps, TableHeadProps, TableProps} from "@mui/material";
+import {RowData} from "@tanstack/table-core/src/types";
 
 export type OnRowClick<T> = (cell: Cell<T, unknown>, row: Row<T>) => void;
 
@@ -199,3 +209,4 @@ export interface AutocompleteColumnOption {
     header: string;
 }
 
+export interface DataGridCellProps<TData extends RowData, TValue> extends CellContext<TData, TValue>{}
