@@ -252,7 +252,6 @@ const TrainingRequestForm: React.FC = () => {
           </FormikProvider>
         </Paper>
       </Grid>
- <LanguageSelector/>
     
     </>
   );

@@ -15,5 +15,21 @@
   "Submit": "تثبيت",
   "Welcome": "أهلاً بك",
   "Requests": "طلبات التدريب",
-  "SubmittedTrainees": "المتدربين المقدمين"
+  "SubmittedTrainees": "المتدربين المقدمين",
+
+
+  "FieldTraining": " التدريب الميداني",
+  " StudentInformation": ": معلومات الطالب",
+  "StudentName": "اسم الطالب",
+  "PhoneNumber": "رقم الهاتف",
+  "academicspecialization":"التخصص الأكاديمي",
+  "CompanyInformation":"معلومات الشركة",
+"CompanyBranch":"فرع شركة",
+"Email": "بريد إلكتروني",
+"ManagerName":"اسم المدير",
+"TrainerName":"اسم المدرب",
+"Student_working_time":"وقت عمل الطالب",
+"StartingDate":"تاريخ البدء",
+"EndingDate":"تاريخ الانتهاء",
+"Number_of_training_days":"عدد أيام التدريب للطالب"
 }

@@ -1,32 +1,39 @@
 export const UserData = [
+  {
+    id: 5,
+    Status: 'Submitted',
+    NumberOfTraining: 2000,
+    userLost: 234,
+  },
     {
       id: 1,
-      year: 2016,
-      userGain: 60000,
+      Status: 'pending',
+      NumberOfTraining: 1000,
       userLost: 423,
     },
     {
       id: 2,
-      year: 2017,
-      userGain: 75677,
+      Status: 'Running',
+      NumberOfTraining: 3000,
       userLost: 545,
     },
     {
       id: 3,
-      year: 2018,
-      userGain: 68888,
+      Status: 'Rejected',
+      NumberOfTraining: 300,
       userLost: 455,
     },
     {
       id: 4,
-      year: 2019,
-      userGain: 60000,
+      Status: 'Cancelled',
+      NumberOfTraining: 100,
       userLost: 3555,
     },
     {
       id: 5,
-      year: 2020,
-      userGain: 3300,
+      Status: 'Completed',
+      NumberOfTraining: 2000,
       userLost: 234,
     },
+   
   ];

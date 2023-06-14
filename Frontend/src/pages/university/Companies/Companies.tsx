@@ -305,4 +305,3 @@ const Companies: React.FC = () => {
 };
 export default Companies;
 
-export default Companies

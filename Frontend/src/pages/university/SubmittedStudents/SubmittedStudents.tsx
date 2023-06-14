@@ -31,7 +31,7 @@ const SubmittedStudents: React.FC = () => {
   const { rows } = useSubmittedTraineesController({
     pagination,
   });
-
+const {t}=useTranslation();
   return (
     <>
       <Grid
@@ -51,7 +51,7 @@ const SubmittedStudents: React.FC = () => {
           }}
         >
           <Typography component="h1" variant="h5" fontWeight={500}>
-            Submitted Students
+            {t("SubmittedStudents")}
           </Typography>
           <SubmittedTraineesDataGrid data={rows} />
 

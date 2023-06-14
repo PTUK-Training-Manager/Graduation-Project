@@ -7,17 +7,18 @@ import { Grid, Button } from '@mui/material';
 
 function Charts() {
   const [userData, setUserData] = useState({
-    labels: UserData.map((data) => data.year),
+    labels: UserData.map((data) => data.Status),
     datasets: [
       {
-        label: 'Users Gained',
-        data: UserData.map((data) => data.userGain),
+        label: 'Number of Trainees on each status',
+        data: UserData.map((data) => data.NumberOfTraining),
         backgroundColor: [
-          'rgba(75,192,192,1)',
+          '#fb4f14',
           '#ecf0f1',
-          '#50AF95',
-          '#f3ba2f',
-          '#2a71d0',
+          '#32cd32',
+          '#ff0000',
+          '#ff2800',
+          '#008000',
         ],
         borderColor: 'black',
         borderWidth: 2,
@@ -25,20 +26,22 @@ function Charts() {
     ],
   });
 
+  const [showPieChart, setShowPieChart] = useState(false);
+
   const handleButtonClick1 = () => {
-    // Update the chart data to display "Users Gained" dataset
     const updatedData = {
-      labels: UserData.map((data) => data.year),
+      labels: UserData.map((data) => data.Status),
       datasets: [
         {
           label: 'Users Gained',
-          data: UserData.map((data) => data.userGain),
+          data: UserData.map((data) => data.NumberOfTraining),
           backgroundColor: [
-            'rgba(75,192,192,1)',
+            '#fb4f14',
             '#ecf0f1',
-            '#50AF95',
-            '#f3ba2f',
-            '#2a71d0',
+            '#32cd32',
+            '#ff0000',
+            '#ff2800',
+            '#008000',
           ],
           borderColor: 'black',
           borderWidth: 2,
@@ -47,79 +50,48 @@ function Charts() {
     };
 
     setUserData(updatedData);
+    setShowPieChart(false);
   };
 
-  const handleButtonClick2 = () => {
-    // Update the chart data to display "Users Lost" dataset
-    const updatedData = {
-      labels: UserData.map((data) => data.year),
-      datasets: [
-        {
-          label: 'Users Lost',
-          data: UserData.map((data) => data.userLost),
-          backgroundColor: [
-            'rgba(255, 99, 132, 1)',
-            '#ecf0f1',
-            '#50AF95',
-            '#f3ba2f',
-            '#2a71d0',
-          ],
-          borderColor: 'black',
-          borderWidth: 2,
-        },
-      ],
-    };
-
-    setUserData(updatedData);
-  };
-
-  const handleButtonClick3 = () => {
-    // Update the chart data to display a custom dataset
-    const updatedData = {
-      labels: UserData.map((data) => data.year),
-      datasets: [
-        {
-          label: 'Custom Dataset',
-          data: UserData.map((data) => data.userGain + data.userLost),
-          backgroundColor: [
-            'rgba(255, 205, 86, 1)',
-            '#ecf0f1',
-            '#50AF95',
-            '#f3ba2f',
-            '#2a71d0',
-          ],
-          borderColor: 'black',
-          borderWidth: 2,
-        },
-      ],
-    };
-
-    setUserData(updatedData);
+  const handleButtonClick4 = () => {
+    setShowPieChart(true);
   };
 
   return (
     <>
-    <Grid container sx={{ p: 3, justifyContent: 'center', alignItems: 'center' }}>
-      <div style={{ width: 700 }}>
-        <BarChart chartData={userData} />
+      <div style={{ margin: '50px' }}>
+        <Grid container justifyContent="center" alignItems="center" spacing={3}>
+          {!showPieChart && (
+            <Grid item>
+              <div style={{ width: 700 }}>
+                <BarChart chartData={userData} />
+              </div>
+            </Grid>
+          )}
+          <Grid item>
+            <div style={{ width: 400, textAlign: 'center' ,marginRight:'200px' }}>
+              {showPieChart && <PieChart chartData={userData} />}
+            </div>
+          </Grid>
+        </Grid>
       </div>
-      <div style={{ width: 400 }}>
-        <PieChart chartData={userData} />
-      </div>
-    </Grid>
-    <Grid  gap={5} container sx={{ p: 3, justifyContent: 'center', alignItems: 'center' }}>
-
-      <Button variant="contained" onClick={handleButtonClick1}>
-        Number of Trainees
-      </Button>
-      <Button variant="contained" onClick={handleButtonClick2}>
-        Users Lost
-      </Button>
-      <Button variant="contained" onClick={handleButtonClick3}>
-        Custom Dataset
-      </Button>
+      <Grid container justifyContent="center" alignItems="center" spacing={3} style={{ marginTop: '20px'}}>
+        <Grid item>
+          <Button variant="contained" onClick={handleButtonClick1}>
+            Number of Trainees
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            variant="contained"
+            sx={{ backgroundColor: '#8b0000' }}
+            onClick={handleButtonClick4}
+          >
+            Show Pie Chart
+          </Button>
+        </Grid>
       </Grid>
-      </>
+    </>
   );
 }
 

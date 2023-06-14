@@ -19,6 +19,23 @@
 
    "Welcome": "Welcome",
    "Requests": "Requests",
-   "SubmittedTrainees": "Submitted Trainees"
+   "SubmittedTrainees": "Submitted Trainees",
+
+
+   "FieldTraining": "Field Training :",
+   " StudentInformation": "Student Information :",
+   "StudentName": "Student Name :",
+   "PhoneNumber": "Phone Number :",
+   "academicspecialization":"Academics specialization :",
+   "CompanyInformation":"Company Information :",
+"CompanyBranch":"Company Branch :",
+"Email": "Email :",
+"ManagerName":"Manager Name :",
+"TrainerName":"Trainer Name :",
+"Student_working_time":"Student Working Time :",
+"StartingDate":"Starting Date :",
+"EndingDate":"Ending Date :",
+"Number_of_training_days_for_the_student":"Number of training days for the student :"
+
 }
 
