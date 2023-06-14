@@ -75,7 +75,7 @@ const uniTrainingOfficerMenuItems: IAppMenuItem[] = [
 
   {
     label: 'Companies',
-    link: '/add-company',
+    link: '/companies',
     Icon: () => <StoreIcon />,
   },
 
@@ -93,11 +93,11 @@ const uniTrainingOfficerMenuItems: IAppMenuItem[] = [
         link: '/completed-trainees',
         Icon: () => <SchoolIcon />,
       },
-      {
-        label: "CurrentV2",
-        link: "/current-trainees-v2",
-        Icon: () => <PendingActionsIcon/>,
-    },
+    //   {
+    //     label: "CurrentV2",
+    //     link: "/current-trainees-v2",
+    //     Icon: () => <PendingActionsIcon/>,
+    // },
     ],
   },
   {

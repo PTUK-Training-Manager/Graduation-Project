@@ -1,7 +1,6 @@
-import { BaseResponse } from "src/types";
-
-export interface AllTrainingsData {
+export interface SubmittedStudentsData {
     id: string;
+    trainerId: string;
     studentId: string;
     companyBranchId: string;
     startDate: string;
@@ -12,16 +11,10 @@ export interface AllTrainingsData {
     Student: {
       name: string;
     };
-    CompanyBranch: {
-      location: string;
-      Company: {
-        name: string;
-      };
-    };
   }
   
-  export interface GetAllTrainingsResponse {
-    items: AllTrainingsData[];
+  export interface SubmittedStudentsResponse {
+    items: SubmittedStudentsData[];
     pageNumber: string;
     pageSzie: string;
     totalItems: number;

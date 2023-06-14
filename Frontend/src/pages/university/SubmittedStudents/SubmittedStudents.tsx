@@ -11,10 +11,26 @@ import Typography from '@mui/material/Typography';
 import Transition from 'src/components/Transition';
 import DataGridPagination from 'src/components/DataGrid/DataGridPagination';
 import useSubmittedTraineesController from './hooks/useSubmittedTraineesController';
+import { PageChangeParams } from 'src/components/DataGridTanstack/types';
+import uselogic from './definition';
 
 const SubmittedStudents: React.FC = () => {
-  const { columns, rows, isOpen, trainingId, handleCloseDialog } =
-  useSubmittedTraineesController();
+  const [pagination, setPagination] = useState<PageChangeParams>({
+    pageIndex: 0,
+    pageSize: 30,
+  });
+
+  const {
+    SubmittedTraineesDataGrid,
+    handleCloseDialog,
+    handleOpenDialog,
+    isOpen,
+    trainingId,
+  } = uselogic();
+  
+  const { rows } = useSubmittedTraineesController({
+    pagination,
+  });
 
   return (
     <>
@@ -37,28 +53,8 @@ const SubmittedStudents: React.FC = () => {
           <Typography component="h1" variant="h5" fontWeight={500}>
             Submitted Students
           </Typography>
-          <DataGrid
-            className="dataGrid"
-            sx={{
-              boxShadow: 10,
-              border: 1,
-              borderColor: '#cacaca',
-              '& .MuiDataGrid-cell:hover': {
-                color: 'primary.main',
-              },
-            }}
-            columns={columns}
-            rows={rows}
-            getRowId={(row) => row['id']}
-            initialState={{
-              pagination: { paginationModel: { pageSize: 30 } },
-            }}
-            pageSizeOptions={[10, 20, 30]}
-            slots={{
-              toolbar: GridToolbar,
-              pagination: DataGridPagination,
-            }}
-          />
+          <SubmittedTraineesDataGrid data={rows} />
+
         </Stack>
       </Grid>
       <Dialog
