@@ -209,11 +209,11 @@ const AdminMenuItems: IAppMenuItem[] = [
       link: "/add-faculty",
       Icon: () => <IntegrationInstructionsIcon/>,
   },
-//   {
-//     label: "Charts",
-//     link: "/charts",
-//     Icon: () => <IntegrationInstructionsIcon/>,
-// },
+  {
+    label: "Charts",
+    link: "/charts",
+    Icon: () => <IntegrationInstructionsIcon/>,
+},
 
   
 ];
