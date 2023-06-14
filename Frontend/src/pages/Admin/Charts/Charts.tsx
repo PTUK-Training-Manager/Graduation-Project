@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import './Charts.css';
+import BarChart from './components/BarChart';
 import PieChart from './components/PieChart';
 import { UserData } from './data';
 import { Grid } from '@mui/material';
-import BarChart from './components/BarChart';
 
 function Charts() {
   const [userData, setUserData] = useState({
@@ -36,5 +36,7 @@ function Charts() {
       </Grid>
   );
 }
+
+export default Charts;
 
 export default Charts;

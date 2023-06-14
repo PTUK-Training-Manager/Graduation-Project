@@ -12,7 +12,7 @@ router.patch('/sign', verifyRoles([UserRoleEnum.TRAINER]), signEvaluation);
 router.post('/reject', verifyRoles([UserRoleEnum.TRAINER]), rejectEvaluation);
 router.post('/evaluation', verifyRoles([UserRoleEnum.STUDENT]), submitEvaluation);
 router.patch('/evaluation', verifyRoles([UserRoleEnum.STUDENT]), editEvaluation);
-router.get('/pendingEvaluations', verifyRoles([ UserRoleEnum.TRAINER]), getPendingEvaluations);
+router.get('/pendingEvaluations/:page/:size', verifyRoles([ UserRoleEnum.TRAINER]), getPendingEvaluations);
 router.post('/rejectedEvaluations', verifyRoles([UserRoleEnum.STUDENT]), getRejectedEvaluations)
 router.post('/studentPendingEvaluations', verifyRoles([UserRoleEnum.STUDENT]), getStudentPendingEvaluations)
 export default router;

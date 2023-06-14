@@ -10,3 +10,5 @@ function BarChart({ chartData }) {
 }
 
 export default BarChart;
+
+export default BarChart;

@@ -110,14 +110,14 @@ export function makeFilters<T extends object>(configs: CreateDataGridConfig<T>) 
                     disableEscapeKeyDown
                     sx={{
                         "& .MuiDialog-paper": {
-                            maxWidth: "2000px",
+                            minWidth: "900px",
                         }
                     }}
                 >
                     <DialogTitle id="filters-dialog-title">
                         <Stack direction="row" sx={{justifyContent: "space-between"}}>
                             Filter Columns
-                            <Button onClick={clearAllFilters}>Clear All</Button>
+                            <Button onClick={clearAllFilters} disabled={!hasAppliedFilters}>Clear All</Button>
                         </Stack>
                     </DialogTitle>
                     <DialogContent sx={{minHeight: "300px"}}>

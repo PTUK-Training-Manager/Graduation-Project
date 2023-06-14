@@ -1,24 +1,21 @@
 import axiosInstance from "src/api";
 import { BaseResponse } from "src/types";
 import { SubmitAnswersBody,SubmitAnswersResponse} from "../types";
+import { FetchUsersParams } from "./request.dto";
+import { FinishedRequiredHoursResponse } from "./response.dto";
 
-export interface AccessTokenData {
-  studentId: string;
-  Student: {
-    name: string;
-  };
-  id: string;
-}
-
-export interface GetCompletedTraineesResponseForTrainer extends BaseResponse {
-  data: AccessTokenData[];
-}
-
-export const getCompletedTraineesForTrainer = async (): Promise<GetCompletedTraineesResponseForTrainer> => {
-  const url = "/training/runningAndFinishedStudents";
-  const response = await axiosInstance.get<GetCompletedTraineesResponseForTrainer>(url);
-  return response.data;
+export const getTraineesFinishedRequiredHours = async (params: FetchUsersParams) => {
+  return axiosInstance.get<FinishedRequiredHoursResponse>(
+    `/training/runningAndFinishedStudents/${params.page}/${params.size}`,
+    {
+      params: {
+        page: (params.page ?? 0) * (params.size ?? 10),
+        size: params.size,
+      },
+    }
+  );
 };
+
 
 export const submitAnswers = (body: SubmitAnswersBody) => {
   const url = '/training/submitQuestions';

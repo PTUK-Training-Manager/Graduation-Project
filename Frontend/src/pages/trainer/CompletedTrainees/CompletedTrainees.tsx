@@ -1,8 +1,6 @@
 import React, { SyntheticEvent, useEffect, useMemo, useState } from 'react';
 
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import EvaluStepper from './components/EvaluStepper';
-import './CompletedTrainees.css';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import { Dialog, DialogContent, DialogTitle } from '@mui/material';
@@ -11,11 +9,27 @@ import Typography from '@mui/material/Typography';
 import Transition from 'src/components/Transition';
 import DataGridPagination from 'src/components/DataGrid/DataGridPagination';
 import useCompletedTraineesController from './hooks/useCompletedTraineesController';
-
+import uselogic from './definition';
+import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 
 const SubmittedStudents: React.FC = () => {
-  const { columns, rows, isOpen, trainingId, handleCloseDialog } =
-  useCompletedTraineesController();
+  const [pagination, setPagination] = useState<PageChangeParams>({
+    pageIndex: 0,
+    pageSize: 30,
+  });
+
+  const { rows } = useCompletedTraineesController({
+    pagination,
+  });
+  const {
+    AllTrainingsCompanyDataGrid,
+    handleCloseDialog,
+    handleOpenDialog,
+    isOpen,
+    open,
+    trainingId
+    
+  } = uselogic();
 
   return (
     <>
@@ -38,30 +52,10 @@ const SubmittedStudents: React.FC = () => {
           <Typography component="h1" variant="h5" fontWeight={500}>
             Completed Trainees
           </Typography>
-          <DataGrid
-            className="dataGrid"
-            sx={{
-              boxShadow: 10,
-              border: 1,
-              borderColor: '#cacaca',
-              '& .MuiDataGrid-cell:hover': {
-                color: 'primary.main',
-              },
-            }}
-            columns={columns}
-            rows={rows}
-            getRowId={(row) => row['id']}
-            initialState={{
-              pagination: { paginationModel: { pageSize: 30 } },
-            }}
-            pageSizeOptions={[10, 20, 30]}
-            slots={{
-              toolbar: GridToolbar,
-              pagination: DataGridPagination,
-            }}
-          />
+          <AllTrainingsCompanyDataGrid data={rows} />
         </Stack>
       </Grid>
+  
       <Dialog
         open={isOpen}
         onClose={handleCloseDialog}

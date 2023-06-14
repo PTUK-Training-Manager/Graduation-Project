@@ -157,7 +157,7 @@ const TrainingRequestForm: React.FC = () => {
                 <TextFieldWrapper
                   label=   {t('StudentNumber')}
                   name="studentId"
-                  autoFocus
+                  // autoFocus
                 />
 
                 <FormControl fullWidth>

@@ -1,15 +1,21 @@
 import axiosInstance from 'src/api';
-import { GetTrainingRequestsResponse } from './response.dto';
+import { TrainingRequestsResponse } from './response.dto';
 import { HandleTrainingRequestBody, HandleTrainingRequestResponse } from '../types';
+import { FetchUsersParams } from './request.dto';
 
 
+export const getTrainingRequests = async (params: FetchUsersParams) => {
+  return axiosInstance.get<TrainingRequestsResponse>(
+    `/request/trainingRequests/${params.page}/${params.size}`,
+    {
+      params: {
+        page: (params.page ?? 0) * (params.size ?? 10),
+        size: params.size,
+      },
+    }
+  );
+};
 
-export const getTrainingRequests =
-  async (): Promise<GetTrainingRequestsResponse> => {
-    const url = '/request/trainingRequests';
-    const response = await axiosInstance.get<GetTrainingRequestsResponse>(url);
-    return response.data;
-  };
   export const handleTrainingRequest = (body: HandleTrainingRequestBody) => {
     const url = "/training/changeTrainingStatus";
     return axiosInstance

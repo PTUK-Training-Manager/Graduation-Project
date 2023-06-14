@@ -1,16 +1,8 @@
-import React, {useRef, useState } from 'react';
-import {
-  DataGrid,
-  GridToolbar,
-} from '@mui/x-data-grid';
+import React, { useRef, useState } from 'react';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import RemoveIcon from '@mui/icons-material/Remove';
 import './Trainers.css';
-import {
-  Autocomplete,
-  Collapse,
-  FormControl,
-  Paper,
-} from '@mui/material';
+import { Autocomplete, Collapse, FormControl, Paper } from '@mui/material';
 import { Form, FormikProvider } from 'formik';
 import EditTrainerDialog from './components/editFieldDialog';
 import DeleteTrainerDialog from './components/deleteTrainerDialog';
@@ -40,7 +32,6 @@ const Trainers: React.FC = () => {
     updateFieldForTrainerDialogOpen,
     handleUpdateFieldDialogClose,
     deleteTrainerName,
-    
   } = useAllTrainersFormController();
 
   const { isValid } = formikProps;
@@ -116,43 +107,62 @@ const Trainers: React.FC = () => {
                         <Typography component="h1" variant="h5">
                           Add Trainer
                         </Typography>
-                        <Stack gap={5} direction="row">
-                          <TextFieldWrapper
-                            label="Trainer Id"
-                            name="id"
-                            autoFocus
-                          />
-                          <TextFieldWrapper label="Trainer Name" name="name" />
-                          <TextFieldWrapper
-                            label="E-mail"
-                            type="email"
-                            name="email"
-                          />
-                          <TextFieldWrapper
-                            label="Phone Number"
-                            name="phoneNumber"
-                          />
-                          <FormControl fullWidth>
-                            <Autocomplete
-                              id="field"
-                              options={fieldOptions}
-                              getOptionLabel={(option) => option.Field.field}
-                              onChange={(event, newValue) => {
-                                formikProps.setFieldValue(
-                                  'fieldId',
-                                  newValue?.id
-                                );
-                              }}
-                              renderInput={(params) => (
-                                <TextField
-                                  {...params}
-                                  label="Field"
-                                  variant="outlined"
-                                />
-                              )}
+                        {/* <Stack gap={5} direction="row"> */}
+                        <Grid
+                          sx={{ justifyContent: 'center' }}
+                          container
+                          spacing={2}
+                        >
+                          <Grid item xs={12} sm={6} md={2}>
+                            <TextFieldWrapper
+                              label="Trainer Id"
+                              name="id"
+                              autoFocus
                             />
-                          </FormControl>
-                        </Stack>
+                          </Grid>
+                          <Grid item xs={12} sm={6} md={2}>
+                            <TextFieldWrapper
+                              label="Trainer Name"
+                              name="name"
+                            />
+                          </Grid>
+                          <Grid item xs={12} sm={6} md={2}>
+                            <TextFieldWrapper
+                              label="E-mail"
+                              type="email"
+                              name="email"
+                            />
+                          </Grid>
+                          <Grid item xs={12} sm={6} md={2}>
+                            <TextFieldWrapper
+                              label="Phone Number"
+                              name="phoneNumber"
+                            />
+                          </Grid>
+                          <Grid item xs={12} sm={6} md={2}>
+                            <FormControl fullWidth>
+                              <Autocomplete
+                                id="field"
+                                options={fieldOptions}
+                                getOptionLabel={(option) => option.Field.field}
+                                onChange={(event, newValue) => {
+                                  formikProps.setFieldValue(
+                                    'fieldId',
+                                    newValue?.fieldId
+                                  );
+                                }}
+                                renderInput={(params) => (
+                                  <TextField
+                                    {...params}
+                                    label="Field"
+                                    variant="outlined"
+                                  />
+                                )}
+                              />
+                            </FormControl>
+                          </Grid>
+                        </Grid>
+                        {/* </Stack> */}
                         <LoadingButton
                           type="submit"
                           variant="contained"
@@ -168,6 +178,7 @@ const Trainers: React.FC = () => {
               </Collapse>
             </Stack>
           </Grid>
+
           <DataGrid
             sx={{
               boxShadow: 10,
@@ -194,20 +205,19 @@ const Trainers: React.FC = () => {
         </Stack>
       </Grid>
       <DeleteTrainerDialog
-                deleteTrainerDialogOpen={deleteTrainerDialogOpen}
-                handleCancelDeleteTrainer={handleCancelDeleteTrainer}
-                handleDeleteTrainer={handleDeleteTrainer}
-                trainerName={deleteTrainerName}
-            />
-            <EditTrainerDialog
-            updateFieldForTrainerDialogOpen={updateFieldForTrainerDialogOpen}
-            handleSaveUpdatedValueField={handleSaveUpdatedValueField}
-            handleUpdateFieldDialogClose={handleUpdateFieldDialogClose}
-            onSetNewFieldId={onSetNewFieldId}
-            fieldOptions={fieldOptions}
-            formikProps={formikProps}
-            
-            />
+        deleteTrainerDialogOpen={deleteTrainerDialogOpen}
+        handleCancelDeleteTrainer={handleCancelDeleteTrainer}
+        handleDeleteTrainer={handleDeleteTrainer}
+        trainerName={deleteTrainerName}
+      />
+      <EditTrainerDialog
+        updateFieldForTrainerDialogOpen={updateFieldForTrainerDialogOpen}
+        handleSaveUpdatedValueField={handleSaveUpdatedValueField}
+        handleUpdateFieldDialogClose={handleUpdateFieldDialogClose}
+        onSetNewFieldId={onSetNewFieldId}
+        fieldOptions={fieldOptions}
+        formikProps={formikProps}
+      />
     </>
   );
 };

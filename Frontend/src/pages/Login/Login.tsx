@@ -22,11 +22,39 @@ import useVerifyAccessToken from 'src/hooks/useVerifyAccessToken';
 import BlockUI from 'src/containers/BlockUI';
 import Training from 'src/images/assets/training.png';
 import Wave from 'react-wavify';
+import { useState } from 'react';
+import useSnackbar from 'src/hooks/useSnackbar';
+import { Dialog, DialogTitle, DialogContent, TextField, DialogActions } from '@mui/material';
+import { forgget } from 'src/api/forgetPassword';
 
 const Login: React.FC = () => {
   /**
    * If user is already logged in, redirect to home page.
    */
+  const [openDialog,setOpenDialog] = useState(false)
+  const { showSnackbar } = useSnackbar();
+  const [username,seteUserName]=useState('');
+  const handleForggetClick = () => {
+    setOpenDialog(true)
+   };
+   const handleCancel = () => {
+    setOpenDialog(false);
+  };
+  const handleSend = () => {
+    forgget({ username: username }).then(
+      (res: { success: boolean; message: any }) => {
+        if (res.success === true) {
+          showSnackbar({ severity: 'success', message: 'A message has been sent to your Gmail' });
+          seteUserName('')
+          setOpenDialog(false);
+        } else if (res.success === false) {
+          showSnackbar({ severity: 'warning', message: res.message });
+          seteUserName('');
+          setOpenDialog(false);
+        }
+      }
+    );
+  };
   const { isSidebarOpen, user } = useAccountContext();
 
   if (user)
@@ -39,7 +67,7 @@ const Login: React.FC = () => {
   const { isValid } = formikProps;
 
   if (isVerifying) return <BlockUI />;
-
+  
   return (
     <>
       <AppNavbar />
@@ -159,7 +187,7 @@ const Login: React.FC = () => {
                 >
                   Login
                 </LoadingButton>
-                <Button sx={{ textTransform: 'none' }}>
+                <Button sx={{ textTransform: 'none' }} onClick={handleForggetClick}>
                   Forgotten your username or password?
                 </Button>
               </Stack>
@@ -167,6 +195,32 @@ const Login: React.FC = () => {
           </FormikProvider>
         </Paper>
       </Grid>
+      <Dialog
+        open={openDialog}
+        onClose={handleCancel}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog">Forgget Password</DialogTitle>
+        <DialogContent>
+        <TextField
+            autoFocus
+            label="Your Username"
+            fullWidth
+            required
+            margin='dense'
+            value={username}
+            onChange={(event) => seteUserName(event.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCancel} color="error">
+            Cancel
+          </Button>
+          <Button color="primary" onClick={handleSend}>
+            Send
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };

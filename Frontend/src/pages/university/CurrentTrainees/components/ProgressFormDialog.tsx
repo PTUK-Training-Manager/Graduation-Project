@@ -91,9 +91,7 @@ function CircularProgressWithLabel(
 
 interface ProgressFormDialogProps {
   isOpen: boolean;
-  currentTab: string;
   trainingId: string;
-  handleChangeTab: (event: SyntheticEvent, newValue: string) => void;
   handleCloseDialog: () => void;
   response?: Response; // add ? to allow for undefined values
   data?: Row[];
@@ -101,8 +99,6 @@ interface ProgressFormDialogProps {
 
 const ProgressFormDialog: FC<ProgressFormDialogProps> = ({
   isOpen,
-  currentTab,
-  handleChangeTab,
   handleCloseDialog,
   trainingId,
   response,

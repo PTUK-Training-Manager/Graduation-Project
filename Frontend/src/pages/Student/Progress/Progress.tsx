@@ -120,7 +120,7 @@ const Progress: React.FC = () => {
     setEvaluationId(evaluationId);
     topRef.current?.scrollIntoView({ behavior: 'auto' });
   };
-
+//@ts-ignore
   const handleStartTimeChange = (newValue: string | null) => {
     if (newValue) {
       const time = dayjs(newValue, 'HH:mm:ss');

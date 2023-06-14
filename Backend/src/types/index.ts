@@ -49,6 +49,14 @@ export interface BaseResponse {
     data?: any;
 }
 
+export interface GridResponse {
+    items: object[],
+    pageNumber: number,
+    pageSize: number,
+    totalItems: number,
+    totalPages: number
+}
+
 export interface ButtonHandler extends Request {
     body: {
         index: number;

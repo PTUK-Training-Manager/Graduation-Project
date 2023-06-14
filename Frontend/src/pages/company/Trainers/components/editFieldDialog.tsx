@@ -51,8 +51,8 @@ const EditTrainerDialog: FC<EditFieldForTrainerDialogProps> = ({
             />
           )}
           onChange={(event, newValue) => {
-            formikProps.setFieldValue('fieldId', newValue?.id || '');
-            onSetNewFieldId(newValue?.id || '');
+            formikProps.setFieldValue('fieldId', newValue?.fieldId || '');
+            onSetNewFieldId(newValue?.fieldId || '');
           }}
         />
       </DialogContent>

@@ -75,7 +75,7 @@ const uniTrainingOfficerMenuItems: IAppMenuItem[] = [
 
   {
     label: 'Companies',
-    link: '/add-company',
+    link: '/companies',
     Icon: () => <StoreIcon />,
   },
 
@@ -93,6 +93,11 @@ const uniTrainingOfficerMenuItems: IAppMenuItem[] = [
         link: '/completed-trainees',
         Icon: () => <SchoolIcon />,
       },
+    //   {
+    //     label: "CurrentV2",
+    //     link: "/current-trainees-v2",
+    //     Icon: () => <PendingActionsIcon/>,
+    // },
     ],
   },
   {
@@ -198,6 +203,20 @@ const studentMenuItems: IAppMenuItem[] = [
       },
 
 ];
+const AdminMenuItems: IAppMenuItem[] = [
+  {
+      label: "Admin Processes",
+      link: "/add-faculty",
+      Icon: () => <IntegrationInstructionsIcon/>,
+  },
+  {
+    label: "Charts",
+    link: "/charts",
+    Icon: () => <IntegrationInstructionsIcon/>,
+},
+
+  
+];
 
 export const MENU_ITEMS_MAP: Partial<Record<MenuItemsMapKey, IAppMenuItem[]>> =
   {
@@ -206,7 +225,7 @@ export const MENU_ITEMS_MAP: Partial<Record<MenuItemsMapKey, IAppMenuItem[]>> =
     UniTrainingOfficer: uniTrainingOfficerMenuItems,
     Company: companyMenuItems,
     Trainer: trainerMenuItems,
-    SuperAdmin: [],
+    SuperAdmin: AdminMenuItems,
     Student: studentMenuItems,
     AdminAndRegistration: [],
   };

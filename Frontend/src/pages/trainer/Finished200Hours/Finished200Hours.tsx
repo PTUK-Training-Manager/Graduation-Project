@@ -26,23 +26,34 @@ import theme from 'src/styling/customTheme';
 import Typography from '@mui/material/Typography';
 import Transition from 'src/components/Transition';
 import DataGridPagination from 'src/components/DataGrid/DataGridPagination';
-import useFinished200HoursController from './hooks/useFinished200HoursController';
+import useFinishedRequiredHoursController from './hooks/useFinishedRequiredHoursController';
+import { PageChangeParams } from 'src/components/DataGridTanstack/types';
+import uselogic from './definition';
 
 
 
 const Finished200Hours: React.FC = () => {
+  const [pagination, setPagination] = useState<PageChangeParams>({
+    pageIndex: 0,
+    pageSize: 30,
+  });
+
+  const { rows } = useFinishedRequiredHoursController({
+    pagination,
+  });
   const {
-    columns,
-    rows,
-    isOpen,
-    handleCloseDialog,
-    trainingId,
-  } = useFinished200HoursController();
+  TraineesFinishedRequierHoursDataGrid,
+  handleCloseDialog,
+  handleOpenDialog,
+  isOpen,
+  trainingId,
+  open,
+  } = uselogic();
 
   
   return (
     <>
-      <Grid
+     <Grid
         container
         sx={{
           p: 3,
@@ -59,32 +70,12 @@ const Finished200Hours: React.FC = () => {
           }}
         >
           <Typography component="h1" variant="h5" fontWeight={500}>
-            Trainees Finished Required Houres
+          Trainees Finished Required Houres
           </Typography>
-          <DataGrid
-            className="dataGrid"
-            sx={{
-              boxShadow: 10,
-              border: 1,
-              borderColor: '#cacaca',
-              '& .MuiDataGrid-cell:hover': {
-                color: 'primary.main',
-              },
-            }}
-            columns={columns}
-            rows={rows}
-            getRowId={(row) => row['id']}
-            initialState={{
-              pagination: { paginationModel: { pageSize: 30 } },
-            }}
-            pageSizeOptions={[10, 20, 30]}
-            slots={{
-              toolbar: GridToolbar,
-              pagination: DataGridPagination,
-            }}
-          />
+          <TraineesFinishedRequierHoursDataGrid data={rows} />
         </Stack>
       </Grid>
+         
       <Dialog
         open={isOpen}
         onClose={handleCloseDialog}
