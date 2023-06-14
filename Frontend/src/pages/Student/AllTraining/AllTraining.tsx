@@ -122,13 +122,30 @@ const AddCompanyForm: React.FC = () => {
                       <Typography>
                         {training.CompanyBranch.Company.name}{' '}
                       </Typography>
-
                       <Chip
                         label={training.status}
-                        color={mapStatusToColor[training.status] as any}
                         size="medium"
                         variant="filled"
-                        sx={{ fontSize: '1rem', width: '8rem' }}
+                        sx={{
+                          color:
+                            training.status === 'completed'
+                              ? '#008000'
+                              : training.status === 'running'
+                              ? '#ff4500    '
+                              : training.status === 'rejected'
+                              ? '#800000'
+                              : undefined,
+                          fontSize: '1rem',
+                          width: '8rem',
+                          backgroundColor:
+                            training.status === 'completed'
+                              ? 'rgba(0,130,0,0.5)'
+                              : training.status === 'running'
+                              ? 'rgba(253,88,0,0.6)'
+                              : training.status === 'rejected'
+                              ? 'rgb(255, 0, 0, 0.7)'
+                              : 'transparent',
+                        }}
                       />
 
                       {training.status == 'completed' && (

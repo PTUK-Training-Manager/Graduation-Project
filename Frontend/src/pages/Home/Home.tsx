@@ -3,7 +3,7 @@ import Stack from '@mui/material/Stack';
 import { Typography, Chip, Avatar, Box, IconButton, Grid } from '@mui/material';
 import Playground from '@mui/lab';
 import PostAddIcon from '@mui/icons-material/PostAdd';
-import backgroundImage from './t5.jpg';
+import backgroundImage from './pexels-mudassir-ali-2680270.jpg';
 import PeopleAltSharpIcon from '@mui/icons-material/PeopleAltSharp';
 import StoreSharpIcon from '@mui/icons-material/StoreSharp';
 import GroupsSharpIcon from '@mui/icons-material/GroupsSharp';
