@@ -12,11 +12,6 @@ const columns: ColumnDef<AllTrainingsData, any>[] = [
         header: 'Student Name',
         filterFn: 'arrIncludesSome',
     },
-    {
-        accessorKey: 'Trainer.name',
-        header: 'Trainer Name',
-        filterFn: 'arrIncludesSome',
-    },
     
     {
         accessorKey: 'CompanyBranch.location',

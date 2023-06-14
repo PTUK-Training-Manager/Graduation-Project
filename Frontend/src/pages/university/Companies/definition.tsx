@@ -103,7 +103,7 @@ const uselogic = () => {
         filterFn: 'arrIncludesSome',
       },
       {
-        accessorKey: 'email',
+        accessorKey: 'User.email',
         header: 'Email',
         filterFn: 'arrIncludesSome',
       },

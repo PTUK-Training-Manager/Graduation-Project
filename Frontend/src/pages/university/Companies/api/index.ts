@@ -14,7 +14,7 @@ export const addBranch = (body: AddBranchRequestBody) => {
 
 export const getCompany = async (params: FetchUsersParams) => {
     return axiosInstance.get<GetCompanyResponse>(
-      `/company/company${params.page}/${params.size}`,
+      `/company/company/${params.page}/${params.size}`,
       {
         params: {
           page: (params.page ?? 0) * (params.size ?? 10),

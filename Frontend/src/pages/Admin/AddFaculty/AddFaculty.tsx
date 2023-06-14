@@ -28,7 +28,7 @@ const [excelData, setExcelData] = useState(null);
 
 // onchange event
 const handleFile=(e: { target: { files: any[]; }; })=>{
-  showSnackbar({ severity: "success", message: "The file has been uploaded successfully" })
+  showSnackbar({ severity: "success", message: "Successfully added new Trainer" })
   let fileTypes = ['application/vnd.ms-excel','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','text/csv'];
   let selectedFile = e.target.files[0];
   if(selectedFile){
@@ -143,7 +143,7 @@ const handleFileSubmit=(e: { preventDefault: () => void; })=>{
     <div>Success Uploaded</div>
   )}
   {excelData && (
-    showSnackbar({ severity: "success", message: "The file has been uploaded successfully" })
+    showSnackbar({ severity: "success", message: "Successfully added new Trainer" })
   )}
 </div>
           </Stack>

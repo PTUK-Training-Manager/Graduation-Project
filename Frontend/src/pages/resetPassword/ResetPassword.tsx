@@ -54,9 +54,9 @@ const ForgetPassword: React.FC = () => {
                 <Typography component="h1" variant="h5">
                   Set New Password
                 </Typography>
-                <TextFieldWrapper label="Old Password" name="oldPassword" />
-                <TextFieldWrapper label="Password" name="newPassword" />
-                <TextFieldWrapper label="Password" name="confirmNewPassword" />
+                <TextFieldWrapper type='password' label="Old Password" name="oldPassword" />
+                <TextFieldWrapper type='password' label="Password" name="newPassword" />
+                <TextFieldWrapper type='password' label="Password" name="confirmNewPassword" />
 
                 <LoadingButton
                   type="submit"

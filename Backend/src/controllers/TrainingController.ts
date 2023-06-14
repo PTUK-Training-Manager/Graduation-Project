@@ -236,7 +236,7 @@ class TrainingController {
             hours = 400;
           }
 
-          if (calcHours >= hours) {
+          if (calcHours >= 30) {
             students.push(student);
           }
         })
