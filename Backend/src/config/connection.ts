@@ -1,6 +1,9 @@
 import {Sequelize} from 'sequelize';
 import dotenv from 'dotenv';
-dotenv.config();
+import {isProduction} from "../utils";
+dotenv.config({
+    path: isProduction ? ".env" : ".env.local"
+});
 
 const HOST_ENDPOINT = process.env.DB_HOST_ENDPOINT!,
     DATABASE = process.env.DB_NAME!,

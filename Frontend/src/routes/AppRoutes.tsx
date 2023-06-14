@@ -26,22 +26,11 @@ const CurrentTraineesV2 = lazy(
 );
 
 // university pages
-const TrainingRequestForm = lazy(
-  () => import('src/pages/university/TrainingRequestForm')
-);
-const PendingRequets = lazy(
-  () => import('src/pages/university/PendingRequests')
-);
-const Companies = lazy(() => import('src/pages/university/Companies'));
-const CompletedTrainees = lazy(
-  () => import('src/pages/university/CompletedTrainees')
-);
-const CurrentTrainees = lazy(
-  () => import('src/pages/university/CurrentTrainees')
-);
-const SubmittedRequests = lazy(
-  () => import('src/pages/university/SubmittedStudents')
-);
+const TrainingRequestForm = lazy(() => import('src/pages/university/TrainingRequestForm'));
+const AddCompanyForm = lazy(() => import('src/pages/university/AddCompanyForm'));
+const CompletedTrainees = lazy(() => import('src/pages/university/CompletedTrainees'));
+const CurrentTrainees = lazy(() => import('src/pages/university/CurrentTrainees'));
+const CurrentTraineesV2 = lazy(() => import('src/pages/university/CurrentTraineesV2/CurrentTrainees'));
 const AllTrainings = lazy(() => import('src/pages/university/AllTrainings'));
 
 // company pages

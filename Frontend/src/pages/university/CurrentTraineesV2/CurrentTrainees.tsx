@@ -2,9 +2,7 @@ import React, {FC} from 'react';
 import CurrentTraineesGrid from "./CurrentTraineesGrid";
 import {TraineesProvider} from "../context/TraineesContext";
 import ProgressFormDialog from "../ProgressFormDialog";
-
-interface CurrentTraineesProps {
-}
+import {CurrentTraineesProps} from "./types";
 
 const CurrentTrainees: FC<CurrentTraineesProps> = (props) => {
 

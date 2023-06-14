@@ -24,10 +24,10 @@ const ProtectedRoute: FC<PropsWithChildren<ProtectedRouteProps>> = ({
 
     if (!user) return <Navigate to="/login" replace state={{from: location.pathname}}/>;
 
-    if (allowedRoles && !allowedRoles?.includes(user.roleId))
-        return <Navigate to="/access-denied" replace state={{from: location.pathname}}/>;
+    if (user && allowedRoles && !allowedRoles?.includes(user.roleId))
+        return <Navigate to="/me/access-denied" replace state={{from: location.pathname}}/>;
 
-    if (!isAllowed) return <Navigate to="/access-denied" replace state={{from: location.pathname}}/>;
+    if (!isAllowed) return <Navigate to="/me/access-denied" replace state={{from: location.pathname}}/>;
 
     if (!children) return <Outlet/>;
 

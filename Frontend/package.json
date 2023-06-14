@@ -60,7 +60,7 @@
     "react-chartjs-2": "^5.2.0",
     "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
-    "react-dropzone": "^14.2.3",
+    "react-error-boundary": "^4.0.10",
     "react-infinite-scroll-component": "^6.1.0",
     "react-router-dom": "^6.8.2",
     "react-wavify": "^1.8.2",

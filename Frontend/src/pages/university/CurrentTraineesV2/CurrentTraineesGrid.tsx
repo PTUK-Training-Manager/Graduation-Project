@@ -1,9 +1,8 @@
-import React, {FC} from 'react';
+import React, {FC, useContext} from 'react';
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import theme from "src/styling/customTheme";
 import {gridOffset} from "./constants";
 import CurrentTraineesDataGrid from "./definition";
 import useCurrentTrainees from "./hooks/useCurrentTrainees";
