@@ -14,27 +14,40 @@ import useAllTrainersFormController from './hooks/useAllTrainersController';
 import TextFieldWrapper from 'src/components/FormsUI/TextField';
 import LoadingButton from '@mui/lab/LoadingButton';
 import DataGridPagination from 'src/components/DataGrid/DataGridPagination';
+import { PageChangeParams } from 'src/components/DataGridTanstack/types';
+import uselogic from './definition';
 
 const Trainers: React.FC = () => {
   const [openAddTrainerForm, setOpenAddTrainerForm] = useState(false);
+  const [pagination, setPagination] = useState<PageChangeParams>({
+    pageIndex: 0,
+    pageSize: 30,
+  });
 
+  const { rows } = useAllTrainersFormController({
+    pagination,
+  });
   const {
-    formikProps,
-    isLoading,
-    columns,
-    rows,
-    fieldOptions,
-    deleteTrainerDialogOpen,
-    handleCancelDeleteTrainer,
-    handleDeleteTrainer,
-    onSetNewFieldId,
-    handleSaveUpdatedValueField,
-    updateFieldForTrainerDialogOpen,
-    handleUpdateFieldDialogClose,
-    deleteTrainerName,
-  } = useAllTrainersFormController();
+    TrainerDataGrid,
+  } = uselogic();
+const [fieldOptions,setFieldOptions] = useState(null);
+  // const {
+  //   formikProps,
+  //   isLoading,
+  //   columns,
+  //   rows,
+  //   fieldOptions,
+  //   deleteTrainerDialogOpen,
+  //   handleCancelDeleteTrainer,
+  //   handleDeleteTrainer,
+  //   onSetNewFieldId,
+  //   handleSaveUpdatedValueField,
+  //   updateFieldForTrainerDialogOpen,
+  //   handleUpdateFieldDialogClose,
+  //   deleteTrainerName,
+  // } = useAllTrainersFormController();
 
-  const { isValid } = formikProps;
+  // const { isValid } = formikProps;
 
   const handleChange = () => {
     setOpenAddTrainerForm((prev) => !prev);
@@ -101,8 +114,8 @@ const Trainers: React.FC = () => {
                     minWidth: { xs: '90%', sm: '60%', md: '30%' },
                   }}
                 >
-                  <FormikProvider value={formikProps}>
-                    <Form>
+                  {/* <FormikProvider value={formikProps}> */}
+                    <form>
                       <Stack spacing={1} gap={1} alignItems="center">
                         <Typography component="h1" variant="h5">
                           Add Trainer
@@ -143,21 +156,23 @@ const Trainers: React.FC = () => {
                             <FormControl fullWidth>
                               <Autocomplete
                                 id="field"
+                                //@ts-ignore
                                 options={fieldOptions}
+                                //@ts-ignore
                                 getOptionLabel={(option) => option.Field.field}
-                                onChange={(event, newValue) => {
-                                  formikProps.setFieldValue(
-                                    'fieldId',
-                                    newValue?.fieldId
-                                  );
-                                }}
-                                renderInput={(params) => (
-                                  <TextField
-                                    {...params}
-                                    label="Field"
-                                    variant="outlined"
-                                  />
-                                )}
+                                // onChange={(event, newValue) => {
+                                //   formikProps.setFieldValue(
+                                //     'fieldId',
+                                //     newValue?.fieldId
+                                //   );
+                                // }}
+                                // renderInput={(params) => (
+                                //   <TextField
+                                //     {...params}
+                                //     label="Field"
+                                //     variant="outlined"
+                                //   />
+                                // )}
                               />
                             </FormControl>
                           </Grid>
@@ -166,58 +181,23 @@ const Trainers: React.FC = () => {
                         <LoadingButton
                           type="submit"
                           variant="contained"
-                          disabled={!isValid}
-                          loading={isLoading}
+disabled
                         >
                           Generate Account
                         </LoadingButton>
                       </Stack>
-                    </Form>
-                  </FormikProvider>
+                    </form>
+                  {/* </FormikProvider> */}
                 </Paper>
               </Collapse>
             </Stack>
           </Grid>
 
-          <DataGrid
-            sx={{
-              boxShadow: 10,
-              border: 1,
-              borderColor: '#cacaca',
-              '& .MuiDataGrid-cell:hover': {
-                color: 'primary.main',
-              },
-            }}
-            //@ts-ignore
-            columns={columns}
-            //@ts-ignore
-            rows={rows}
-            getRowId={(row) => row['id']}
-            initialState={{
-              pagination: { paginationModel: { pageSize: 30 } },
-            }}
-            pageSizeOptions={[10, 20, 30]}
-            slots={{
-              toolbar: GridToolbar,
-              pagination: DataGridPagination,
-            }}
-          />
+          <TrainerDataGrid data={rows} />
+
         </Stack>
       </Grid>
-      <DeleteTrainerDialog
-        deleteTrainerDialogOpen={deleteTrainerDialogOpen}
-        handleCancelDeleteTrainer={handleCancelDeleteTrainer}
-        handleDeleteTrainer={handleDeleteTrainer}
-        trainerName={deleteTrainerName}
-      />
-      <EditTrainerDialog
-        updateFieldForTrainerDialogOpen={updateFieldForTrainerDialogOpen}
-        handleSaveUpdatedValueField={handleSaveUpdatedValueField}
-        handleUpdateFieldDialogClose={handleUpdateFieldDialogClose}
-        onSetNewFieldId={onSetNewFieldId}
-        fieldOptions={fieldOptions}
-        formikProps={formikProps}
-      />
+     
     </>
   );
 };

@@ -11,12 +11,27 @@ import Typography from '@mui/material/Typography';
 import Transition from 'src/components/Transition';
 import DataGridPagination from 'src/components/DataGrid/DataGridPagination';
 import useCompletedTraineesController from './hooks/useCompletedTraineesController';
+import { PageChangeParams } from 'src/components/DataGridTanstack/types';
+import uselogic from './definition';
 
+const CompletedTrainees: React.FC = () => {
+  const [pagination, setPagination] = useState<PageChangeParams>({
+    pageIndex: 0,
+    pageSize: 30,
+  });
 
-const SubmittedStudents: React.FC = () => {
-  const { columns, rows, isOpen, trainingId, handleCloseDialog } =
-  useCompletedTraineesController();
+  const { rows } = useCompletedTraineesController({
+    pagination,
+  });
 
+  const {
+   CompletedTraineesDataGrid,
+   handleCloseDialog,
+   index,
+   isOpen,
+   studentId,
+  } = uselogic();
+  
   return (
     <>
       <Grid
@@ -38,28 +53,8 @@ const SubmittedStudents: React.FC = () => {
           <Typography component="h1" variant="h5" fontWeight={500}>
             Completed Trainees
           </Typography>
-          <DataGrid
-            className="dataGrid"
-            sx={{
-              boxShadow: 10,
-              border: 1,
-              borderColor: '#cacaca',
-              '& .MuiDataGrid-cell:hover': {
-                color: 'primary.main',
-              },
-            }}
-            columns={columns}
-            rows={rows}
-            getRowId={(row) => row['id']}
-            initialState={{
-              pagination: { paginationModel: { pageSize: 30 } },
-            }}
-            pageSizeOptions={[10, 20, 30]}
-            slots={{
-              toolbar: GridToolbar,
-              pagination: DataGridPagination,
-            }}
-          />
+          <CompletedTraineesDataGrid data={rows} />
+
         </Stack>
       </Grid>
       <Dialog
@@ -71,11 +66,11 @@ const SubmittedStudents: React.FC = () => {
       >
         <DialogTitle gap={1.5} sx={{ textAlign: 'center' }}></DialogTitle>
         <DialogContent>
-          <EvaluStepper trainingId={trainingId} />
+          {/* <EvaluStepper index={index} studentId={studentId} /> */}
         </DialogContent>
       </Dialog>
     </>
   );
 };
 
-export default SubmittedStudents;
+export default CompletedTrainees;
