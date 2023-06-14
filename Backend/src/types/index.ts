@@ -49,8 +49,12 @@ export interface BaseResponse {
     data?: any;
 }
 
-export interface LoginResponse extends BaseResponse {
-    accessToken?: string;
+export interface GridResponse {
+    items: object[],
+    pageNumber: number,
+    pageSize: number,
+    totalItems: number,
+    totalPages: number
 }
 
 export interface ButtonHandler extends Request {
@@ -178,8 +182,8 @@ export interface SubmitEvaluationBody extends Request {
         endTime: string,
         endTimeType: string
         skills: string,
-        note: string,
-        trainingId: number
+        trainingId: number,
+        date:Date
     }
 }
 
@@ -187,10 +191,11 @@ export interface EditEvaluationBody extends Request {
     body: {
         id: number,
         skills?: string,
-        noteId?: number,
-        note?: string,
-        startTime?: Date,
-        endTime?: Date
+        startTime?: string,
+        startTimeType?: string,
+        endTime?: string,
+        endTimeType?: string,
+        date?:Date
     }
 }
 

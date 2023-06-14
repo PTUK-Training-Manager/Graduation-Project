@@ -59,7 +59,7 @@ const useSnackbarContext = (initState: State) => {
         }), []);
 
 
-    const hideSnackbar = useCallback((event: React.SyntheticEvent | Event, reason?: string) => {
+    const hideSnackbar = useCallback((reason?: string) => {
         if (reason === 'clickaway') return;
         dispatch({type: REDUCER_ACTION_TYPE.HIDE_SNACKBAR})
     }, []);

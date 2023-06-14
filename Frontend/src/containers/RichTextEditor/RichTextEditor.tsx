@@ -28,7 +28,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
                                                             hasBorder = true,
                                                             showTreeView = false,
                                                             namespace = "",
-                                                            shouldReadFromLocalStorage = true,
+                                                            shouldReadFromLocalStorage = false,
                                                             content
                                                         }) => {
 

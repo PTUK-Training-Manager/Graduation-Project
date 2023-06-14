@@ -6,6 +6,7 @@ const useEditorPlayground = () => {
 
     // TODO: replace this with the actual API call
     const saveContentMutationFn = (editorStateString: string) => {
+        console.log(editorStateString);
         return new Promise(resolve => {
             setTimeout(() => {
                 resolve("saved")

@@ -1,27 +1,17 @@
 import axiosInstance from "src/api";
 import { BaseResponse } from "src/types";
+import { FetchUsersParams } from "./request.dto";
+import { SubmittedStudentsResponse } from "./response.dto";
 
-export interface AccessTokenData {
-  id: string;
-  trainerId: string;
-  studentId: string;
-  companyBranchId: string;
-  startDate: string;
-  endDate: string;
-  semester: string;
-  status: string;
-  type: string;
-  Student: {
-    name: string;
-  };
-}
-
-export interface GetSubmittedStudentsResponse extends BaseResponse {
-  data: AccessTokenData[];
-}
-
-export const getSubmittedStudents = async (): Promise<GetSubmittedStudentsResponse> => {
-  const url = "/training/submittedStudents";
-  const response = await axiosInstance.get<GetSubmittedStudentsResponse>(url);
-  return response.data;
+export const getSubmittedStudents = async (params: FetchUsersParams) => {
+  return axiosInstance.get<SubmittedStudentsResponse>(
+    `/training/submittedStudents/${params.page}/${params.size}` ,
+    {
+      params: {
+        page: (params.page ?? 0) * (params.size ?? 10),
+        size: params.size,
+      },
+    } 
+  );
 };
+

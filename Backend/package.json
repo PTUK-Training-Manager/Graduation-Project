@@ -2,7 +2,7 @@
   "name": "backend",
   "version": "1.0.0",
   "type": "module",
-  "main": "server.js",
+  "main": "index.js",
   "license": "MIT",
   "dependencies": {
     "@types/bcrypt": "^5.0.0",
@@ -19,6 +19,7 @@
     "csv-parser": "^3.0.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "express-serve-static-core": "^0.1.1",
     "jsonwebtoken": "^9.0.0",
     "module-alias": "^2.2.2",
     "moment": "^2.29.4",
@@ -42,9 +43,9 @@
     "tsconfig-paths": "^4.2.0"
   },
   "scripts": {
-    "build": "tsc",
-    "start": "node --experimental-specifier-resolution=node dist/server.js",
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register --esm build/app.js",
+    "build": "tsc"
   },
   "author": "",
   "description": "Student's University Practical Training Management Information System"

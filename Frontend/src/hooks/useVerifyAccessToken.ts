@@ -14,12 +14,6 @@ const useVerifyAccessToken = () => {
 
     const [isVerifying, setIsVerifying] = useState(true);
 
-    // if (localStorage.getItem("access-token") === null) {
-    //     return {
-    //         isVerifying: true
-    //     }
-    // }
-
     const {data} = useQuery(
         ["verifyAccessToken"],
         verifyAccessToken, {
@@ -36,10 +30,9 @@ const useVerifyAccessToken = () => {
             onSettled: () => {
                 setIsVerifying(false);
             },
-            // enabled: localStorage.getItem("access-token") === null
         });
 
-    return {isVerifying};
+    return {data, isVerifying};
 };
 
 export default useVerifyAccessToken;

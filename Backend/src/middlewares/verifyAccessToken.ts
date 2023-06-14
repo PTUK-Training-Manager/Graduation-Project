@@ -4,8 +4,7 @@ dotenv.config();
 import { Request, Response, NextFunction } from 'express';
 
 const verifyAccessToken = (req: Request, res: Response, next: NextFunction) => {
-    // const accessToken = req.cookies['access-token'];
-    const accessToken = req.headers["access-token"] as string;
+    const accessToken = req.cookies['access-token'];
 
     /**
      * If there's no such a cookie, then there's no access token to be verified.

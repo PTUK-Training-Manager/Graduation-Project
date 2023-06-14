@@ -1,1 +1,1 @@
-export { default } from "./TrainingRequest";
+export { default } from "./TrainingRequests";

@@ -7,7 +7,6 @@ import useSnackbar from "src/hooks/useSnackbar";
 import useAccountContext from "src/hooks/useAccountContext";
 import {AxiosBaseError} from "src/types";
 import extractErrorMessage from "src/utils/extractErrorMessage";
-import {useLocation, useNavigate} from "react-router-dom";
 
 const LoginQueryKey = ["Login"];
 
@@ -17,15 +16,12 @@ const useLoginController = () => {
 
     const {onLogin} = useAccountContext();
 
-    const location = useLocation();
-    const navigate = useNavigate();
-
     const formikProps = useFormik({
         initialValues: INITIAL_FORM_STATE,
-        onSubmit: (values,{ resetForm }) => {
+        onSubmit: (values, { resetForm }) => {
             mutate(values);
             resetForm();
-        },
+          },
         validationSchema,
         validateOnMount: true,
     });
@@ -35,10 +31,9 @@ const useLoginController = () => {
         login,
         {
             onSuccess: (data) => {
-                localStorage.setItem("access-token", data?.accessToken ?? "");
                 const {username, roleId} = data?.data;
-                showSnackbar({severity: "success", message: data.message});
                 onLogin({username, roleId}, {shouldNavigate: true});
+                showSnackbar({severity: "success", message: data.message});
             },
             onError: (error: AxiosBaseError) => {
                 const errorMessage = extractErrorMessage(error);

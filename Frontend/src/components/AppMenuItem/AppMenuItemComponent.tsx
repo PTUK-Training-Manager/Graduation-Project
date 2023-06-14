@@ -28,7 +28,7 @@ const AppMenuItemComponent: FC<AppMenuItemComponentProps> = (props) => {
         )
     }
 
-    // Return a LitItem with a hyperlink component
+    // Return a ListItem with a hyperlink component
     return (
         <ListItem
             disablePadding
