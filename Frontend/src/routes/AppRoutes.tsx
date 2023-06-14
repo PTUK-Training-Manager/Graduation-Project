@@ -21,13 +21,13 @@ const DataGridPaginatedPlayground = lazy(
 const InfiniteScrollPlayground = lazy(
   () => import('src/pages/InfiniteScrollPlayground')
 );
-const CurrentTraineesV2 = lazy(
-  () => import('src/pages/university/CurrentTraineesV2/CurrentTrainees')
-);
+// const CurrentTraineesV2 = lazy(
+//   () => import('src/pages/university/CurrentTraineesV2/CurrentTrainees')
+// );
 
 // university pages
 const TrainingRequestForm = lazy(() => import('src/pages/university/TrainingRequestForm'));
-const AddCompanyForm = lazy(() => import('src/pages/university/AddCompanyForm'));
+// const AddCompanyForm = lazy(() => import('src/pages/university/AddCompanyForm'));
 const CompletedTrainees = lazy(() => import('src/pages/university/CompletedTrainees'));
 const CurrentTrainees = lazy(() => import('src/pages/university/CurrentTrainees'));
 const CurrentTraineesV2 = lazy(() => import('src/pages/university/CurrentTraineesV2/CurrentTrainees'));
@@ -76,6 +76,7 @@ const ForgettPassword = lazy(() => import('src/pages/ForgetPassword'));
 const ResetPassword = lazy(() => import('src/pages/resetPassword'));
 
 import { UserRole } from '../constants/auth';
+import Companies from 'src/pages/university/Companies';
 
 interface AppRoutesProps {}
 
@@ -118,11 +119,11 @@ const AppRoutes: FC<AppRoutesProps> = () => {
             element={<ProtectedRoute allowedRoles={[UniTrainingOfficer]} />}
           >
             <Route path="/training-request" element={<TrainingRequestForm />} />
-            <Route path="/pending-requests" element={<PendingRequets />} />
+            {/* <Route path="/pending-requests" element={<PendingRequets />} /> */}
             <Route path="/companies" element={<Companies />} />
             <Route path="/all-trainings" element={<AllTrainings />} />
             <Route path="/completed-trainees" element={<CompletedTrainees />} />
-            <Route path="/submitted-trainees" element={<SubmittedRequests />} />
+            {/* <Route path="/submitted-trainees" element={<SubmittedRequests />} /> */}
             <Route path="/current-trainees" element={<CurrentTrainees />} />
             <Route
               path="/current-trainees-v2"
