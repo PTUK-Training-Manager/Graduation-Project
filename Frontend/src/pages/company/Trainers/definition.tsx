@@ -10,35 +10,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import ClearIcon from '@mui/icons-material/Clear';
 import { TrainersData } from './api/response.dto';
 
-interface ProgressFormCellProps extends CellContext<TrainersData, any> {}
-const uselogic = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [trainingId, setTrainingId] = useState('');
-  const [response, setReponse] = useState<Response>();
-  const [pagination, setPagination] = useState<PageChangeParams>({
-    pageIndex: 0,
-    pageSize: 10,
-  });
- 
-  // useEffect(() => {
-  //   progressForm({ trainingId: trainingId }).then((res) => {
-  //     //@ts-ignore
-  //     setReponse(res.data);
-  //   });
-  // }, [trainingId]);
-
-  const handleOpenDialog = (id: string) => {
-    setTrainingId(id);
-    console.log(trainingId);
-    console.log(isOpen);
-    setIsOpen((prev) => !prev);
-  };
-
-  const handleCloseDialog = () => {
-    setIsOpen(false);
-    setTrainingId('');
-  };
-
   const columns: ColumnDef<TrainersData, any>[] = [
     {
       accessorKey: 'id',
@@ -54,15 +25,11 @@ const uselogic = () => {
         header: 'Field',
         filterFn: 'arrIncludesSome',
       },
-      {
-        accessorKey: 'Trainer.name',
-        header: 'Trainer Name',
-        filterFn: 'arrIncludesSome',
-      },
+      
     {
       header: 'Edit Field',
       //@ts-ignore
-      cell: (params: { row: RunningTraineesData }) => {
+      cell: (params: { row: TrainersData }) => {
         return (
           <IconButton
           // onClick={() => handleUpdateFieldDialogOpen(params.id)}
@@ -92,13 +59,13 @@ const uselogic = () => {
   ];
 
   const TrainerDataGrid = createDataGrid({
-    name: 'CurrentTraineesDataGrid',
+    name: 'TrainerDataGrid',
     columns,
     shouldFlexGrowCells: true,
   });
 
-  return {
-    TrainerDataGrid,
-  };
-};
-export default uselogic;
+  // return {
+  //   TrainerDataGrid,
+  // };
+
+export default TrainerDataGrid;

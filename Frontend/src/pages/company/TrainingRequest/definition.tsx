@@ -10,8 +10,11 @@ import useSnackbar from 'src/hooks/useSnackbar';
 import { useState } from 'react';
 import useTrainingRequestsController from './hooks/useTrainingRequestsController';
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
+import {useQuery, useQueryClient} from "@tanstack/react-query";
+
 
 const uselogic = () => {
+    const queryClient = useQueryClient();
   const { showSnackbar } = useSnackbar();
   const [pagination, setPagination] = useState<PageChangeParams>({
     pageIndex: 0,
@@ -36,7 +39,9 @@ const uselogic = () => {
         if (result.success === true) {
           showSnackbar({ severity: 'success', message: result.message });
           setData((prevData) => prevData.filter((row) => row.id !== id));
-          console.log("correct");
+         const res= queryClient.getQueryData( ["trainingRequests"]) as TrainingRequestsData[] ;
+          queryClient.setQueryData(["trainingRequests"],res.filter((row) => row.id !== id));
+          console.log(res);
         } else if (result.success === false) {
           console.log("error");
         }
@@ -81,13 +86,16 @@ const uselogic = () => {
     {
       header: 'Accept',
       //@ts-ignore
-      cell: (params: { row: TrainingRequestsData }) => {
+      cell: (props) => {
+        const {
+            row: { original },
+          } = props;
         return (
           <Button
             size="small"
             sx={{ color: "white", backgroundColor: "green" }}
             aria-label='progress form'
-            onClick={() => handleAccept(params.row.id)}
+            onClick={() => handleAccept(original.id)}
           >
             <CheckCircleOutlineIcon sx={{ color: "white", mr: 1 }} className='manage-icon' />
             Accept

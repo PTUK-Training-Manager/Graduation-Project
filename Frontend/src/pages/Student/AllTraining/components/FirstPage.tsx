@@ -69,7 +69,8 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
-                    {response[0]?.Student.department}
+                    CSE
+                    {/* {response[0]?.Student.department} */}
                   </Typography>
                 </Typography>
               </Stack>

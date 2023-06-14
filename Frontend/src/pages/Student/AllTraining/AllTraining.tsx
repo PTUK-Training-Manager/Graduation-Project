@@ -57,12 +57,12 @@ const AddCompanyForm: React.FC = () => {
     setIsProgressReportOpen((prev) => !prev);
   };
 
-  useEffect(() => {
-    progressForm({ trainingId: trainingId }).then((res) => {
-      //@ts-ignore
-      setReponse(res.data);
-    });
-  }, [trainingId]);
+  // useEffect(() => {
+  //   progressForm({ trainingId: trainingId }).then((res) => {
+  //     //@ts-ignore
+  //     setReponse(res.data);
+  //   });
+  // }, [trainingId]);
   const navigate = useNavigate();
   const [pagination, setPagination] = useState<PageChangeParams>({
     pageIndex: 0,

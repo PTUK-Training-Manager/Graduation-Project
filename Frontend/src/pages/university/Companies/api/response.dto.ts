@@ -3,6 +3,10 @@ import {BaseResponse} from "src/types";
 export interface AddCompanyData {
   id: string;
   name: string;
+  userId: string;
+  User: {
+    email:string;
+  };
   email: string;
   phoneNumber: string;
   managerName: string;

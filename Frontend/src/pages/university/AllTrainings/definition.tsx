@@ -57,23 +57,6 @@ import { FC } from 'react';
       header: 'Status',
       filterFn: 'arrIncludesSome',
     },
-    // {
-    //   accessorKey: 'status',
-    //   header: 'Status',
-    //   filterFn: 'arrIncludesSome',
-    //   //@ts-ignore
-    //   cell: () => {
-    //     return (
-    //       <Chip
-    //         label={props.row.original.status}
-    //         color={mapStatusToColor[props.row.original.status] as any}
-    //         size="medium"
-    //         variant="filled"
-    //         sx={{ fontSize: '1rem', width: '8rem' }}
-    //       />
-    //     );
-    //   },
-    // },
 
     {
       accessorKey: 'startDate',

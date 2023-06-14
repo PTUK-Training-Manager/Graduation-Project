@@ -41,6 +41,7 @@ const TrainingRequests: React.FC = () => {
           <TrainingRequestsDataGrid data={rows} />
         </Stack>
       </Grid>
+      
     </>
   );
 };

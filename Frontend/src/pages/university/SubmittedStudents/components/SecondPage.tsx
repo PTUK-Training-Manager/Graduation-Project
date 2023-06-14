@@ -23,10 +23,10 @@ interface ThirdPageProps {
 }
 
 const SecondPage: React.FC<ThirdPageProps> = ({ response }) => {
-  const { isOpen } = useCompletedTraineesController();
+  // const { isOpen } = useCompletedTraineesController();
   console.log(response);
   console.log(response[0]?.id);
-  console.log(isOpen);
+  // console.log(isOpen);
 
   return (
     <>

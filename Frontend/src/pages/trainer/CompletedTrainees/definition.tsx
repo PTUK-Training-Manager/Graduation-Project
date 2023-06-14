@@ -32,13 +32,16 @@ const uselogic = () => {
       cell: (params: { row: CompletedTraineesData }) => {
         return (
           <IconButton
+          size='small'
             sx={{ ml: 3.5 }}
             aria-label="progress form"
             onClick={() => handleOpenDialog(params.row.id)}
           >
             <ManageSearchIcon
+            
               sx={{ color: '#820000' }}
               className="manage-icon"
+              
             />
           </IconButton>
         );

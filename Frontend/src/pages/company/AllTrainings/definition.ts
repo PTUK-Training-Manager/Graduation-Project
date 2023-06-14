@@ -1,6 +1,7 @@
 import {ColumnDef} from '@tanstack/react-table';
 import {createDataGrid} from 'src/components/DataGridTanstack';
 import { AllTrainingsData } from './api/response.dto';
+import StatusCell from './StatusCell';
 
 const columns: ColumnDef<AllTrainingsData, any>[] = [
     {
@@ -32,6 +33,12 @@ const columns: ColumnDef<AllTrainingsData, any>[] = [
         accessorKey: 'status',
         header: 'Status',
         filterFn: 'arrIncludesSome',
+    },
+    {
+        accessorKey: 'status',
+        header: 'Status',
+        filterFn: 'arrIncludesSome',
+        cell: StatusCell,
     },
     {
         accessorKey: 'startDate',

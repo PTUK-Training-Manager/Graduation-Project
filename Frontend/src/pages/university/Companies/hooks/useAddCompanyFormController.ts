@@ -9,7 +9,7 @@ import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import extractErrorMessage from 'src/utils/extractErrorMessage';
 import { Row } from '../types';
 import { useEffect, useState } from 'react';
-import { getCompany } from '../api'; // Import the getCompany function
+import { getCompany } from '../api'; 
 import { IconButton } from '@mui/material';
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 

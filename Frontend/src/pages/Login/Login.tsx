@@ -204,7 +204,7 @@ const Login: React.FC = () => {
         <DialogContent>
         <TextField
             autoFocus
-            label="Your Username"
+            label="Enter Your Username"
             fullWidth
             required
             margin='dense'

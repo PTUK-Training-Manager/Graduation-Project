@@ -27,6 +27,8 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ response }) => {
   return (
     <>
       <Grid sx={{ padding: '2' }}>
+        
+      
         {response[0]?.Evaluations.map(
           (
             item,
@@ -35,7 +37,9 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ response }) => {
             <>
               <Stack gap={2} spacing={2}>
                 <Divider />
-
+                {/* <Typography variant="h6" gutterBottom>
+          Progress Of Trainee:
+        </Typography> */}
                 <Stack gap={5} spacing={2}>
                   <Card
                     sx={{

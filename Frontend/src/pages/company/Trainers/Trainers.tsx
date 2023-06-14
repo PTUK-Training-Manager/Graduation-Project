@@ -1,57 +1,76 @@
-import React, { useRef, useState } from 'react';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import RemoveIcon from '@mui/icons-material/Remove';
-import './Trainers.css';
-import { Autocomplete, Collapse, FormControl, Paper } from '@mui/material';
-import { Form, FormikProvider } from 'formik';
-import EditTrainerDialog from './components/editFieldDialog';
-import DeleteTrainerDialog from './components/deleteTrainerDialog';
-import theme from 'src/styling/customTheme';
-
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import { Button, Grid, Stack, TextField, Typography } from '@mui/material';
-import useAllTrainersFormController from './hooks/useAllTrainersController';
-import TextFieldWrapper from 'src/components/FormsUI/TextField';
+import * as React from 'react';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
 import LoadingButton from '@mui/lab/LoadingButton';
+import { Form, FormikProvider } from 'formik';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+import TextFieldWrapper from 'src/components/FormsUI/TextField';
+import Stack from '@mui/material/Stack';
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import { getBranch } from 'src/api/getBranch';
+import theme from 'src/styling/customTheme';
+import {
+  Autocomplete,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Divider,
+  FormControl,
+  IconButton,
+  TextField,
+} from '@mui/material';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { getCompany } from 'src/api/getCompany';
+import { useEffect, useState } from 'react';
+import Collapse from '@mui/material/Collapse';
+import useSnackbar from 'src/hooks/useSnackbar';
 import DataGridPagination from 'src/components/DataGrid/DataGridPagination';
-import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import uselogic from './definition';
+import { PageChangeParams } from 'src/components/DataGridTanstack/types';
+import useAllTrainersController from './hooks/useAllTrainersController';
+import TrainerDataGrid from './definition';
+import useAddCompanyFormController from 'src/pages/university/Companies/hooks/useAddCompanyFormController';
+
+interface Row {
+  map(arg0: (company: any) => { id: any; name: any }): unknown;
+  id: string;
+  name: string;
+  phoneNumber: string;
+  managerName: string;
+  userId: string;
+  User: {
+    email: string;
+  };
+}
+interface Branch {
+  map(arg0: (company: any) => { id: any; location: any }): unknown;
+  id: string;
+  location: string;
+}
 
 const Trainers: React.FC = () => {
-  const [openAddTrainerForm, setOpenAddTrainerForm] = useState(false);
+  const [data, setData] = useState<Row[]>([]);
+  const [open, setOpen] = useState(true);
+  const [location, setLocation] = useState('');
   const [pagination, setPagination] = useState<PageChangeParams>({
     pageIndex: 0,
-    pageSize: 30,
+    pageSize: 100,
   });
 
-  const { rows } = useAllTrainersFormController({
+  const { rows,fieldOptions} = useAllTrainersController({
     pagination,
   });
-  const {
-    TrainerDataGrid,
-  } = uselogic();
-const [fieldOptions,setFieldOptions] = useState(null);
-  // const {
-  //   formikProps,
-  //   isLoading,
-  //   columns,
-  //   rows,
-  //   fieldOptions,
-  //   deleteTrainerDialogOpen,
-  //   handleCancelDeleteTrainer,
-  //   handleDeleteTrainer,
-  //   onSetNewFieldId,
-  //   handleSaveUpdatedValueField,
-  //   updateFieldForTrainerDialogOpen,
-  //   handleUpdateFieldDialogClose,
-  //   deleteTrainerName,
-  // } = useAllTrainersFormController();
+  
 
-  // const { isValid } = formikProps;
-
-  const handleChange = () => {
-    setOpenAddTrainerForm((prev) => !prev);
-  };
+  const { formikProps, isLoading, updatedata } = useAddCompanyFormController({
+    pagination,
+  });
+  const [showBranches, setShowBranches] = useState<boolean>(false);
+  const { isValid } = formikProps;
 
   return (
     <>
@@ -71,23 +90,21 @@ const [fieldOptions,setFieldOptions] = useState(null);
             height: '100%',
           }}
         >
-          <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
+           <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
             <Typography component="h1" variant="h5" fontWeight={500}>
               Trainers
             </Typography>
-
             <Button
               variant="contained"
               sx={{ width: 'auto' }}
-              color={openAddTrainerForm ? 'error' : 'success'}
-              onClick={handleChange}
-              startIcon={
-                openAddTrainerForm ? <RemoveIcon /> : <PersonAddIcon />
-              }
+              color={open ? 'error' : 'success'}
+              // onClick={handleChange}
+              startIcon={open ? <RemoveIcon /> : <AddIcon />}
             >
-              {openAddTrainerForm ? 'Close' : 'Add Trainer'}
+              {open ? 'Close' : 'Add Trainer'}
             </Button>
           </Stack>
+
           <Grid
             container
             sx={{
@@ -104,55 +121,58 @@ const [fieldOptions,setFieldOptions] = useState(null);
                 height: '100%',
               }}
             >
-              <Collapse in={openAddTrainerForm}>
+              <Collapse in={open}>
                 <Paper
                   elevation={3}
                   sx={{
+                    display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
                     p: 3.5,
                     minWidth: { xs: '90%', sm: '60%', md: '30%' },
                   }}
                 >
-                  {/* <FormikProvider value={formikProps}> */}
-                    <form>
-                      <Stack spacing={1} gap={1} alignItems="center">
+                  <FormikProvider value={formikProps}>
+                    <Form>
+                      <Stack gap={1} spacing={1} alignItems="center">
                         <Typography component="h1" variant="h5">
                           Add Trainer
                         </Typography>
-                        {/* <Stack gap={5} direction="row"> */}
                         <Grid
-                          sx={{ justifyContent: 'center' }}
+                          sx={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}
                           container
                           spacing={2}
                         >
-                          <Grid item xs={12} sm={6} md={2}>
+                          <Grid item xs={12} sm={6} md={2.4}>
                             <TextFieldWrapper
                               label="Trainer Id"
                               name="id"
-                              autoFocus
                             />
                           </Grid>
-                          <Grid item xs={12} sm={6} md={2}>
+                          <Grid item xs={12} sm={6} md={2.4}>
                             <TextFieldWrapper
                               label="Trainer Name"
                               name="name"
                             />
                           </Grid>
-                          <Grid item xs={12} sm={6} md={2}>
+                          <Grid item xs={12} sm={6} md={2.4}>
                             <TextFieldWrapper
                               label="E-mail"
-                              type="email"
                               name="email"
                             />
                           </Grid>
-                          <Grid item xs={12} sm={6} md={2}>
+                          
+                          
+                          <Grid item xs={12} sm={6} md={2.4}>
                             <TextFieldWrapper
                               label="Phone Number"
                               name="phoneNumber"
                             />
                           </Grid>
-                          <Grid item xs={12} sm={6} md={2}>
+                          <Grid item xs={12} sm={6} md={2.4}>
                             <FormControl fullWidth>
                               <Autocomplete
                                 id="field"
@@ -160,46 +180,40 @@ const [fieldOptions,setFieldOptions] = useState(null);
                                 options={fieldOptions}
                                 //@ts-ignore
                                 getOptionLabel={(option) => option.Field.field}
-                                // onChange={(event, newValue) => {
-                                //   formikProps.setFieldValue(
-                                //     'fieldId',
-                                //     newValue?.fieldId
-                                //   );
-                                // }}
-                                // renderInput={(params) => (
-                                //   <TextField
-                                //     {...params}
-                                //     label="Field"
-                                //     variant="outlined"
-                                //   />
-                                // )}
+                                onChange={(event, newValue) => {
+                                 console.log("fdf");
+                                }}
+                                renderInput={(params) => (
+                                  <TextField
+                                    {...params}
+                                    label="Field"
+                                    variant="outlined"
+                                  />
+                                )}
                               />
                             </FormControl>
                           </Grid>
                         </Grid>
-                        {/* </Stack> */}
                         <LoadingButton
                           type="submit"
+                          // fullWidth
                           variant="contained"
-disabled
+                          loading={isLoading}
                         >
                           Generate Account
                         </LoadingButton>
                       </Stack>
-                    </form>
-                  {/* </FormikProvider> */}
+                    </Form>
+                  </FormikProvider>
                 </Paper>
               </Collapse>
             </Stack>
           </Grid>
 
           <TrainerDataGrid data={rows} />
-
         </Stack>
       </Grid>
-     
     </>
   );
 };
-
 export default Trainers;

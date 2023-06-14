@@ -37,9 +37,7 @@ const ForgetPassword: React.FC = () => {
   const { formikProps, isLoading } = useForgetController();
   const { isValid } = formikProps;
   const navigate = useNavigate();
-  const [response,setResponse]= useState(null);
-
-  
+  const [response, setResponse] = useState(null);
 
   return (
     <>
@@ -65,18 +63,20 @@ const ForgetPassword: React.FC = () => {
             <Form>
               <Stack gap={2} alignItems="center">
                 <Typography component="h1" variant="h5">
-                  Set New Password 
+                  Set New Password
                 </Typography>
 
                 <TextFieldWrapper
+                  type="password"
                   label="Password"
                   name="newPassword"
                 />
                 <TextFieldWrapper
+                  type="password"
                   label="Password"
                   name="confirmNewPassword"
                 />
-                
+
                 <LoadingButton
                   type="submit"
                   fullWidth
