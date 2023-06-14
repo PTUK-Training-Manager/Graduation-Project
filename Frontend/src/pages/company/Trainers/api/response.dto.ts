@@ -12,6 +12,14 @@ export interface TrainersData {
     status: string;
     userId: string;
   }
+  export interface TrainersResponse{
+    items: TrainersData[];
+    pageNumber: string;
+    pageSzie: string;
+    totalItems: number;
+    totalPages: number;
+  }
+  
   
   export interface GetTrainersResponse extends BaseResponse {
     data: TrainersData[];

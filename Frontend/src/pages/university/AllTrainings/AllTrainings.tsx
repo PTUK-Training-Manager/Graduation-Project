@@ -1,16 +1,28 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import Stack from '@mui/material/Stack';
 import useAllTrainingsController from './hooks/useAllTrainingsController';
 import theme from 'src/styling/customTheme';
 import { Grid, Typography } from '@mui/material';
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import AllTrainingsDataGrid from './definition';
+import { AllTrainingsData } from './api/response.dto';
+import { CellContext } from '@tanstack/react-table';
+import AllTrainingss from './definition';
 
-const AllTrainings: React.FC = () => {
+interface ProgressFormCellProps extends CellContext<AllTrainingsData, any> {
+}
+
+    
+const AllTrainings: FC<ProgressFormCellProps> = (props) => {
+  const {
+    row: {original},
+} = props;
+
   const [pagination, setPagination] = useState<PageChangeParams>({
     pageIndex: 0,
     pageSize: 10,
   });
+  
 
   const { rows } = useAllTrainingsController({
     pagination,

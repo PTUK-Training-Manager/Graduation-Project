@@ -1,12 +1,19 @@
 import axiosInstance from 'src/api';
-import { GetTrainersResponse } from './response.dto';
-import { DeleteTrainerBody,AddTrainerRequestBody,UpdateFieldforTrainerBody } from './request.dto';
+import { GetTrainersResponse, TrainersResponse } from './response.dto';
+import { DeleteTrainerBody,AddTrainerRequestBody,UpdateFieldforTrainerBody, FetchUsersParams } from './request.dto';
 import { DeleteTrainerResponse,AddTrainerResponse,UpdateFieldForTrainerResponse,GetFieldResponse } from './response.dto';
 
-export const getTrainers = async (): Promise<GetTrainersResponse> => {
-  const url = '/company/trainers';
-  const response = await axiosInstance.get<GetTrainersResponse>(url);
-  return response.data;
+
+export const getTrainers = async (params: FetchUsersParams) => {
+  return axiosInstance.get<TrainersResponse>(
+    `/company/trainers/${params.page}/${params.size}`,
+    {
+      params: {
+        page: (params.page ?? 0) * (params.size ?? 10),
+        limit: params.size,
+      },
+    }
+  );
 };
 
 export const deleteTrianer = (body: DeleteTrainerBody) => {

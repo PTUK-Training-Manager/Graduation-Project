@@ -12,8 +12,12 @@ export interface AcceptedTrainingsData {
   };
 }
 
-export interface GetAcceptedTrainingsResponse extends BaseResponse {
-  data: AcceptedTrainingsData[];
+export interface AcceptedTrainingsResponse {
+  items: AcceptedTrainingsData[];
+  pageNumber: string;
+  pageSzie: string;
+  totalItems: number;
+  totalPages: number;
 }
 
 export interface AssignTrainerData {

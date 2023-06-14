@@ -98,7 +98,7 @@ const handleFileSubmit=(e: { preventDefault: () => void; })=>{
                   Add New Faculty
                 </Typography>
 
-                <TextFieldWrapper label="Faculty Name" name="name" autoFocus />
+                <TextFieldWrapper label="Faculty Name" name="name"  />
 
                 <TextFieldWrapper label="Faculty Email" name="email" />
                 <LoadingButton
