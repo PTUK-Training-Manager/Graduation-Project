@@ -24,9 +24,7 @@ import {
   RejectEvaluationBody,
   SubmitEvaluationBody,
 } from "../types";
-import { getStudentTraining, getTrainingIds } from "../utils";
-import { ParamsDictionary } from "express-serve-static-core";
-
+import { getTrainingIds } from "../utils";
 class EvaluationController {
   calcHours = async (trainingId: number) => {
     const evaluationRecords = await Evaluation.findAll({
@@ -85,51 +83,37 @@ class EvaluationController {
     }
   };
 
-  getPendingEvaluations = async (
-    req: Request<{ page?: number; size?: number }>,
-    res: Response<GridResponse>,
-    next: NextFunction
-  ) => {
+  getPendingEvaluations = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
     try {
-      const userId = req.user.userId;
-      const trainingIds = await getTrainingIds(userId);
-      const pendingEvaluations = await Evaluation.findAll({
-        where: {
-          status: EvaluationStatusEnum.pending,
-          trainingId: { [Op.in]: trainingIds },
-        },
-        include: [
-          {
-            model: Training,
-            attributes: ["StudentId"],
-            include: [
-              {
-                model: Student,
-                attributes: ["name"],
-              },
-            ],
-          },
-        ],
-      });
+      
+        const userId = req.user.userId;
+        const trainingIds = await getTrainingIds(userId);
+        const pendingEvaluations = await Evaluation.findAll({
+            where: {
+                status: EvaluationStatusEnum.pending,
+                trainingId: { [Op.in]: trainingIds }
+            }, include: [
+                {
+                    model: Training,
+                    attributes: ['StudentId'],
+                    include: [{
+                        model: Student,
+                        attributes: ['name']
+                    }]
+                }
+            ]
+        });
+        return res.json({
+            success: true,
+            status: res.statusCode,
+            message: "pending evaluations",
+            data: pendingEvaluations
+        });
 
-      const { page, size } = req.params;
-      if(page!=null&&size!=null){
-      const paginatedData = pendingEvaluations.slice(
-        page*size,
-        page*size + size
-      );
-
-      return res.json({
-        items: paginatedData,
-        pageNumber: page,
-        pageSize: size,
-        totalItems: pendingEvaluations.length,
-        totalPages: Math.ceil(pendingEvaluations.length/size)
-      });}
     } catch (err) {
-      next(err);
+        next(err);
     }
-  };
+}
 
   signEvaluation = async (
     req: Request<unknown, unknown, { id: number }>,
