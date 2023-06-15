@@ -51,6 +51,7 @@ export function makeDataGridBody<T extends object>(configs: CreateDataGridConfig
                                 textOverflow: "ellipsis",
                                 overflow: "hidden",
                                 flexGrow: shouldFlexGrowCells ? 1 : 0,
+                                
                             }}
                         >
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -64,6 +65,7 @@ export function makeDataGridBody<T extends object>(configs: CreateDataGridConfig
         return (
             <TableBody
                 sx={{
+                    
                     display: "block",
                     // overflow: "auto",
                     // height: `calc(100% - 33px)`,

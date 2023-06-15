@@ -42,6 +42,7 @@ import {
   Tooltip,
 } from '@mui/material';
 import RichTextEditor from 'src/containers/RichTextEditor';
+import { useTranslation } from 'react-i18next';
 
 function LinearProgressWithLabel(
   props: LinearProgressProps & { value: number }
@@ -116,7 +117,7 @@ const ProgressFormDialog: FC<ProgressFormDialogProps> = ({
   const studentId = data?.find(
     (trainee) => trainee.id === trainingId
   )?.studentId;
-
+const {t}=useTranslation();
   return (
     <Grid sx={{ padding: '2' }}>
       <Dialog
@@ -154,16 +155,16 @@ const ProgressFormDialog: FC<ProgressFormDialogProps> = ({
               <Stack gap={1.5} direction="row">
                 <HourglassTopIcon color="action" />
                 <Typography>
-                  Achieved Hours: {response?.achievedHours}
+                  {t("Achieved Hours")}: {response?.achievedHours}
                 </Typography>
               </Stack>
               <Stack gap={1.5} direction="row">
                 <HourglassTopIcon color="action" />
-                <Typography> Remaining Hours: {remainingHours} </Typography>
+                <Typography> {t("Remaining Hours")}: {remainingHours} </Typography>
               </Stack>
               <Stack gap={1.5} direction="row">
                 <HourglassFullIcon color="action" />
-                <Typography>Total Hours: {response?.totalHours}</Typography>
+                <Typography>{t("Total Hours:")} {response?.totalHours}</Typography>
               </Stack>
 
               {response?.progressForm.map(
@@ -229,20 +230,20 @@ const ProgressFormDialog: FC<ProgressFormDialogProps> = ({
                                 <Stack gap={1.5} direction="row">
                                   <WatchLaterIcon color="action" />
                                   <Typography>
-                                    Start Time: {item.startTime}{' '}
+                                   {t(" Start Time")}: {item.startTime}{' '}
                                   </Typography>
                                 </Stack>
                                 <Stack gap={1.5} direction="row">
                                   <WatchLaterIcon color="action" />
                                   <Typography>
-                                    End Time:{item.endTime}{' '}
+                                    {("End Time")}:{item.endTime}{' '}
                                   </Typography>
                                 </Stack>
                                 <Stack gap={1.5} >
                         <Stack gap={1.5} direction='row'>
                           <FormatListNumberedIcon color="action" />
                           <Typography sx={{ fontWeight: '600' }}>
-                            Skills:
+                            {t("Skills")}:
                           </Typography>
                           </Stack>
                           <RichTextEditor

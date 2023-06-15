@@ -1,9 +1,7 @@
 import React, { FC } from 'react';
 import Stack from '@mui/material/Stack';
-import { Typography, Chip, Avatar, Box, IconButton, Grid } from '@mui/material';
-import Playground from '@mui/lab';
+import { Typography, IconButton, Grid, Box } from '@mui/material';
 import PostAddIcon from '@mui/icons-material/PostAdd';
-import backgroundImage from './pexels-mudassir-ali-2680270.jpg';
 import PeopleAltSharpIcon from '@mui/icons-material/PeopleAltSharp';
 import StoreSharpIcon from '@mui/icons-material/StoreSharp';
 import GroupsSharpIcon from '@mui/icons-material/GroupsSharp';
@@ -14,40 +12,38 @@ import { useTranslation } from 'react-i18next';
 const styles = {
   root: {
     position: 'relative',
-    height: '100vh',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    background: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${backgroundImage})`,
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
     overflow: 'hidden',
     color: 'white',
-  },
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Adjust the opacity as needed
   },
   circle: {
     width: 90,
     height: 90,
     borderRadius: '50%',
     backgroundColor: '#fff',
-    boxShadow: '0 2px 4px rgb(66,165,245)',
+    boxShadow: '0 2px 4px rgb(66, 165, 245)',
     display: 'flex',
     justifyContent: 'center',
+    zIndex: 1,
   },
   icon: {
     fontSize: 50,
     color: '#136a8a',
-    
+  },
+  label: {
+    color: '#136A8A',
+    fontSize: '18px',
+    marginTop: '8px',
+  },
+  imageContainer: {
+    display: 'flex',
+  },
+  image: {
+    width: '200px',
   },
 };
-
 interface HomeProps {}
 
 const Home: FC<HomeProps> = (props) => {
@@ -56,83 +52,97 @@ const Home: FC<HomeProps> = (props) => {
   return (
     <>
       <Box sx={styles.root}>
-        {/* <Box sx={styles.overlay}></Box> */}
-        <Stack gap={5} sx={{ zIndex: 1 }}>
-          <Typography variant="h1">{t('Welcome')}</Typography>
-          {/* <Chip avatar={<Avatar>A</Avatar>} label="Arafat" variant="outlined" /> */}
+        <Stack
+          gap={2}
+          sx={{
+            backgroundColor: '#1CA7EC',
+            borderRadius: '100% 0% 100% 0% / 0% 0% 100% 100% ',
+            justifyContent: 'center',
+            marginRight: '35%',
+          }}
+        >
+          <Typography sx={{ marginBottom: '20px', textAlign: 'center' }} variant="h1">
+            {t('Welcome')}
+          </Typography>
+
           <Grid
             container
             alignItems="center"
-            spacing={2}
+            spacing={1}
             gap={8}
             sx={{
-              backgroundColor: 'rgba(0,0,0,0.5)',
+              marginTop: '30%',
               borderRadius: '5px',
-              padding: '32px',
+              zIndex: 1,
+              marginLeft: '50%',
+              justifyContent: 'center', // Align the grid items in the center horizontally
+              flexWrap: 'nowrap',
             }}
           >
             <Grid item>
-              <Link to={'/university/AllTrainings'}>
+              <Link to="/training-request">
                 <IconButton sx={{ ...styles.circle, m: 'auto' }}>
                   <PostAddIcon sx={styles.icon} />
                 </IconButton>
               </Link>
-              <Typography
-                variant="h6"
-                sx={{ color: '#217A94', fontSize: '18px' }}
-              >
-                {t("Requests")}
+              <Typography variant="h6" sx={styles.label}>
+                {t('Requests')}
               </Typography>
             </Grid>
             <Grid item>
-              <IconButton sx={{ ...styles.circle, m: 'auto' }}>
-                <PeopleAltSharpIcon sx={styles.icon} />
-              </IconButton>
-              <Typography
-                variant="h6"
-                sx={{ color: '#217A94', fontSize: '18px' }}
-              >
-                {t('SubmittedTrainees')}
+              <Link to="/submitted-trainees">
+                <IconButton sx={{ ...styles.circle, m: 'auto' }}>
+                  <PeopleAltSharpIcon sx={styles.icon} />
+                </IconButton>
+              </Link>
+              <Typography variant="h6" sx={styles.label}>
+                {t('Submitted Trainees')}
               </Typography>
             </Grid>
             <Grid item>
-              <IconButton sx={{ ...styles.circle }}>
-                <StoreSharpIcon sx={styles.icon} />
-              </IconButton>
-              <Typography
-                variant="h6"
-                sx={{ color: '#217A94', fontSize: '18px' }}
-              >
-                Companies
+              <Link to="/companies">
+                <IconButton sx={styles.circle}>
+                  <StoreSharpIcon sx={styles.icon} />
+                </IconButton>
+              </Link>
+              <Typography variant="h6" sx={styles.label}>
+                {t('Companies')}
               </Typography>
             </Grid>
             <Grid item>
-              <IconButton sx={{ ...styles.circle }}>
-                <GroupsSharpIcon sx={styles.icon} />
-              </IconButton>
-              <Typography
-                variant="h6"
-                sx={{ color: '#217A94', fontSize: '18px' }}
-              >
-                Trainees
+              <Link to="/current-trainees">
+                <IconButton sx={styles.circle}>
+                  <GroupsSharpIcon sx={styles.icon} />
+                </IconButton>
+              </Link>
+              <Typography variant="h6" sx={styles.label}>
+                {t('Trainees')}
               </Typography>
             </Grid>
             <Grid item>
-              <IconButton sx={{ ...styles.circle }}>
-                <RecentActorsSharpIcon sx={styles.icon} />
-              </IconButton>
-              <Typography
-                variant="h6"
-                sx={{ color: '#217A94', fontSize: '18px' }}
-              >
-                Archive
+              <Link to="/all-trainings">
+                <IconButton sx={styles.circle}>
+                  <RecentActorsSharpIcon sx={styles.icon} />
+                </IconButton>
+              </Link>
+              <Typography variant="h6" sx={styles.label}>
+                {t('Archive')}
               </Typography>
             </Grid>
           </Grid>
         </Stack>
+      <Box sx={styles.imageContainer}>
+   
       </Box>
+          <img
+            src="src\pages\Home\My project.png"
+            alt="Project"
+            style={styles.image}
+          />
+        </Box>
     </>
   );
 };
+
 
 export default Home;

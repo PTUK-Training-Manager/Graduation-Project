@@ -88,7 +88,7 @@ const TrainingRequestForm: React.FC = () => {
             event.preventDefault();
           }}
         >
-          Add New Branch
+          {t("Add New Branch")}
         </Button>
       </Paper>
     );

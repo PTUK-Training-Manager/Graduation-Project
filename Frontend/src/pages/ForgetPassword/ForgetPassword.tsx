@@ -22,6 +22,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useForgetController from './hooks/useForgetController';
 import { getForgetPage } from './api';
+import { useTranslation } from 'react-i18next';
 interface CompanyOption {
   id: string;
   name: string;
@@ -38,7 +39,7 @@ const ForgetPassword: React.FC = () => {
   const { isValid } = formikProps;
   const navigate = useNavigate();
   const [response, setResponse] = useState(null);
-
+const {t}=useTranslation();
   return (
     <>
       <Grid
@@ -63,17 +64,17 @@ const ForgetPassword: React.FC = () => {
             <Form>
               <Stack gap={2} alignItems="center">
                 <Typography component="h1" variant="h5">
-                  Set New Password
+                  {t("Set New Password")}
                 </Typography>
 
                 <TextFieldWrapper
                   type="password"
-                  label="Password"
+                  label={t("Password")}
                   name="newPassword"
                 />
                 <TextFieldWrapper
                   type="password"
-                  label="Password"
+                  label={t("Password")}
                   name="confirmNewPassword"
                 />
 
@@ -84,7 +85,7 @@ const ForgetPassword: React.FC = () => {
                   disabled={!isValid}
                   loading={isLoading}
                 >
-                  Submit
+                  {t("Submit")}
                 </LoadingButton>
               </Stack>
             </Form>

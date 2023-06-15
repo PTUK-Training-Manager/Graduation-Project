@@ -6,6 +6,7 @@ import NoteAltIcon from '@mui/icons-material/NoteAlt';
 import useSnackbar from 'src/hooks/useSnackbar';
 import { useState } from 'react';
 import { SubmittedStudentsData } from './api/response.dto';
+import { useTranslation } from 'react-i18next';
 
 const uselogic = () => {
   const { showSnackbar } = useSnackbar();
@@ -20,18 +21,23 @@ const uselogic = () => {
   const handleCloseDialog = () => {
     setIsOpen(false);
   };
+  const {t}=useTranslation();
+
+  const StudentNumber = t('StudentNumber');
+  const StudentName = t('StudentName');
+const DeleteRequest=t('DeleteRequest');
   const columns: ColumnDef<SubmittedStudentsData, any>[] = [
     {
       accessorKey: 'studentId',
-      header: 'Student Number',
+      header: StudentNumber,
     },
     {
       accessorKey: 'Student.name',
-      header: 'Student Name',
+      header: StudentName,
       filterFn: 'arrIncludesSome',
     },
     {
-      header: 'Delete Request',
+      header: DeleteRequest,
       //@ts-ignore
       cell: (params: { row: SubmittedStudentsData }) => {
         return (

@@ -11,6 +11,7 @@ import { getBranch } from 'src/api/getBranch';
 import { AddCompanyData, GetCompanyData } from './api/response.dto';
 import useSnackbar from 'src/hooks/useSnackbar';
 import { addBranch } from './api';
+import { useTranslation } from 'react-i18next';
 
 interface Branch {
     map(arg0: (company: any) => { id: any; location: any }): unknown;
@@ -73,7 +74,13 @@ const uselogic = () => {
   const [trainingId, setTrainingId] = useState('');
   const [response, setReponse] = useState<Response>();
  
-  
+  const {t}=useTranslation();
+  const ManegarName = t('ManegarName');
+  const PhoneNumber = t('PhoneNumber');
+const CompanyName=t('CompanyName');
+const Email=t('Email');
+const Branches=t('Branches');
+const CompanyId=t('CompanyId');
 
   const handleOpenDialog = (id: string) => {
     setTrainingId(id);
@@ -90,31 +97,31 @@ const uselogic = () => {
   const columns: ColumnDef<GetCompanyData, any>[] = [
     {
       accessorKey: 'id',
-      header: 'Company Id',
+      header:CompanyId ,
     },
     {
       accessorKey: 'name',
-      header: 'Company Name',
+      header: CompanyName,
       filterFn: 'arrIncludesSome',
     },
     {
         accessorKey: 'phoneNumber',
-        header: 'Phone Number',
+        header: PhoneNumber,
         filterFn: 'arrIncludesSome',
       },
       {
         accessorKey: 'User.email',
-        header: 'Email',
+        header: Email,
         filterFn: 'arrIncludesSome',
       },
       {
         accessorKey: 'managerName',
-        header: 'Manager Name',
+        header: ManegarName,
         filterFn: 'arrIncludesSome',
       },
   
     {
-      header: 'Branches',
+      header: Branches,
       //@ts-ignore
       cell: (params: { row: AddCompanyData }) => {
         const com = params.row.name;

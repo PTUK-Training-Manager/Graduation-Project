@@ -21,9 +21,9 @@ export function makeDataGridHead<T extends object>(configs: CreateDataGridConfig
         const {shouldFlexGrowCells} = configs;
 
         return (
-            <TableHead sx={{width: "100%"}} {...props}>
+            <TableHead sx={{width: "100%",}} {...props}>
                 {getHeaderGroups().map((headerGroup) => (
-                    <TableRow key={headerGroup.id} sx={{display: "flex"}}>
+                    <TableRow key={headerGroup.id} sx={{display: "flex"           }}>
                         {headerGroup.headers.map((header) => (
                             <>
                                 {header.isPlaceholder ? null : (
@@ -31,6 +31,7 @@ export function makeDataGridHead<T extends object>(configs: CreateDataGridConfig
                                         key={header.id}
                                         colSpan={header.colSpan}
                                         sx={{
+                                            
                                             // width: shouldFlexGrowCells ? "150px" : header.getSize(),
                                             flexGrow: shouldFlexGrowCells ? 1 : 0,
                                             width: header.getSize(),

@@ -32,6 +32,7 @@ import useProgressController from './hooks/useProgressController';
 import LocalizationProvider from '@mui/lab/LocalizationProvider/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker/DatePicker';
 import MobileTimePicker from '@mui/lab/MobileTimePicker/MobileTimePicker';
+import { useTranslation } from 'react-i18next';
 
 const Root = styled('div')(({ theme }) => ({
   width: '100%',
@@ -56,7 +57,7 @@ const Progress: React.FC = () => {
   const [editEvaluation, setEditEvaluation] = useState(false);
   const [evaluationId, setEvaluationId] = useState<number>(-1);
   const [skills, setSkills] = React.useState<EditorState | null>(null);
-
+const {t}=useTranslation();
   const handleSubmit = () => {
     submitEvaluation({
       startTime: startTime,

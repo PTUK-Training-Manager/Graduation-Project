@@ -31,7 +31,9 @@ const SubmittedStudents: React.FC = () => {
   const { rows } = useSubmittedTraineesController({
     pagination,
   });
-const {t}=useTranslation();
+  
+  const { t, i18n } = useTranslation();
+
   return (
     <>
       <Grid
@@ -51,10 +53,9 @@ const {t}=useTranslation();
           }}
         >
           <Typography component="h1" variant="h5" fontWeight={500}>
-            {t("SubmittedStudents")}
+            {t('Submitted Students')}
           </Typography>
           <SubmittedTraineesDataGrid data={rows} />
-
         </Stack>
       </Grid>
       <Dialog
@@ -62,10 +63,14 @@ const {t}=useTranslation();
         onClose={handleCloseDialog}
         fullScreen
         TransitionComponent={Transition}
-        sx={{ left: '25%' }}
+        sx={{
+          left: '15%',
+          direction: i18n.language === 'ar' ? 'rtl' : 'ltr',
+        }}
       >
         <DialogTitle gap={1.5} sx={{ textAlign: 'center' }}></DialogTitle>
-        <DialogContent>
+        <DialogContent sx={{          direction: i18n.language === 'ar' ? 'rtl' : 'ltr',
+}}>
           <EvaluStepper trainingId={trainingId} />
         </DialogContent>
       </Dialog>

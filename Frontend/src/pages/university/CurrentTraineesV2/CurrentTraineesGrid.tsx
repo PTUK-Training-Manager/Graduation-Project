@@ -6,10 +6,12 @@ import Typography from "@mui/material/Typography";
 import {gridOffset} from "./constants";
 import CurrentTraineesDataGrid from "./definition";
 import useCurrentTrainees from "./hooks/useCurrentTrainees";
+import { useTranslation } from 'react-i18next';
 
 const CurrentTraineesGrid: FC = (props) => {
 
     const {rows} = useCurrentTrainees();
+    const {t}=useTranslation();
 
     return (
         <Grid container gap={1} sx={{p: 3, height: `calc(100vh - ${gridOffset}px)`}}>
@@ -21,7 +23,7 @@ const CurrentTraineesGrid: FC = (props) => {
                 }}
             >
                 <Typography component="h1" variant="h5" fontWeight={500}>
-                    Current Trainees
+                    {t("Current Trainees")}
                 </Typography>
                 <CurrentTraineesDataGrid data={rows}/>
             </Stack>

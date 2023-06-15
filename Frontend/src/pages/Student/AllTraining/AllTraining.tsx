@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { progressForm } from 'src/api/progress';
 import { Response } from './types';
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
+import { useTranslation } from 'react-i18next';
 
 const AddCompanyForm: React.FC = () => {
   const [isEvaluationReportOpen, setIsEvaluationReportOpen] = useState(false);
@@ -72,6 +73,8 @@ const AddCompanyForm: React.FC = () => {
   const { rows } = useAllTrainingsController({
     pagination,
   });
+  const { t } = useTranslation();
+
   return (
     <>
       <Grid
@@ -91,7 +94,7 @@ const AddCompanyForm: React.FC = () => {
           }}
         >
           <Typography component="h1" variant="h5" fontWeight={500}>
-            All Trainings
+            {t("All Trainings")}
           </Typography>
 
           <>
@@ -117,7 +120,7 @@ const AddCompanyForm: React.FC = () => {
                       direction="row"
                       sx={{ justifyContent: 'space-between' }}
                     >
-                      <Typography> Company Name </Typography>
+                      <Typography> {t("CompanyName")} </Typography>
                       <Typography sx={{ color: 'white' }}>
                         Evaluation Trainininasd Report..
                       </Typography>

@@ -8,6 +8,7 @@ import { progressForm } from 'src/api/progress';
 import ProgressFormCell from '../CurrentTraineesV2/ProgressFormCell';
 import useCurrentTraineesController from './hooks/useCurrentTraineesController';
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
+import { useTranslation } from 'react-i18next';
 
 interface ProgressFormCellProps extends CellContext<RunningTraineesData, any> {}
 const uselogic = () => {
@@ -40,20 +41,23 @@ const uselogic = () => {
     setIsOpen(false);
     setTrainingId('');
   };
-
+  const { t } = useTranslation();
+  const StudentNumber = t('StudentNumber');
+  const StudentName = t('StudentName');
+  const ProgressForm=t('ProgressForm');
   const columns: ColumnDef<RunningTraineesData, any>[] = [
     {
       accessorKey: 'studentId',
-      header: 'Student Number',
+      header: StudentNumber,
     },
     {
       accessorKey: 'Student.name',
-      header: 'Student Name',
+      header: StudentName,
       filterFn: 'arrIncludesSome',
     },
   
     {
-      header: 'Progress Form',
+      header: ProgressForm,
       //@ts-ignore
       cell: (params: { row: RunningTraineesData }) => {
         const rowData = rows;
