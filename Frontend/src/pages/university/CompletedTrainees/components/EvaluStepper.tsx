@@ -13,9 +13,9 @@ import { getEvaluations } from 'src/api/getEvaluation';
 import { EvaluationData } from 'src/api/types';
 
 const steps = [
-  'Select campaign settings',
-  'Create an ad group',
-  'Create an ad',
+  'First Page',
+  'Second Page',
+  'Third Page',
 ];
 
 interface EvaluStepperProps {

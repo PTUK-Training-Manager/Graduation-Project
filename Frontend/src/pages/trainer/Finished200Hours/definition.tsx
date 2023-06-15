@@ -29,14 +29,17 @@ const uselogic = () => {
     {
       header: 'Evaluation Report',
       //@ts-ignore
-      cell: (params: { row: FinishedRequiredHoursData }) => {
-        return (
+      cell: (props) => {
+        const {
+          row: { original },
+        } = props;
+                return (
           <Tooltip title={'Evaluation Form'}>
             <IconButton
               sx={{ ml: 2.5 }}
               aria-label={'form 1'}
               size="small"
-              onClick={() => handleOpenDialog(params.row.id)}
+              onClick={() => handleOpenDialog(original.id)}
             >
               <PrintIcon
                 sx={{ color: '#820000' }}

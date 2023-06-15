@@ -28,7 +28,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                                 </Routes>
                             </AccountProvider>
                         </SnackbarProvider>
-                        <ReactQueryDevtools initialIsOpen={false}/>
+                        {/* <ReactQueryDevtools initialIsOpen={false}/> */}
                     </QueryClientProvider>
                 </MUIThemeProvider>
             </BrowserRouter>

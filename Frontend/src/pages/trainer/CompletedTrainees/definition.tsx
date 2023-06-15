@@ -29,13 +29,15 @@ const uselogic = () => {
     {
       header: 'Evaluation Report',
       //@ts-ignore
-      cell: (params: { row: CompletedTraineesData }) => {
-        return (
+      cell: (props) => {
+        const {
+          row: { original },
+        } = props;        return (
           <IconButton
           size='small'
             sx={{ ml: 3.5 }}
             aria-label="progress form"
-            onClick={() => handleOpenDialog(params.row.id)}
+            onClick={() => handleOpenDialog(original.id)}
           >
             <ManageSearchIcon
             

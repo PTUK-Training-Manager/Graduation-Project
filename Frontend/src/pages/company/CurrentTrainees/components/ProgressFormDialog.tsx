@@ -42,6 +42,7 @@ import {
   Tooltip,
 } from '@mui/material';
 import RichTextEditor from 'src/containers/RichTextEditor';
+import { RunningTraineesData } from '../api/response.dto';
 
 function LinearProgressWithLabel(
   props: LinearProgressProps & { value: number }
@@ -96,7 +97,7 @@ interface ProgressFormDialogProps {
   handleChangeTab: (event: SyntheticEvent, newValue: string) => void;
   handleCloseDialog: () => void;
   response?: Response; // add ? to allow for undefined values
-  data?: Row[];
+  data?: RunningTraineesData[];
 }
 
 const ProgressFormDialog: FC<ProgressFormDialogProps> = ({
@@ -219,7 +220,7 @@ const ProgressFormDialog: FC<ProgressFormDialogProps> = ({
                           <RichTextEditor
                             editable={false}
                             //@ts-ignore
-                            content={item.skills}
+                            content={JSON.stringify(item.skills)}
                           />
                               </Stack>
                             </Stack>

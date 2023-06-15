@@ -8,6 +8,7 @@ import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import useCompletedTraineesController from './hooks/useCompletedTraineesController';
 import PrintIcon from '@mui/icons-material/Print';
 import { CompletedTraineesData } from './api/response.dto';
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 
 interface ProgressFormCellProps
   extends CellContext<CompletedTraineesData, any> {}
@@ -17,16 +18,11 @@ const uselogic = () => {
     pageSize: 10,
   });
  
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [trainingId, setTrainingId] = useState('');
   const handleCloseDialog = () => {
     setIsOpen(false);
-  };
-  const [isOpen, setIsOpen] = useState(false);
-  const [studentId, setStudentId] = useState<string>('');
-  const [index, setIndex] = useState<number>(-1);
-  const handleOpenDialog = (index: number, id: string) => {
-    setIsOpen((prev) => !prev);
-    setIndex(index);
-    setStudentId(id);
   };
   const columns: ColumnDef<CompletedTraineesData, any>[] = [
     {
@@ -52,31 +48,26 @@ const uselogic = () => {
     {
       header: 'Evaluation Report',
       //@ts-ignore
-      cell: (params: { row: CompletedTraineesData }) => {
-        const count = parseInt(params.row.count);
-        const index = parseInt(params.row.count) - 1;
-        const studentId = params.row.studentId;
-        const printIcons = [];
+        cell: (props) => {
+          const {
+            row: { original },
+          } = props;
 return(
-              <Tooltip title={'Evaluation 1'}>
-                <IconButton
-                  sx={{ ml: 4 }}
-                  aria-label={'form 1'}
-                  size="small"
-                  onClick={() => handleOpenDialog(index, studentId)}
-                >
-                  <PrintIcon
-                    sx={{ color: '#820000' }}
-                    color="info"
-                    className="print-icon"
-                  />
-                </IconButton>
-              </Tooltip>
+  <IconButton
+  sx={{ ml: 3.5 }}
+  aria-label="progress form"
+  onClick={() => handleOpenDialog(original.id)}
+>
+  <ManageSearchIcon sx={{ color: '#820000' }} className="manage-icon" />
+</IconButton>
 );
       },
     },
   ];
-
+  const handleOpenDialog = (id: string) => {
+    setTrainingId(id);
+    setIsOpen((prev) => !prev);
+  };
   const CompletedTraineesDataGrid = createDataGrid({
     name: 'CurrentTraineesDataGrid',
     columns,
@@ -84,11 +75,12 @@ return(
   });
 
   return {
-    isOpen,
-    index,
+    handleOpenDialog,
     handleCloseDialog,
+    isOpen,
+    open: !!isOpen,
+    trainingId,
     CompletedTraineesDataGrid,
-    studentId,
   };
 };
 export default uselogic;

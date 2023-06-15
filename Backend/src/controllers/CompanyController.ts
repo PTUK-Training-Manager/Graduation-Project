@@ -183,7 +183,25 @@ class CompanyController {
       next(err);
     }
   }
-
+  async getCompanies1(req: Request, res: Response<BaseResponse>, next: NextFunction) {
+    try {
+        const companies = await Company.findAll({
+            include: [{
+                model: User,
+                attributes: ['email']
+            }]
+        });
+        return res.json({
+            success: true,
+            status: res.statusCode,
+            message: "success retrieve all companies",
+            data: companies
+        });
+    }
+    catch (err) {
+        next(err);
+    }
+}
   async getBranches(
     req: BranchRequestBody,
     res: Response<BaseResponse>,
