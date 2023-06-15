@@ -13,6 +13,7 @@ import DataGridPagination from 'src/components/DataGrid/DataGridPagination';
 import useCompletedTraineesController from './hooks/useCompletedTraineesController';
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import uselogic from './definition';
+import { useTranslation } from 'react-i18next';
 
 const CompletedTrainees: React.FC = () => {
   const [pagination, setPagination] = useState<PageChangeParams>({
@@ -31,7 +32,8 @@ const CompletedTrainees: React.FC = () => {
    isOpen,
    studentId,
   } = uselogic();
-  
+  const {t}=useTranslation();
+
   return (
     <>
       <Grid
@@ -51,7 +53,7 @@ const CompletedTrainees: React.FC = () => {
           }}
         >
           <Typography component="h1" variant="h5" fontWeight={500}>
-            Completed Trainees
+            {t("Completed Trainees")}
           </Typography>
           <CompletedTraineesDataGrid data={rows} />
 

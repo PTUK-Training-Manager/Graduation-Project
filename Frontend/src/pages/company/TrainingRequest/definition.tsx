@@ -11,6 +11,7 @@ import { useState } from 'react';
 import useTrainingRequestsController from './hooks/useTrainingRequestsController';
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import {useQuery, useQueryClient} from "@tanstack/react-query";
+import { useTranslation } from 'react-i18next';
 
 
 const uselogic = () => {
@@ -67,24 +68,31 @@ const uselogic = () => {
       })
       .catch((error) => console.log(error));
   };
-
+  const {t}=useTranslation();
+  const StudentNumber = t('StudentNumber');
+  const StudentName = t('StudentName');
+  const CompanyBranch=t('CompanyBranch');
+  const Accept=t('Accept');
+  
+  const Reject=t('Reject');
+ 
   const columns: ColumnDef<TrainingRequestsData, any>[] = [
     {
       accessorKey: 'studentId',
-      header: 'Student Number',
+      header: StudentNumber,
     },
     {
       accessorKey: 'Student.name',
-      header: 'Student Name',
+      header: StudentName,
       filterFn: 'arrIncludesSome',
     },
     {
       accessorKey: 'CompanyBranch.location',
-      header: 'Company Branch',
+      header: CompanyBranch,
       filterFn: 'arrIncludesSome',
     },
     {
-      header: 'Accept',
+      header: Accept,
       //@ts-ignore
       cell: (props) => {
         const {
@@ -98,13 +106,13 @@ const uselogic = () => {
             onClick={() => handleAccept(original.id)}
           >
             <CheckCircleOutlineIcon sx={{ color: "white", mr: 1 }} className='manage-icon' />
-            Accept
+            {t("Accept")}
           </Button>
         );
       },
     },
     {
-      header: 'Reject',
+      header: Reject,
       //@ts-ignore
       cell: (params: { row: TrainingRequestsData }) => {
         return (
@@ -115,7 +123,7 @@ const uselogic = () => {
             onClick={() => handleReject(params.row.id)}
           >
             <CancelIcon sx={{ color: "white", mr: 1 }} className='manage-icon' />
-            Reject
+            {t("Reject")}
           </Button>
         );
       },

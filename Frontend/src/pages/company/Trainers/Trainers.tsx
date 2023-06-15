@@ -34,6 +34,7 @@ import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import useAllTrainersController from './hooks/useAllTrainersController';
 import TrainerDataGrid from './definition';
 import useAddCompanyFormController from 'src/pages/university/Companies/hooks/useAddCompanyFormController';
+import { useTranslation } from 'react-i18next';
 
 interface Row {
   map(arg0: (company: any) => { id: any; name: any }): unknown;
@@ -71,6 +72,7 @@ const Trainers: React.FC = () => {
   });
   const [showBranches, setShowBranches] = useState<boolean>(false);
   const { isValid } = formikProps;
+  const {t}=useTranslation();
 
   return (
     <>
@@ -92,7 +94,7 @@ const Trainers: React.FC = () => {
         >
            <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
             <Typography component="h1" variant="h5" fontWeight={500}>
-              Trainers
+              {t("Trainers")}
             </Typography>
             <Button
               variant="contained"
@@ -136,7 +138,7 @@ const Trainers: React.FC = () => {
                     <Form>
                       <Stack gap={1} spacing={1} alignItems="center">
                         <Typography component="h1" variant="h5">
-                          Add Trainer
+                          {t("AddTrainer")}
                         </Typography>
                         <Grid
                           sx={{
@@ -200,7 +202,7 @@ const Trainers: React.FC = () => {
                           variant="contained"
                           loading={isLoading}
                         >
-                          Generate Account
+                          {t("GenerateAccount")}
                         </LoadingButton>
                       </Stack>
                     </Form>

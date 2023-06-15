@@ -8,6 +8,7 @@ import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import { RunningTraineesData } from './api/response.dto';
 import EditIcon from '@mui/icons-material/Edit';
 import ClearIcon from '@mui/icons-material/Clear';
+import { useTranslation } from 'react-i18next';
 
 interface ProgressFormCellProps extends CellContext<RunningTraineesData, any> {}
 const uselogic = () => {
@@ -37,29 +38,36 @@ const uselogic = () => {
     setIsOpen(false);
     setTrainingId('');
   };
-
+  const { t } = useTranslation();
+  const StudentNumber = t('StudentNumber');
+  const StudentName = t('StudentName');
+  const EditTrainer=t('EditTrainer');
+  const TrainerName=t('TrainerName');
+  const CompanyBranch=t('CompanyBranch');
+  const CancelTraining=t('CancelTraining');
+  CancelTraining
   const columns: ColumnDef<RunningTraineesData, any>[] = [
     {
       accessorKey: 'studentId',
-      header: 'Student Number',
+      header: StudentNumber,
     },
     {
       accessorKey: 'Student.name',
-      header: 'Student Name',
+      header: StudentName,
       filterFn: 'arrIncludesSome',
     },
     {
         accessorKey: 'CompanyBranch.location',
-        header: 'Company Branch',
+        header: CompanyBranch,
         filterFn: 'arrIncludesSome',
       },
       {
         accessorKey: 'Trainer.name',
-        header: 'Trainer Name',
+        header: TrainerName,
         filterFn: 'arrIncludesSome',
       },
     {
-      header: 'Edit Trainer',
+      header:EditTrainer ,
       //@ts-ignore
       cell: (params: { row: RunningTraineesData }) => {
         return (
@@ -75,7 +83,7 @@ const uselogic = () => {
       },
     },
     {
-        header: 'Cancel Training',
+        header: CancelTraining,
         //@ts-ignore
         cell: (params: { row: RunningTraineesData }) => {
           return (

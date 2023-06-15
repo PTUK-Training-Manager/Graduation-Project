@@ -8,6 +8,7 @@ import {
   Button,
 } from '@mui/material';
 import { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface AcceptRequestDialog {
         acceptRequestDialogOpen: boolean;
@@ -20,7 +21,8 @@ const AcceptRequestDialog: FC<AcceptRequestDialog> = ({
   handleCancelAcceptRequest,
   handleAcceptRequest,
 })  => {
-  
+  const {t}=useTranslation();
+
   return (
     <Dialog
       open={acceptRequestDialogOpen}
@@ -28,16 +30,16 @@ const AcceptRequestDialog: FC<AcceptRequestDialog> = ({
       maxWidth="xs"
       fullWidth
     >
-      <DialogTitle>Accept Request</DialogTitle>
+      <DialogTitle>{t("AcceptRequest")}</DialogTitle>
       <DialogContent>
-        Are you sure you want to accept this training Request?
+        {t("Are you sure you want to accept this training Request?")}
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCancelAcceptRequest} color="primary">
-          Cancel
+          {t("Cancel")}
         </Button>
         <Button onClick={handleAcceptRequest} color="error" variant="contained">
-          Accept
+          {t("Accept")}
         </Button>
       </DialogActions>
     </Dialog>

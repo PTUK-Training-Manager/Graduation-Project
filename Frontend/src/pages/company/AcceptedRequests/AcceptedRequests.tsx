@@ -33,12 +33,11 @@ import {
   TextFieldProps,
   Typography,
 } from '@mui/material';
-import { getTrainers } from '../Trainers/api';
-import useSnackbar from 'src/hooks/useSnackbar';
-import { Divider } from '@mui/joy';
+
 import uselogic from './definitions';
 import useAcceptedRequestsController from './hooks/useAcceptedRequestsController';
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
+import { useTranslation } from 'react-i18next';
 
 const AcceptedTrainings: React.FC = () => {
   const {
@@ -58,7 +57,7 @@ const AcceptedTrainings: React.FC = () => {
     pagination,
   });
 
-
+  const {t}=useTranslation();
   return (
     <>
       <Grid
@@ -78,7 +77,7 @@ const AcceptedTrainings: React.FC = () => {
           }}
         >
           <Typography component="h1" variant="h5" fontWeight={500}>
-            Accepted Requests
+            {t("Accepted Requests")}
           </Typography>
           <AcceptedRequestsDataGrid data={rows} />
         </Stack>

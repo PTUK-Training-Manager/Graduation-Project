@@ -40,7 +40,9 @@
   "Number_of_training_days":"عدد أيام التدريب للطالب",
   "StudentBenefit":"استفادة الطالب من التدريب",
   "Note":"ملاحظة",
-  
+  "Question":"الاسئلة",
+  "Day":"يوم",
+
   
   "DeleteRequest":  " حذف الطلب",
   "Are you sure you want to delete this request?":"هل أنت متأكد من حذف الطلب ؟",
@@ -73,5 +75,27 @@
   ,"EvaluationReport":"Evaluation Report"
 ,"Branches":"الفروع"
 ,"CompanyId":" رقم الشركة"
+,"Admin":"المسؤول"
+,"Set New Password":"تعيين كلمة مرور جديدة"
+,"Password":" كلمة مرور"
+,"Accepted Requests":"الطلبات المقبولة"
+,"Completed Trainees":"Completed Trainees"
+,"EditTrainer":"تعديل المدرب "
+,"EditTraining":"تعديل التدريب "
+,"DeleteTrainer":"حذف المدرب "
+
+,"Are you sure you want to delete trainer":"هل أنت متأكد أنك تريد حذف المدرب"
+,"Trainers":"المدربون"
+,"Field":" مجال التدريب"
+,"EditField":"تعديل مجال التدريب",
+"TrainerId":"رقم المدرب"
+,"Are you sure you want to accept this training Request?":"هل أنت متأكد أنك تريد قبول طلب التدريب هذا؟"
+,"AcceptRequest":"قبول الطلب  "
+,"Accept":"قبول"
+,"Reject":"رفض"
+,"TrainingRequests":" طلبات التدريب"
+,"JoinTrainer":"الانضمام إلى المدرب"
+,"CancelTraining":"الغاء التدريب "
+,"AcceptedRequests":"الطلبات المقبولة"
 
   }

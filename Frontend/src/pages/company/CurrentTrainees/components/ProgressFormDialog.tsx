@@ -26,6 +26,7 @@ import HourglassTopIcon from '@mui/icons-material/HourglassTop';
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
 
 import CircularProgress from '@mui/material/CircularProgress';
+import { useTranslation } from 'react-i18next';
 
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -46,6 +47,7 @@ import RichTextEditor from 'src/containers/RichTextEditor';
 function LinearProgressWithLabel(
   props: LinearProgressProps & { value: number }
 ) {
+  
   return (
     <Stack
       direction="row"
@@ -120,6 +122,7 @@ const ProgressFormDialog: FC<ProgressFormDialogProps> = ({
   const studentId = data?.find(
     (trainee) => trainee.id === trainingId
   )?.studentId;
+  const { t } = useTranslation();
 
   return (
     <Grid sx={{ padding: '2' }}>
@@ -158,16 +161,16 @@ const ProgressFormDialog: FC<ProgressFormDialogProps> = ({
               <Stack gap={1.5} direction="row">
                 <HourglassTopIcon color="action" />
                 <Typography>
-                  Achieved Hours: {response?.achievedHours}
+                  {t("Achieved Hours")}: {response?.achievedHours}
                 </Typography>
               </Stack>
               <Stack gap={1.5} direction="row">
                 <HourglassTopIcon color="action" />
-                <Typography> Remaining Hours: {remainingHours} </Typography>
+                <Typography> {t("Remaining Hours")}: {remainingHours} </Typography>
               </Stack>
               <Stack gap={1.5} direction="row">
                 <HourglassFullIcon color="action" />
-                <Typography>Total Hours: {response?.totalHours}</Typography>
+                <Typography>{t("Total Hours")}: {response?.totalHours}</Typography>
               </Stack>
 
               {response?.progressForm.map(
@@ -181,7 +184,7 @@ const ProgressFormDialog: FC<ProgressFormDialogProps> = ({
                       aria-controls="panel1a-content"
                       id="panel1a-header"
                     >
-                      <Typography>Day {index + 1}</Typography>
+                      <Typography>{t("Day")} {index + 1}</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                       <Box sx={{ width: '100%', typography: 'body1' }}>
@@ -200,13 +203,13 @@ const ProgressFormDialog: FC<ProgressFormDialogProps> = ({
                               <Stack gap={1.5} direction="row">
                                 <WatchLaterIcon color="action" />
                                 <Typography>
-                                  Start Time: {item.startTime}{' '}
+                                  {t("StartTime")}: {item.startTime}{' '}
                                 </Typography>
                               </Stack>
                               <Stack gap={1.5} direction="row">
                                 <WatchLaterIcon color="action" />
                                 <Typography>
-                                  End Time:{item.endTime}{' '}
+                                  {t("EndTime")}:{item.endTime}{' '}
                                 </Typography>
                               </Stack>
                               <Stack gap={1.5} >

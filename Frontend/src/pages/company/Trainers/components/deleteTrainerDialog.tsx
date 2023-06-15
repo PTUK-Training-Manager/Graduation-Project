@@ -8,7 +8,7 @@ import {
   Button,
 } from '@mui/material';
 import { FC } from 'react';
-import useAllTrainersFormController from '../hooks/useAllTrainersController';
+import { useTranslation } from 'react-i18next';
 
 interface DeleteTrainerDialogProps {
         deleteTrainerDialogOpen: boolean;
@@ -23,7 +23,7 @@ const DeleteTrainerDialog: FC<DeleteTrainerDialogProps> = ({
   handleDeleteTrainer,
   trainerName,
 })  => {
-  
+  const {t}=useTranslation();
   return (
     <Dialog
       open={deleteTrainerDialogOpen}
@@ -31,16 +31,16 @@ const DeleteTrainerDialog: FC<DeleteTrainerDialogProps> = ({
       maxWidth="xs"
       fullWidth
     >
-      <DialogTitle>Delete Trainer</DialogTitle>
+      <DialogTitle>{t("DeleteTrainer")}</DialogTitle>
       <DialogContent>
-        Are you sure you want to delete trainer {trainerName}?
+        {t("Are you sure you want to delete trainer")} {trainerName}?
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCancelDeleteTrainer} color="primary">
-          Cancel
+          {t("Cancel")}
         </Button>
         <Button onClick={handleDeleteTrainer} color="error" variant="contained">
-          Delete
+          {t("Delete")}
         </Button>
       </DialogActions>
     </Dialog>

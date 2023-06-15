@@ -38,6 +38,7 @@ import useSnackbar from 'src/hooks/useSnackbar';
 import useCurrentTraineesController from './hooks/useCurrentTraineesController';
 import uselogic from './definition';
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
+import { useTranslation } from 'react-i18next';
 
 function Pagination({
   page,
@@ -295,7 +296,7 @@ const EditTraining: React.FC = () => {
     },
   ];
 
-  
+  const {t}=useTranslation();
 
   return (
     <>
@@ -310,7 +311,7 @@ const EditTraining: React.FC = () => {
                 height: '100%',
             }}>
                 <Typography component="h1" variant="h5" fontWeight={500}>
-                    Edit Training
+{t("EditTraining")}
                 </Typography>
                 <CurrentTraineesDataGrid data={rows} />
 

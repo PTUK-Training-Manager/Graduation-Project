@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import { FC } from 'react';
 import { FieldData } from '../api/response.dto';
+import { useTranslation } from 'react-i18next';
 
 interface EditFieldForTrainerDialogProps {
   updateFieldForTrainerDialogOpen: boolean;
@@ -27,6 +28,8 @@ const EditTrainerDialog: FC<EditFieldForTrainerDialogProps> = ({
   formikProps,
   onSetNewFieldId,
 }) => {
+  const {t}=useTranslation();
+
   return (
     <Dialog
       fullWidth
@@ -58,10 +61,10 @@ const EditTrainerDialog: FC<EditFieldForTrainerDialogProps> = ({
       </DialogContent>
       <DialogActions>
         <Button onClick={handleUpdateFieldDialogClose} color="primary">
-          Cancel
+          {t("Cancel")}
         </Button>
         <Button onClick={handleSaveUpdatedValueField} color="primary">
-          Save
+          {t("Save")}
         </Button>
       </DialogActions>
     </Dialog>

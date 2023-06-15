@@ -7,6 +7,7 @@ import theme from 'src/styling/customTheme';
 import { Box, Grid, Typography } from '@mui/material';
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import ProgressFormDialog from './components/ProgressFormDialog';
+import { useTranslation } from 'react-i18next';
 
 const CurrentTrainees: React.FC = () => {
   const [pagination, setPagination] = useState<PageChangeParams>({
@@ -24,6 +25,7 @@ const CurrentTrainees: React.FC = () => {
     trainingId,
     handleCloseDialog,
   } = uselogic();
+  const { t } = useTranslation();
 
   return (
     <>
@@ -44,7 +46,7 @@ const CurrentTrainees: React.FC = () => {
           }}
         >
           <Typography component="h1" variant="h5" fontWeight={500}>
-            Current Trainees
+            {t("Current Trainees")}
           </Typography>
           <CurrentTraineesDataGrid data={rows} />
         </Stack>

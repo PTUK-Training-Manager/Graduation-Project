@@ -11,11 +11,11 @@ import ThirdPage from './ThirdPage';
 import { FC, useEffect, useState } from 'react';
 import { getEvaluations, getEvaluationsForTrainer } from 'src/api/getEvaluation';
 import { EvaluationData } from 'src/api/types';
+import { useTranslation } from 'react-i18next';
 
 const steps = [
-  'Select campaign settings',
-  'Create an ad group',
-  'Create an ad',
+  'First page', 'Second page', 'Third page'
+ 
 ];
 
 interface EvaluStepperProps {
@@ -39,6 +39,7 @@ const EvaluStepper: FC<EvaluStepperProps> = ({ trainingId }) => {
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set<number>());
+  const {t}=useTranslation();
 
   const isStepOptional = (step: number) => {
     return step === 1;

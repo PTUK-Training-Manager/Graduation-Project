@@ -6,10 +6,12 @@ import './style.css';
 
 import { FC } from 'react';
 import { EvaluationData } from 'src/api/types';
+import { useTranslation } from 'react-i18next';
 
 interface FirstPageProps {
   response: EvaluationData[];
 }
+const {t}=useTranslation();
 
 const FirstPage: FC<FirstPageProps> = ({ response }) => {
   return (
@@ -17,7 +19,7 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
       <Container sx={{ p: '50px' }}>
         <Stack sx={{ textAlign: 'center' }}>
           <Typography variant="h6" sx={{ fontStyle: 'oblique', mb: '10px' }}>
-            Field Training
+            {t("FieldTraining")}
           </Typography>
         </Stack>
         <Divider />
@@ -27,12 +29,12 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
           <Card sx={{ minWidth: 100, mb: '5px' }}>
             <CardContent>
               <Typography variant="h6" color="text.secondary" gutterBottom>
-                Student Information:
+                {t("Student Information:")}
               </Typography>
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  Student Name:{' '}
+                  {t("StudentName")}:{' '}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -43,7 +45,7 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  Student Number:{' '}
+                  {t("StudentNumber")}:{' '}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -54,7 +56,7 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  PhoneNumber:{' '}
+                  {t("PhoneNumber")}:{' '}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -65,7 +67,7 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  academic specialization:{' '}
+                  {t("academicspecialization")}:{' '}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -82,12 +84,12 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
           <Card sx={{ minWidth: 200, mb: '5px' }}>
             <CardContent>
               <Typography variant="h6" color="text.secondary" gutterBottom>
-                Company Information:
+                {t("CompanyInformation")}:
               </Typography>
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  Company Name:{' '}
+                  {t("CompanyName")}:{' '}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -98,7 +100,7 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  Company Branch:{' '}
+                  {t("CompanyBranch")}:{' '}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -109,7 +111,7 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  Email:{' '}
+                  {t("Email")}:{' '}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -120,7 +122,7 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  PhoneNumber:{' '}
+                  {t("PhoneNumber")}:{' '}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -131,7 +133,7 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  Manegar Name:{' '}
+                {t("ManegarName")}:{' '}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -141,7 +143,7 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
               </Stack>
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  Trainer Name:{' '}
+                  {t("TrainerName")}:{' '}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -156,12 +158,12 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
           <Card sx={{ minWidth: 200, mb: '5px' }}>
             <CardContent>
               <Typography variant="h6" color="text.secondary" gutterBottom>
-                Student working time{' '}
+                {t("Student_working_time")}{' '}
               </Typography>
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  Starting Date:{' '}
+                  {t("StartingDate")}:{' '}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -172,7 +174,7 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  Ending Date:{' '}
+                  {t("EndingDate")}:{' '}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -194,7 +196,7 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  Number of training days for the student:{' '}
+                  {t("Number_of_training_days_for_the_student")}:{' '}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
