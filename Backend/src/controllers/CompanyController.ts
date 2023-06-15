@@ -17,7 +17,6 @@ import {
   Field,
 } from "../models/index";
 import { Op } from "sequelize";
-import { ParamsDictionary } from "express-serve-static-core";
 
 class CompanyController {
   constructor() {
