@@ -8,7 +8,6 @@ import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import useCompletedTraineesController from './hooks/useCompletedTraineesController';
 import PrintIcon from '@mui/icons-material/Print';
 import { CompletedTraineesData } from './api/response.dto';
-import { useTranslation } from 'react-i18next';
 
 interface ProgressFormCellProps
   extends CellContext<CompletedTraineesData, any> {}
@@ -18,6 +17,9 @@ const uselogic = () => {
     pageSize: 10,
   });
  
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [trainingId, setTrainingId] = useState('');
   const handleCloseDialog = () => {
     setIsOpen(false);
   };
@@ -60,31 +62,26 @@ const uselogic = () => {
     {
       header: EvaluationReport,
       //@ts-ignore
-      cell: (params: { row: CompletedTraineesData }) => {
-        const count = parseInt(params.row.count);
-        const index = parseInt(params.row.count) - 1;
-        const studentId = params.row.studentId;
-        const printIcons = [];
+        cell: (props) => {
+          const {
+            row: { original },
+          } = props;
 return(
-              <Tooltip title={'Evaluation 1'}>
-                <IconButton
-                  sx={{ ml: 4 }}
-                  aria-label={'form 1'}
-                  size="small"
-                  onClick={() => handleOpenDialog(index, studentId)}
-                >
-                  <PrintIcon
-                    sx={{ color: '#820000' }}
-                    color="info"
-                    className="print-icon"
-                  />
-                </IconButton>
-              </Tooltip>
+  <IconButton
+  sx={{ ml: 3.5 }}
+  aria-label="progress form"
+  onClick={() => handleOpenDialog(original.id)}
+>
+  <ManageSearchIcon sx={{ color: '#820000' }} className="manage-icon" />
+</IconButton>
 );
       },
     },
   ];
-
+  const handleOpenDialog = (id: string) => {
+    setTrainingId(id);
+    setIsOpen((prev) => !prev);
+  };
   const CompletedTraineesDataGrid = createDataGrid({
     name: 'CurrentTraineesDataGrid',
     columns,
@@ -92,11 +89,12 @@ return(
   });
 
   return {
-    isOpen,
-    index,
+    handleOpenDialog,
     handleCloseDialog,
+    isOpen,
+    open: !!isOpen,
+    trainingId,
     CompletedTraineesDataGrid,
-    studentId,
   };
 };
 export default uselogic;

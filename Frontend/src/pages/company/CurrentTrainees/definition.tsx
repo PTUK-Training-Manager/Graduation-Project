@@ -9,7 +9,6 @@ import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import { RunningTraineesData } from './api/response.dto';
 import { useTranslation } from 'react-i18next';
 
-interface ProgressFormCellProps extends CellContext<RunningTraineesData, any> {}
 const uselogic = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [trainingId, setTrainingId] = useState('');
@@ -61,13 +60,16 @@ const uselogic = () => {
     {
       header:ProgressForm  ,
       //@ts-ignore
-      cell: (params: { row: RunningTraineesData }) => {
+      cell: (props) => {
+        const {
+          row: { original },
+        } = props;
         return (
           <IconButton
             sx={{ ml: 3.5 }}
             aria-label="progress form"
             //@ts-ignore
-            onClick={() => handleOpenDialog(24)}
+            onClick={() => handleOpenDialog(original.id)}
           >
             <Feed
               color="warning"

@@ -26,11 +26,13 @@ const CompletedTrainees: React.FC = () => {
   });
 
   const {
-   CompletedTraineesDataGrid,
    handleCloseDialog,
-   index,
+   handleOpenDialog,
    isOpen,
-   studentId,
+   open,
+   trainingId,
+   CompletedTraineesDataGrid
+
   } = uselogic();
   const {t}=useTranslation();
 
@@ -68,7 +70,7 @@ const CompletedTrainees: React.FC = () => {
       >
         <DialogTitle gap={1.5} sx={{ textAlign: 'center' }}></DialogTitle>
         <DialogContent>
-          {/* <EvaluStepper index={index} studentId={studentId} /> */}
+          <EvaluStepper trainingId={trainingId} />
         </DialogContent>
       </Dialog>
     </>

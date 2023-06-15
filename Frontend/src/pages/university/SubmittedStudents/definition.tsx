@@ -39,12 +39,16 @@ const DeleteRequest=t('DeleteRequest');
     {
       header: DeleteRequest,
       //@ts-ignore
-      cell: (params: { row: SubmittedStudentsData }) => {
-        return (
+      cell: (props) => {
+        const {
+          row: { original },
+        } = props;         
+          return (
           <IconButton
+          size='small'
             sx={{ ml: 3.5 }}
             aria-label="progress form"
-            onClick={() => handleOpenDialog(params.row.id)}
+            onClick={() => handleOpenDialog(original.id)}
           >
             <NoteAltIcon sx={{ color: '#820000' }} className="edit-icon" />
           </IconButton>

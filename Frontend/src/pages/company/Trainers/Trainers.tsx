@@ -23,18 +23,21 @@ import {
   IconButton,
   TextField,
 } from '@mui/material';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { getCompany } from 'src/api/getCompany';
 import { useEffect, useState } from 'react';
 import Collapse from '@mui/material/Collapse';
 import useSnackbar from 'src/hooks/useSnackbar';
 import DataGridPagination from 'src/components/DataGrid/DataGridPagination';
-import uselogic from './definition';
+
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import useAllTrainersController from './hooks/useAllTrainersController';
-import TrainerDataGrid from './definition';
 import useAddCompanyFormController from 'src/pages/university/Companies/hooks/useAddCompanyFormController';
 import { useTranslation } from 'react-i18next';
+import uselogic from './definition';
+import DeleteTrainerDialog from './components/deleteTrainerDialog';
+import EditTrainerDialog from './components/editFieldDialog';
 
 interface Row {
   map(arg0: (company: any) => { id: any; name: any }): unknown;
@@ -62,18 +65,30 @@ const Trainers: React.FC = () => {
     pageSize: 100,
   });
 
-  const { rows,fieldOptions} = useAllTrainersController({
+  const { trainerRows,fieldOptions,formikProps,isLoading} = useAllTrainersController({
     pagination,
   });
-  
+  const [openAddTrainerForm, setOpenAddTrainerForm] = useState(false);
 
-  const { formikProps, isLoading, updatedata } = useAddCompanyFormController({
-    pagination,
-  });
-  const [showBranches, setShowBranches] = useState<boolean>(false);
+  const {
+  
+  TrainerDataGrid, 
+  deleteTrainerDialogOpen,
+  handleCancelDeleteTrainer,
+  handleDeleteTrainer,
+  trainerName,
+  handleSaveUpdatedValueField,
+  handleUpdateFieldDialogClose,
+  onSetNewFieldId,
+  updateFieldForTrainerDialogOpen,
+  } = uselogic();
+
+    const [showBranches, setShowBranches] = useState<boolean>(false);
   const { isValid } = formikProps;
   const {t}=useTranslation();
-
+  const handleChange = () => {
+    setOpenAddTrainerForm((prev) => !prev);
+  };
   return (
     <>
       <Grid
@@ -99,11 +114,13 @@ const Trainers: React.FC = () => {
             <Button
               variant="contained"
               sx={{ width: 'auto' }}
-              color={open ? 'error' : 'success'}
-              // onClick={handleChange}
-              startIcon={open ? <RemoveIcon /> : <AddIcon />}
+              color={openAddTrainerForm ? 'error' : 'success'}
+              onClick={handleChange}
+              startIcon={
+                openAddTrainerForm ? <RemoveIcon /> : <PersonAddIcon />
+              }
             >
-              {open ? 'Close' : 'Add Trainer'}
+              {openAddTrainerForm ? 'Close' : 'Add Trainer'}
             </Button>
           </Stack>
 
@@ -123,7 +140,7 @@ const Trainers: React.FC = () => {
                 height: '100%',
               }}
             >
-              <Collapse in={open}>
+              <Collapse in={openAddTrainerForm}>
                 <Paper
                   elevation={3}
                   sx={{
@@ -199,6 +216,8 @@ const Trainers: React.FC = () => {
                         <LoadingButton
                           type="submit"
                           // fullWidth
+                          // disabled={isValid}
+                          disabled
                           variant="contained"
                           loading={isLoading}
                         >
@@ -212,9 +231,24 @@ const Trainers: React.FC = () => {
             </Stack>
           </Grid>
 
-          <TrainerDataGrid data={rows} />
+          <TrainerDataGrid data={trainerRows} />
         </Stack>
       </Grid>
+      <DeleteTrainerDialog
+                deleteTrainerDialogOpen={deleteTrainerDialogOpen}
+                handleCancelDeleteTrainer={handleCancelDeleteTrainer}
+                handleDeleteTrainer={handleDeleteTrainer}
+                trainerName={trainerName}
+            />
+            <EditTrainerDialog
+            updateFieldForTrainerDialogOpen={updateFieldForTrainerDialogOpen}
+            handleSaveUpdatedValueField={handleSaveUpdatedValueField}
+            handleUpdateFieldDialogClose={handleUpdateFieldDialogClose}
+            onSetNewFieldId={onSetNewFieldId}
+            fieldOptions={fieldOptions}
+            formikProps={formikProps}
+            
+            />
     </>
   );
 };

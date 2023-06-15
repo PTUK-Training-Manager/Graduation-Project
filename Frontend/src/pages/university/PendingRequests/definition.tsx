@@ -6,6 +6,7 @@ import { IconButton } from '@mui/material';
 import useSnackbar from 'src/hooks/useSnackbar';
 import { useState } from 'react';
 import { deleteRquest } from './api';
+import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 
 const uselogic = () => {
@@ -13,14 +14,16 @@ const uselogic = () => {
     const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
     const { showSnackbar } = useSnackbar();
     const [data, setData] = useState<PendingRequestsData[]>([]);
+    const queryClient = useQueryClient();
 
 const handleDeleteRequest = () => {
     deleteRquest(deleteId)
       .then((result) => {
         if (result.success === true) {
           showSnackbar({ severity: 'success', message: result.message });
-          setData((prevData) => prevData.filter((row) => row.id !== deleteId));
-          setDeleteId('');
+          const res= queryClient.getQueryData( ["pendingRequests"]) as PendingRequestsData[] ;
+          queryClient.setQueryData( ["pendingRequests"],res.filter((row) => row.id !== deleteId));
+                    setDeleteId('');
           setConfirmDialogOpen(false);
         } else if (result.success === false) {
           showSnackbar({ severity: 'warning', message: result.message });
@@ -68,13 +71,16 @@ const columns: ColumnDef<PendingRequestsData, any>[] = [
     {
         header: DeleteRequest,
         //@ts-ignore
-        cell: (params: { row: PendingRequestsData }) => {
-          return (
+        cell: (props) => {
+          const {
+            row: { original },
+          } = props;     
+               return (
             <IconButton
             sx={{ ml: 3.5 }}
             color="error"
             aria-label="delete request"
-            onClick={() => handleDeleteClick(params.row.id)}
+            onClick={() => handleDeleteClick(original.id)}
           >
             <ClearIcon />
           </IconButton>

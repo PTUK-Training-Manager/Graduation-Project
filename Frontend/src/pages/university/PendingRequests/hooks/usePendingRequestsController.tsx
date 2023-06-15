@@ -13,7 +13,7 @@ const usePendingRequestsController = ({pagination}: UseDataGridPlaygroundAPIProp
 
     const {data}
         = useQuery(
-        ["users", pagination],
+        ["pendingRequests"],
         () => getPendingRequests({page: pagination?.pageIndex, size: pagination?.pageSize}).then(res => {
             setTotalRows(res?.headers["x-total-count"] ?? 0);
             return res?.data.items ?? [];

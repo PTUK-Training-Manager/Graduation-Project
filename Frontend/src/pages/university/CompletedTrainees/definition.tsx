@@ -51,15 +51,22 @@ const uselogic = () => {
     {
       header: 'Evaluation Report',
       //@ts-ignore
-      cell: (params: { row: CompletedTraineesData }) => {
-        const count = parseInt(params.row.count);
-        const index = parseInt(params.row.count) - 1;
-        const studentId = params.row.studentId;
+      cell: (props) => {
+        const {
+          row: { original },
+        } = props;       
+        const count = parseInt(original.count);
+        const index = parseInt(original.count) - 1;
+        const studentId = original.studentId;
         const printIcons = [];
-return(
+
+        for (let i = 0; i < count; i++) {
+          if (count == 1)
+            printIcons.push(
               <Tooltip title={'Evaluation 1'}>
                 <IconButton
-                  sx={{ ml: 4 }}
+
+                  sx={{ ml: 5}}
                   aria-label={'form 1'}
                   size="small"
                   onClick={() => handleOpenDialog(index, studentId)}
@@ -71,7 +78,24 @@ return(
                   />
                 </IconButton>
               </Tooltip>
-);
+            );
+          else
+            printIcons.push(
+              <Tooltip key={i} title={`Evaluation ${i + 1}`}>
+                <IconButton
+                                  sx={{ ml: 2}}
+
+                  aria-label={`form ${i + 1}`}
+                  size="small"
+                  onClick={() => handleOpenDialog(i, studentId)}
+                >
+                  <PrintIcon sx={{ color: '#820000' }} className="print-icon" />
+                </IconButton>
+              </Tooltip>
+            );
+        }
+
+        return <>{printIcons}</>;
       },
     },
   ];

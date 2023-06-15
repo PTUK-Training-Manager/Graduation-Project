@@ -83,15 +83,17 @@ const SecondPage: React.FC<ThirdPageProps> = ({ response }) => {
                             </Typography>
                           </Typography>
                         </Stack>
-                        <Stack gap={1.5} direction="row">
+                        <Stack gap={1.5} >
+                          <Stack gap={1.5} direction='row'>
                           <FormatListNumberedIcon color="action" />
                           <Typography sx={{ fontWeight: '600' }}>
                             Skills:
                           </Typography>
+                          </Stack>
                           <RichTextEditor
                             editable={false}
                             //@ts-ignore
-                            content={item.skills}
+                            content={JSON.stringify(item.skills)}
                           />
                         </Stack>
                       </Stack>

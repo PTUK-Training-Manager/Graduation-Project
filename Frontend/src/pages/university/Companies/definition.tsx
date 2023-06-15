@@ -57,6 +57,7 @@ const uselogic = () => {
       };
     const handleShowBranchesOpen = (id: string, name: string) => {
         setCompanyName(name);
+        setShowBranches(true)
         setCompanyId(id);
         console.log(id);
         console.log(companyId);
@@ -122,15 +123,16 @@ const CompanyId=t('CompanyId');
   
     {
       header: Branches,
-      //@ts-ignore
-      cell: (params: { row: AddCompanyData }) => {
-        const com = params.row.name;
-        console.log(com);
+      cell: (props) => {
+        const {
+          row: { original },
+        } = props;
+        const name = original.name;
         return (
           <IconButton
             sx={{ ml: 1.5 }}
             aria-label="progress form"
-            onClick={() => handleShowBranchesOpen(params.row.id, com)}
+            onClick={() => handleShowBranchesOpen(original.id, name)}
           >
             <AddBusinessIcon sx={{ color: '#820000' }} />
           </IconButton>
@@ -158,6 +160,7 @@ const CompanyId=t('CompanyId');
    companyName,
    companyId,
    addBranchDiolog,
+   showBranches,
   };
 };
 export default uselogic;

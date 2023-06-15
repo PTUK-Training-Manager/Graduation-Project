@@ -3,6 +3,7 @@ import { createDataGrid } from 'src/components/DataGridTanstack';
 import { AllTrainingsData } from './api/response.dto';
 import { Chip, TableCell } from '@mui/material';
 import { FC } from 'react';
+import StatusCell from './StatusCell';
 
 // interface ProgressFormCellProps extends CellContext<AllTrainingsData, any> {}
 
@@ -56,7 +57,8 @@ import { FC } from 'react';
       accessorKey: 'status',
       header: 'Status',
       filterFn: 'arrIncludesSome',
-    },
+      cell: StatusCell,
+  },
 
     {
       accessorKey: 'startDate',

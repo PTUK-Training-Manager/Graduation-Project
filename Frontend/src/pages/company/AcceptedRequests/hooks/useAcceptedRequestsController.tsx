@@ -13,7 +13,7 @@ const useAcceptedRequestsController = ({pagination}: UseDataGridPlaygroundAPIPro
 
     const {data}
         = useQuery(
-        ["trainingRequests", pagination],
+        ["aceeptedRequests"],
         () => getAcceptedTrainings({page: pagination?.pageIndex, size: pagination?.pageSize}).then(res => {
             setTotalRows(res?.headers["x-total-count"] ?? 0);
             return res?.data.items ?? [];

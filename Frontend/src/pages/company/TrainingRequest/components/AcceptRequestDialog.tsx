@@ -35,10 +35,10 @@ const AcceptRequestDialog: FC<AcceptRequestDialog> = ({
         {t("Are you sure you want to accept this training Request?")}
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleCancelAcceptRequest} color="primary">
+        <Button onClick={handleCancelAcceptRequest} color="error">
           {t("Cancel")}
         </Button>
-        <Button onClick={handleAcceptRequest} color="error" variant="contained">
+        <Button onClick={handleAcceptRequest} color="success" variant="contained">
           {t("Accept")}
         </Button>
       </DialogActions>

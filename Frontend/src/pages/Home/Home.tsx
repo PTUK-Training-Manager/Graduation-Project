@@ -37,11 +37,13 @@ const styles = {
 
   },
 };
+import useAccountContext from 'src/hooks/useAccountContext';
 
 interface HomeProps {}
 
 const Home: FC<HomeProps> = () => {
   const { t } = useTranslation();
+    const { isSidebarOpen, user } = useAccountContext();
 
   return (
     <Box sx={styles.root}>

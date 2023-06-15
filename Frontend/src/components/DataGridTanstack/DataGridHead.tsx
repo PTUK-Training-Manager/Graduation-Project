@@ -37,7 +37,7 @@ export function makeDataGridHead<T extends object>(configs: CreateDataGridConfig
                                             width: header.getSize(),
                                             py: 0.5,
                                             position: "sticky",
-                                            bgcolor: theme.palette.background.paper,
+                                            bgcolor: theme.palette.grey[100],
                                             top: 0,
                                             ...(header.column.getCanSort() && {
                                                 cursor: "pointer",
