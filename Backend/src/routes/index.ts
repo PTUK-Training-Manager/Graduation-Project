@@ -12,6 +12,7 @@ import trainingRouter from './TrainingRouter';
 import companyRouter from './CompanyRouter';
 import evaluationRouter from "./EvaluationRouter";
 import adminRouter from "./FileRoute";
+import statisticsRouter from "./StatisticsRouter";
 
 router.use("/student", studentRouter);
 router.use("/trainer", trainerRouter);
@@ -23,5 +24,5 @@ router.use("/training", trainingRouter);
 router.use("/company", companyRouter);
 router.use("/evaluation", evaluationRouter);
 router.use("/admin", adminRouter);
-
+router.use("/statistics", statisticsRouter);
 export default router;
