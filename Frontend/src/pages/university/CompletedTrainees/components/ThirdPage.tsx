@@ -17,16 +17,15 @@ import {
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
 import { EvaluationData } from 'src/api/types';
 import RichTextEditor from 'src/containers/RichTextEditor';
+import { JsxEmit } from 'typescript';
 
 interface ThirdPageProps {
   response: EvaluationData[];
 }
 
 const ThirdPage: React.FC<ThirdPageProps> = ({ response }) => {
-  const { isOpen } = useCompletedTraineesController();
   console.log(response);
   console.log(response[0]?.id);
-  console.log(isOpen);
 
   return (
     <>
@@ -96,7 +95,7 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ response }) => {
                           <RichTextEditor
                             editable={false}
                             //@ts-ignore
-                            content={item.skills}
+                            content={JSON.stringify(item.skills)}
                           />
                         </Stack>
                       </Stack>

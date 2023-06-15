@@ -5,7 +5,7 @@ import uselogic from './definition';
 import theme from 'src/styling/customTheme';
 import { Box, Grid, Typography } from '@mui/material';
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
-
+import AcceptRequestDialog from './components/AcceptRequestDialog';
 const TrainingRequests: React.FC = () => {
   const [pagination, setPagination] = useState<PageChangeParams>({
     pageIndex: 0,
@@ -15,7 +15,7 @@ const TrainingRequests: React.FC = () => {
   const { rows } = useTrainingRequestsController({
     pagination,
   });
-  const { TrainingRequestsDataGrid } = uselogic();
+  const { TrainingRequestsDataGrid,handleAcceptOptionClick,handleCancelAcceptRequest,acceptRequestDialogOpen } = uselogic();
 
   return (
     <>
@@ -41,7 +41,12 @@ const TrainingRequests: React.FC = () => {
           <TrainingRequestsDataGrid data={rows} />
         </Stack>
       </Grid>
-      
+      <AcceptRequestDialog
+       acceptRequestDialogOpen={acceptRequestDialogOpen}
+       //@ts-ignore
+       handleAcceptRequest={handleAcceptOptionClick}
+       handleCancelAcceptRequest={handleCancelAcceptRequest}
+      />
     </>
   );
 };

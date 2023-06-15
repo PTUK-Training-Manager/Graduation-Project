@@ -7,12 +7,12 @@ import { DeleteTrainerResponse,AddTrainerResponse,UpdateFieldForTrainerResponse,
 export const getTrainers = async (params: FetchUsersParams) => {
   return axiosInstance.get<TrainersResponse>(
     `/company/trainers/${params.page}/${params.size}`,
-    {
-      params: {
-        page: (params.page ?? 0) * (params.size ?? 10),
-        limit: params.size,
-      },
-    }
+    // {
+    //   params: {
+    //     page: (params.page ?? 0) * (params.size ?? 10),
+    //     limit: params.size,
+    //   },
+    // }
   );
 };
 

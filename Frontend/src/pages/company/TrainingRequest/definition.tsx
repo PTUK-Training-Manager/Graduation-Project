@@ -20,15 +20,16 @@ const uselogic = () => {
     pageIndex: 0,
     pageSize: 30,
   });
+const [acceptRequestDialogOpen,setAcceptRequestDialogOpen]=useState(false);
+const [rejectRequestDialogOpen,setRejectRequestDialogOpen]=useState(false);
 
   const { rows } = useTrainingRequestsController({
     pagination,
   });
-  const [data, setData] = useState<TrainingRequestsData[]>([]);
+  const [trainingId, setTrainingId] = useState('');
 //   setData(rows);
   //@ts-ignore
   const handleAccept = (id: string) => {
-    setData(rows);
     console.log(id);
     const body: HandleTrainingRequestBody = {
       trainingId: id,
@@ -38,18 +39,39 @@ const uselogic = () => {
       .then((result) => {
         if (result.success === true) {
           showSnackbar({ severity: 'success', message: result.message });
-          setData((prevData) => prevData.filter((row) => row.id !== id));
          const res= queryClient.getQueryData( ["trainingRequests"]) as TrainingRequestsData[] ;
           queryClient.setQueryData(["trainingRequests"],res.filter((row) => row.id !== id));
           console.log(res);
+          setAcceptRequestDialogOpen(false)
         } else if (result.success === false) {
           console.log("error");
         }
       })
       .catch((error) => console.log(error));
   };
+  const handleClickAcceptButton = (id: string) =>{
+    setTrainingId(id);
+    setAcceptRequestDialogOpen(true);
+    
+  }
+  const handleAcceptOptionClick = () => {
+    handleAccept(trainingId);
+  }
+  const handleCancelAcceptRequest = ()=>{
+    setAcceptRequestDialogOpen(false);
+  }
+  const handleClickRejectButton = (id: string) =>{
+    setTrainingId(id);
+    setRejectRequestDialogOpen(true);
+    
+  }
+  const handleRejectOptionClick = () => {
+    handleReject(trainingId);
+  }
+  const handleCancelRejectRequest = ()=>{
+    setRejectRequestDialogOpen(false);
+  }
   const handleReject = (id: string) => {
-    setData(rows);
     console.log(id);
     const body: HandleTrainingRequestBody = {
       trainingId: id,
@@ -59,7 +81,9 @@ const uselogic = () => {
       .then((result) => {
         if (result.success === true) {
           showSnackbar({ severity: 'success', message: result.message });
-          setData((prevData) => prevData.filter((row) => row.id !== id));
+          const res= queryClient.getQueryData( ["trainingRequests"]) as TrainingRequestsData[] ;
+          queryClient.setQueryData(["trainingRequests"],res.filter((row) => row.id !== id));
+          setRejectRequestDialogOpen(false);
           console.log("correct");
         } else if (result.success === false) {
           console.log("error");
@@ -95,7 +119,7 @@ const uselogic = () => {
             size="small"
             sx={{ color: "white", backgroundColor: "green" }}
             aria-label='progress form'
-            onClick={() => handleAccept(original.id)}
+            onClick={() => handleClickAcceptButton(original.id)}
           >
             <CheckCircleOutlineIcon sx={{ color: "white", mr: 1 }} className='manage-icon' />
             Accept
@@ -106,13 +130,16 @@ const uselogic = () => {
     {
       header: 'Reject',
       //@ts-ignore
-      cell: (params: { row: TrainingRequestsData }) => {
+      cell: (props) => {
+        const {
+            row: { original },
+          } = props;
         return (
           <Button
             size="small"
             sx={{ color: "white", backgroundColor: "red" }}
             aria-label='progress form'
-            onClick={() => handleReject(params.row.id)}
+            onClick={() => handleClickRejectButton(original.id)}
           >
             <CancelIcon sx={{ color: "white", mr: 1 }} className='manage-icon' />
             Reject
@@ -129,7 +156,13 @@ const uselogic = () => {
   });
 
   return {
+    acceptRequestDialogOpen,
+    handleCancelAcceptRequest,
     TrainingRequestsDataGrid,
+    handleAcceptOptionClick,
+    rejectRequestDialogOpen,
+    handleRejectOptionClick,
+    handleCancelRejectRequest,
   };
 };
 

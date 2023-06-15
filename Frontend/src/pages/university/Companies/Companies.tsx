@@ -56,19 +56,19 @@ const Companies: React.FC = () => {
   const { showSnackbar } = useSnackbar();
   const [pagination, setPagination] = useState<PageChangeParams>({
     pageIndex: 0,
-    pageSize: 30,
+    pageSize: 100,
   });
 
-  const { rows,formikProps, isLoading, updatedata } = useAddCompanyFormController({
-    pagination,
-  });
-  const [showBranches, setShowBranches] = useState<boolean>(false);
+  const { rows, formikProps, isLoading, updatedata } =
+    useAddCompanyFormController({
+      pagination,
+    });
   const {
     CompaniesDataGrid,
     availableBranches,
     companyId,
     companyName,
-    handleAddBranch,
+    // handleAddBranch,
     handleAddBranchDialogClose,
     handleAddBranchDialogOpen,
     handleCloseDialog,
@@ -76,6 +76,7 @@ const Companies: React.FC = () => {
     handleShowBranchesOpen,
     handleshowBranchesClose,
     addBranchDiolog,
+    showBranches,
   } = uselogic();
   const { isValid } = formikProps;
 
@@ -83,25 +84,25 @@ const Companies: React.FC = () => {
     setOpen((prev) => !prev);
   };
 
-  // useEffect(() => {
-  //   getCompany()
-  //     .then((result) => {
-  //       setData(result.data);
-  //       console.log(result.data);
-  //     })
-  //     .catch((error) => console.log(error));
-  // }, [updatedata]);
-
-  
-
   const BranchColumns = [
     { field: 'id', headerName: 'Branch Id', width: 400, flex: 0.3 },
     { field: 'location', headerName: 'Location', width: 400, flex: 0.3 },
   ];
-
-  
-  
-
+  const handleAddBranch = () => {
+    addBranch({ id: companyId, location: location }).then(
+      (res: { success: boolean; message: any }) => {
+        if (res.success === true) {
+          showSnackbar({ severity: 'success', message: res.message });
+          setLocation('');
+          handleAddBranchDialogClose();
+        } else if (res.success === false) {
+          showSnackbar({ severity: 'warning', message: res.message });
+          setLocation('');
+          handleAddBranchDialogClose();
+        }
+      }
+    );
+  };
   return (
     <>
       <Grid
@@ -233,7 +234,6 @@ const Companies: React.FC = () => {
           </Grid>
 
           <CompaniesDataGrid data={rows} />
-
         </Stack>
       </Grid>
       <Dialog
@@ -262,44 +262,42 @@ const Companies: React.FC = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      <Stack spacing={2}>
-        <Dialog open={showBranches} onClose={handleshowBranchesClose}>
-          <DialogContent>
-            <div style={{ height: 400, width: '100%' }}>
-              <Typography sx={{ fontSize: '600' }}>exalt company</Typography>
-              <Divider />
-              <DataGrid
-                sx={{
-                  width: '500px', // set the width to 800px
-                }}
-                columns={BranchColumns}
-                rows={availableBranches}
-                getRowId={(row) => row['id']}
-                initialState={{
-                  pagination: { paginationModel: { pageSize: 30 } },
-                }}
-                pageSizeOptions={[5, 10, 20, 30]}
-                slots={{
-                  toolbar: GridToolbar,
-                  pagination: DataGridPagination,
-                }}
-              />
-            </div>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              variant="contained"
-              color="error"
-              onClick={handleshowBranchesClose}
-            >
-              Cancel
-            </Button>
-            <Button variant="contained" onClick={handleAddBranchDialogOpen}>
-              Add Branch
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </Stack>
+      <Dialog open={showBranches} onClose={handleshowBranchesClose}>
+        <DialogContent>
+          <div style={{ height: 400, width: '100%' }}>
+            <Typography sx={{ fontSize: '600' }}>{companyName}</Typography>
+            <Divider />
+            <DataGrid
+              sx={{
+                width: '500px', // set the width to 800px
+              }}
+              columns={BranchColumns}
+              rows={availableBranches}
+              getRowId={(row) => row['id']}
+              initialState={{
+                pagination: { paginationModel: { pageSize: 30 } },
+              }}
+              pageSizeOptions={[5, 10, 20, 30]}
+              slots={{
+                toolbar: GridToolbar,
+                pagination: DataGridPagination,
+              }}
+            />
+          </div>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={handleshowBranchesClose}
+          >
+            Cancel
+          </Button>
+          <Button variant="contained" onClick={handleAddBranchDialogOpen}>
+            Add Branch
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };

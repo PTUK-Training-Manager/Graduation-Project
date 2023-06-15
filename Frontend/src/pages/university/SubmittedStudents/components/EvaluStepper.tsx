@@ -17,9 +17,9 @@ import { EvaluationData } from 'src/api/types';
 import { QuestionsRequestData, getQuestion } from 'src/api/getQuestions';
 
 const steps = [
-  'Select campaign settings',
-  'Create an ad group',
-  'Create an ad',
+  'First Page',
+  'Second Page',
+  'Third Page',
 ];
 
 interface EvaluStepperProps {
@@ -116,7 +116,7 @@ const EvaluStepper: FC<EvaluStepperProps> = ({ trainingId }) => {
         <React.Fragment>
           {activeStep === 0 && <FirstPage response={response} />}
           {activeStep === 1 && <SecondPage response={response} />}
-          {activeStep === 2 && <ThirdPage response={response} trainingId='211' question={question} />}
+          {activeStep === 2 && <ThirdPage response={response} trainingId={trainingId} question={question} />}
 
           <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
             <Button

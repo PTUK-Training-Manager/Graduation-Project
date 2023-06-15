@@ -11,26 +11,16 @@ import { useState } from 'react';
 import { AssignTrainerRequestBody } from './api/request.dto';
 import dayjs, { Dayjs } from 'dayjs';
 import { getTrainers } from '../Trainers/api';
+import { TrainersData } from '../Trainers/api/response.dto';
+import { useQueryClient } from '@tanstack/react-query';
 
-interface Trainer {
-    id: string;
-    companyId: string;
-    fieldId: string;
-    Field: {
-      id: string;
-      field: string;
-    };
-    name: string;
-    status: string;
-    userId: string;
-  }
 
 const uselogic = () => {
   const { showSnackbar } = useSnackbar();
   const [trainingID, setTrainingID] = useState<string>('');
   const [trainerID, setTrainerID] = useState<string>('');
   const [joinDialogOpen, setJoinDialogOpen] = useState<boolean>(false);
-  const [availableTrainers, setAvailableTrainers] = useState<Trainer[]>([]);
+  const [availableTrainers, setAvailableTrainers] = useState<TrainersData[]>([]);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs(''));
   const [data, setData] = useState<AcceptedTrainingsData[]>([]);
@@ -56,8 +46,9 @@ const uselogic = () => {
 
   const handleJoinDialogOpen = async () => {
     try {
-      const result = await getTrainers();
-      setAvailableTrainers(result.data);
+      const result = await getTrainers({page: -1, size: -1});
+      //@ts-ignore
+      setAvailableTrainers(result.data.items);
       console.log(result.data);
     } catch (error) {
       console.log(error);
@@ -68,6 +59,7 @@ const uselogic = () => {
     setTrainerID(trainerId);
     handleverifyClick();
   };
+  const queryClient = useQueryClient();
 
   const handleVerifyJoin = () => {
     const body: AssignTrainerRequestBody = {
@@ -80,9 +72,8 @@ const uselogic = () => {
       .then((result) => {
         if (result.success === true) {
           showSnackbar({ severity: 'success', message: result.message });
-          setData((prevData) =>
-            prevData.filter((row) => row.id !== trainingID)
-          );
+          const res= queryClient.getQueryData(["aceeptedRequests"]) as AcceptedTrainingsData[] ;
+          queryClient.setQueryData(["aceeptedRequests"],res.filter((row) => row.id !== trainingID));
           handleVerifyCancel();
         } else if (result.success === false) {
           console.log('error');
@@ -109,13 +100,15 @@ const uselogic = () => {
     
     {
       header: 'Join Trainer',
-      //@ts-ignore
-      cell: (params: { row: AcceptedTrainingsData }) => {
+      cell: (props) => {
+        const {
+          row: { original },
+        } = props;
         return (
             <IconButton
             sx={{ ml: 3 }}
             aria-label="progress form"
-            onClick={() => handleJoinClick(params.row.id)}
+            onClick={() => handleJoinClick(original.id)}
           >
             <PersonAddAlt1Icon
               sx={{ color: '#820000' }}
@@ -126,6 +119,7 @@ const uselogic = () => {
       },
     },
   ];
+  const onSetDate = (date: Dayjs | null) => setSelectedDate(date);
 
   const AcceptedRequestsDataGrid = createDataGrid({
     name: 'TrainingRequestsDataGrid',
@@ -140,6 +134,10 @@ const uselogic = () => {
     handleJoinDialogClose,
     confirmDialogOpen,
     handleVerifyJoin,
+    handleVerifyCancel,
+    selectedDate,
+    onSetDate,
+    handleJoin,
   };
 };
 

@@ -55,7 +55,10 @@ const uselogic = () => {
     {
       header: 'Progress Form',
       //@ts-ignore
-      cell: (params: { row: RunningTraineesData }) => {
+      cell: (props) => {
+        const {
+          row: { original },
+        } = props;     
         const rowData = rows;
         console.log(rowData);
         const ids=rowData.map((data) => data.id);
@@ -64,7 +67,7 @@ const uselogic = () => {
             sx={{ ml: 3.5 }}
             aria-label="progress form"
             //@ts-ignore
-            onClick={() => handleOpenDialog(211)}
+            onClick={() => handleOpenDialog(original.id)}
           >
             <Feed
               color="warning"

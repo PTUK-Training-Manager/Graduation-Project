@@ -8,8 +8,87 @@ import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 // import { RunningTraineesData } from './api/response.dto';
 import EditIcon from '@mui/icons-material/Edit';
 import ClearIcon from '@mui/icons-material/Clear';
-import { TrainersData } from './api/response.dto';
+import { FieldData, TrainersData } from './api/response.dto';
+import { deleteTrianer, updateFieldForTrianer } from './api';
+import useSnackbar from 'src/hooks/useSnackbar';
+import { useQueryClient } from '@tanstack/react-query';
 
+const uselogic = () => {
+
+const [deleteId, setDeleteId] = useState<string>('');
+const [updatedTrainerID, setUpdatedTrainerID] = useState<string>('');
+const [newFieldId, setNewFieldId] = useState<string>('');
+const [fieldOptions, setFieldOptions] = useState<FieldData[]>([]);
+const [updateFieldForTrainerDialogOpen, setUpdateFieldForTrainerDialogOpen] =
+  useState(false);
+const [deleteTrainerDialogOpen, setDeleteTrainerDialogOpen] =
+  useState<boolean>(false);
+const { showSnackbar } = useSnackbar();
+
+const onSetNewFieldId = (id: string) => setNewFieldId(id);
+
+const queryClient = useQueryClient();
+
+const handleDeleteTrainer = () => {
+  deleteTrianer({ id: deleteId }).then(
+    (res: { success: boolean; message: any }) => {
+      if (res.success === true) {
+        showSnackbar({ severity: 'success', message: res.message });
+        const result= queryClient.getQueryData( ['trainers']) as TrainersData[] ;
+        queryClient.setQueryData( ['trainers'],result.filter((row) => row.id !== deleteId));
+        setDeleteId('');
+        setDeleteTrainerDialogOpen(false);
+      } else if (res.success === false) {
+        showSnackbar({ severity: 'warning', message: res.message });
+        setDeleteId('');
+        setDeleteTrainerDialogOpen(false);
+      }
+    }
+  );
+};
+const [trainerName, setTrainerName] = useState('');
+const handleClickDeleteTrainerButton = (Trainerid: string, trainerName: string) => {
+  setTrainerName(trainerName);
+  setDeleteId(Trainerid);
+  setDeleteTrainerDialogOpen(true);
+};
+
+const handleCancelDeleteTrainer = () => {
+  setDeleteTrainerDialogOpen(false);
+};
+
+const handleUpdateFieldDialogOpen = (id: string) => {
+  setUpdatedTrainerID(id);
+  setUpdateFieldForTrainerDialogOpen(true);
+};
+
+const handleUpdateFieldDialogClose = () => {
+  setUpdateFieldForTrainerDialogOpen(false);
+};
+
+const handleSaveUpdatedValueField = () => {
+  updateFieldForTrianer({ id: updatedTrainerID, fieldId: newFieldId }).then(
+    (res) => {
+      console.log(updatedTrainerID);
+      console.log(newFieldId);
+      if (res.success === true) {
+        const fieldName = res.data.Field.field;
+        showSnackbar({ severity: 'success', message: res.message });
+        const result= queryClient.getQueryData( ['trainers']) as TrainersData[] ;
+        queryClient.setQueryData( ['trainers'],result);
+        setUpdatedTrainerID('');
+        setUpdateFieldForTrainerDialogOpen(false);
+      } else if (res.success === false) {
+        showSnackbar({ severity: 'warning', message: res.message });
+        setUpdatedTrainerID('');
+        setUpdateFieldForTrainerDialogOpen(false);
+      }
+    }
+  );
+  console.log(`New value: ${newFieldId}`);
+  console.log(`Training ID : ${updatedTrainerID}`);
+  handleUpdateFieldDialogClose();
+};
   const columns: ColumnDef<TrainersData, any>[] = [
     {
       accessorKey: 'id',
@@ -29,10 +108,13 @@ import { TrainersData } from './api/response.dto';
     {
       header: 'Edit Field',
       //@ts-ignore
-      cell: (params: { row: TrainersData }) => {
+        cell: (props) => {
+          const {
+            row: { original },
+          } = props;
         return (
           <IconButton
-          // onClick={() => handleUpdateFieldDialogOpen(params.id)}
+          onClick={() => handleUpdateFieldDialogOpen(original.id)}
           aria-label="edit field"
         >
           <EditIcon sx={{ color: '#820000' }} className="edit-icon" />
@@ -43,13 +125,17 @@ import { TrainersData } from './api/response.dto';
     {
         header: 'Delete Trainer',
         //@ts-ignore
-        cell: (params: { row: TrainersData }) => {
+        cell: (props) => {
+          const {
+            row: { original },
+          } = props;
+          const name=original.name;
           return (
             <IconButton
             sx={{ ml: 3.5 }}
             color="error"
             aria-label="delete trianer"
-            // onClick={() => handleClickDeleteTrainerButton(params.row.id, name)}
+            onClick={() => handleClickDeleteTrainerButton(original.id,name)}
           >
             <ClearIcon className="clear" />
           </IconButton>
@@ -64,8 +150,16 @@ import { TrainersData } from './api/response.dto';
     shouldFlexGrowCells: true,
   });
 
-  // return {
-  //   TrainerDataGrid,
-  // };
-
-export default TrainerDataGrid;
+  return {
+    TrainerDataGrid,
+    deleteTrainerDialogOpen,
+    handleCancelDeleteTrainer,
+    handleDeleteTrainer,
+    trainerName,
+    updateFieldForTrainerDialogOpen,
+    handleUpdateFieldDialogClose,
+    handleSaveUpdatedValueField,
+    onSetNewFieldId,
+  };
+};
+  export default uselogic;
