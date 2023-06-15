@@ -26,6 +26,7 @@ const [deleteTrainerDialogOpen, setDeleteTrainerDialogOpen] =
 const { showSnackbar } = useSnackbar();
 
 const onSetNewFieldId = (id: string) => setNewFieldId(id);
+
 const queryClient = useQueryClient();
 
 const handleDeleteTrainer = () => {

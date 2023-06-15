@@ -97,7 +97,7 @@ const useAllTrainersController = ({
     }
   );
   return {
-    rows: data ?? [],
+    trainerRows: data ?? [],
     fieldOptions,
     formikProps,
     isLoading,

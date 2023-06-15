@@ -11,6 +11,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import useSnackbar from 'src/hooks/useSnackbar';
 import { TrainersData } from '../Trainers/api/response.dto';
 import { assignTrainer, getTrainers } from '../AcceptedRequests/api';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { HandleTrainingRequestBody } from '../TrainingRequest/types';
 import { handleTrainingRequest } from '../TrainingRequest/api';
 import { useQueryClient } from '@tanstack/react-query';
@@ -21,7 +22,6 @@ const uselogic = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [trainingId, setTrainingId] = useState('');
   const [data, setData] = useState<RunningTraineesData[]>([]);
-
   const [response, setReponse] = useState<Response>();
   const { showSnackbar } = useSnackbar();
   const [cancelId, setCanceledId] = useState<string>('');
@@ -32,6 +32,8 @@ const uselogic = () => {
   const [availableTrainers, setAvailableTrainers] = useState<TrainersData[]>(
     []
   );
+  const onSetJoinDialogOpen = (confirm: boolean) => setJoinDialogOpen(confirm);
+
   const [confirmEditOpen, setConfirmEditOpen] = useState<boolean>(false);
   const [pagination, setPagination] = useState<PageChangeParams>({
     pageIndex: 0,
@@ -118,6 +120,43 @@ const uselogic = () => {
     setIsOpen(false);
     setTrainingId('');
   };
+
+  const columnsForDialog: ColumnDef<TrainersData, any>[] = [
+    {
+      accessorKey: 'id',
+      header: 'Trainer Id',
+    },
+    {
+      accessorKey: 'name',
+      header: 'Trainer Name',
+      filterFn: 'arrIncludesSome',
+    },
+    {
+      accessorKey: 'Field.field',
+      header: 'Field',
+      filterFn: 'arrIncludesSome',
+    },
+
+    {
+      header: 'Edit Field',
+      cell: (props) => {
+        const {
+          row: { original },
+        } = props;
+        return (
+          <IconButton
+            aria-label="edit field"
+            onClick={() => handleJoin(original.id)}
+          >
+            <CheckBoxIcon
+              sx={{ color: 'blue', backgroundColor: 'white' }}
+              className="edit-icon"
+            />
+          </IconButton>
+        );
+      },
+    },
+  ];
 
   const columns: ColumnDef<RunningTraineesData, any>[] = [
     {
@@ -217,7 +256,15 @@ const uselogic = () => {
     shouldFlexGrowCells: true,
   });
 
+  const TrainerDialogDataGrid = createDataGrid({
+    name: 'TrainerDialogDataGrid',
+    columns,
+    shouldFlexGrowCells: true,
+  });
+
   return {
+    onSetJoinDialogOpen,
+    trainingID,
     CurrentTraineesDataGrid,
     handleCancel,
     handleCancelClick,

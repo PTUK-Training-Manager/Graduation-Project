@@ -38,6 +38,8 @@ import useSnackbar from 'src/hooks/useSnackbar';
 import useCurrentTraineesController from './hooks/useCurrentTraineesController';
 import uselogic from './definition';
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
+import uselogicc from './definitionForTrainers';
+import useAllTrainersController from '../Trainers/hooks/useAllTrainersController';
 
 function Pagination({
   page,
@@ -96,7 +98,7 @@ const EditTraining: React.FC = () => {
   const trainerColumns = [
     { field: 'id', headerName: 'Trainer Id', width: 400, flex: 0.3 },
     { field: 'name', headerName: 'Trianer Name', width: 400, flex: 0.3 },
-    { field: 'field', headerName: 'field', width: 400, flex: 0.3 },
+    { field: 'Field.field', headerName: 'field', width: 400, flex: 0.3 },
     {
       field: 'joinTrainer',
       headerName: 'Join Trainer ',
@@ -123,7 +125,9 @@ const EditTraining: React.FC = () => {
     pageIndex: 0,
     pageSize: 100,
   });
-
+  const { trainerRows} = useAllTrainersController({
+    pagination,
+  });
   const { rows } = useCurrentTraineesController({
     pagination,
   });
@@ -140,14 +144,17 @@ const EditTraining: React.FC = () => {
     handleJoinDialogOpen,
     handleOpenDialog, 
     handleTrainingRequest,
-    handleVerifyCancel, 
     handleverifyClick,
     handleVerifyJoin,
     availableTrainers,
     joinDialogOpen,
     confirmDialogOpen,
+    handleVerifyCancel,
     confirmEditOpen,
   } = uselogic();
+  const {
+   TrainerDialogDataGrid,
+  } = uselogicc();
 
   return (
     <>
@@ -211,6 +218,8 @@ const EditTraining: React.FC = () => {
                 pagination: CustomPagination,
               }}
             />
+                      {/* <TrainerDialogDataGrid data={trainerRows} /> */}
+
           </div>
         </DialogContent>
         <DialogActions>

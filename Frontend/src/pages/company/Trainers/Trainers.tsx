@@ -64,7 +64,7 @@ const Trainers: React.FC = () => {
     pageSize: 100,
   });
 
-  const { rows,fieldOptions,formikProps,isLoading} = useAllTrainersController({
+  const { trainerRows,fieldOptions,formikProps,isLoading} = useAllTrainersController({
     pagination,
   });
   const [openAddTrainerForm, setOpenAddTrainerForm] = useState(false);
@@ -229,7 +229,7 @@ const Trainers: React.FC = () => {
             </Stack>
           </Grid>
 
-          <TrainerDataGrid data={rows} />
+          <TrainerDataGrid data={trainerRows} />
         </Stack>
       </Grid>
       <DeleteTrainerDialog
