@@ -8,6 +8,8 @@ import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import useCompletedTraineesController from './hooks/useCompletedTraineesController';
 import PrintIcon from '@mui/icons-material/Print';
 import { CompletedTraineesData } from './api/response.dto';
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+import { useTranslation } from 'react-i18next';
 
 interface ProgressFormCellProps
   extends CellContext<CompletedTraineesData, any> {}
@@ -23,21 +25,12 @@ const uselogic = () => {
   const handleCloseDialog = () => {
     setIsOpen(false);
   };
-  const [isOpen, setIsOpen] = useState(false);
-  const [studentId, setStudentId] = useState<string>('');
-  const [index, setIndex] = useState<number>(-1);
-  const handleOpenDialog = (index: number, id: string) => {
-    setIsOpen((prev) => !prev);
-    setIndex(index);
-    setStudentId(id);
-  };
   const { t } = useTranslation();
   const StudentNumber = t('StudentNumber');
   const StudentName = t('StudentName');
   const EvaluationReport=t('EvaluationReport');
   const TrainerName=t('TrainerName');
   const CompanyBranch=t('CompanyBranch');
-
   const columns: ColumnDef<CompletedTraineesData, any>[] = [
     {
       accessorKey: 'studentId',

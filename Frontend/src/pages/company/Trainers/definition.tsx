@@ -12,6 +12,7 @@ import { FieldData, TrainersData } from './api/response.dto';
 import { deleteTrianer, updateFieldForTrianer } from './api';
 import useSnackbar from 'src/hooks/useSnackbar';
 import { useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 
 const uselogic = () => {
 
@@ -65,8 +66,6 @@ const handleUpdateFieldDialogOpen = (id: string) => {
 const handleUpdateFieldDialogClose = () => {
   setUpdateFieldForTrainerDialogOpen(false);
 };
-import { TrainersData } from './api/response.dto';
-import { useTranslation } from 'react-i18next';
 
 
 
