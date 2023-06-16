@@ -16,11 +16,10 @@ import {ListAnchor} from "../../types";
 import logoImg from "src/images/landing/logo.png";
 import {useNavigate} from "react-router-dom";
 import StyledButton from "../StyledButton";
-import useAccountContext from "src/hooks/useAccountContext";
 
 const Navbar: FC = () => {
 
-    const {user} = useAccountContext();
+    const user = localStorage.getItem("access-token");
 
     const navigate = useNavigate();
 

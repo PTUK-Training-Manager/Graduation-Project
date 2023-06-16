@@ -6,9 +6,11 @@ import useSnackbar from 'src/hooks/useSnackbar';
 import {AxiosBaseError} from 'src/types';
 import extractErrorMessage from 'src/utils/extractErrorMessage';
 import {setNewPassword} from "../api";
+import {useNavigate} from "react-router-dom";
 
 const useForgetController = () => {
     const {showSnackbar} = useSnackbar();
+    const navigate = useNavigate();
 
     const formikProps = useFormik({
         initialValues: INITIAL_FORM_STATE,
@@ -27,11 +29,12 @@ const useForgetController = () => {
         setNewPassword,
         {
             onSuccess: (data) => {
-                console.log(data.data);
                 if (data.success == true) {
                     showSnackbar({severity: 'success', message: data.message});
                 } else if (data.success == false)
                     showSnackbar({severity: 'warning', message: data.message});
+
+                navigate("/login");
             },
             onError: (error: AxiosBaseError) => {
                 const errorMessage = extractErrorMessage(error);

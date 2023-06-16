@@ -95,7 +95,6 @@ const AppRoutes: FC = () => {
             <Routes>
                 <Route path="" element={<LandingPage/>}/>
                 <Route path="login" element={<Login/>}/>
-                <Route path="forget-password" element={<ForgetPassword/>}/>
                 <Route path="landing" element={<LandingPage/>}/>
                 <Route path="editor" element={<EditorPlayground/>}/>
                 <Route
@@ -109,11 +108,12 @@ const AppRoutes: FC = () => {
                 <Route path="infinite-scroll" element={<InfiniteScrollPlayground/>}/>
 
                 <Route path="me" element={<AppLayout/>}>
+                    <Route path="forget-password" element={<ForgetPassword/>}/>
+
                     <Route element={<ProtectedRoute/>}>
                         <Route index path="" element={<Home/>}/>
                         <Route path="dashboard" element={<Dashboard/>}/>
                         <Route path="reset-password" element={<ResetPassword/>}/>
-                        <Route path="admin" element={<Admin/>}/>
                     </Route>
 
                     <Route element={<ProtectedRoute allowedRoles={[SuperAdmin]}/>}>

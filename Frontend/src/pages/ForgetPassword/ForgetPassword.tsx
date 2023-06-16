@@ -18,9 +18,13 @@ interface CompanyOption {
 const ForgetPassword: React.FC = () => {
     const [selectedCompany, setSelectedCompany] = React.useState('');
     const {formikProps, isLoading} = useForgetController();
-    const {isValid} = formikProps;
+    const {isValid, values} = formikProps;
     const navigate = useNavigate();
     const [response, setResponse] = useState(null);
+
+    const {newPassword, confirmNewPassword} = values;
+
+    const isSubmitEnabled = isValid && (newPassword === confirmNewPassword);
 
     return (
         <>
@@ -56,7 +60,7 @@ const ForgetPassword: React.FC = () => {
                                 />
                                 <TextFieldWrapper
                                     type="password"
-                                    label="Password"
+                                    label="Confirm Password"
                                     name="confirmNewPassword"
                                 />
 
@@ -64,7 +68,7 @@ const ForgetPassword: React.FC = () => {
                                     type="submit"
                                     fullWidth
                                     variant="contained"
-                                    disabled={!isValid}
+                                    disabled={!isSubmitEnabled}
                                     loading={isLoading}
                                 >
                                     Submit
