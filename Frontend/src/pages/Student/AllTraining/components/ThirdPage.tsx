@@ -91,7 +91,7 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ response }) => {
                           <RichTextEditor
                             editable={false}
                             //@ts-ignore
-                            content={item.skills}
+                            content={JSON.stringify(item.skills)}
                           />
                         </Stack>
                       </Stack>

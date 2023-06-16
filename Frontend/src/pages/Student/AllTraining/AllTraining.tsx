@@ -22,7 +22,12 @@ const AddCompanyForm: React.FC = () => {
   const [isProgressReportOpen, setIsProgressReportOpen] = useState(false);
   const [trainingId, setTrainingId] = useState('');
   const [response, setReponse] = useState<Response>();
-
+  useEffect(() => {
+    progressForm({ trainingId: trainingId }).then((res) => {
+      //@ts-ignore
+      setReponse(res.data);
+    });
+  }, [trainingId]);
   const mapStatusToColor: Record<string, string> = {
     completed: 'success',
     rejected: 'error',
@@ -95,7 +100,7 @@ const AddCompanyForm: React.FC = () => {
           </Typography>
 
           <>
-            {rows?.map((training) => (
+            {rows.map((training) => (
               <Box
                 sx={{
                   justifyContent: 'space-between',

@@ -43,7 +43,7 @@ export function makeDataGridHead<T extends object>(configs: CreateDataGridConfig
                                                 userSelect: "none",
                                             }),
                                             "&:hover": {
-                                                bgcolor: theme.palette.grey[100],
+                                                bgcolor: '#ecf1f1',
                                             },
                                             ":is(:hover) :is(#sortable-indicator, #resizer)": {
                                                 opacity: 1,

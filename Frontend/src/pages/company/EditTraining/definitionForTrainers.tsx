@@ -18,20 +18,22 @@ const uselogicc = () => {
   const [confirmEditOpen, setConfirmEditOpen] = useState<boolean>(false);
   const [trainingId, setTrainingId] = useState<string>('');
   const { showSnackbar } = useSnackbar();
+  const [trainerId, setTrainerID] = useState<string>('');
 
-  // const handleJoin = (trainerId: string) => {
-  //   setTrainerID(trainerId);
-  //   handleverifyClick();
-  // };
-  // const handleverifyClick = () => {
-  //   setConfirmEditOpen(true);
-  // };
-  // const handleVerifyCancel = () => {
-  //   setConfirmEditOpen(false);
-  //   onSetJoinDialogOpen(false);
-  // };
+  const handleJoin = (trainerId: string) => {
+    setTrainerID(trainerId);
+    handleverifyClick();
+  };
+  const handleverifyClick = () => {
+    setConfirmEditOpen(true);
+  };
+  const handleVerifyCancel = () => {
+    setConfirmEditOpen(false);
+    onSetJoinDialogOpen(false);
+  };
    const {
-    handleJoin,
+    trainingID,
+    onSetJoinDialogOpen,
   } = uselogic();
 
   // const handleVerifyJoin = () => {
@@ -84,7 +86,7 @@ const uselogicc = () => {
     },
 
     {
-      header: 'Edit Field',
+      header: 'Join Trainer',
       cell: (props) => {
         const {
           row: { original },
@@ -92,7 +94,7 @@ const uselogicc = () => {
         return (
           <IconButton
             aria-label="edit field"
-            onClick={() => setTrainingId(original.id)}
+            onClick={() => handleJoin(original.id)}
           >
             <CheckBoxIcon
               sx={{ color: 'blue', backgroundColor: 'white' }}
@@ -112,6 +114,9 @@ const uselogicc = () => {
   return {
     TrainerDialogDataGrid,
     trainingId,
+    handleVerifyCancel,
+    handleverifyClick,
+    confirmEditOpen,
     
   };
 };

@@ -205,7 +205,6 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
               </Stack>
             </CardContent>
           </Card>
-          <Divider />
         </Stack>
       </Container>
     </>
