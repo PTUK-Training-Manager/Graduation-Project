@@ -8,3 +8,7 @@ export interface AccessTokenData {
 export interface LoginResponse extends BaseResponse {
     data: AccessTokenData;
 }
+
+export interface ForgetPasswordResponse extends BaseResponse {
+    data: AccessTokenData;
+}
