@@ -34,7 +34,6 @@ interface AccountProviderProps {
 }
 
 export const AccountProvider: FC<AccountProviderProps> = ({children}) => {
-    console.log("AccountProvider");
     const navigate = useNavigate();
     const location = useLocation();
 
