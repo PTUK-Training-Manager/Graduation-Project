@@ -34,6 +34,7 @@ import DataGridPagination from 'src/components/DataGrid/DataGridPagination';
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import useAllTrainersController from './hooks/useAllTrainersController';
 import useAddCompanyFormController from 'src/pages/university/Companies/hooks/useAddCompanyFormController';
+import { useTranslation } from 'react-i18next';
 import uselogic from './definition';
 import DeleteTrainerDialog from './components/deleteTrainerDialog';
 import EditTrainerDialog from './components/editFieldDialog';
@@ -84,6 +85,7 @@ const Trainers: React.FC = () => {
 
     const [showBranches, setShowBranches] = useState<boolean>(false);
   const { isValid } = formikProps;
+  const {t}=useTranslation();
   const handleChange = () => {
     setOpenAddTrainerForm((prev) => !prev);
   };
@@ -107,7 +109,7 @@ const Trainers: React.FC = () => {
         >
            <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
             <Typography component="h1" variant="h5" fontWeight={500}>
-              Trainers
+              {t("Trainers")}
             </Typography>
             <Button
               variant="contained"
@@ -153,7 +155,7 @@ const Trainers: React.FC = () => {
                     <Form>
                       <Stack gap={1} spacing={1} alignItems="center">
                         <Typography component="h1" variant="h5">
-                          Add Trainer
+                          {t("AddTrainer")}
                         </Typography>
                         <Grid
                           sx={{
@@ -219,7 +221,7 @@ const Trainers: React.FC = () => {
                           variant="contained"
                           loading={isLoading}
                         >
-                          Generate Account
+                          {t("GenerateAccount")}
                         </LoadingButton>
                       </Stack>
                     </Form>

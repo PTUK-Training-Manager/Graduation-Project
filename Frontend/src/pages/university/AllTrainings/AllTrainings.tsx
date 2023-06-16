@@ -8,22 +8,18 @@ import AllTrainingsDataGrid from './definition';
 import { AllTrainingsData } from './api/response.dto';
 import { CellContext } from '@tanstack/react-table';
 import AllTrainingss from './definition';
+import { useTranslation } from 'react-i18next';
 
-
-
-    
 const AllTrainings: FC = () => {
-
   const [pagination, setPagination] = useState<PageChangeParams>({
     pageIndex: 0,
     pageSize: 10,
   });
-  
 
   const { rows } = useAllTrainingsController({
     pagination,
   });
-
+  const { t } = useTranslation();
   return (
     <>
       <Grid
@@ -43,7 +39,7 @@ const AllTrainings: FC = () => {
           }}
         >
           <Typography component="h1" variant="h5" fontWeight={500}>
-            All Trainings
+            {t('All Trainings')}
           </Typography>
           <AllTrainingsDataGrid data={rows} />
         </Stack>

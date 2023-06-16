@@ -11,6 +11,7 @@ import { useState } from 'react';
 import { AssignTrainerRequestBody } from './api/request.dto';
 import dayjs, { Dayjs } from 'dayjs';
 import { getTrainers } from '../Trainers/api';
+import { useTranslation } from 'react-i18next';
 import { TrainersData } from '../Trainers/api/response.dto';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -81,26 +82,31 @@ const uselogic = () => {
       })
       .catch((error) => console.log(error));
   };
-
+  const {t}=useTranslation();
+  const StudentNumber = t('StudentNumber');
+  const StudentName = t('StudentName');
+  const CompanyBranch=t('CompanyBranch');
+  const JoinTrainer=t('JoinTrainer');
+  
   const columns: ColumnDef<AcceptedTrainingsData, any>[] = [
     {
       accessorKey: 'studentId',
-      header: 'Student Number',
+      header: StudentNumber,
     },
     {
       accessorKey: 'Student.name',
-      header: 'Student Name',
+      header: StudentName,
       filterFn: 'arrIncludesSome',
     },
     {
       accessorKey: 'CompanyBranch.location',
-      header: 'Company Branch',
+      header: CompanyBranch,
       filterFn: 'arrIncludesSome',
     },
-    
     {
-      header: 'Join Trainer',
-      cell: (props) => {
+    
+    header: JoinTrainer,
+    cell: (props) => {
         const {
           row: { original },
         } = props;

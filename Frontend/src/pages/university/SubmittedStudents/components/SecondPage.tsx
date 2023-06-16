@@ -17,6 +17,7 @@ import {
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
 import { EvaluationData } from 'src/api/types';
 import RichTextEditor from 'src/containers/RichTextEditor';
+import { useTranslation } from 'react-i18next';
 
 interface ThirdPageProps {
   response: EvaluationData[];
@@ -27,6 +28,7 @@ const SecondPage: React.FC<ThirdPageProps> = ({ response }) => {
   console.log(response);
   console.log(response[0]?.id);
   // console.log(isOpen);
+  const {t}=useTranslation();
 
   return (
     <>

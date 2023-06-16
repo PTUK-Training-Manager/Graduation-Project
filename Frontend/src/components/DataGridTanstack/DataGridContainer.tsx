@@ -8,7 +8,7 @@ export function makeDataGridContainer<T extends object>(configs: CreateDataGridC
         const {children} = props;
 
         return (
-            <Stack sx={{height: "100%", position: "relative"}}>
+            <Stack sx={{height: "100%", position: "relative",}}>
                 {children}
             </Stack>
         )

@@ -9,6 +9,7 @@ import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import useCompletedTraineesController from './hooks/useCompletedTraineesController';
 import PrintIcon from '@mui/icons-material/Print';
 import { CompletedTraineesData } from './api/response.dto';
+import { useTranslation } from 'react-i18next';
 
 interface ProgressFormCellProps
   extends CellContext<CompletedTraineesData, any> {}
@@ -31,14 +32,19 @@ const uselogic = () => {
     setIndex(index);
     setStudentId(id);
   };
+  const { t } = useTranslation();
+  const StudentNumber = t('StudentNumber');
+  const StudentName = t('StudentName');
+  const EvaluationReport=t('EvaluationReport');
+  const ProgressForm=t('ProgressForm');
   const columns: ColumnDef<CompletedTraineesData, any>[] = [
     {
       accessorKey: 'studentId',
-      header: 'Student Number',
+      header: StudentNumber,
     },
     {
       accessorKey: 'Student.name',
-      header: 'Student Name',
+      header: StudentName,
       filterFn: 'arrIncludesSome',
     },
 

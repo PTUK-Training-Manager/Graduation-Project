@@ -8,10 +8,12 @@ import { FormControlLabel } from '@mui/material';
 import { FC } from 'react';
 import { EvaluationData } from 'src/api/types';
 import RichTextEditor from 'src/containers/RichTextEditor';
+import { useTranslation } from 'react-i18next';
 
 interface SecondPageProps {
   response: EvaluationData[];
 }
+const {t}=useTranslation();
 
 const SecondPage: FC<SecondPageProps> = ({ response }) => {
   return (
@@ -19,7 +21,7 @@ const SecondPage: FC<SecondPageProps> = ({ response }) => {
     <Grid container sx={{ padding: '24px' }}>
       <Stack gap={2}>
         <Typography variant="h6" gutterBottom>
-          Student benefit from training:
+          {t("Student_benefit_from_training")}:
         </Typography>
         {response[0]?.Answered_Questions?.slice(0, length - 2).map(
           (item, index) => {
@@ -41,7 +43,7 @@ const SecondPage: FC<SecondPageProps> = ({ response }) => {
                     <CardContent>
                       <Stack spacing={2}>
                         <Typography sx={{ fontWeight: '600' }}>
-                          Question {index + 1} :
+                          {t("Question")} {index + 1} :
                         </Typography>
                         <Stack gap={1.5} direction="row">
                           <Typography sx={{ fontWeight: '600' }}>
@@ -88,7 +90,7 @@ const SecondPage: FC<SecondPageProps> = ({ response }) => {
                         {item.Note?.note && (
                           <Stack gap={1.5} >
                             <Typography sx={{ fontWeight: '600' }}>
-                              Note:{' '}
+                              {t("Note")}:{' '}
                               </Typography>
                           
                               <RichTextEditor
@@ -122,7 +124,7 @@ const SecondPage: FC<SecondPageProps> = ({ response }) => {
                 {response[0]?.Answered_Questions[8]?.Question.question}
                 </Typography>
                 <Typography sx={{ fontWeight: '600' }}>
-                  Note:{' '}
+                {t("Note")}:
                 </Typography>
                 <RichTextEditor
                           editable={false}

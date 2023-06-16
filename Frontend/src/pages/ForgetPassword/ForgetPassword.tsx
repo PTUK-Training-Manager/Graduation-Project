@@ -6,9 +6,10 @@ import {Stack} from '@mui/material';
 import {Form, FormikProvider} from 'formik';
 import {LoadingButton} from '@mui/lab';
 import TextFieldWrapper from 'src/components/FormsUI/TextField';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import useForgetController from './hooks/useForgetController';
+import { useTranslation } from 'react-i18next';
 
 interface CompanyOption {
     id: string;
@@ -25,6 +26,8 @@ const ForgetPassword: React.FC = () => {
     const {newPassword, confirmNewPassword} = values;
 
     const isSubmitEnabled = isValid && (newPassword === confirmNewPassword);
+
+    const {t} = useTranslation();
 
     return (
         <>
@@ -50,17 +53,17 @@ const ForgetPassword: React.FC = () => {
                         <Form>
                             <Stack gap={2} alignItems="center">
                                 <Typography component="h1" variant="h5">
-                                    Set New Password
+                                    {t("Set New Password")}
                                 </Typography>
 
                                 <TextFieldWrapper
                                     type="password"
-                                    label="Password"
+                                    label={t("Password")}
                                     name="newPassword"
                                 />
                                 <TextFieldWrapper
                                     type="password"
-                                    label="Confirm Password"
+                                    label={t("Confirm Password")}
                                     name="confirmNewPassword"
                                 />
 
@@ -71,7 +74,7 @@ const ForgetPassword: React.FC = () => {
                                     disabled={!isSubmitEnabled}
                                     loading={isLoading}
                                 >
-                                    Submit
+                                    {t("Submit")}
                                 </LoadingButton>
                             </Stack>
                         </Form>

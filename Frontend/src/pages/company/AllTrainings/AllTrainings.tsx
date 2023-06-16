@@ -5,6 +5,7 @@ import theme from 'src/styling/customTheme';
 import { Grid, Typography } from '@mui/material';
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import  AllTrainingsCompanyDataGrid from './definition';
+import { useTranslation } from 'react-i18next';
 
 const AllTrainings: React.FC = () => {
   const [pagination, setPagination] = useState<PageChangeParams>({
@@ -15,6 +16,7 @@ const AllTrainings: React.FC = () => {
   const { rows } = useAllTrainingsController({
     pagination,
   });
+  const {t}=useTranslation();
 
   return (
     <>
@@ -35,7 +37,7 @@ const AllTrainings: React.FC = () => {
           }}
         >
           <Typography component="h1" variant="h5" fontWeight={500}>
-            All Trainings
+           {t("All Trainings")}
           </Typography>
           <AllTrainingsCompanyDataGrid data={rows} />
         </Stack>

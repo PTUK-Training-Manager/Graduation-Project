@@ -9,6 +9,7 @@ import useCompletedTraineesController from './hooks/useCompletedTraineesControll
 import PrintIcon from '@mui/icons-material/Print';
 import { CompletedTraineesData } from './api/response.dto';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
+import { useTranslation } from 'react-i18next';
 
 interface ProgressFormCellProps
   extends CellContext<CompletedTraineesData, any> {}
@@ -24,29 +25,35 @@ const uselogic = () => {
   const handleCloseDialog = () => {
     setIsOpen(false);
   };
+  const { t } = useTranslation();
+  const StudentNumber = t('StudentNumber');
+  const StudentName = t('StudentName');
+  const EvaluationReport=t('EvaluationReport');
+  const TrainerName=t('TrainerName');
+  const CompanyBranch=t('CompanyBranch');
   const columns: ColumnDef<CompletedTraineesData, any>[] = [
     {
       accessorKey: 'studentId',
-      header: 'Student Number',
+      header: StudentNumber,
     },
     {
       accessorKey: 'Student.name',
-      header: 'Student Name',
+      header: StudentName,
       filterFn: 'arrIncludesSome',
     },
     {
         accessorKey: 'Trainer.name',
-        header: 'Trainer Name',
+        header: TrainerName,
         filterFn: 'arrIncludesSome',
       },
       {
         accessorKey: 'CompanyBranch.location',
-        header: 'Company Branch',
+        header: CompanyBranch,
         filterFn: 'arrIncludesSome',
       },
 
     {
-      header: 'Evaluation Report',
+      header: EvaluationReport,
       //@ts-ignore
         cell: (props) => {
           const {

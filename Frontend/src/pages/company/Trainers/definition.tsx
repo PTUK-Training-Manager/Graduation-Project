@@ -12,6 +12,7 @@ import { FieldData, TrainersData } from './api/response.dto';
 import { deleteTrianer, updateFieldForTrianer } from './api';
 import useSnackbar from 'src/hooks/useSnackbar';
 import { useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 
 const uselogic = () => {
 
@@ -66,6 +67,8 @@ const handleUpdateFieldDialogClose = () => {
   setUpdateFieldForTrainerDialogOpen(false);
 };
 
+
+
 const handleSaveUpdatedValueField = () => {
   updateFieldForTrianer({ id: updatedTrainerID, fieldId: newFieldId }).then(
     (res) => {
@@ -106,7 +109,7 @@ const handleSaveUpdatedValueField = () => {
       },
       
     {
-      header: 'Edit Field',
+      header:'Edit Field ',
       //@ts-ignore
         cell: (props) => {
           const {
@@ -116,7 +119,7 @@ const handleSaveUpdatedValueField = () => {
           <IconButton
           onClick={() => handleUpdateFieldDialogOpen(original.id)}
           aria-label="edit field"
-        >
+          >
           <EditIcon sx={{ color: '#820000' }} className="edit-icon" />
         </IconButton>
         );

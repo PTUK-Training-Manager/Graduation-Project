@@ -5,6 +5,7 @@ import uselogic from './definition';
 import theme from 'src/styling/customTheme';
 import { Box, Grid, Typography } from '@mui/material';
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
+import { useTranslation } from 'react-i18next';
 import AcceptRequestDialog from './components/AcceptRequestDialog';
 const TrainingRequests: React.FC = () => {
   const [pagination, setPagination] = useState<PageChangeParams>({
@@ -16,6 +17,7 @@ const TrainingRequests: React.FC = () => {
     pagination,
   });
   const { TrainingRequestsDataGrid,handleAcceptOptionClick,handleCancelAcceptRequest,acceptRequestDialogOpen } = uselogic();
+  const {t}=useTranslation();
 
   return (
     <>
@@ -36,7 +38,7 @@ const TrainingRequests: React.FC = () => {
           }}
         >
           <Typography component="h1" variant="h5" fontWeight={500}>
-            Training Requests
+            {t("TrainingRequests")}
           </Typography>
           <TrainingRequestsDataGrid data={rows} />
         </Stack>

@@ -12,6 +12,7 @@ import { submitAnswers } from 'src/pages/trainer/Finished200Hours/api';
 import useSnackbar from 'src/hooks/useSnackbar';
 import { QuestionsRequestData } from 'src/api/getQuestions';
 import RichTextEditor from 'src/containers/RichTextEditor';
+import { useTranslation } from 'react-i18next';
 
 interface SecondPageProps {
   response: EvaluationData[];
@@ -25,7 +26,7 @@ const ThirdPage: FC<SecondPageProps> = ({ response, trainingId, question }) => {
     trainingId: trainingId ,
     arrayData: [],
   });
-
+const {t}=useTranslation();
   const handleSubmitAnswers = () => {
     submitAnswers({
       trainingId: answers.trainingId,
@@ -44,7 +45,7 @@ const ThirdPage: FC<SecondPageProps> = ({ response, trainingId, question }) => {
       <Grid container sx={{ padding: '24px' }}>
         <Stack gap={2}>
           <Typography variant="h6" gutterBottom>
-            Student benefit from training:
+           {t("StudentBenefit")}
           </Typography>
           {response[0]?.Answered_Questions?.slice(0, length - 2).map(
             (item, index) => (
@@ -108,7 +109,7 @@ const ThirdPage: FC<SecondPageProps> = ({ response, trainingId, question }) => {
                           {item.Note?.note && (
                             <Stack gap={1.5} direction="row">
                               <Typography sx={{ fontWeight: '600' }}>
-                                Note:
+                                {t("Note")}:
                               </Typography>
                               <RichTextEditor
                             editable={false}

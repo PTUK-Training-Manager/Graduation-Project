@@ -3,7 +3,6 @@ import * as XLSX from 'xlsx';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import { DropzoneRef } from 'react-dropzone';
 import { Stack } from '@mui/material';
 import { Form, FormikProvider } from 'formik';
 import { LoadingButton } from '@mui/lab';

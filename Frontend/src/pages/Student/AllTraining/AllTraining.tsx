@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import { progressForm } from 'src/api/progress';
 import { Response } from './types';
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
+import { useTranslation } from 'react-i18next';
 
 const AddCompanyForm: React.FC = () => {
   const [isEvaluationReportOpen, setIsEvaluationReportOpen] = useState(false);
@@ -77,6 +78,8 @@ const AddCompanyForm: React.FC = () => {
   const { rows } = useAllTrainingsController({
     pagination,
   });
+  const { t } = useTranslation();
+
   return (
     <>
       <Grid
@@ -96,7 +99,7 @@ const AddCompanyForm: React.FC = () => {
           }}
         >
           <Typography component="h1" variant="h5" fontWeight={500}>
-            All Trainings
+            {t("All Trainings")}
           </Typography>
 
           <>
@@ -122,7 +125,7 @@ const AddCompanyForm: React.FC = () => {
                       direction="row"
                       sx={{ justifyContent: 'space-between' }}
                     >
-                      <Typography> Company Name </Typography>
+                      <Typography> {t("CompanyName")} </Typography>
                       <Typography sx={{ color: 'white' }}>
                         Evaluation Trainininasd Report..
                       </Typography>
@@ -135,13 +138,34 @@ const AddCompanyForm: React.FC = () => {
                       <Typography>
                         {training.CompanyBranch.Company.name}{' '}
                       </Typography>
-
                       <Chip
                         label={training.status}
-                        color={mapStatusToColor[training.status] as any}
                         size="medium"
                         variant="filled"
-                        sx={{ fontSize: '1rem', width: '8rem' }}
+                        sx={{
+                          color:
+                            training.status === 'completed'
+                              ? '#008000'
+                              : training.status === 'running'
+                              ? '#ff4700    '
+                              : training.status === 'rejected'
+                              ? '#800000'
+                              : training.status === 'canceled'
+                              ? '#800000'
+                              : undefined,
+                          fontSize: '1rem',
+                          width: '8rem',
+                          backgroundColor:
+                            training.status === 'completed'
+                              ? 'rgba(0,130,0,0.5)'
+                              : training.status === 'running'
+                              ? 'rgba(253,88,0,0.6)'
+                              : training.status === 'rejected'
+                              ? 'rgb(255, 0, 0, 0.7)'
+                              : training.status === 'canceled'
+                              ? 'rgb(255, 0, 0, 0.7)'
+                              : 'transparent',
+                        }}
                       />
 
                       {training.status == 'completed' && (

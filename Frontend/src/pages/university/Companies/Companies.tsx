@@ -31,6 +31,7 @@ import useSnackbar from 'src/hooks/useSnackbar';
 import DataGridPagination from 'src/components/DataGrid/DataGridPagination';
 import uselogic from './definition';
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
+import { useTranslation } from 'react-i18next';
 
 interface Row {
   map(arg0: (company: any) => { id: any; name: any }): unknown;
@@ -102,7 +103,9 @@ const Companies: React.FC = () => {
         }
       }
     );
-  };
+  };const {t}=useTranslation();
+const Close = t('Close');
+const AddCompany=t('AddCompany');
   return (
     <>
       <Grid
@@ -123,7 +126,7 @@ const Companies: React.FC = () => {
         >
           <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
             <Typography component="h1" variant="h5" fontWeight={500}>
-              Companies
+              {t("Companies")}
             </Typography>
             <Button
               variant="contained"
@@ -132,7 +135,7 @@ const Companies: React.FC = () => {
               onClick={handleChange}
               startIcon={open ? <RemoveIcon /> : <AddIcon />}
             >
-              {open ? 'Close' : 'Add Company'}
+              {open ? Close : AddCompany}
             </Button>
           </Stack>
 
@@ -167,7 +170,7 @@ const Companies: React.FC = () => {
                     <Form>
                       <Stack gap={1} spacing={1} alignItems="center">
                         <Typography component="h1" variant="h5">
-                          Add Company
+                          {t("AddCompany")}
                         </Typography>
                         <Grid
                           sx={{
@@ -179,39 +182,39 @@ const Companies: React.FC = () => {
                         >
                           <Grid item xs={12} sm={6} md={1.9}>
                             <TextFieldWrapper
-                              label="Company Id"
+                              label={t("Company Id")}
                               name="id"
                               autoFocus
                             />
                           </Grid>
                           <Grid item xs={12} sm={6} md={1.9}>
                             <TextFieldWrapper
-                              label="Company Name"
+                              label={t("CompanyName")}
                               name="name"
                             />
                           </Grid>
                           <Grid item xs={12} sm={6} md={1.9}>
                             <TextFieldWrapper
-                              label="Phone Number"
+                              label={t("PhoneNumber")}
                               name="phoneNumber"
                             />
                           </Grid>
                           <Grid item xs={12} sm={6} md={1.9}>
                             <TextFieldWrapper
-                              label="E-mail"
+                              label={t("Email")}
                               type="email"
                               name="email"
                             />
                           </Grid>
                           <Grid item xs={12} sm={6} md={1.9}>
                             <TextFieldWrapper
-                              label="Location"
+                              label={t("Location")}
                               name="location"
                             />
                           </Grid>
                           <Grid item xs={12} sm={6} md={1.9}>
                             <TextFieldWrapper
-                              label="Manager Name"
+                              label={t("ManegarName")}
                               name="managerName"
                             />
                           </Grid>
@@ -223,7 +226,7 @@ const Companies: React.FC = () => {
                           disabled={!isValid}
                           loading={isLoading}
                         >
-                          Generate Account
+                          {t("GenerateAccount")}
                         </LoadingButton>
                       </Stack>
                     </Form>
@@ -302,3 +305,4 @@ const Companies: React.FC = () => {
   );
 };
 export default Companies;
+

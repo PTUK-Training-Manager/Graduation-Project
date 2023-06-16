@@ -1,77 +1,88 @@
 {
-    "AppTitle": "نظام التدريب",
-    "title": "تقديم الطلب ",
-    "StudentNumber": "رقم تسجيل الطالب",
-    "TrainingType": "نوع التدريب",
-    "value1": "تدريب اول",
-    "value2": "تدريب ثاني",
-    "value3": "Third",
-    "Semester": "الفصل الدراسي",
-    "FirstSemester": "الفصل الدراسي الأول",
-    "SecondSemester": "الفصل الدراسي الثاني",
-    "SummerSemester": "الفصل الصيفي",
-    "CompanyName": "اسم الشركة",
-    "AddNewCompany": "إضافة شركة جديدة",
-    "Submit": "تثبيت",
-  
-  
-  
-    "Welcome": "أهلاً بك",
-    "Requests": "طلبات التدريب",
-    "SubmittedTrainees": "المتدربين المقدمين",
-    "Companies": "الشركات",
-    "Trainees": "المتدربين",
-    "Archive": "الأرشيف",
-  
-  
-    "FieldTraining": " التدريب الميداني",
-    "Student Information": "معلومات الطالب",
-    "StudentName": "اسم الطالب",
-    "PhoneNumber": "رقم الهاتف",
-    "academicspecialization":"التخصص الأكاديمي",
-    "CompanyInformation":"معلومات الشركة",
-  "CompanyBranch":"فرع شركة",
+  "AppTitle": "نظام التدريب",
+  "title": "تقديم الطلب ",
+  "StudentNumber": "رقم تسجيل الطالب",
+  "TrainingType": "نوع التدريب",
+  "value1": "تدريب اول",
+  "value2": "تدريب ثاني",
+  "value3": "Third",
+  "Semester": "الفصل الدراسي",
+  "FirstSemester": "الفصل الدراسي الأول",
+  "SecondSemester": "الفصل الدراسي الثاني",
+  "SummerSemester": "الفصل الصيفي",
+  "CompanyName": "اسم الشركة",
+  "AddNewCompany": "إضافة شركة جديدة",
+  "Submit": "تثبيت",
+  "Welcome": "أهلاً بك",
+  "Requests": "طلبات التدريب",
+  "SubmittedTrainees": "المتدربين المقدمين",
+  "Companies": "الشركات",
+  "Trainees": "المتدربين",
+  "Archive": "الأرشيف",
+  "FieldTraining": " التدريب الميداني",
+  "Student Information": "معلومات الطالب",
+  "StudentName": "اسم الطالب",
+  "PhoneNumber": "رقم الهاتف",
+  "academicspecialization": "التخصص الأكاديمي",
+  "CompanyInformation": "معلومات الشركة",
+  "CompanyBranch": "فرع شركة",
   "Email": "بريد إلكتروني",
-  "ManegarName":"اسم المدير",
-  "TrainerName":"اسم المدرب",
-  "Student_working_time":"وقت عمل الطالب",
-  "StartingDate":"تاريخ البدء",
-  "EndingDate":"تاريخ الانتهاء",
-  "Number_of_training_days":"عدد أيام التدريب للطالب",
-  "StudentBenefit":"استفادة الطالب من التدريب",
-  "Note":"ملاحظة",
-  
-  
-  "DeleteRequest":  " حذف الطلب",
-  "Are you sure you want to delete this request?":"هل أنت متأكد من حذف الطلب ؟",
+  "ManegarName": "اسم المدير",
+  "TrainerName": "اسم المدرب",
+  "Student_working_time": "وقت عمل الطالب",
+  "StartingDate": "تاريخ البدء",
+  "EndingDate": "تاريخ الانتهاء",
+  "Number_of_training_days": "عدد أيام التدريب للطالب",
+  "StudentBenefit": "استفادة الطالب من التدريب",
+  "Note": "ملاحظة",
+  "Question": "الاسئلة",
+  "Day": "يوم",
+  "DeleteRequest": " حذف الطلب",
+  "Are you sure you want to delete this request?": "هل أنت متأكد من حذف الطلب ؟",
   "Cancel": "الغاء",
   "Delete": "حذف",
-  
-  
   "Close": "اغلاق",
   "AddCompany": "اضافة شركة ",
-  "GenerateAccount":"انشاء حساب",
+  "GenerateAccount": "انشاء حساب",
   "Company Id": " رقم الشركة",
-  "Location": "الموقع"
-  ,"PendingRequests": " الطلبات المعلقة"
-  ,  "All Trainings": "جميع التدريبات"
-
-  ,"Achieved Hours": "الساعات المحققة"
-  ,"Remaining Hours": "الساعات المتبقية"
-  ,"Total Hours": "مجموع الساعات"
-  ,"Start Time":"وقت البدء"
-  ,"End Time":"وقت الانتهاء "
-  ,"Skills":"المهارات"
-  
-  ,"Current Trainees":"المتدربين الحاليين"
-  ,"ProgressForm":"Progress Form"
-  ,"Add New Branch":"إضافة فرع جديد"
-  ,"Type":"نوع التدريب"
-  ,"Status":"الحالة "
-  ,"StartDate":"تاريخ البدء"
-  ,"EndDate":"تاريخ الانتهاء"
-  ,"EvaluationReport":"Evaluation Report"
-,"Branches":"الفروع"
-,"CompanyId":" رقم الشركة"
-
-  }
+  "Location": "الموقع",
+  "PendingRequests": " الطلبات المعلقة",
+  "All Trainings": "جميع التدريبات",
+  "Achieved Hours": "الساعات المحققة",
+  "Remaining Hours": "الساعات المتبقية",
+  "Total Hours": "مجموع الساعات",
+  "Start Time": "وقت البدء",
+  "End Time": "وقت الانتهاء ",
+  "Skills": "المهارات",
+  "Current Trainees": "المتدربين الحاليين",
+  "ProgressForm": "Progress Form",
+  "Add New Branch": "إضافة فرع جديد",
+  "Type": "نوع التدريب",
+  "Status": "الحالة ",
+  "StartDate": "تاريخ البدء",
+  "EndDate": "تاريخ الانتهاء",
+  "EvaluationReport": "Evaluation Report",
+  "Branches": "الفروع",
+  "CompanyId": " رقم الشركة",
+  "Admin": "المسؤول",
+  "Set New Password": "تعيين كلمة مرور جديدة",
+  "Password": " كلمة مرور",
+  "Accepted Requests": "الطلبات المقبولة",
+  "Completed Trainees": "Completed Trainees",
+  "EditTrainer": "تعديل المدرب ",
+  "EditTraining": "تعديل التدريب ",
+  "DeleteTrainer": "حذف المدرب ",
+  "Are you sure you want to delete trainer": "هل أنت متأكد أنك تريد حذف المدرب",
+  "Trainers": "المدربون",
+  "Field": " مجال التدريب",
+  "EditField": "تعديل مجال التدريب",
+  "TrainerId": "رقم المدرب",
+  "Are you sure you want to accept this training Request?": "هل أنت متأكد أنك تريد قبول طلب التدريب هذا؟",
+  "AcceptRequest": "قبول الطلب  ",
+  "Accept": "قبول",
+  "Reject": "رفض",
+  "TrainingRequests": " طلبات التدريب",
+  "JoinTrainer": "الانضمام إلى المدرب",
+  "CancelTraining": "الغاء التدريب ",
+  "AcceptedRequests": "الطلبات المقبولة"
+}

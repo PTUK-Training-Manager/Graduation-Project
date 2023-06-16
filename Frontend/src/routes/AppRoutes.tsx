@@ -1,7 +1,7 @@
 import React, {FC, lazy, Suspense} from 'react';
 import {Route, Routes} from 'react-router-dom';
 import BlockUI from 'src/containers/BlockUI';
-import AppLayout from 'src/AppLayout';
+import AppLayout from 'src/containers/AppLayout';
 import ProtectedRoute from 'src/routes/ProtectedRoute';
 
 const LandingPage = lazy(() => import('src/pages/LandingPage'));

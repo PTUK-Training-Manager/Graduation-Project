@@ -2,13 +2,9 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import Stack from '@mui/material/Stack';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
 import RichTextEditor from 'src/containers/RichTextEditor/RichTextEditor';
 import { EditorState } from 'lexical';
 import { useRef } from 'react';
@@ -33,6 +29,10 @@ import Edit from '@mui/icons-material/Edit';
 import { submitEvaluation, editEvaluationForm } from './api';
 import dayjs, { Dayjs } from 'dayjs';
 import useProgressController from './hooks/useProgressController';
+import LocalizationProvider from '@mui/lab/LocalizationProvider/LocalizationProvider';
+import DatePicker from '@mui/lab/DatePicker/DatePicker';
+import MobileTimePicker from '@mui/lab/MobileTimePicker/MobileTimePicker';
+import { useTranslation } from 'react-i18next';
 
 const Root = styled('div')(({ theme }) => ({
   width: '100%',
@@ -57,7 +57,7 @@ const Progress: React.FC = () => {
   const [editEvaluation, setEditEvaluation] = useState(false);
   const [evaluationId, setEvaluationId] = useState<number>(-1);
   const [skills, setSkills] = React.useState<EditorState | null>(null);
-
+const {t}=useTranslation();
   const handleSubmit = () => {
     submitEvaluation({
       startTime: startTime,
@@ -216,7 +216,7 @@ const Progress: React.FC = () => {
                       <DatePicker
                         label="Date"
                         value={date}
-                        onChange={(newValue) => setDate(newValue)}
+                        onChange={(newValue: React.SetStateAction<dayjs.Dayjs | null>) => setDate(newValue)}
                       />
 
                       <MobileTimePicker

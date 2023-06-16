@@ -13,9 +13,11 @@ import {
   ReactPortal,
 } from 'react';
 
+
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
 import { EvaluationData } from 'src/api/types';
 import RichTextEditor from 'src/containers/RichTextEditor';
+import { useTranslation } from 'react-i18next';
 
 interface ThirdPageProps {
   response: EvaluationData[];
@@ -23,7 +25,7 @@ interface ThirdPageProps {
 
 const ThirdPage: React.FC<ThirdPageProps> = ({ response }) => {
 
-
+const {t}=useTranslation();
   return (
     <>
       <Grid sx={{ padding: '2' }}>
@@ -52,12 +54,12 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ response }) => {
                     <CardContent>
                       <Stack spacing={2}>
                         <Typography sx={{ fontWeight: '600' }}>
-                          Day {index + 1}
+                          {t("Day")} {index + 1}
                         </Typography>
                         <Stack gap={1.5} direction="row">
                           <WatchLaterIcon color="action" />
                           <Typography sx={{ fontWeight: '600' }}>
-                            Start Time :
+                            {t("StartTime")} :
                             <Typography
                               sx={{
                                 display: 'inline-block',
@@ -71,7 +73,7 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ response }) => {
                         <Stack gap={1.5} direction="row">
                           <WatchLaterIcon color="action" />
                           <Typography sx={{ fontWeight: '600' }}>
-                            End Time :
+                            {t("EndTime")} :
                             <Typography
                               sx={{
                                 display: 'inline-block',
@@ -86,7 +88,7 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ response }) => {
                         <Stack gap={1.5} direction='row'>
                           <FormatListNumberedIcon color="action" />
                           <Typography sx={{ fontWeight: '600' }}>
-                            Skills:
+                            {t("Skills")}:
                           </Typography>
                           </Stack>
                           <RichTextEditor

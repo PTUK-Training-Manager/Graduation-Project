@@ -7,6 +7,7 @@ import useSnackbar from 'src/hooks/useSnackbar';
 import { useState } from 'react';
 import { deleteRquest } from './api';
 import { useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 
 const uselogic = () => {
     const [deleteId, setDeleteId] = useState<string>('');
@@ -41,28 +42,34 @@ const handleDeleteRequest = () => {
   const handleDeleteCancel = () => {
     setConfirmDialogOpen(false);
   };
+  const {t}=useTranslation();
+  const StudentNumber = t('StudentNumber');
+  const StudentName = t('StudentName');
+const CompanyName=t('CompanyName');
+const CompanyBranch=t('CompanyBranch');
+const DeleteRequest=t('DeleteRequest');
 const columns: ColumnDef<PendingRequestsData, any>[] = [
     {
         accessorKey: 'studentId',
-        header: 'Student Number',
+        header: StudentNumber,
     },
     {
         accessorKey: 'Student.name',
-        header: 'Student Name',
+        header:StudentName,
         filterFn: 'arrIncludesSome',
     },
     {
         accessorKey: 'CompanyBranch.Company.name',
-        header: 'Company Name',
+        header: CompanyName,
         filterFn: 'arrIncludesSome',
     },
     {
         accessorKey: 'CompanyBranch.location',
-        header: 'Company Branch',
+        header:CompanyBranch ,
         filterFn: 'arrIncludesSome',
     },
     {
-        header: 'Delete Request',
+        header: DeleteRequest,
         //@ts-ignore
         cell: (props) => {
           const {

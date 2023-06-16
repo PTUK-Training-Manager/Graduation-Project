@@ -1,81 +1,93 @@
 {
- 
-    "AppTitle": "Trainerize",
-    "title": "Submit Request",
-    "StudentNumber": "Student Number",
-    "TrainingType": "Type",
-    "value1": "First",
-    "value2": "Second",
-    "value3": "Compound",
-    "Semester": "Semester",
-    "FirstSemester": "First Semester",
-    "SecondSemester": "Second Semester",
-    "SummerSemester": "Summer Semester",
-    "CompanyName": "Company Name",
-     "AddNewCompany": " Add New Company",
-     "Submit":"Submit",
-  
+  "AppTitle": "Trainerize",
+  "title": "Submit Request",
+  "StudentNumber": "Student Number",
+  "TrainingType": "Type",
+  "value1": "First",
+  "value2": "Second",
+  "value3": "Compound",
+  "Semester": "Semester",
+  "FirstSemester": "First Semester",
+  "SecondSemester": "Second Semester",
+  "SummerSemester": "Summer Semester",
+  "CompanyName": "Company Name",
+  "AddNewCompany": " Add New Company",
+  "Submit": "Submit",
   "Welcome": "Welcome",
   "Requests": "Requests",
   "Submitted Trainees": "Submitted Trainees",
   "Companies": "Companies",
   "Trainees": "Trainees",
   "Archive": "Archive",
-  
-     "FieldTraining": "Field Training :",
-     "Student Information": "Student Information : ",
-     "StudentName": "Student Name :",
-     "PhoneNumber": "Phone Number :",
-     "academicspecialization":"Academics specialization :",
-     "CompanyInformation":"Company Information :",
-  "CompanyBranch":"Company Branch :",
+  "FieldTraining": "Field Training :",
+  "Student Information": "Student Information : ",
+  "StudentName": "Student Name :",
+  "PhoneNumber": "Phone Number :",
+  "academicspecialization": "Academics specialization :",
+  "CompanyInformation": "Company Information :",
+  "CompanyBranch": "Company Branch :",
   "Email": "Email :",
-  "ManegarName":"Manager Name :",
-  "TrainerName":"Trainer Name :",
-  "Student_working_time":"Student Working Time :",
-  "StartingDate":"Starting Date :",
-  "Ending Date":"Ending Date :",
-  "Number_of_training_days_for_the_student":"Number of training days for the student :",
-  "StudentBenefit":"Student benefit from training :",
-  "Note":"Note",
-  
-  "DeleteRequest":  "Delete Request",
-  "Are you sure you want to delete this request?":"Are you sure you want to delete this request?",
+  "ManegarName": "Manager Name :",
+  "TrainerName": "Trainer Name :",
+  "Student_working_time": "Student Working Time :",
+  "StartingDate": "Starting Date :",
+  "Ending Date": "Ending Date :",
+  "Number_of_training_days_for_the_student": "Number of training days for the student :",
+  "StudentBenefit": "Student benefit from training :",
+  "Note": "Note",
+  "Question": "Question",
+  "Day": "Day",
+  "DeleteRequest": "Delete Request",
+  "Are you sure you want to delete this request?": "Are you sure you want to delete this request?",
   "Cancel": "Cancel",
   "Delete": "Delete",
   "Pending Requests": "Pending",
   "Student Number": "Student Number",
-  
   "Close": "Close",
   "AddCompany": "AddCompany",
-  "GenerateAccount":"Generate Account",
+  "GenerateAccount": "Generate Account",
   "Company Id": "Company Id",
-  "Location": "Location"
-  ,"PendingRequests": "Pending Requests"
-  ,"All Trainings": "All Trainings"
-
-,"Achieved Hours": "Achieved Hours"
-,"Remaining Hours": "Remaining Hours"
-,"Total Hours": "Total Hours"
-,"Start Time":"Start Time"
-,"End Time":"End Time"
-,"Skills":"Skills"
-
-,"Current Trainees":"Current Trainees"
-,"ProgressForm":"Progress Form"
-,"Add New Branch":"Add New Branch"
-,"Type":"Type"
-,"Status":"Status"
-,"StartDate":"Start Date"
-,"EndDate":"End Date"
-,"EvaluationReport":"Evaluation Report"
-,"Branches":"Branches"
-,"CompanyId":"Company Id"
-
-,"Admin":"Admin"
-,"Set New Password":"Set New Password"
-,"Password":" Password"
-
-  }
+  "Location": "Location",
+  "PendingRequests": "Pending Requests",
+  "All Trainings": "All Trainings",
+  "Achieved Hours": "Achieved Hours",
+  "Remaining Hours": "Remaining Hours",
+  "Total Hours": "Total Hours",
+  "Start Time": "Start Time",
+  "End Time": "End Time",
+  "Skills": "Skills",
+  "Current Trainees": "Current Trainees",
+  "ProgressForm": "Progress Form",
+  "Add New Branch": "Add New Branch",
+  "Type": "Type",
+  "Status": "Status",
+  "StartDate": "Start Date",
+  "EndDate": "End Date",
+  "EvaluationReport": "Evaluation Report",
+  "Branches": "Branches",
+  "CompanyId": "Company Id",
+  "Admin": "Admin",
+  "Set New Password": "Set New Password",
+  "Password": " Password",
+  "Accepted Requests": "Accepted Requests",
+  "Completed Trainees": "Completed Trainees",
+  "EditTrainer": "Edit Trainer",
+  "EditTraining": "Edit Training",
+  "DeleteTrainer": "Delete Trainer",
+  "Are you sure you want to delete trainer": "Are you sure you want to delete trainer",
+  "Trainers": "Trainers",
+  "Field": "Field",
+  "EditField": "Edit Field",
+  "TrainerId": "Trainer Id",
+  "Are you sure you want to accept this training Request?": "Are you sure you want to accept this training Request?",
+  "AcceptRequest": "Accept Request",
+  "Accept": "Accept",
+  "Reject": "Reject",
+  "TrainingRequests": "Training Requests",
+  "JoinTrainer ": "Join Trainer",
+  "CancelTraining": "Cancel Training",
+  "AcceptedRequests": "Accepted Requests",
+  "All_Training": "All Training"
+}
   
   

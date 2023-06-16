@@ -38,6 +38,7 @@ import useSnackbar from 'src/hooks/useSnackbar';
 import useCurrentTraineesController from './hooks/useCurrentTraineesController';
 import uselogic from './definition';
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
+import { useTranslation } from 'react-i18next';
 import uselogicc from './definitionForTrainers';
 import useAllTrainersController from '../Trainers/hooks/useAllTrainersController';
 

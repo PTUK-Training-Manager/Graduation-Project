@@ -13,6 +13,7 @@ export function makeDataGridFooterSkeleton<T extends object>(configs: CreateData
               sx={{
                   ...(pagination === "off" && {p: 1.5}), // Hide footer if pagination is on top
                   alignItems: "center",
+
                   bgcolor: theme.palette.grey[100],
                   position: "sticky",
                   left: 0,
