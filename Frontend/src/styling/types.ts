@@ -19,6 +19,13 @@ export interface AppMenuPalette {
     menuItemLeftBorder: string;
     menuItemSelectedColor: string;
     menuItemSelectedBackground: string;
+    red: string;
+}
+
+export interface LandingPagePalette {
+    indigo: string;
+    whiteIndigo: string;
+    greyText: string;
 }
 
 export interface CustomTheme extends Theme {
