@@ -1,16 +1,13 @@
 import axiosInstance from 'src/api';
-import { BaseResponse } from 'src/types';
+import {SetNewPasswordBody} from "./types";
+import {ForgetPasswordResponse} from "src/pages/Login/api/response.dto";
 
-export interface GetAllFieldsData {
-  id: string;
-  field: string;
-}
-
-export interface GetAllFieldsResponse extends BaseResponse {
-  data: GetAllFieldsData[];
-}
-
-export const getForgetPage = async () => {
-  const url = '/user/enterData';
-  return axiosInstance.get<GetAllFieldsResponse>(url).then((res) => res.data);
+export const setNewPassword = (body: SetNewPasswordBody) => {
+  const url = "/user/resetForgottenPassword";
+  return axiosInstance
+      .post<ForgetPasswordResponse>(url, body)
+      .then((res) => res.data);
 };
+
+
+
