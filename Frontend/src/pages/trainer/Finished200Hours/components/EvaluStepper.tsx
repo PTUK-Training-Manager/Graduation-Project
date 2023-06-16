@@ -9,9 +9,8 @@ import FirstPage from './FirstPage';
 import { useEffect } from 'react';
 import { QuestionsRequestData, getQuestion } from 'src/api/getQuestions';
 const steps = [
-  'Select campaign settings',
-  'Create an ad group',
-  'Create an ad',
+  'First Page',
+
 ];
 
 interface EvaluStepperProps {

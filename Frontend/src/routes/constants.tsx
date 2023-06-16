@@ -214,6 +214,11 @@ const AdminMenuItems: IAppMenuItem[] = [
         link: "/me/charts",
         Icon: () => <IntegrationInstructionsIcon/>,
     },
+    {
+        label: 'Charts',
+        link: '/submitted-trainees',
+        Icon: () => <BarChartIcon />,
+    },
 ];
 
 export const MENU_ITEMS_MAP: Partial<Record<MenuItemsMapKey, IAppMenuItem[]>> =

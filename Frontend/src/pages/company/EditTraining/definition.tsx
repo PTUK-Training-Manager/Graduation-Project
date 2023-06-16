@@ -16,7 +16,7 @@ import { HandleTrainingRequestBody } from '../TrainingRequest/types';
 import { handleTrainingRequest } from '../TrainingRequest/api';
 import { useQueryClient } from '@tanstack/react-query';
 import { AssignTrainerRequestBody } from '../AcceptedRequests/api/request.dto';
-
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 interface ProgressFormCellProps extends CellContext<RunningTraineesData, any> {}
 const uselogic = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -95,6 +95,7 @@ const uselogic = () => {
     setConfirmDialogOpen(true);
   };
   const handleJoin = (trainerId: string) => {
+    
     setTrainerID(trainerId);
     handleverifyClick();
   };
@@ -188,10 +189,12 @@ const uselogic = () => {
         return (
           <IconButton
             aria-label="edit field"
+            size='small'
             onClick={() => handleJoinClick(original.id)}
           >
-            <EditIcon
-              sx={{ color: 'white', backgroundColor: 'orange',ml:'1.5rem' }}
+            <ManageAccountsIcon
+              sx={{                 color: '#820000'
+              ,ml:'1.5rem' }}
               className="edit-icon"
             />
           </IconButton>
