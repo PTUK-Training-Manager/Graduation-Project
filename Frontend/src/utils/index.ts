@@ -14,3 +14,7 @@ export const isNil = <T>(value: T | null | undefined): value is null | undefined
 }
 
 export const isEmptyString = (value: string): boolean => value.trim().length === 0;
+
+export const isEmptyToken = (token: string | null): boolean => {
+    return !token || token === "";
+}

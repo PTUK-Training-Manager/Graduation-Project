@@ -75,6 +75,7 @@ class TrainierController {
         password,
         saltRounds: 10,
         roleId: UserRoleEnum.TRAINER,
+        name,
       });
 
       const TrainerRecord = await Trainer.create({

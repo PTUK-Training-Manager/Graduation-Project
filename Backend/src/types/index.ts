@@ -70,7 +70,8 @@ export interface AddedUser {
     password: string;
     email: string;
     saltRounds: number,
-    roleId: number
+    roleId: number,
+    name: string;
 }
 export interface CompanyRequestBody extends Request {
     body: {
@@ -207,4 +208,8 @@ export interface AddFieldBody extends Request {
     body: {
         fields: Field[]
     }
+}
+
+export interface LoginResponse extends BaseResponse {
+    accessToken?: string;
 }

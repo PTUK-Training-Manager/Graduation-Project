@@ -1,6 +1,7 @@
 import React, {createContext, useState, ReactNode, Dispatch, SetStateAction, FC,} from "react";
 import {useNavigate, useLocation} from "react-router-dom";
 import {User} from "../types";
+import {noop} from "src/utils/functionsUtils";
 
 interface OnLoginOptions {
     shouldNavigate?: boolean;
@@ -11,7 +12,7 @@ interface OnLogoutOptions {
 }
 
 export interface AccountContextValues {
-    user: User | null;
+    getUser: () => User | null;
     onLogin: (user: User, options?: OnLoginOptions) => void;
     onLogout: (options?: OnLogoutOptions) => void;
     isSidebarOpen: boolean;
@@ -19,11 +20,9 @@ export interface AccountContextValues {
 }
 
 export const AccountContext = createContext<AccountContextValues>({
-    user: null,
-    onLogin: () => {
-    },
-    onLogout: () => {
-    },
+    getUser: () => null,
+    onLogin: noop,
+    onLogout: noop,
     isSidebarOpen: false,
     setIsSidebarOpen: () => {
     }
@@ -40,6 +39,13 @@ export const AccountProvider: FC<AccountProviderProps> = ({children}) => {
     const [user, setUser] = useState<User | null>(null);
     const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
 
+    const getUser = () => {
+        if (user) return user;
+        const userStr = localStorage.getItem("user");
+        if (userStr) return JSON.parse(userStr) as User;
+        return null;
+    }
+
     const handleLogin = (user: User, options: OnLoginOptions = {shouldNavigate: false}) => {
         const {shouldNavigate} = options;
         setUser(user);
@@ -49,20 +55,16 @@ export const AccountProvider: FC<AccountProviderProps> = ({children}) => {
         }
     };
 
-    const handleLogout = (options: OnLogoutOptions = {shouldNavigate: false}) => {
-        const {shouldNavigate} = options;
+    const handleLogout = () => {
         setUser(null);
-
-        // Navigate only if the path contains "/me"
-        if (location.pathname.includes("/me")) {
-            navigate("login", {replace: true});
-        }
-
+        localStorage.removeItem("user");
+        localStorage.removeItem("access-token");
         setIsSidebarOpen(false);
+        navigate("login", {replace: true});
     };
 
     const contextValues: AccountContextValues = {
-        user,
+        getUser,
         onLogin: handleLogin,
         onLogout: handleLogout,
         isSidebarOpen,

@@ -11,7 +11,7 @@ export interface BaseResponse {
 export interface AxiosBaseError extends AxiosError<BaseResponse> {}
 
 export interface User {
-    id?: string;
+    userId?: string;
     name?: string;
     username: string;
     roleId: number;

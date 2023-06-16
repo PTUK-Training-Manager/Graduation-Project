@@ -7,6 +7,7 @@ export interface AccessTokenData {
 
 export interface LoginResponse extends BaseResponse {
     data: AccessTokenData;
+    accessToken: string;
 }
 
 export interface ForgetPasswordResponse extends BaseResponse {

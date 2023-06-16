@@ -11,40 +11,6 @@ const useLoginAPI = () => {
     const {showSnackbar} = useSnackbar();
     const {onCloseDialog} = useLoginContext();
 
-    // const {onLogin} = useAccountContext();
-
-    // const {mutate: loginMutate, isLoading} = useMutation(
-    //     LoginQueryKey,
-    //     login,
-    //     {
-    //         onSuccess: (data) => {
-    //             const {username, roleId} = data?.data;
-    //             onLogin({username, roleId}, {shouldNavigate: true});
-    //             showSnackbar({severity: "success", message: data.message});
-    //         },
-    //         onError: (error: AxiosBaseError) => {
-    //             const errorMessage = extractErrorMessage(error);
-    //             showSnackbar({severity: "error", message: errorMessage ?? "Error logging in"});
-    //         }
-    //     }
-    // );
-
-    // const handleSend = () => {
-    //     sendResetPasswordRequest({username: username}).then(
-    //         (res: { success: boolean; message: any }) => {
-    //             if (res.success === true) {
-    //                 showSnackbar({severity: 'success', message: 'A message has been sent to your Gmail'});
-    //                 seteUserName('')
-    //                 setOpenDialog(false);
-    //             } else if (res.success === false) {
-    //                 showSnackbar({severity: 'warning', message: res.message});
-    //                 seteUserName('');
-    //                 setOpenDialog(false);
-    //             }
-    //         }
-    //     );
-    // };
-
     const {mutate: resetPassword, isLoading: isSendingResetPasswordRequest} = useMutation({
         mutationKey: ["SendResetPasswordRequest"],
         mutationFn: sendResetPasswordRequest,

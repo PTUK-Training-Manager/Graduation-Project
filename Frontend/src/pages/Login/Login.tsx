@@ -11,25 +11,23 @@ import {LoginProvider} from "./context/LoginContext";
 import useLoginForm from "./hooks/useLoginForm";
 import WavyBackground from "./components/WavyBackground";
 import useStyles from "./styles";
-import useVerifyAccessToken from "src/hooks/useVerifyAccessToken";
-import BlockUI from "src/containers/BlockUI";
 import {Navigate} from "react-router-dom";
+import {isEmptyToken} from "src/utils";
 
 const Login: FC = () => {
 
     const {formikProps, isLoading} = useLoginForm();
 
-    const {isSidebarOpen, user} = useAccountContext();
+    const {isSidebarOpen} = useAccountContext();
 
     const classes = useStyles({
         isSidebarOpen,
     });
 
-    const {isVerifying} = useVerifyAccessToken();
+    const accessToken = localStorage.getItem("access-token");
+    const isLoggedIn = !isEmptyToken(accessToken);
 
-    if (isVerifying) return <BlockUI/>;
-
-    if (user) return <Navigate to="/me" replace state={{from: location.pathname}}/>;
+    if (isLoggedIn) return <Navigate to="/me" replace state={{from: location.pathname}}/>;
 
     return (
         <LoginProvider>

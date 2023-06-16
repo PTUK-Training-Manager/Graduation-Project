@@ -18,7 +18,7 @@ class UserController {
   }
 
   async addUser(user: AddedUser) {
-    const { username, password, email, saltRounds, roleId } = user;
+    const { username, password, email, saltRounds, roleId, name } = user;
     const text = `Hello! this is a message from PTUK training system.
                       theses login credentials for your account on the PTUK training system, which you can use to access our platform 
                       username: ${username} 
@@ -32,6 +32,7 @@ class UserController {
       password: hashedPwd,
       email,
       roleId,
+      name
     });
     return record.id as number;
   }
@@ -74,7 +75,8 @@ class UserController {
         password,
         email,
         saltRounds,
-        roleId:UserRoleEnum.UNI_TRAINING_OFFICER
+        roleId:UserRoleEnum.UNI_TRAINING_OFFICER,
+        name
       });
       if (id)
         return res.json({

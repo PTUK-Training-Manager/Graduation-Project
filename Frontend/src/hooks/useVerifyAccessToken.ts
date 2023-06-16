@@ -24,8 +24,8 @@ const useVerifyAccessToken = () => {
             onError: (error: AxiosBaseError) => {
                 onLogout();
                 const errorMessage = extractErrorMessage(error);
-                if (location.pathname.includes("/me"))
-                    showSnackbar({severity: "error", message: errorMessage ?? "Invalid Access Token"});
+                // if (location.pathname.includes("/me"))
+                showSnackbar({severity: "error", message: errorMessage ?? "Invalid Access Token"});
             },
             onSettled: () => {
                 setIsVerifying(false);

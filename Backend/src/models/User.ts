@@ -16,7 +16,8 @@ export default class User extends Model<InferAttributes<User>, InferCreationAttr
     declare email: string;
     declare password: string;
     declare roleId: ForeignKey<Role['id']>;
-    declare getRole: HasOneGetAssociationMixin<Role>
+    declare getRole: HasOneGetAssociationMixin<Role>;
+    declare name: string;
 }
 
 User.init({
@@ -37,6 +38,10 @@ User.init({
     password: {
         type: DataTypes.STRING,
         allowNull: false
+    },
+    name: {
+        type: DataTypes.STRING,
+        allowNull: true
     }
 }, {
     sequelize,

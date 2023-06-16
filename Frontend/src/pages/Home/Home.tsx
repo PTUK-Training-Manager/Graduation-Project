@@ -44,8 +44,10 @@ const styles = {
 };
 
 const Home: FC = () => {
+    // @ts-ignore
     const {t} = useTranslation();
-    const {isSidebarOpen, user} = useAccountContext();
+    const {isSidebarOpen, getUser} = useAccountContext();
+    const user = getUser();
 
     return (
         <Box sx={styles.root}>

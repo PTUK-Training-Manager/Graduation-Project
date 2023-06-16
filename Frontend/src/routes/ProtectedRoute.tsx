@@ -19,13 +19,15 @@ const ProtectedRoute: FC<PropsWithChildren<ProtectedRouteProps>> = ({
                                                                         allowedRoles
                                                                     }) => {
 
+    const location = useLocation();
+
+    const {getUser} = useAccountContext();
+
+    const user = getUser();
+
     const {isVerifying} = useVerifyAccessToken();
 
     if (isVerifying) return <BlockUI isBlocked/>;
-
-    const location = useLocation();
-
-    const {user} = useAccountContext();
 
     if (!user) return <Navigate to="/login" replace state={{from: location.pathname}}/>;
 

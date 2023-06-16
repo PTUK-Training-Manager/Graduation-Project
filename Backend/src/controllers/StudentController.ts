@@ -39,6 +39,7 @@ class studentController {
         password,
         saltRounds: 10,
         roleId: UserRoleEnum.STUDENT,
+        name,
       }); // company roleID in DataBase
 
       const studentRecord = await Student.create({
