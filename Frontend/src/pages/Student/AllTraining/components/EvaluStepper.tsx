@@ -13,9 +13,9 @@ import { getEvaluations, getEvaluationsForTrainer } from 'src/api/getEvaluation'
 import { EvaluationData } from 'src/api/types';
 
 const steps = [
-  'Select campaign settings',
-  'Create an ad group',
-  'Create an ad',
+  'First Page',
+  'Second Page',
+  'Third Page',
 ];
 
 interface EvaluStepperProps {
@@ -31,7 +31,7 @@ const EvaluStepper: FC<EvaluStepperProps> = ({ trainingId }) => {
     getEvaluationsForTrainer({ trainingId: trainingId })
       .then((result) => {
         setResponse(result.data);
-        // console.log(result.data);
+        console.log(trainingId);
       })
       .catch((error) => console.log(error));
   }, []);

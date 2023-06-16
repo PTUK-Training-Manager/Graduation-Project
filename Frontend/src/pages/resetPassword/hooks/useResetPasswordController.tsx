@@ -1,16 +1,13 @@
 import { useMutation } from '@tanstack/react-query';
 import { useFormik } from 'formik';
 import { validationSchema } from '../schema';
-import { INITIAL_FORM_STATE } from '../constants';
+import { INITIAL_FORM_STATE, ResetPasswordMutationKey } from '../constants';
 import useSnackbar from 'src/hooks/useSnackbar';
 import { AxiosBaseError } from 'src/types';
 import extractErrorMessage from 'src/utils/extractErrorMessage';
-import {submitNewForgettenPassword} from 'src/api/forgetPassword';
-import { submitResetPassword } from '../api';
+import { resetMyPassword } from '../api';
 
-const ResetPasswordQueryKey = ['resetPassword'];
-
-const useForgetController = () => {
+const useResetPasswordController = () => {
   const { showSnackbar } = useSnackbar();
 
   const formikProps = useFormik({
@@ -26,8 +23,8 @@ const useForgetController = () => {
   });
 
   const { mutate, isLoading } = useMutation(
-    ResetPasswordQueryKey,
-    submitResetPassword,
+      ResetPasswordMutationKey,
+      resetMyPassword,
     {
       onSuccess: (data) => {
         console.log(data.data);
@@ -49,4 +46,4 @@ const useForgetController = () => {
   return { formikProps, mutate, isLoading };
 };
 
-export default useForgetController;
+export default useResetPasswordController;

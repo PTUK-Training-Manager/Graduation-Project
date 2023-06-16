@@ -1,21 +1,22 @@
 import React, {MouseEvent, useEffect, useState} from 'react';
-import {Box, MenuItem, Select, Typography} from '@mui/material';
+import {Box, MenuItem, Typography} from '@mui/material';
 import LanguageIcon from '@mui/icons-material/Language';
 import i18next from 'i18next';
-import {SelectChangeEvent} from '@mui/material/Select';
 import {useTranslation} from 'react-i18next';
 import Menu from '@mui/material/Menu';
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
-import {cyan, grey, pink} from "@mui/material/colors";
+import {pink} from "@mui/material/colors";
 
 const LanguageSelector = () => {
     const languages = [
         {code: 'en', name: 'English', country_code: 'us'},
         {code: 'ar', name: 'العربية', country_code: 'sa', dir: 'rtl'},
     ];
-    const {t} = useTranslation()
+
+    // @ts-ignore
+    const {t} = useTranslation();
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);

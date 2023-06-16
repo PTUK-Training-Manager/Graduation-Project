@@ -1,1 +1,3 @@
-import {BaseResponse} from "src/types";
+export interface LoginFormProps {
+    isLoggingIn: boolean;
+}

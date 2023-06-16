@@ -216,8 +216,8 @@ const Trainers: React.FC = () => {
                         <LoadingButton
                           type="submit"
                           // fullWidth
-                          // disabled={isValid}
-                          disabled
+                          disabled={!isValid}
+                          
                           variant="contained"
                           loading={isLoading}
                         >

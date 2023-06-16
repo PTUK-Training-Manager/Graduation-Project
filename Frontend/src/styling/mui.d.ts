@@ -1,5 +1,5 @@
 import "@mui/material/styles";
-import {AppMenuPalette} from "./types";
+import {AppMenuPalette, LandingPagePalette} from "./types";
 import {CSSProperties} from "react";
 
 declare module "@mui/material/styles" {
@@ -20,8 +20,11 @@ declare module "@mui/material/styles" {
 declare module "@mui/material" {
     interface Palette {
         appMenu: AppMenuPalette;
+        landingPage: LandingPagePalette
     }
+
     interface PaletteOptions {
         appMenu: AppMenuPalette;
+        landingPage: LandingPagePalette;
     }
 }

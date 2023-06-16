@@ -1,27 +1,34 @@
-import React, {FC, useEffect} from 'react';
+import {FC} from 'react';
+import AppNavbar from "src/components/AppNavbar";
 import Grid from "@mui/material/Grid";
-import AppNavbar from "../../components/AppNavbar";
-import AppSideDrawerMultiLevel from "../../components/AppSideDrawerMultiLevel";
+import useStyles from "./styles";
+import AppSideDrawerMultiLevel from "src/components/AppSideDrawerMultiLevel";
 import {Outlet} from "react-router-dom";
-import {getContentPaddingLeft} from "../../constants";
-import useAccountContext from "../../hooks/useAccountContext";
-import useStyles from "src/containers/AppLayout/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
+import useAccountContext from "src/hooks/useAccountContext";
+import {getContentPaddingLeft} from "src/constants";
+import {useTranslation} from "react-i18next";
 
 const AppLayout: FC = () => {
-
     const classes = useStyles();
     const {isSidebarOpen} = useAccountContext();
 
-    const isMobileViewport = useMediaQuery('(max-width:600px)');
+    // @ts-ignore
+    const {i18n} = useTranslation();
 
     return (
         <>
             <AppNavbar/>
             <AppSideDrawerMultiLevel/>
-            <Grid container className={classes.contentArea} style={{
-                paddingLeft: (isSidebarOpen && !isMobileViewport) ? `${getContentPaddingLeft(isSidebarOpen)}px` : "0px",
-            }}>
+            <Grid
+                container
+                className={classes.contentArea}
+                sx={{
+                    ...(i18n.dir() === "rtl"
+                            ? {paddingRight: isSidebarOpen ? `${getContentPaddingLeft(isSidebarOpen)}px` : "0px"}
+                            : {paddingLeft: isSidebarOpen ? `${getContentPaddingLeft(isSidebarOpen)}px` : "0px"}
+                    ),
+                }}
+            >
                 <Outlet/>
             </Grid>
         </>

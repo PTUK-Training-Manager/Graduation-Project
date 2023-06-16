@@ -102,7 +102,7 @@ const EditTraining: React.FC = () => {
     { field: 'Field.field', headerName: 'field', width: 400, flex: 0.3 },
     {
       field: 'joinTrainer',
-      headerName: 'Join Trainer ',
+      headerName: 'Join Trainer',
       flex: 0.3,
       width: 400,
       headerClassName: 'ctrainees',
@@ -145,16 +145,19 @@ const EditTraining: React.FC = () => {
     handleJoinDialogOpen,
     handleOpenDialog, 
     handleTrainingRequest,
-    handleverifyClick,
+     handleverifyClick, 
     handleVerifyJoin,
     availableTrainers,
     joinDialogOpen,
     confirmDialogOpen,
     handleVerifyCancel,
-    confirmEditOpen,
+   confirmEditOpen, 
   } = uselogic();
   const {
    TrainerDialogDataGrid,
+  //  handleVerifyCancel,
+  //  handleverifyClick,
+  //  confirmEditOpen
   } = uselogicc();
 
   return (

@@ -74,8 +74,8 @@ const uselogic = () => {
             onClick={() => handleOpenDialog(original.id)}
           >
             <Feed
-              color="warning"
               sx={{
+                color: '#820000',
                 borderRadius: '5px',
                 className: 'manage-icon',
               }}
