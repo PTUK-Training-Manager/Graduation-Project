@@ -11,6 +11,9 @@ import {LoginProvider} from "./context/LoginContext";
 import useLoginForm from "./hooks/useLoginForm";
 import WavyBackground from "./components/WavyBackground";
 import useStyles from "./styles";
+import useVerifyAccessToken from "src/hooks/useVerifyAccessToken";
+import BlockUI from "src/containers/BlockUI";
+import {Navigate} from "react-router-dom";
 
 const Login: FC = () => {
 
@@ -22,11 +25,11 @@ const Login: FC = () => {
         isSidebarOpen,
     });
 
-    // const {isVerifying} = useVerifyAccessToken();
+    const {isVerifying} = useVerifyAccessToken();
 
-    // if (isVerifying) return <BlockUI/>;
+    if (isVerifying) return <BlockUI/>;
 
-    // if (user) return <Navigate to="/me" replace state={{from: location.pathname}}/>;
+    if (user) return <Navigate to="/me" replace state={{from: location.pathname}}/>;
 
     return (
         <LoginProvider>
