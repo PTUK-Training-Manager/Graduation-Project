@@ -3,7 +3,7 @@ import {Box, MenuItem, Select, Typography} from '@mui/material';
 import LanguageIcon from '@mui/icons-material/Language';
 import i18next from 'i18next';
 import {SelectChangeEvent} from '@mui/material/Select';
-import {useTranslation} from 'react-i18next';
+import {useTranslation} from "react-i18next";
 import Menu from '@mui/material/Menu';
 import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
@@ -15,7 +15,8 @@ const LanguageSelector = () => {
         {code: 'en', name: 'English', country_code: 'us'},
         {code: 'ar', name: 'العربية', country_code: 'sa', dir: 'rtl'},
     ];
-    const {t} = useTranslation()
+    // @ts-ignore
+    const {t} = useTranslation();
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
