@@ -14,9 +14,13 @@ const useLoginForm = () => {
     const {onLogin} = useAccountContext();
 
     const {mutate: loginMutate, isLoading} = useMutation({
-            mutationKey: LoginMutationKey,
             mutationFn: login,
             onSuccess: (data) => {
+                console.log(data.accessToken);
+                // ----------
+                localStorage.setItem("access-token", data.accessToken);
+                localStorage.setItem("user", JSON.stringify(data.data));
+                // ----------
                 const {username, roleId} = data?.data;
                 onLogin({username, roleId}, {shouldNavigate: true});
                 showSnackbar({severity: "success", message: data.message});

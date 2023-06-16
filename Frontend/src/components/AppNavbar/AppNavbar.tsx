@@ -12,11 +12,14 @@ import Stack from "@mui/material/Stack";
 import useAccountContext from "src/hooks/useAccountContext";
 import AccountMenu from "../AccountMenu";
 import LanguageSelector from '../Language/LanguageSelector';
-
+import {isEmptyToken} from "src/utils";
 
 const AppNavbar: FC = () => {
 
-    const {user, isSidebarOpen, setIsSidebarOpen} = useAccountContext();
+    const {isSidebarOpen, setIsSidebarOpen} = useAccountContext();
+
+    const accessToken = localStorage.getItem("access-token");
+    const isLoggedIn = !isEmptyToken(accessToken);
 
     const handleOpenSidebar = () => setIsSidebarOpen((prev) => !prev);
 
@@ -63,7 +66,7 @@ const AppNavbar: FC = () => {
 
                 <Stack direction="row">
                     <LanguageSelector/>
-                    {user ? (<AccountMenu/>) : <Box/>}
+                    {isLoggedIn ? (<AccountMenu/>) : <Box/>}
                 </Stack>
             </Toolbar>
         </AppBar>

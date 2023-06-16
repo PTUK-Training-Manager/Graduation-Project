@@ -44,6 +44,7 @@ class CompanyController {
           email,
           saltRounds: 10,
           roleId: UserRoleEnum.Company,
+          name,
         }); // company roleID in DataBase
 
         const record = await Company.create({

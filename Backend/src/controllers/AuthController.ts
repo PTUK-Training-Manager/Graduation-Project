@@ -3,10 +3,11 @@ import { NextFunction, Request, Response } from 'express';
 import { User } from "../models"
 import { Secret } from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { BaseResponse } from '/types';
+import {BaseResponse, LoginResponse} from '/types';
+import {isProduction} from "../utils";
 
 class AuthController {
-    handleLogin = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
+    handleLogin = async (req: Request, res: Response<LoginResponse>, next: NextFunction) => {
         try {
             const { username, password } = req.body;
 
@@ -37,7 +38,9 @@ class AuthController {
             const payload = {
                 userId: record.id,
                 username: record.username,
-                roleId
+                roleId,
+                name: record.name,
+                permissions: [], // supported but not used yet in this project
             }
 
             const accessToken = jwt.sign(payload, accessTokenSecret, { expiresIn: '7d' });
@@ -45,14 +48,18 @@ class AuthController {
             res.status(202).cookie('access-token', accessToken, {
                 maxAge: 7 * 60 * 60 * 24 * 1000,  // = 7 days in milliseconds
                 httpOnly: true,
-                // secure: true // limits the scope of the cookie to "secure" channels.
+                secure: true, // limits the scope of the cookie to "secure" channels.
+                domain: isProduction
+                    ? ".onrender.com"
+                    : "localhost"
             });
 
             return res.status(200).json({
                 success: true,
                 status: res.statusCode,
                 message: 'successfully logged in to account',
-                data: payload
+                data: payload,
+                accessToken
             });
         } catch (err) {
             next(err)

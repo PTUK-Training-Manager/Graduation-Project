@@ -17,7 +17,7 @@ const useAccountMenuAPI = () => {
         logoutQueryFn,
         {
             onSuccess: () => {
-                onLogout({shouldNavigate: true});
+                onLogout();
             },
             onError: (error: AxiosBaseError) => {
                 const errorMessage = extractErrorMessage(error);
