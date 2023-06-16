@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {AppBar , IconButton} from "@mui/material";
+import {AppBar, IconButton} from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
 import ImageListItem from "@mui/material/ImageListItem";
@@ -11,6 +11,7 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import Stack from "@mui/material/Stack";
 import useAccountContext from "src/hooks/useAccountContext";
 import AccountMenu from "../AccountMenu";
+import LanguageSelector from '../Language/LanguageSelector';
 
 
 const AppNavbar: FC = () => {
@@ -23,7 +24,7 @@ const AppNavbar: FC = () => {
         <AppBar
             position="fixed"
             sx={{
-                zIndex: (theme) => theme.zIndex.drawer + 1,
+                zIndex: (theme: { zIndex: { drawer: number; }; }) => theme.zIndex.drawer + 1,
                 backgroundColor: "primary.light",
                 height: NAVBAR_HEIGHT,
                 // Uncomment the below if you want the AppSidebar to be beside the AppBar when opened
@@ -33,7 +34,9 @@ const AppNavbar: FC = () => {
                 // }),
             }}
         >
+
             <Toolbar sx={{height: "100%", justifyContent: "space-between"}}>
+
                 <IconButton
                     color="inherit"
                     aria-label="open drawer"
@@ -47,6 +50,7 @@ const AppNavbar: FC = () => {
                     }}/>}
                     <MenuIcon/>
                 </IconButton>
+
                 <Stack direction="row"
                        sx={{height: NAVBAR_HEIGHT, alignItems: "baseline", maxWidth: "275px", gap: 1, mb: 0.5}}>
                     <ImageListItem>
@@ -56,7 +60,11 @@ const AppNavbar: FC = () => {
                         <img src={PTUK_TEXT} style={{filter: `brightness(0) invert(1)`}}></img>
                     </ImageListItem>
                 </Stack>
-                {user ? (<AccountMenu/>) : <Box/>}
+
+                <Stack direction="row">
+                    <LanguageSelector/>
+                    {user ? (<AccountMenu/>) : <Box/>}
+                </Stack>
             </Toolbar>
         </AppBar>
     );

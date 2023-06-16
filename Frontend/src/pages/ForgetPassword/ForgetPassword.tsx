@@ -73,7 +73,7 @@ const ForgetPassword: React.FC = () => {
                 />
                 <TextFieldWrapper
                   type="password"
-                  label="Password"
+                  label="Confirm New Password"
                   name="confirmNewPassword"
                 />
 

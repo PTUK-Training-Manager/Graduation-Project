@@ -105,6 +105,11 @@ const uniTrainingOfficerMenuItems: IAppMenuItem[] = [
     link: '/all-trainings',
     Icon: () => <RecentActorsIcon />,
   },
+  {
+    label: 'Charts',
+    link: '/submitted-trainees',
+    Icon: () => <BarChartIcon />,
+  },
 ];
 
 const companyMenuItems: IAppMenuItem[] = [

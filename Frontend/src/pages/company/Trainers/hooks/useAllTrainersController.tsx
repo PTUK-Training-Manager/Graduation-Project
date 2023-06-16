@@ -14,7 +14,7 @@ import extractErrorMessage from 'src/utils/extractErrorMessage';
 import { FieldData, TrainersData } from '../api/response.dto';
 import { addTrainerRequest } from '../api';
 
-const AddTrainerQueryKey = ['addTainer'];
+const AddTrainerQueryKey = ['addTrainerRequest'];
 
 export interface UseDataGridPlaygroundAPIProps {
   pagination?: PageChangeParams;

@@ -35,7 +35,7 @@ const AcceptRequestDialog: FC<DeleteTrainerDialogProps> = ({
         </Button>
         <Button
           onClick={handleAcceptRequestClick}
-          color="error"
+          color="success"
           variant="contained"
         >
           Yes
