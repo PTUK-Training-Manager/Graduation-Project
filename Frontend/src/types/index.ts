@@ -11,11 +11,11 @@ export interface BaseResponse {
 export interface AxiosBaseError extends AxiosError<BaseResponse> {}
 
 export interface User {
-    userId?: string;
-    name?: string;
+    userId: string;
+    name: string;
     username: string;
     roleId: number;
-    permissions?: any[];
+    permissions: any[];
 }
 
 export type UserRoleKey = keyof typeof UserRole;

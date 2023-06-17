@@ -1,9 +1,6 @@
-import {BaseResponse} from "src/types";
+import {BaseResponse, User} from "src/types";
 
-export interface AccessTokenData {
-    username: string;
-    roleId: number;
-}
+export interface AccessTokenData extends User {}
 
 export interface LoginResponse extends BaseResponse {
     data: AccessTokenData;

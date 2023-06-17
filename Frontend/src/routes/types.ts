@@ -7,3 +7,9 @@ export interface IAppMenuItem {
     items?: IAppMenuItem[];
 }
 
+export interface ProtectedRouteProps {
+    redirectPath?: string;
+    isAllowed?: boolean;
+    allowedRoles?: number[];
+}
+

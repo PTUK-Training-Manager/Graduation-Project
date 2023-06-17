@@ -40,7 +40,6 @@ export const AccountProvider: FC<AccountProviderProps> = ({children}) => {
     const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
 
     const getUser = () => {
-        if (user) return user;
         const userStr = localStorage.getItem("user");
         if (userStr) return JSON.parse(userStr) as User;
         return null;

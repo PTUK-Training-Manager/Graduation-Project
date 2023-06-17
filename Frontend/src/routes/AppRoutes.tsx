@@ -6,7 +6,7 @@ import ProtectedRoute from 'src/routes/ProtectedRoute';
 
 const LandingPage = lazy(() => import('src/pages/LandingPage'));
 const Admin = lazy(() => import('src/pages/Admin'));
-const Home = lazy(() => import('src/pages/Home'));
+const Home = lazy(() => import('src/pages/Home/Home'));
 const Dashboard = lazy(() => import('src/pages/Dashboard'));
 const Login = lazy(() => import('src/pages/Login'));
 const NotFound = lazy(() => import('src/pages/NotFound'));

@@ -5,12 +5,7 @@ import {Outlet} from "react-router-dom";
 import {useLocation} from 'react-router-dom';
 import useVerifyAccessToken from "src/hooks/useVerifyAccessToken";
 import BlockUI from "src/containers/BlockUI";
-
-interface ProtectedRouteProps {
-    redirectPath?: string;
-    isAllowed?: boolean;
-    allowedRoles?: number[];
-}
+import {ProtectedRouteProps} from "./types";
 
 const ProtectedRoute: FC<PropsWithChildren<ProtectedRouteProps>> = ({
                                                                         children,
