@@ -9,16 +9,16 @@ import { UserRoleEnum } from '../enums';
 router.use(verifyAccessToken);
 router.patch('/assignTrainer', verifyRoles([UserRoleEnum.Company]), assignTrainer);
 router.patch('/changeTrainingStatus', verifyRoles([UserRoleEnum.Company]), changeTrainingStatus); //accept/reject/cancle
-router.get('/runningAndFinishedStudents',verifyRoles([UserRoleEnum.TRAINER]),getRunningAndFinishedStudents)
-router.get('/submittedStudents', verifyRoles([UserRoleEnum.UNI_TRAINING_OFFICER]), getsubmittedStudents);
+router.get('/runningAndFinishedStudents/:page/:size',verifyRoles([UserRoleEnum.TRAINER]),getRunningAndFinishedStudents)
+router.get('/submittedStudents/:page/:size', verifyRoles([UserRoleEnum.UNI_TRAINING_OFFICER]), getsubmittedStudents);
 router.post('/submitQuestions', submitQuestions);
 // router.post('/students', getRecords);
-router.get('/completedTrainings', getCompletedTrainings);
+router.get('/completedTrainings/:page/:size', getCompletedTrainings);
 router.get('/runningTrainings', getRunningTrainings);
 // router.get('/runningTrainings', getRunningTrainings);
-router.get('/acceptedTrainings', getAcceptedTrainings);
+router.get('/acceptedTrainings/:page/:size', getAcceptedTrainings);
 router.get('/questions', getQuestions);
-router.get('/trainings', getAllTrainings);
+router.get('/trainings/:page/:size', getAllTrainings);
 
 router.post('/evaluationFormForUniversity', verifyRoles([UserRoleEnum.UNI_TRAINING_OFFICER]), handleGenerateFormButton);
 router.post('/evaluationForm', verifyRoles([UserRoleEnum.Company, UserRoleEnum.TRAINER, UserRoleEnum.STUDENT, UserRoleEnum.UNI_TRAINING_OFFICER]), generateEvaluationForm);
