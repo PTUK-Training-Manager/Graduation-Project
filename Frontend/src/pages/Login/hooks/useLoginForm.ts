@@ -22,7 +22,7 @@ const useLoginForm = () => {
                 localStorage.setItem("user", JSON.stringify(data.data));
                 // ----------
                 const {username, roleId} = data?.data;
-                onLogin({username, roleId}, {shouldNavigate: true});
+                onLogin(data?.data, {shouldNavigate: true});
                 showSnackbar({severity: "success", message: data.message});
             },
             onError: (error: AxiosBaseError) => {
