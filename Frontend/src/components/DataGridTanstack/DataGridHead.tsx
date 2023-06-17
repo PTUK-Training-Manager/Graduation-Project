@@ -9,6 +9,7 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import React, {useContext} from "react";
 import {mapSortDirToIcon} from "./constants";
 import useStyles from "./styles";
+import {useTranslation} from "react-i18next";
 
 export function makeDataGridHead<T extends object>(configs: CreateDataGridConfig<T>) {
 
@@ -20,10 +21,13 @@ export function makeDataGridHead<T extends object>(configs: CreateDataGridConfig
 
         const {shouldFlexGrowCells} = configs;
 
+        // @ts-ignore
+        const {t} = useTranslation();
+
         return (
             <TableHead sx={{width: "100%",}} {...props}>
                 {getHeaderGroups().map((headerGroup) => (
-                    <TableRow key={headerGroup.id} sx={{display: "flex"           }}>
+                    <TableRow key={headerGroup.id} sx={{display: "flex"}}>
                         {headerGroup.headers.map((header) => (
                             <>
                                 {header.isPlaceholder ? null : (
@@ -31,7 +35,7 @@ export function makeDataGridHead<T extends object>(configs: CreateDataGridConfig
                                         key={header.id}
                                         colSpan={header.colSpan}
                                         sx={{
-                                            
+
                                             // width: shouldFlexGrowCells ? "150px" : header.getSize(),
                                             flexGrow: shouldFlexGrowCells ? 1 : 0,
                                             width: header.getSize(),
@@ -60,10 +64,17 @@ export function makeDataGridHead<T extends object>(configs: CreateDataGridConfig
                                             }}
                                             onClick={header.column.getToggleSortingHandler()}
                                         >
-                                            {flexRender(
-                                                header.column.columnDef.header,
-                                                header.getContext()
-                                            )}
+                                            {
+                                                typeof header.column.columnDef.header === "string"
+                                                    ? flexRender(
+                                                        t(header.column.columnDef.header),
+                                                        header.getContext()
+                                                    )
+                                                    : flexRender(
+                                                        header.column.columnDef.header,
+                                                        header.getContext()
+                                                    )
+                                            }
                                             {mapSortDirToIcon[header.column.getIsSorted() as SortDirection] ?? null}
                                             {header.column.getCanSort() && !header.column.getIsSorted() && (
                                                 <ArrowUpwardIcon

@@ -130,7 +130,7 @@ const AppRoutes: FC = () => {
                         <Route path="all-trainings" element={<AllTrainings/>}/>
                         <Route path="completed-trainees" element={<CompletedTrainees/>}/>
                         <Route path="submitted-trainees" element={<SubmittedRequests/>}/>
-                        <Route path="current-trainees" element={<CurrentTrainees/>}/>
+                        <Route path="current-trainees" element={<CurrentTraineesV2/>}/>
                         <Route
                             path="current-trainees-v2"
                             element={<CurrentTraineesV2/>}

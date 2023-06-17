@@ -1,24 +1,24 @@
-import { BaseResponse } from 'src/types';
+import {BaseResponse} from 'src/types';
 
 export interface RunningTraineesData {
     id: string;
     studentId: string;
     companyBranchId: string;
     Student: {
-      name: string;
+        name: string;
     };
     CompanyBranch: {
-      location: string;
-      Company: {
-        name: string;
-      };
+        location: string;
+        Company: {
+            name: string;
+        };
     };
-  };
+};
 
-export interface GetCurrentTraineesResponse{
-  items: RunningTraineesData[];
-  pageNumber: string;
-  pageSzie: string;
-  totalItems: number;
-  totalPages: number;
+export interface GetCurrentTraineesResponse {
+    items: RunningTraineesData[];
+    pageNumber: string;
+    pageSize: string;
+    totalItems: number;
+    totalPages: number;
 }

@@ -15,11 +15,15 @@ export interface RunningTraineesData {
     };
 }
 
-export interface CurrentTraineesResponse extends BaseResponse {
-    data: RunningTraineesData[];
-}
-
 export interface GetRunningTrainingsParams {
     pageIndex: number; // page number
     pageSize: number; // page size
+}
+
+export interface GetCurrentTraineesResponse {
+    items: RunningTraineesData[];
+    pageNumber: string;
+    pageSize: string;
+    totalItems: number;
+    totalPages: number;
 }
