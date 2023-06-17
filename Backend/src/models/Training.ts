@@ -17,6 +17,7 @@ export default class Training extends Model<InferAttributes<Training>, InferCrea
     declare studentId: ForeignKey<Student['id']>;
     declare companyBranchId: ForeignKey<CompanyBranch['id']>;
     declare trainerId?: ForeignKey<Trainer['id']>;
+    declare totalItems?: number;
 
 }
 

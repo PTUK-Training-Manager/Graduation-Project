@@ -1,5 +1,5 @@
-import { Request } from "express";
-import { Evaluation } from "/models";
+import {Request} from "express";
+import {Evaluation} from "/models";
 
 export type UserRole =
     | "super admin"
@@ -65,6 +65,15 @@ export interface ButtonHandler extends Request {
     }
 }
 
+interface PaginationQuery {
+    page: string;
+    size: string;
+}
+
+export interface PaginatedRequest extends Request<unknown, unknown, unknown, PaginationQuery> {
+    query: PaginationQuery;
+}
+
 export interface AddedUser {
     username: string;
     password: string;
@@ -73,6 +82,7 @@ export interface AddedUser {
     roleId: number,
     name: string;
 }
+
 export interface CompanyRequestBody extends Request {
     body: {
         id: number;
@@ -93,6 +103,7 @@ export interface StudentRequestBody extends Request {
         department: string;
     }
 }
+
 export interface TrainingRequestBody extends Request {
     body: {
         roleId: number;
@@ -116,6 +127,7 @@ export interface BranchRequestBody extends Request {
         companyId: number;
     }
 }
+
 export interface TrainerRequestBody extends Request {
     body: {
         id: number;
@@ -131,6 +143,7 @@ interface MyJson {
     answerId: number;
     note: string;
 }
+
 export interface SubmitBody extends Request {
     body: {
         trainingId: number
@@ -144,6 +157,7 @@ export interface AddedRecord {
     answerId?: number;
     noteId?: number;
 }
+
 export interface ChangeTrainingStatusBody extends Request {
     body: {
         trainingId: number;
@@ -184,7 +198,7 @@ export interface SubmitEvaluationBody extends Request {
         endTimeType: string
         skills: string,
         trainingId: number,
-        date:Date
+        date: Date
     }
 }
 
@@ -196,7 +210,7 @@ export interface EditEvaluationBody extends Request {
         startTimeType?: string,
         endTime?: string,
         endTimeType?: string,
-        date?:Date
+        date?: Date
     }
 }
 
@@ -204,6 +218,7 @@ export interface Field {
     id?: number;
     label: string
 }
+
 export interface AddFieldBody extends Request {
     body: {
         fields: Field[]
