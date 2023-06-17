@@ -2,10 +2,10 @@
 University Training Management Information System
 
 ## Team Members
--
--
--
--
+- Haneen Diab
+- Hala Madi
+- Sara Zebdeh
+- Shahd Amer
 
 ##### This is a private repository where we share code and track progress in our graduation project: University Training Management Information System.
 
