@@ -20,6 +20,7 @@ import {
 import Chip from "@mui/material/Chip";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import {makeColumnFilter} from "./ColumnFilter";
+import {useTranslation} from "react-i18next";
 
 export function makeFilters<T extends object>(configs: CreateDataGridConfig<T>) {
 
@@ -34,12 +35,16 @@ export function makeFilters<T extends object>(configs: CreateDataGridConfig<T>) 
             onSetColumnFilters,
         } = useContext(configs.Context);
 
+        // @ts-ignore
+        const {t} = useTranslation();
+
         const hasAppliedFilters = columnFilters.length > 0;
 
         const columnOptions: AutocompleteColumnOption[] = table.getAllColumns()
+            .filter((column) => column.getCanFilter())
             .map((column) => ({
                 id: column.id ?? "",
-                header: column.columnDef.header as string,
+                header: t(column.columnDef.header as string),
             }));
 
         const handleCloseFiltersModal = () => onSetIsOpenFiltersModal(false);
