@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {AppBar, IconButton} from "@mui/material";
+import {AppBar, IconButton, Theme} from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
 import ImageListItem from "@mui/material/ImageListItem";
@@ -13,6 +13,7 @@ import useAccountContext from "src/hooks/useAccountContext";
 import AccountMenu from "../AccountMenu";
 import LanguageSelector from '../Language/LanguageSelector';
 import {isEmptyToken} from "src/utils";
+import {useMediaQuery} from "@mui/material";
 
 const AppNavbar: FC = () => {
 
@@ -22,6 +23,8 @@ const AppNavbar: FC = () => {
     const isLoggedIn = !isEmptyToken(accessToken);
 
     const handleOpenSidebar = () => setIsSidebarOpen((prev) => !prev);
+
+    const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
 
     return (
         <AppBar
@@ -54,12 +57,22 @@ const AppNavbar: FC = () => {
                     <MenuIcon/>
                 </IconButton>
 
-                <Stack direction="row"
-                       sx={{height: NAVBAR_HEIGHT, alignItems: "baseline", maxWidth: "275px", gap: 1, mb: 0.5}}>
-                    <ImageListItem>
-                        <img src={PTUK_CIRCLE} style={{height: 54, width: 54}}></img>
-                    </ImageListItem>
-                    <ImageListItem>
+                <Stack
+                    direction="row"
+                    sx={{
+                        height: theme => theme.mixins.toolbar.minHeight,
+                        alignItems: "baseline",
+                        maxWidth: "275px",
+                        gap: 1,
+                        mb: 0.5
+                    }}
+                >
+                    {!isMobile && (
+                        <ImageListItem>
+                            <img src={PTUK_CIRCLE} style={{height: 54, width: 54}}></img>
+                        </ImageListItem>
+                    )}
+                    <ImageListItem sx={{height: "100% !important"}}>
                         <img src={PTUK_TEXT} style={{filter: `brightness(0) invert(1)`}}></img>
                     </ImageListItem>
                 </Stack>
