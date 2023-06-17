@@ -10,16 +10,17 @@ interface AppSideDrawerMultiLevelProps {
 }
 
 const AppSideDrawerMultiLevel: FC<AppSideDrawerMultiLevelProps> = () => {
-    const {isSidebarOpen} = useAccountContext();
+    const {isSidebarOpen, isMobile} = useAccountContext();
 
     const classes = useStyles();
 
+    // @ts-ignore
     const {i18n} = useTranslation();
 
     return (
         <Drawer
             className={classes.drawer}
-            variant="persistent"
+            variant={isMobile ? "temporary" : "persistent"}
             open={isSidebarOpen}
             anchor={i18n.dir() === "rtl" ? "right" : "left"}
         >

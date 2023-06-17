@@ -17,14 +17,13 @@ import {useMediaQuery} from "@mui/material";
 
 const AppNavbar: FC = () => {
 
-    const {isSidebarOpen, setIsSidebarOpen} = useAccountContext();
+    const {isSidebarOpen, setIsSidebarOpen, isMobile} = useAccountContext();
 
     const accessToken = localStorage.getItem("access-token");
     const isLoggedIn = !isEmptyToken(accessToken);
 
     const handleOpenSidebar = () => setIsSidebarOpen((prev) => !prev);
 
-    const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
 
     return (
         <AppBar
@@ -68,13 +67,15 @@ const AppNavbar: FC = () => {
                     }}
                 >
                     {!isMobile && (
-                        <ImageListItem>
-                            <img src={PTUK_CIRCLE} style={{height: 54, width: 54}}></img>
-                        </ImageListItem>
+                        <>
+                            <ImageListItem>
+                                <img src={PTUK_CIRCLE} style={{height: 54, width: 54}}></img>
+                            </ImageListItem>
+                            <ImageListItem sx={{height: "100% !important"}}>
+                                <img src={PTUK_TEXT} style={{filter: `brightness(0) invert(1)`}}></img>
+                            </ImageListItem>
+                        </>
                     )}
-                    <ImageListItem sx={{height: "100% !important"}}>
-                        <img src={PTUK_TEXT} style={{filter: `brightness(0) invert(1)`}}></img>
-                    </ImageListItem>
                 </Stack>
 
                 <Stack direction="row">

@@ -2,6 +2,7 @@ import React, {createContext, useState, ReactNode, Dispatch, SetStateAction, FC,
 import {useNavigate, useLocation} from "react-router-dom";
 import {User} from "../types";
 import {noop} from "src/utils/functionsUtils";
+import {Theme, useMediaQuery} from "@mui/material";
 
 interface OnLoginOptions {
     shouldNavigate?: boolean;
@@ -17,6 +18,7 @@ export interface AccountContextValues {
     onLogout: (options?: OnLogoutOptions) => void;
     isSidebarOpen: boolean;
     setIsSidebarOpen: Dispatch<SetStateAction<boolean>>;
+    isMobile: boolean;
 }
 
 export const AccountContext = createContext<AccountContextValues>({
@@ -24,8 +26,8 @@ export const AccountContext = createContext<AccountContextValues>({
     onLogin: noop,
     onLogout: noop,
     isSidebarOpen: false,
-    setIsSidebarOpen: () => {
-    }
+    setIsSidebarOpen: () => {},
+    isMobile: false
 });
 
 interface AccountProviderProps {
@@ -62,12 +64,15 @@ export const AccountProvider: FC<AccountProviderProps> = ({children}) => {
         navigate("login", {replace: true});
     };
 
+    const isMobile = useMediaQuery((theme: Theme) => theme.breakpoints.down('md'));
+
     const contextValues: AccountContextValues = {
         getUser,
         onLogin: handleLogin,
         onLogout: handleLogout,
         isSidebarOpen,
-        setIsSidebarOpen
+        setIsSidebarOpen,
+        isMobile
     }
 
     return (

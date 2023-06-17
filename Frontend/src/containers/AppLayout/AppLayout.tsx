@@ -10,10 +10,11 @@ import {useTranslation} from "react-i18next";
 
 const AppLayout: FC = () => {
     const classes = useStyles();
-    const {isSidebarOpen} = useAccountContext();
+    const {isSidebarOpen, isMobile} = useAccountContext();
 
     // @ts-ignore
     const {i18n} = useTranslation();
+
 
     return (
         <>
@@ -23,10 +24,12 @@ const AppLayout: FC = () => {
                 container
                 className={classes.contentArea}
                 sx={{
-                    ...(i18n.dir() === "rtl"
-                            ? {paddingRight: isSidebarOpen ? `${getContentPaddingLeft(isSidebarOpen)}px` : "0px"}
-                            : {paddingLeft: isSidebarOpen ? `${getContentPaddingLeft(isSidebarOpen)}px` : "0px"}
-                    ),
+                    ...(!isMobile && {
+                        ...(i18n.dir() === "rtl"
+                                ? {paddingRight: isSidebarOpen ? `${getContentPaddingLeft(isSidebarOpen)}px` : "0px"}
+                                : {paddingLeft: isSidebarOpen ? `${getContentPaddingLeft(isSidebarOpen)}px` : "0px"}
+                        ),
+                    }),
                 }}
             >
                 <Outlet/>
