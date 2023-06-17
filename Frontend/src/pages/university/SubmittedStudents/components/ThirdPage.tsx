@@ -46,7 +46,7 @@ const ThirdPage: FC<SecondPageProps> = ({ response, trainingId, question }) => {
           <Typography variant="h6" gutterBottom>
             Student benefit from training:
           </Typography>
-          {response[0]?.Answered_Questions?.slice(0, length - 2).map(
+          {response[0]?.Answered_Questions?.map(
             (item, index) => (
               <>
                 <Stack gap={2} spacing={2}>

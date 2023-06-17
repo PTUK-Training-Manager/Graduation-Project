@@ -29,3 +29,17 @@ export const data =
             "count": 1
         }
     ];
+export const type = [
+    {
+        "type": "first",
+        "count": 24
+    },
+    {
+        "type": "second",
+        "count": 8
+    },
+    {
+        "type": "compound",
+        "count": 1
+    }
+];

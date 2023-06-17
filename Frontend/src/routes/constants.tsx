@@ -105,6 +105,11 @@ const uniTrainingOfficerMenuItems: IAppMenuItem[] = [
         link: '/me/all-trainings',
         Icon: () => <RecentActorsIcon/>,
     },
+    {
+        label: "Charts",
+        link: "/me/charts",
+        Icon: () => <BarChartIcon/>,
+    }
 ];
 
 const companyMenuItems: IAppMenuItem[] = [
@@ -209,16 +214,11 @@ const AdminMenuItems: IAppMenuItem[] = [
         link: "/me/add-faculty",
         Icon: () => <IntegrationInstructionsIcon/>,
     },
-    {
-        label: "Charts",
-        link: "/me/charts",
-        Icon: () => <IntegrationInstructionsIcon/>,
-    },
-    {
-        label: 'Charts',
-        link: '/submitted-trainees',
-        Icon: () => <BarChartIcon />,
-    },
+    // {
+    //     label: "Charts",
+    //     link: "/me/charts",
+    //     Icon: () => <BarChartIcon/>,
+    // }
 ];
 
 export const MENU_ITEMS_MAP: Partial<Record<MenuItemsMapKey, IAppMenuItem[]>> =

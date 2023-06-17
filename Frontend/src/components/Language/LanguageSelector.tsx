@@ -29,7 +29,7 @@ const LanguageSelector = () => {
 
     useEffect(() => {
         document.body.dir = i18next.language === "ar" ? "rtl" : "ltr";
-        document.title = t("AppTitle");
+        document.title = t("Trainerize");
     }, [t]);
 
     return (

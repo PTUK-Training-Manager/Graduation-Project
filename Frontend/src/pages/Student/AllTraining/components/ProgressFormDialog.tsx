@@ -62,6 +62,7 @@ function LinearProgressWithLabel(
 }
 function CircularProgressWithLabel(
   props: CircularProgressProps & { value: number }
+  
 ) {
   return (
     <Box sx={{ position: 'relative', display: 'inline-flex' }}>
@@ -108,7 +109,7 @@ const ProgressFormDialog: FC<ProgressFormDialogProps> = ({
     : 0;
   console.log(percentage);
   
-
+console.log(response?.progressForm[0].skills)
   return (
     <Grid sx={{ padding: '2' }}>
       <Dialog
@@ -189,7 +190,7 @@ const ProgressFormDialog: FC<ProgressFormDialogProps> = ({
                                   <RichTextEditor
                                     editable={false}
                                     //@ts-ignore
-                                    content={JSON.stringify(item.skills)}
+                                    content={item.skills}
                                   />
                                 </Stack>
                             </Stack>

@@ -34,6 +34,7 @@ const Companies = lazy(() => import('src/pages/university/Companies'));
 const CompletedTrainees = lazy(
     () => import('src/pages/university/CompletedTrainees')
 );
+const Charts = lazy(() => import('src/pages/university/Charts'));
 
 const SubmittedRequests = lazy(
     () => import('src/pages/university/SubmittedStudents')
@@ -80,7 +81,6 @@ const AllTrainingStudent = lazy(() => import('src/pages/Student/AllTraining'));
 const Progress = lazy(() => import('src/pages/Student/Progress'));
 
 const AddFaculty = lazy(() => import('src/pages/Admin/AddFaculty'));
-const Charts = lazy(() => import('src/pages/Admin/Charts'));
 const ForgetPassword = lazy(() => import('src/pages/ForgetPassword'));
 const ResetPassword = lazy(() => import('src/pages/resetPassword'));
 
@@ -118,7 +118,6 @@ const AppRoutes: FC = () => {
 
                     <Route element={<ProtectedRoute allowedRoles={[SuperAdmin]}/>}>
                         <Route path="add-faculty" element={<AddFaculty/>}/>
-                        <Route path="charts" element={<Charts/>}/>
                     </Route>
 
                     <Route
@@ -131,10 +130,12 @@ const AppRoutes: FC = () => {
                         <Route path="completed-trainees" element={<CompletedTrainees/>}/>
                         <Route path="submitted-trainees" element={<SubmittedRequests/>}/>
                         <Route path="current-trainees" element={<CurrentTrainees/>}/>
+                        <Route path="charts" element={<Charts/>}/>
                         <Route
                             path="current-trainees-v2"
                             element={<CurrentTraineesV2/>}
                         />
+
                     </Route>
                     <Route element={<ProtectedRoute allowedRoles={[Trainer]}/>}>
                         <Route

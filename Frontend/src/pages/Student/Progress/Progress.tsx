@@ -349,7 +349,7 @@ const Progress: React.FC = () => {
                                 </Typography>
                                 <RichTextEditor
                                   editable={false}
-                                  content={evaluation.skills}
+                                  // content={evaluation.skills}
                                 />
                                 <Stack
                                   direction="row"
@@ -363,7 +363,7 @@ const Progress: React.FC = () => {
                                   </Typography>
                                   <RichTextEditor
                                     editable={false}
-                                   content={evaluation.Note?.note}
+                                  //  content={evaluation.Note?.note}
                                   />
                                   <IconButton
                                     onClick={() =>
@@ -470,7 +470,7 @@ const Progress: React.FC = () => {
                                   </Typography>
                                   <RichTextEditor
                                     editable={false}
-                                    content={evaluation.skills}
+                                    // content={evaluation.skills}
                                   />
                                   <IconButton
                                     onClick={() =>
