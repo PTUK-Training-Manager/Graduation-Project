@@ -15,11 +15,11 @@ const Home: FC = () => {
     return (
         <Grid container className={classes.root} sx={{maxHeight: "100vh - 64px"}}>
             <Grid item xs={12} md={5}>
-                {/*<HomeLottie/>*/}
-                <Box
-                    className={classes.bgImg}
-                    sx={{borderRadius: isLTR ? "0% 0% 30% 0%" : "0% 0% 0% 30%",}}
-                />
+                <HomeLottie/>
+                {/*<Box*/}
+                {/*    className={classes.bgImg}*/}
+                {/*    sx={{borderRadius: isLTR ? "0% 0% 30% 0%" : "0% 0% 0% 30%",}}*/}
+                {/*/>*/}
             </Grid>
             <Grid item xs={12} md={7}>
                 <UserPanel/>
