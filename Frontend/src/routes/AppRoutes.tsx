@@ -106,9 +106,10 @@ const AppRoutes: FC = () => {
                     element={<DataGridPaginatedPlayground/>}
                 />
                 <Route path="infinite-scroll" element={<InfiniteScrollPlayground/>}/>
+                <Route path="forget-password" element={<ForgetPassword/>}/>
 
                 <Route path="me" element={<AppLayout/>}>
-                    <Route path="forget-password" element={<ForgetPassword/>}/>
+                    {/* <Route path="forget-password" element={<ForgetPassword/>}/> */}
 
                     <Route element={<ProtectedRoute/>}>
                         <Route index path="" element={<Home/>}/>
@@ -130,11 +131,10 @@ const AppRoutes: FC = () => {
                         <Route path="all-trainings" element={<AllTrainings/>}/>
                         <Route path="completed-trainees" element={<CompletedTrainees/>}/>
                         <Route path="submitted-trainees" element={<SubmittedRequests/>}/>
-                        <Route path="current-trainees" element={<CurrentTraineesV2/>}/>
-                        <Route
-                            path="current-trainees-v2"
-                            element={<CurrentTraineesV2/>}
-                        />
+                        {/* <Route path="current-trainees" element={<CurrentTraineesV2/>}/> */}
+                        <Route path="current-trainees" element={<CurrentTrainees/>}/>
+
+                        
                     </Route>
                     <Route element={<ProtectedRoute allowedRoles={[Trainer]}/>}>
                         <Route

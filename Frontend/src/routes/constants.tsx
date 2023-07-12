@@ -105,6 +105,11 @@ const uniTrainingOfficerMenuItems: IAppMenuItem[] = [
         link: '/me/all-trainings',
         Icon: () => <RecentActorsIcon/>,
     },
+    {
+        label: "Charts",
+        link: "/me/charts",
+        Icon: () => <BarChartIcon/>,
+    }
 ];
 
 const companyMenuItems: IAppMenuItem[] = [

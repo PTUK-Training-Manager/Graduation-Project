@@ -38,6 +38,7 @@ const TrainingRequestForm: React.FC = () => {
     const {formikProps, isLoading} = useTrainingRequestFormController();
     const {isValid} = formikProps;
     const navigate = useNavigate();
+    //@ts-ignore
     const {t, i18n} = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState('en'); // Replace with your language state or context value
 

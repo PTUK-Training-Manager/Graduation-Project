@@ -103,9 +103,11 @@ const Companies: React.FC = () => {
         }
       }
     );
-  };const {t}=useTranslation();
-const Close = t('Close');
-const AddCompany=t('AddCompany');
+  };
+  //@ts-ignore
+  const { t } = useTranslation();
+  const Close = t('Close');
+  const AddCompany = t('AddCompany');
   return (
     <>
       <Grid
@@ -126,7 +128,7 @@ const AddCompany=t('AddCompany');
         >
           <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
             <Typography component="h1" variant="h5" fontWeight={500}>
-              {t("Companies")}
+              {t('Companies')}
             </Typography>
             <Button
               variant="contained"
@@ -170,7 +172,7 @@ const AddCompany=t('AddCompany');
                     <Form>
                       <Stack gap={1} spacing={1} alignItems="center">
                         <Typography component="h1" variant="h5">
-                          {t("AddCompany")}
+                          {t('AddCompany')}
                         </Typography>
                         <Grid
                           sx={{
@@ -182,39 +184,39 @@ const AddCompany=t('AddCompany');
                         >
                           <Grid item xs={12} sm={6} md={1.9}>
                             <TextFieldWrapper
-                              label={t("Company Id")}
+                              label={t('Company Id')}
                               name="id"
                               autoFocus
                             />
                           </Grid>
                           <Grid item xs={12} sm={6} md={1.9}>
                             <TextFieldWrapper
-                              label={t("CompanyName")}
+                              label={t('CompanyName')}
                               name="name"
                             />
                           </Grid>
                           <Grid item xs={12} sm={6} md={1.9}>
                             <TextFieldWrapper
-                              label={t("PhoneNumber")}
+                              label={t('PhoneNumber')}
                               name="phoneNumber"
                             />
                           </Grid>
                           <Grid item xs={12} sm={6} md={1.9}>
                             <TextFieldWrapper
-                              label={t("Email")}
+                              label={t('Email')}
                               type="email"
                               name="email"
                             />
                           </Grid>
                           <Grid item xs={12} sm={6} md={1.9}>
                             <TextFieldWrapper
-                              label={t("Location")}
+                              label={t('Location')}
                               name="location"
                             />
                           </Grid>
                           <Grid item xs={12} sm={6} md={1.9}>
                             <TextFieldWrapper
-                              label={t("ManegarName")}
+                              label={t('ManegarName')}
                               name="managerName"
                             />
                           </Grid>
@@ -226,7 +228,7 @@ const AddCompany=t('AddCompany');
                           disabled={!isValid}
                           loading={isLoading}
                         >
-                          {t("GenerateAccount")}
+                          {t('GenerateAccount')}
                         </LoadingButton>
                       </Stack>
                     </Form>
@@ -305,4 +307,3 @@ const AddCompany=t('AddCompany');
   );
 };
 export default Companies;
-

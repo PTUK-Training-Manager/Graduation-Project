@@ -1,38 +1,32 @@
-import React, {useEffect, useState, SyntheticEvent} from "react";
-import {Row,Response} from "../types";
-import {getCurrentTrainees} from "../api";
-import {IconButton} from "@mui/material";
-import {Feed} from "@mui/icons-material";
-import { progressForm } from "src/api/progress";
-import {useQuery} from "@tanstack/react-query";
-import {PageChangeParams} from "src/components/DataGridTanstack/types";
+import { useQuery } from '@tanstack/react-query';
+import { getCurrentTrainees } from '../api';
+import UsersDataGrid from 'src/pages/DataGridPaginatedPlayground/definition';
+import { useState } from 'react';
+import { DataGridFetchQuery } from 'src/components/DataGridTanstack/types';
 
-export interface UseDataGridPlaygroundAPIProps {
-    pagination?: PageChangeParams;
-}
+const useCurrentTrainees = () => {
+  const { pageSize: initialPageSize } = UsersDataGrid.configs;
+  const [pagination, setPagination] = useState<DataGridFetchQuery>({
+    pageIndex: 0,
+    pageSize: initialPageSize,
+  });
 
-const useCurrentTraineesController = ({pagination}: UseDataGridPlaygroundAPIProps) => {
-                  
-    const [totalRows, setTotalRows] = useState<number>(0);
+  const { pageIndex, pageSize } = pagination;
 
-    const {data}
-        = useQuery(
-        ["users", pagination],
-        () => getCurrentTrainees({page: pagination?.pageIndex, size: pagination?.pageSize}).then(res => {
-            setTotalRows(res?.headers["x-total-count"] ?? 0);
-            return res?.data.items ?? [];
-        })
-        , {
-            keepPreviousData: true, //for a smooth transition between the pages in the table.
-        }
-    );
-     return {
-      
-            rows: data ?? [],
-    };
+  const { data, isLoading, isFetching } = useQuery(
+    ['CurrentTrainees', pageIndex, pageSize],
+    () => getCurrentTrainees({ pageIndex, pageSize }),
+    {}
+  );
+
+  const onGetDataGrid = (query: DataGridFetchQuery) => setPagination(query);
+  
+  return {
+    rows: data?.items ?? [],
+    totalRows: data?.totalItems ?? -1,
+    onGetDataGrid,
+    isFetching: isFetching || isLoading,
+  };
 };
-export default useCurrentTraineesController;
 
-
-
-
+export default useCurrentTrainees;

@@ -1,14 +1,4 @@
-import {
-  FC,
-  JSXElementConstructor,
-  ReactElement,
-  ReactFragment,
-  ReactPortal,
-  SyntheticEvent,
-} from 'react';
-
-// Radial separators
-// import CircularProgress from '@mui/joy/CircularProgress';
+import { FC } from 'react';
 import Accordion from '@mui/material/Accordion';
 import Dialog from '@mui/material/Dialog';
 import Typography from '@mui/material/Typography';
@@ -24,13 +14,9 @@ import Grid from '@mui/material/Grid';
 import HourglassFullIcon from '@mui/icons-material/HourglassFull';
 import HourglassTopIcon from '@mui/icons-material/HourglassTop';
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
-
-import CircularProgress from '@mui/material/CircularProgress';
-
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import '../CurrentTrainees.css';
-
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 
 import {
@@ -38,7 +24,6 @@ import {
   CardContent,
   LinearProgress,
   LinearProgressProps,
-  CircularProgressProps,
   Tooltip,
 } from '@mui/material';
 import RichTextEditor from 'src/containers/RichTextEditor';
@@ -60,33 +45,6 @@ function LinearProgressWithLabel(
         color="text.secondary"
       >{`${props.value}%`}</Typography>
     </Stack>
-  );
-}
-function CircularProgressWithLabel(
-  props: CircularProgressProps & { value: number }
-) {
-  return (
-    <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-      <CircularProgress color="warning" variant="determinate" {...props} />
-      <Box
-        sx={{
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
-          position: 'absolute',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Typography
-          variant="caption"
-          component="div"
-          color="text.secondary"
-        >{`${Math.round(props.value)}%`}</Typography>
-      </Box>
-    </Box>
   );
 }
 
@@ -117,7 +75,8 @@ const ProgressFormDialog: FC<ProgressFormDialogProps> = ({
   const studentId = data?.find(
     (trainee) => trainee.id === trainingId
   )?.studentId;
-const {t}=useTranslation();
+  //@ts-ignore
+  const { t } = useTranslation();
   return (
     <Grid sx={{ padding: '2' }}>
       <Dialog
@@ -155,112 +114,84 @@ const {t}=useTranslation();
               <Stack gap={1.5} direction="row">
                 <HourglassTopIcon color="action" />
                 <Typography>
-                  {t("Achieved Hours")}: {response?.achievedHours}
+                  {t('Achieved Hours')}: {response?.achievedHours}
                 </Typography>
               </Stack>
               <Stack gap={1.5} direction="row">
                 <HourglassTopIcon color="action" />
-                <Typography> {t("Remaining Hours")}: {remainingHours} </Typography>
+                <Typography>
+                  {' '}
+                  {t('Remaining Hours')}: {remainingHours}{' '}
+                </Typography>
               </Stack>
               <Stack gap={1.5} direction="row">
                 <HourglassFullIcon color="action" />
-                <Typography>{t("Total Hours:")} {response?.totalHours}</Typography>
+                <Typography>
+                  {t('Total Hours:')} {response?.totalHours}
+                </Typography>
               </Stack>
 
-              {response?.progressForm.map(
-                (
-                  item: {
-                    startTime:
-                      | string
-                      | number
-                      | boolean
-                      | ReactElement<any, string | JSXElementConstructor<any>>
-                      | ReactFragment
-                      | ReactPortal
-                      | null
-                      | undefined;
-                    endTime:
-                      | string
-                      | number
-                      | boolean
-                      | ReactElement<any, string | JSXElementConstructor<any>>
-                      | ReactFragment
-                      | ReactPortal
-                      | null
-                      | undefined;
-                    skills:
-                      | string
-                      | number
-                      | boolean
-                      | ReactElement<any, string | JSXElementConstructor<any>>
-                      | ReactFragment
-                      | ReactPortal
-                      | null
-                      | undefined;
-                  },
-                  index: number
-                ) => {
-                  const re = JSON.stringify(item.skills);
-                  const result = `${re}`;
-                  console.log(item.skills);
-                  console.log(result);
-                  return (
-                    <Accordion>
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon color="action" />}
-                        aria-controls="panel1a-content"
-                        id="panel1a-header"
-                      >
-                        <Typography>Day {index + 1}</Typography>
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        <Box sx={{ width: '100%', typography: 'body1' }}>
-                          <Box
-                            sx={{ borderBottom: 1, borderColor: 'divider' }}
-                          ></Box>
-                          <Card
-                            sx={{
-                              minWidth: 275,
-                              borderLeft: 6,
-                              borderColor: 'orange',
-                            }}
-                          >
-                            <CardContent>
-                              <Stack spacing={2}>
-                                <Stack gap={1.5} direction="row">
-                                  <WatchLaterIcon color="action" />
-                                  <Typography>
-                                   {t(" Start Time")}: {item.startTime}{' '}
-                                  </Typography>
-                                </Stack>
-                                <Stack gap={1.5} direction="row">
-                                  <WatchLaterIcon color="action" />
-                                  <Typography>
-                                    {("End Time")}:{item.endTime}{' '}
-                                  </Typography>
-                                </Stack>
-                                <Stack gap={1.5} >
-                        <Stack gap={1.5} direction='row'>
-                          <FormatListNumberedIcon color="action" />
-                          <Typography sx={{ fontWeight: '600' }}>
-                            {t("Skills")}:
-                          </Typography>
-                          </Stack>
-                          <RichTextEditor
-                            editable={false}
-                            //@ts-ignore
-                            content={JSON.stringify(item.skills)}
-                          />
-                                </Stack>
+              {response?.progressForm.map((item, index: number) => {
+                const re = JSON.stringify(item.skills);
+                const result = `${re}`;
+                console.log(item.skills);
+                console.log(result);
+                return (
+                  <Accordion>
+                    <AccordionSummary
+                      expandIcon={<ExpandMoreIcon color="action" />}
+                      aria-controls="panel1a-content"
+                      id="panel1a-header"
+                    >
+                      <Typography>Day {index + 1}</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                      <Box sx={{ width: '100%', typography: 'body1' }}>
+                        <Box
+                          sx={{ borderBottom: 1, borderColor: 'divider' }}
+                        ></Box>
+                        <Card
+                          sx={{
+                            minWidth: 275,
+                            borderLeft: 6,
+                            borderColor: 'orange',
+                          }}
+                        >
+                          <CardContent>
+                            <Stack spacing={2}>
+                              <Stack gap={1.5} direction="row">
+                                <WatchLaterIcon color="action" />
+                                <Typography>
+                                  {t(' Start Time')}: {item.startTime}{' '}
+                                </Typography>
                               </Stack>
-                            </CardContent>
-                          </Card>
-                        </Box>
-                      </AccordionDetails>
-                    </Accordion>
-                  );
-                }
-              )}
+                              <Stack gap={1.5} direction="row">
+                                <WatchLaterIcon color="action" />
+                                <Typography>
+                                  {'End Time'}:{item.endTime}{' '}
+                                </Typography>
+                              </Stack>
+                              <Stack gap={1.5}>
+                                <Stack gap={1.5} direction="row">
+                                  <FormatListNumberedIcon color="action" />
+                                  <Typography sx={{ fontWeight: '600' }}>
+                                    {t('Skills')}:
+                                  </Typography>
+                                </Stack>
+                                <RichTextEditor
+                                  editable={false}
+                                  //@ts-ignore
+                                  content={item.skills}
+                                />
+                              </Stack>
+                            </Stack>
+                          </CardContent>
+                        </Card>
+                      </Box>
+                    </AccordionDetails>
+                  </Accordion>
+                );
+              })}
             </Stack>
           </Grid>
         </>

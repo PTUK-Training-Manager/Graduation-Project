@@ -1,15 +1,15 @@
 import axiosInstance from 'src/api';
-import { FetchUsersParams } from './request.dto';
-import { GetCurrentTraineesResponse } from './response.dto';
+import {GetRunningTrainingsParams, GetCurrentTraineesResponse} from './types';
 
-export const getCurrentTrainees = async (params: FetchUsersParams) => {
-  return axiosInstance.get<GetCurrentTraineesResponse>(
-    `/training/runningTrainings/${params.page}/${params.size}`,
-    {
-      params: {
-        page: (params.page ?? 0) * (params.size ?? 10),
-        limit: params.size,
-      },
-    }
-  );
+export const getCurrentTrainees = async (params: GetRunningTrainingsParams) => {
+    const {pageIndex, pageSize} = params;
+
+    return axiosInstance.get<GetCurrentTraineesResponse>(
+        "/training/runningTrainings", {
+            params: {
+                page: pageIndex,
+                size: pageSize,
+            }
+        }
+    ).then((response) => response.data);
 };

@@ -8,6 +8,7 @@ import Tooltip from "@mui/material/Tooltip";
 import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
 import {amber} from "@mui/material/colors";
+import {cyan, grey, pink} from "@mui/material/colors";
 
 const LanguageSelector = () => {
     const languages = [
@@ -44,8 +45,8 @@ const LanguageSelector = () => {
                     aria-expanded={open ? 'true' : undefined}
                 >
                     {/*<LanguageIcon sx={{color: 'white'}}/>*/}
-                    <Avatar sx={{ bgcolor: amber[400] }}>
-                        <LanguageIcon sx={{color: theme => theme.palette.text.primary}}/>
+                    <Avatar sx={{ bgcolor: pink[500] }}>
+                        <LanguageIcon sx={{color: 'white'}}/>
                     </Avatar>
                 </IconButton>
             </Tooltip>

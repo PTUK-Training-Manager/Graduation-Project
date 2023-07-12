@@ -20,7 +20,7 @@ const SecondPage: FC<SecondPageProps> = ({ response }) => {
           <Typography variant="h6" gutterBottom>
             Student benefit from training:
           </Typography>
-          {response[0]?.Answered_Questions?.slice(0, length - 2).map(
+          {response[0]?.Answered_Questions?.map(
             (item, index) => {
               const re = JSON.stringify(item.Note?.note);
               const result = `${re}`;
@@ -108,7 +108,7 @@ const SecondPage: FC<SecondPageProps> = ({ response }) => {
               );
             }
           )}
-          <Card
+          {/* <Card
             sx={{
               minWidth: 275,
               borderLeft: 6,
@@ -131,7 +131,7 @@ const SecondPage: FC<SecondPageProps> = ({ response }) => {
                               
               </Stack>
             </CardContent>
-          </Card>
+          </Card> */}
         </Stack>
       </Grid>
     </>

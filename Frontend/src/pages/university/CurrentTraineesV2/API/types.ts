@@ -1,5 +1,3 @@
-import {BaseResponse} from "src/types";
-
 export interface RunningTraineesData {
     id: string;
     studentId: string;

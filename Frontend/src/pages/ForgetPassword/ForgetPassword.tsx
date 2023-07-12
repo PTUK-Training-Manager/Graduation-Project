@@ -10,6 +10,7 @@ import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import useForgetController from './hooks/useForgetController';
 import { useTranslation } from 'react-i18next';
+import { t } from 'i18next';
 
 interface CompanyOption {
     id: string;
@@ -26,7 +27,7 @@ const ForgetPassword: React.FC = () => {
     const {newPassword, confirmNewPassword} = values;
 
     const isSubmitEnabled = isValid && (newPassword === confirmNewPassword);
-
+//@ts-ignore
     const {t} = useTranslation();
 
     return (
