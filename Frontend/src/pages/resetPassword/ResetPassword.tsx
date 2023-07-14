@@ -12,8 +12,9 @@ import useResetPasswordController from './hooks/useResetPasswordController';
 
 const ForgetPassword: React.FC = () => {
     const {formikProps, isLoading} = useResetPasswordController();
-    const {isValid} = formikProps;
-
+    const {isValid, values} = formikProps;
+    const {newPassword, confirmNewPassword} = values;
+    const isSubmitEnabled = isValid && (newPassword === confirmNewPassword);
     return (
         <>
             <Grid
@@ -41,14 +42,14 @@ const ForgetPassword: React.FC = () => {
                                     Set New Password
                                 </Typography>
                                 <TextFieldWrapper type='password' label="Old Password" name="oldPassword"/>
-                                <TextFieldWrapper type='password' label="Password" name="newPassword"/>
-                                <TextFieldWrapper type='password' label="Password" name="confirmNewPassword"/>
+                                <TextFieldWrapper type='password' label="New Password" name="newPassword"/>
+                                <TextFieldWrapper type='password' label="Confirm Password" name="confirmNewPassword"/>
 
                                 <LoadingButton
                                     type="submit"
                                     fullWidth
                                     variant="contained"
-                                    disabled={!isValid}
+                                    disabled={!isSubmitEnabled}
                                     loading={isLoading}
                                 >
                                     Submit

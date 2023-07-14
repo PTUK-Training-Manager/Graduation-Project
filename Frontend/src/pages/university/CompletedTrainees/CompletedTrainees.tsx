@@ -47,7 +47,7 @@ const CompletedTrainees: React.FC = () => {
       printRef.current.handlePrint();
     }
   };
-
+  
   return (
     <>
       <Grid
@@ -81,10 +81,12 @@ const CompletedTrainees: React.FC = () => {
       >
         <DialogTitle gap={1.5} sx={{ textAlign: 'center' }}></DialogTitle>
         <DialogContent>
-          <div ref={printRef}>
+          <div ref={printRef} className="print-layout">
             <EvaluStepper index={index} studentId={studentId} />
+            
           </div>
         </DialogContent>
+
         <ReactToPrint
           trigger={() => (
             <Button onClick={() => handlePrint()} variant="outlined">
@@ -95,6 +97,7 @@ const CompletedTrainees: React.FC = () => {
           documentTitle="Evaluation Training"
           pageStyle="print"
         />
+        
       </Dialog>
     </>
   );

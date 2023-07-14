@@ -12,6 +12,7 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { getEvaluations } from 'src/api/getEvaluation';
 import { EvaluationData } from 'src/api/types';
 import ReactToPrint from 'react-to-print';
+import '../CompletedTrainees.css';
 
 const steps = ['First Page', 'Second Page', 'Third Page'];
 

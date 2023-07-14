@@ -78,6 +78,7 @@ const AddCompanyForm: React.FC = () => {
   const { rows } = useAllTrainingsController({
     pagination,
   });
+  //@ts-ignore
   const { t } = useTranslation();
 
   return (
