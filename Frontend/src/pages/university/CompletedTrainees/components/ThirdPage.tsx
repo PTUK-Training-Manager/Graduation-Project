@@ -12,6 +12,7 @@ import {
   ReactElement,
   ReactFragment,
   ReactPortal,
+  forwardRef,
 } from 'react';
 
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
@@ -30,16 +31,12 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ response }) => {
   return (
     <>
       <Grid sx={{ padding: '2' }}>
-        {response[0]?.Evaluations.map(
-          (
-            item,
-            index: number
-          ) => {
-            const re = JSON.stringify(item.skills);
-              const result = `${re}`;
-              console.log(item.skills);
-              console.log(result);
-            return(
+        {response[0]?.Evaluations.map((item, index: number) => {
+          const re = JSON.stringify(item.skills);
+          const result = `${re}`;
+          console.log(item.skills);
+          console.log(result);
+          return (
             <>
               <Stack gap={2} spacing={2}>
                 <Divider />
@@ -85,12 +82,12 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ response }) => {
                             </Typography>
                           </Typography>
                         </Stack>
-                        <Stack gap={1.5} >
-                        <Stack gap={1.5} direction='row'>
-                          <FormatListNumberedIcon color="action" />
-                          <Typography sx={{ fontWeight: '600' }}>
-                            Skills:
-                          </Typography>
+                        <Stack gap={1.5}>
+                          <Stack gap={1.5} direction="row">
+                            <FormatListNumberedIcon color="action" />
+                            <Typography sx={{ fontWeight: '600' }}>
+                              Skills:
+                            </Typography>
                           </Stack>
                           <RichTextEditor
                             editable={false}
@@ -103,12 +100,9 @@ const ThirdPage: React.FC<ThirdPageProps> = ({ response }) => {
                   </Card>
                 </Stack>
               </Stack>
-           
             </>
-            
           );
-                            }
-        )}
+        })}
       </Grid>
     </>
   );

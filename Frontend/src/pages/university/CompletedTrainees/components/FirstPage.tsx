@@ -1,25 +1,29 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-import { Card, CardContent, Container, Divider } from '@mui/material';
+import { Button, Card, CardContent, Container, Divider } from '@mui/material';
 import './style.css';
 
-import { FC } from 'react';
+import { FC, forwardRef, useRef } from 'react';
 import { EvaluationData } from 'src/api/types';
 import { useTranslation } from 'react-i18next';
+import ReactToPrint from 'react-to-print';
 
 interface FirstPageProps {
   response: EvaluationData[];
 }
 
 const FirstPage: FC<FirstPageProps> = ({ response }) => {
+  //@ts-ignore
   const { t, i18n } = useTranslation();
+  
   return (
     <>
       <Container sx={{ p: '50px' }}>
         <Stack sx={{ textAlign: 'center' }}>
           <Typography variant="h6" sx={{ fontStyle: 'oblique', mb: '10px' }}>
-{t("FieldTraining")}          </Typography>
+            {t('FieldTraining')}{' '}
+          </Typography>
         </Stack>
         <Divider />
 
@@ -28,12 +32,12 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
           <Card sx={{ minWidth: 100, mb: '5px' }}>
             <CardContent>
               <Typography variant="h6" color="text.secondary" gutterBottom>
-                {t("StudentInformation:")}
+                {t('StudentInformation:')}
               </Typography>
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                 {t("StudentName")}{' '}
+                  {t('StudentName')}{' '}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -44,7 +48,7 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  {t("StudentNumber")}
+                  {t('StudentNumber')}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -55,7 +59,7 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  {t("PhoneNumber")}
+                  {t('PhoneNumber')}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -66,7 +70,7 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  {t("academicspecialization")}
+                  {t('academicspecialization')}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -83,12 +87,12 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
           <Card sx={{ minWidth: 200, mb: '5px' }}>
             <CardContent>
               <Typography variant="h6" color="text.secondary" gutterBottom>
-                {t("CompanyInformation")}:
+                {t('CompanyInformation')}:
               </Typography>
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  {t("CompanyName")}
+                  {t('CompanyName')}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -99,7 +103,7 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  {t("CompanyBranch")}
+                  {t('CompanyBranch')}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -110,7 +114,7 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  {t("Email")}
+                  {t('Email')}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -121,7 +125,7 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  {t("PhoneNumber")}
+                  {t('PhoneNumber')}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -132,7 +136,7 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  {t("ManagerName")}
+                  {t('ManagerName')}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -142,7 +146,7 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
               </Stack>
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  {t("TrainerName")}
+                  {t('TrainerName')}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -157,12 +161,12 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
           <Card sx={{ minWidth: 200, mb: '5px' }}>
             <CardContent>
               <Typography variant="h6" color="text.secondary" gutterBottom>
-                {t("Student_working_time")}
+                {t('Student_working_time')}
               </Typography>
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  {t("StartingDate")}
+                  {t('StartingDate')}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -173,7 +177,7 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                  {t("EndingDate")}
+                  {t('EndingDate')}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
@@ -196,11 +200,11 @@ const FirstPage: FC<FirstPageProps> = ({ response }) => {
 
               <Stack>
                 <Typography sx={{ fontWeight: '600' }}>
-                {t("Number_of_training_days")}
+                  {t('Number_of_training_days')}
                   <Typography
                     sx={{ display: 'inline-block', fontWeight: '400' }}
                   >
-                    {response[0]?.Evaluations.length} 
+                    {response[0]?.Evaluations.length}
                   </Typography>
                 </Typography>
               </Stack>

@@ -1,16 +1,17 @@
 export interface RunningTraineesData {
   id: string;
-  studentId: string;
-  companyBranchId: string;
-  Student: {
-    name: string;
-  };
-  CompanyBranch: {
-    location: string;
-    Company: {
+    studentId: string;
+    companyBranchId: string;
+    Student: {
       name: string;
     };
-  };
+    CompanyBranch: {
+      location: string;
+    };
+    Trainer: {
+      name: string;
+    };
+    trainerId: string
 }
 
 export interface GetRunningTrainingsParams {

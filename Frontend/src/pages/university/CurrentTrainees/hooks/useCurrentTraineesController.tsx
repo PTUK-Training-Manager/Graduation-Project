@@ -20,7 +20,7 @@ const useCurrentTrainees = () => {
   );
 
   const onGetDataGrid = (query: DataGridFetchQuery) => setPagination(query);
-  
+
   return {
     rows: data?.items ?? [],
     totalRows: data?.totalItems ?? -1,

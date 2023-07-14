@@ -33,11 +33,6 @@ const columns: ColumnDef<AllTrainingsData, any>[] = [
         accessorKey: 'status',
         header: 'Status',
         filterFn: 'arrIncludesSome',
-    },
-    {
-        accessorKey: 'status',
-        header: 'Status',
-        filterFn: 'arrIncludesSome',
         cell: StatusCell,
     },
     {

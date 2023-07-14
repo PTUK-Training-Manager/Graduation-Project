@@ -1,13 +1,11 @@
-import { Chip, IconButton } from '@mui/material';
-import { CellContext, ColumnDef } from '@tanstack/react-table';
+import { IconButton } from '@mui/material';
+import { ColumnDef } from '@tanstack/react-table';
 import { RunningTraineesData } from './api/types';
 import { createDataGrid } from 'src/components/DataGridTanstack';
 import { Feed } from '@mui/icons-material';
-import { FC, useEffect, useState } from 'react';
+import React from 'react';
+import { useEffect, useState } from 'react';
 import { progressForm } from 'src/api/progress';
-import ProgressFormCell from '../CurrentTraineesV2/ProgressFormCell';
-import useCurrentTrainees from './hooks/useCurrentTraineesController';
-import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import { useTranslation } from 'react-i18next';
 
 const uselogic = () => {
@@ -76,11 +74,13 @@ const uselogic = () => {
     },
   ];
 
-  const CurrentTraineesDataGrid = createDataGrid({
-    name: 'CurrentTraineesDataGrid',
-    columns,
-    shouldFlexGrowCells: true,
-  });
+  const CurrentTraineesDataGrid = React.useMemo(() => {
+    return createDataGrid({
+      name: 'CurrentTraineesDataGrid',
+      columns,
+      shouldFlexGrowCells: true,
+    });
+  }, []);
 
   return {
     handleOpenDialog,

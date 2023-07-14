@@ -5,11 +5,12 @@ import Stack from '@mui/material/Stack';
 import { Card, CardContent, Radio, RadioGroup } from '@mui/material';
 import './style.css';
 import { FormControlLabel } from '@mui/material';
-import { FC } from 'react';
+import { FC, forwardRef } from 'react';
 import { EvaluationData } from 'src/api/types';
 import RichTextEditor from 'src/containers/RichTextEditor/RichTextEditor';
 interface SecondPageProps {
   response: EvaluationData[];
+
 }
 
 const SecondPage: FC<SecondPageProps> = ({ response }) => {
