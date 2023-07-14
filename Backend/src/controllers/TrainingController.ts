@@ -12,7 +12,7 @@ import {
   CompanyBranch,
   User,
 } from "../models/index";
-import {fn, col, Op, QueryTypes} from "sequelize";
+import {fn, col, Op, QueryTypes, FindOptions, InferAttributes} from "sequelize";
 import {
   TrainingStatusEnum,
   UserRoleEnum,
@@ -43,7 +43,7 @@ class TrainingController {
       const size = +req.query?.size || 20;
       const roleId = req.user.roleId;
       let completedTrainings: Training[] = [];
-      let options = {};
+      let options: FindOptions<InferAttributes<Training>> = {};
       if (UserRoleEnum.UNI_TRAINING_OFFICER == roleId) {
         options = {
           where: {
@@ -456,7 +456,7 @@ class TrainingController {
 
       const roleId = req.user.roleId;
       let runningTrainings: Training[] = [];
-      let options = {};
+      let options: FindOptions<InferAttributes<Training>> = {};
 
       if (roleId == UserRoleEnum.Company) {
         const branchesId = await getBranchesIds(req.user.userId);
