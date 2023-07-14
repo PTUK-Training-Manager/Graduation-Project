@@ -65,10 +65,12 @@ class TrainingController {
         });
       } else if (UserRoleEnum.Company == roleId) {
         const branchesId = await getBranchesIds(req.user.userId);
-        options={where: {
-          status: TrainingStatusEnum.completed,
-          companyBranchId: { [Op.in]: branchesId },
-        }}
+        options = {
+          where: {
+            status: TrainingStatusEnum.completed,
+            companyBranchId: { [Op.in]: branchesId },
+          }
+        }
         completedTrainings = await Training.findAll({
           ...options,
           attributes: ["id", "studentId", "companyBranchId", "trainerId"],
@@ -91,10 +93,12 @@ class TrainingController {
         });
       } else if (roleId == UserRoleEnum.TRAINER) {
         const trainingIds = await getTrainingIds(req.user.userId);
-        options ={where: {
-          status: TrainingStatusEnum.completed,
-          id: { [Op.in]: trainingIds },
-        }}
+        options = {
+          where: {
+            status: TrainingStatusEnum.completed,
+            id: { [Op.in]: trainingIds },
+          }
+        }
         completedTrainings = await Training.findAll({
           ...options,
           attributes: ["id", "studentId"],
