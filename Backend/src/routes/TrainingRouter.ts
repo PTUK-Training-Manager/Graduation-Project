@@ -13,7 +13,7 @@ router.get('/runningAndFinishedStudents/:page/:size',verifyRoles([UserRoleEnum.T
 router.get('/submittedStudents/:page/:size', verifyRoles([UserRoleEnum.UNI_TRAINING_OFFICER]), getsubmittedStudents);
 router.post('/submitQuestions', submitQuestions);
 // router.post('/students', getRecords);
-router.get('/completedTrainings/:page/:size', getCompletedTrainings);
+router.get('/completedTrainings', getCompletedTrainings);
 router.get('/runningTrainings', getRunningTrainings);
 // router.get('/runningTrainings', getRunningTrainings);
 router.get('/acceptedTrainings/:page/:size', getAcceptedTrainings);
