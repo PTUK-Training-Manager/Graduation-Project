@@ -118,7 +118,7 @@ class TrainingController {
         pageNumber: page,
         pageSize: size,
         totalItems,
-        totalPages: Math.ceil(completedTrainings.length / size)
+        totalPages: Math.ceil(totalItems / size)
       });
     } catch (err) {
       next(err);
@@ -549,7 +549,7 @@ class TrainingController {
         pageNumber: page,
         pageSize: size,
         totalItems,
-        totalPages: Math.ceil(runningTrainings.length / size)
+        totalPages: Math.ceil(totalItems / size)
       });
     } catch (err) {
       next(err);
