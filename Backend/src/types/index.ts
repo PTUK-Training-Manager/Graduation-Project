@@ -53,8 +53,8 @@ export interface GridResponse {
     items: object[],
     pageNumber: number,
     pageSize: number,
-    totalItems: number,
-    totalPages: number
+    totalItems?: number,
+    totalPages?: number
 }
 
 export interface ButtonHandler extends Request {
@@ -65,12 +65,14 @@ export interface ButtonHandler extends Request {
     }
 }
 
-interface PaginationQuery {
+interface ParsedQs { [key: string]: undefined | string | string[] | ParsedQs | ParsedQs[] }
+
+interface PaginationQuery extends ParsedQs {
     page: string;
     size: string;
 }
 
-export interface PaginatedRequest extends Request<unknown, unknown, unknown, PaginationQuery> {
+export interface PaginatedRequest extends Request {
     query: PaginationQuery;
 }
 

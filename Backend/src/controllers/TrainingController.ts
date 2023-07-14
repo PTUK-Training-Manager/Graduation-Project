@@ -12,11 +12,10 @@ import {
   CompanyBranch,
   User,
 } from "../models/index";
-import { fn, col, Op, literal, Sequelize } from "sequelize";
+import {fn, col, Op, QueryTypes} from "sequelize";
 import {
   TrainingStatusEnum,
   UserRoleEnum,
-  TrainingTypeEnum,
   EvaluationStatusEnum,
 } from "../enums";
 import {
@@ -30,7 +29,8 @@ import {
   PaginatedRequest,
 } from "../types";
 import { getBranchesIds, getStudentId, getTrainingIds } from "../utils";
-import EvaluationController from "./EvaluationController";
+import sequelize from "../config/connection";
+import {DEFAULT_PAGE_SIZE, COMPOUND_TRAINING_HOURS, FIRST_TRAINING_HOURS} from "../constants";
 
 class TrainingController {
   getCompletedTrainings = async (
@@ -213,61 +213,56 @@ class TrainingController {
     }
   };
 
-  getRunningAndFinishedStudents = async (
-    req: Request<{ page?: number; size?: number }>,
-    res: Response<GridResponse>,
-    next: NextFunction
+  getRunningAndFinishedTrainings = async (
+      req: PaginatedRequest,
+      res: Response<GridResponse>,
+      next: NextFunction
   ) => {
     try {
+      const page = +req.query?.page || 0;
+      const size = +req.query?.size || DEFAULT_PAGE_SIZE;
+
       const userId = req.user.userId;
+
       const trainer = await Trainer.findOne({
-        where: { userId },
+        where: {userId},
+        attributes: ["id"],
       });
 
-      const record = await Training.findAll({
-        where: {
-          status: TrainingStatusEnum.running,
-          trainerId: trainer?.id,
-        },
-        include: [
-          {
-            model: Student,
-            attributes: ["name"],
-          },
-        ],
+
+      const query = `
+                SELECT Tr.*,
+                St.name,
+                (SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(TIMEDIFF(Ev.endTime, Ev.startTime))))) as totalDuration
+                FROM Trainings as Tr
+                JOIN Students as St ON St.id = Tr.studentId
+                JOIN Evaluations as Ev ON Ev.trainingId = Tr.id AND Ev.status = "signed"
+                WHERE Tr.status = "running"
+                AND Tr.trainerId = ${trainer?.id} -- get this from the trainerId
+                GROUP BY Tr.id
+                HAVING
+                  (TIME_TO_SEC(totalDuration) >= TIME_TO_SEC("${FIRST_TRAINING_HOURS}:00:00") AND Tr.type IN ("first", "second"))
+                  OR
+                  (TIME_TO_SEC(totalDuration) >= TIME_TO_SEC("${COMPOUND_TRAINING_HOURS}:00:00") AND Tr.type = "compound")
+                ORDER BY totalDuration desc
+                LIMIT ${size} OFFSET ${page * size}
+            `;
+
+      const result = await sequelize.query(query, {
+        type: QueryTypes.SELECT,
+        model: Training,
+        mapToModel: true,
+        raw: false,
       });
 
-      let students: Training[] = [];
-
-      const totalDuration = await Promise.all(
-        record.map(async (student) => {
-          const calcHours = await EvaluationController.calcHours(student.id);
-          let hours = 200;
-          if (student.type === TrainingTypeEnum.compound) {
-            hours = 400;
-          }
-
-          if (calcHours >= 30) {
-            students.push(student);
-          }
-        })
-      );
-
-      const { page, size } = req.params;
-      if (page != null && size != null) {
-        const paginatedData = students.slice(
-          page * size,
-          page * size + size
-        );
-        return res.json({
-          items: paginatedData,
-          pageNumber: page,
-          pageSize: size,
-          totalItems: students.length,
-          totalPages: Math.ceil(students.length / size)
-        })
-      }
-    } catch (err) {
+      // totalItems & totalPages are not needed because they are expensive to calculate!
+      return res.json({
+        items: result,
+        pageNumber: page,
+        pageSize: size,
+      });
+    }
+    catch (err) {
       next(err);
     }
   };
