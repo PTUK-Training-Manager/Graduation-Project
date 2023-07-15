@@ -1,9 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import { BaseResponse, GridResponse, TrainerRequestBody } from "../types";
+import { BaseResponse, GridResponse, PaginatedRequest, TrainerRequestBody } from "../types";
 import { Trainer, Company, User, Training, Field } from "../models";
 import UserController from "./UserController";
 import { TrainerStatusEnum, TrainingStatusEnum, UserRoleEnum } from "../enums";
 import { Op } from "sequelize";
+import { DEFAULT_PAGE_SIZE } from "../constants";
 const { addUser, generateAccount } = UserController;
 class TrainierController {
   addtrainer = async (
@@ -101,130 +102,49 @@ class TrainierController {
         message: "success adding trainer",
         data: TrainerRecord,
       });
-
-      // const { name, email, field, username: trainerUsername, password } = req.body;
-
-      /**
-       * User
-       */
-
-      // const user = await User.findOne({
-      // 	where: { username: trainerUsername }
-      // })
-
-      // if (user) {
-      // 	return res.json({
-      // 		success: false,
-      // 		status: res.statusCode,
-      // 		message: "trainer already exists || invalid username",
-      // 		data: user
-      // 	})
-      // }
-
-      // const trainerUserId = await addUser({
-      // 	username: trainerUsername,
-      // 	email,
-      // 	password,
-      // 	saltRounds: 10,
-      // 	roleId: UserRoleEnum.TRAINER
-      // }); // Trainer roleID in DataBase
-
-      // const username = req.user.username;
-      // const companyUser = await User.findOne({
-      // 	where: { username },
-      // 	attributes: ['id']
-      // });
-      // const companyUserId = companyUser?.id;
-
-      // const company = await Company.findOne({
-      // 	where: { userId: companyUserId },
-      // 	attributes: ['id']
-      // });
-      // const companyId = company?.id;
-
-      // const trainerRecord = await Trainer.create({
-      // 	name,
-      // 	field,
-      // 	status: TrainerStatusEnum.active,
-      // 	userId: trainerUserId,
-      // 	companyId
-      // });
-
-      // return res.json({
-      // 	success: true,
-      // 	status: res.statusCode,
-      // 	message: "Successfully add trainer",
-      // 	data: trainerRecord
-      // });
     } catch (err) {
       next(err);
     }
   };
 
-  // getAll = async (
-  //   req: TrainerRequestBody,
-  //   res: Response<BaseResponse>,
-  //   next: NextFunction
-  // ) => {
-  //   try {
-  //     const records = await Trainer.findAll({});
-  //     return res.json({
-  //       success: true,
-  //       status: res.statusCode,
-  //       message: "Trainers: ",
-  //       data: records,
-  //     });
-  //   } catch (err) {
-  //     next(err);
-  //   }
-  // };
-
-  getMyTrainers = async (
-    req: Request<{ page?: number; size?: number }>,
+  getCompanyTrainers = async (
+    req: PaginatedRequest,
     res: Response<GridResponse>,
     next: NextFunction
   ) => {
     try {
+      const page = +req.query?.page || 0;
+      const size = +req.query?.size || DEFAULT_PAGE_SIZE;
       const userId = req.user.userId;
       const company = await Company.findOne({
         where: { userId },
         attributes: ["id"],
       });
       const companyId = company?.id;
-      const records = await Trainer.findAll({
+      let options = {
         where: {
           [Op.and]: {
             companyId,
             status: TrainerStatusEnum.active,
           },
-        },
+        }
+      }
+      const records = await Trainer.findAll({
+        ...options,
         include: { model: Field },
+        limit: size,
+        offset: page * size,
       });
 
-      const { page, size } = req.params;
-      if(page==null ||size==null ||page==-1 || size==-1){
-        
-        return res.json({
-          items: records,
-          pageNumber: -1,
-          pageSize: -1,
-          totalItems: records.length,
-          totalPages:1
-        });
-      }
-      else{
-      const paginatedData = records.slice(
-        page*size,
-        page*size + size
-      );
+      const totalItems = await Trainer.count(options);
       return res.json({
-        items: paginatedData,
+        items: records,
         pageNumber: page,
         pageSize: size,
-        totalItems: records.length,
-        totalPages: Math.ceil(records.length/size)
+        totalItems,
+        totalPages: Math.ceil(totalItems / size)
       });
-    }
+
     } catch (err) {
       next(err);
     }

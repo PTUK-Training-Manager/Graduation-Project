@@ -12,7 +12,7 @@ import {
   CompanyBranch,
   User,
 } from "../models/index";
-import {fn, col, Op, QueryTypes, FindOptions, InferAttributes} from "sequelize";
+import { fn, col, Op, QueryTypes, FindOptions, InferAttributes } from "sequelize";
 import {
   TrainingStatusEnum,
   UserRoleEnum,
@@ -30,7 +30,7 @@ import {
 } from "../types";
 import { getBranchesIds, getStudentId, getTrainingIds } from "../utils";
 import sequelize from "../config/connection";
-import {DEFAULT_PAGE_SIZE, COMPOUND_TRAINING_HOURS, FIRST_TRAINING_HOURS} from "../constants";
+import { DEFAULT_PAGE_SIZE, COMPOUND_TRAINING_HOURS, FIRST_TRAINING_HOURS } from "../constants";
 
 class TrainingController {
   getCompletedTrainings = async (
@@ -40,7 +40,7 @@ class TrainingController {
   ) => {
     try {
       const page = +req.query?.page || 0;
-      const size = +req.query?.size || 20;
+      const size = +req.query?.size || DEFAULT_PAGE_SIZE;
       const roleId = req.user.roleId;
       let completedTrainings: Training[] = [];
       let options: FindOptions<InferAttributes<Training>> = {};
@@ -63,6 +63,19 @@ class TrainingController {
           limit: size,
           offset: page * size,
         });
+        const tot = await Training.count({
+          where: {
+            status: TrainingStatusEnum.completed,
+          },
+          include: [
+            {
+              model: Student,
+              attributes: ["name"],
+            },
+          ],
+          group: ["studentId"]
+        });
+        console.log(tot);
       } else if (UserRoleEnum.Company == roleId) {
         const branchesId = await getBranchesIds(req.user.userId);
         options = {
@@ -112,7 +125,10 @@ class TrainingController {
           offset: page * size,
         });
       }
-      const totalItems = await Training.count(options);
+      let totalItems = await Training.count(options);
+      if (Array.isArray(totalItems))
+        totalItems = totalItems.length;
+      console.log(totalItems)
       return res.json({
         items: completedTrainings,
         pageNumber: page,
@@ -141,7 +157,6 @@ class TrainingController {
       });
       const index = req.body.index;
       req.body.trainingId = trainings[index].id;
-      console.log(trainings[index].id);
       await this.generateEvaluationForm(req, res, next);
     } catch (err) {
       next(err);
@@ -214,9 +229,9 @@ class TrainingController {
   };
 
   getRunningAndFinishedTrainings = async (
-      req: PaginatedRequest,
-      res: Response<GridResponse>,
-      next: NextFunction
+    req: PaginatedRequest,
+    res: Response<GridResponse>,
+    next: NextFunction
   ) => {
     try {
       const page = +req.query?.page || 0;
@@ -225,7 +240,7 @@ class TrainingController {
       const userId = req.user.userId;
 
       const trainer = await Trainer.findOne({
-        where: {userId},
+        where: { userId },
         attributes: ["id"],
       });
 
@@ -268,37 +283,37 @@ class TrainingController {
   };
 
   getsubmittedStudents = async (
-    req: Request<{ page?: number; size?: number }>,
+    req: PaginatedRequest,
     res: Response<GridResponse>,
     next: NextFunction
   ) => {
     try {
-      const records = await Training.findAll({
+      const page = +req.query?.page || 0;
+      const size = +req.query?.size || DEFAULT_PAGE_SIZE;
+      let options = {
         where: {
           status: TrainingStatusEnum.submitted,
-        },
+        }
+      }
+      const submittedStudents = await Training.findAll({
+        ...options,
         include: [
           {
             model: Student,
             attributes: ["name"],
           },
         ],
+        limit: size,
+        offset: page * size,
       });
-
-      const { page, size } = req.params;
-      if (page != null && size != null) {
-        const paginatedData = records.slice(
-          page * size,
-          page * size + size
-        );
-        return res.json({
-          items: paginatedData,
-          pageNumber: page,
-          pageSize: size,
-          totalItems: records.length,
-          totalPages: Math.ceil(records.length / size)
-        })
-      }
+      const totalItems = await Training.count();
+      return res.json({
+        items: submittedStudents,
+        pageNumber: page,
+        pageSize: size,
+        totalItems,
+        totalPages: Math.ceil(totalItems / size)
+      })
     } catch (err) {
       next(err);
     }
@@ -404,17 +419,22 @@ class TrainingController {
   };
 
   getAcceptedTrainings = async (
-    req: Request<{ page: number; size: number }>,
+    req: PaginatedRequest,
     res: Response<GridResponse>,
     next: NextFunction
   ) => {
     try {
+      const page = +req.query?.page || 0;
+      const size = +req.query?.size || DEFAULT_PAGE_SIZE;
       const branchesId = await getBranchesIds(req.user.userId);
-      const acceptedTrainings = await Training.findAll({
+      let options = {
         where: {
           status: TrainingStatusEnum.accepted,
           companyBranchId: { [Op.in]: branchesId },
-        },
+        }
+      }
+      const acceptedTrainings = await Training.findAll({
+        ...options,
         attributes: ["id", "studentId", "companyBranchId"],
         include: [
           {
@@ -426,19 +446,18 @@ class TrainingController {
             attributes: ["location"],
           },
         ],
+        limit: size,
+        offset: page * size,
       });
 
-      const { page, size } = req.params;
-      const paginatedData = acceptedTrainings.slice(
-        page * size,
-        page * size + size
-      );
+      const totalItems = await Training.count(options);
+
       return res.json({
-        items: paginatedData,
+        items: acceptedTrainings,
         pageNumber: page,
         pageSize: size,
-        totalItems: acceptedTrainings.length,
-        totalPages: Math.ceil(acceptedTrainings.length / size)
+        totalItems,
+        totalPages: Math.ceil(totalItems / size)
       });
     } catch (err) {
       next(err);
@@ -452,7 +471,7 @@ class TrainingController {
   ) => {
     try {
       const page = +req.query?.page || 0;
-      const size = +req.query?.size || 20;
+      const size = +req.query?.size || DEFAULT_PAGE_SIZE;
 
       const roleId = req.user.roleId;
       let runningTrainings: Training[] = [];
@@ -634,11 +653,13 @@ class TrainingController {
   };
 
   getAllTrainings = async (
-    req: Request<{ page: number; size: number }>,
+    req: PaginatedRequest,
     res: Response<GridResponse>,
     next: NextFunction
   ) => {
     try {
+      const page = +req.query?.page || 0;
+      const size = +req.query?.size || DEFAULT_PAGE_SIZE;
       const roleId = req.user.roleId;
       let trainings: Training[] = [];
       if (UserRoleEnum.UNI_TRAINING_OFFICER == roleId) {
@@ -669,6 +690,8 @@ class TrainingController {
               attributes: ["location"],
             },
           ],
+          limit: size,
+          offset: page * size,
         });
       } else if (UserRoleEnum.Company == roleId) {
         const branchesId = await getBranchesIds(req.user.userId);
@@ -700,6 +723,8 @@ class TrainingController {
               attributes: ["name"],
             },
           ],
+          limit: size,
+          offset: page * size,
         });
       } else if (roleId == UserRoleEnum.TRAINER) {
         const trainingIds = await getTrainingIds(req.user.userId);
@@ -725,7 +750,8 @@ class TrainingController {
               model: CompanyBranch,
               attributes: ["location"],
             },
-          ],
+          ], limit: size,
+          offset: page * size,
         });
       } else if (roleId == UserRoleEnum.STUDENT) {
         const userId = req.user.userId;
@@ -753,33 +779,20 @@ class TrainingController {
               attributes: ["location"],
             },
           ],
+          limit: size,
+          offset: page * size,
         });
       }
+      const totalItems = await Training.count();
+      return res.json({
+        items: trainings,
+        pageNumber: page,
+        pageSize: size,
+        totalItems,
+        totalPages: Math.ceil(totalItems / size)
+      });
 
-      const { page, size } = req.params;
-      if (page == null || size == null || page == -1 || size == -1) {
 
-        return res.json({
-          items: trainings,
-          pageNumber: -1,
-          pageSize: -1,
-          totalItems: trainings.length,
-          totalPages: 1
-        });
-      } else {
-        const paginatedData = trainings.slice(
-          page * size,
-          page * size + size
-        );
-        return res.json({
-          items: paginatedData,
-          pageNumber: page,
-          pageSize: size,
-          totalItems: trainings.length,
-          totalPages: Math.ceil(trainings.length / size)
-        });
-
-      }
     } catch (err) {
       next(err);
     }
