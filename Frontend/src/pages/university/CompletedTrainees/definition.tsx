@@ -1,18 +1,13 @@
-import { Chip, IconButton, Tooltip } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import { CellContext, ColumnDef } from '@tanstack/react-table';
 import { createDataGrid } from 'src/components/DataGridTanstack';
-import { Feed } from '@mui/icons-material';
-import { FC, useEffect, useState } from 'react';
-import { progressForm } from 'src/api/progress';
-import ProgressFormCell from '../CurrentTraineesV2/ProgressFormCell';
+import { useState } from 'react';
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import useCompletedTraineesController from './hooks/useCompletedTraineesController';
 import PrintIcon from '@mui/icons-material/Print';
 import { CompletedTraineesData } from './api/response.dto';
 import { useTranslation } from 'react-i18next';
 
-interface ProgressFormCellProps
-  extends CellContext<CompletedTraineesData, any> {}
 const uselogic = () => {
   const [pagination, setPagination] = useState<PageChangeParams>({
     pageIndex: 0,
@@ -32,11 +27,12 @@ const uselogic = () => {
     setIndex(index);
     setStudentId(id);
   };
+  //@ts-ignore
   const { t } = useTranslation();
   const StudentNumber = t('StudentNumber');
   const StudentName = t('StudentName');
-  const EvaluationReport=t('EvaluationReport');
-  const ProgressForm=t('ProgressForm');
+  const EvaluationReport = t('EvaluationReport');
+  const ProgressForm = t('ProgressForm');
   const columns: ColumnDef<CompletedTraineesData, any>[] = [
     {
       accessorKey: 'studentId',
@@ -54,7 +50,7 @@ const uselogic = () => {
       cell: (props) => {
         const {
           row: { original },
-        } = props;       
+        } = props;
         const count = parseInt(original.count);
         const index = parseInt(original.count) - 1;
         const studentId = original.studentId;
@@ -65,8 +61,7 @@ const uselogic = () => {
             printIcons.push(
               <Tooltip title={'Evaluation 1'}>
                 <IconButton
-
-                  sx={{ ml: 5}}
+                  sx={{ ml: 5 }}
                   aria-label={'form 1'}
                   size="small"
                   onClick={() => handleOpenDialog(index, studentId)}
@@ -83,8 +78,7 @@ const uselogic = () => {
             printIcons.push(
               <Tooltip key={i} title={`Evaluation ${i + 1}`}>
                 <IconButton
-                                  sx={{ ml: 2}}
-
+                  sx={{ ml: 2 }}
                   aria-label={`form ${i + 1}`}
                   size="small"
                   onClick={() => handleOpenDialog(i, studentId)}
