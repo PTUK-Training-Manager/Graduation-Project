@@ -6,6 +6,7 @@ import {
   BaseResponse,
   AddFieldBody,
   GridResponse,
+  PaginatedRequest,
 } from "../types";
 import { UserRoleEnum } from "../enums";
 import { getCompanyId } from "../utils";
@@ -17,6 +18,7 @@ import {
   Field,
 } from "../models/index";
 import { Op } from "sequelize";
+import { DEFAULT_PAGE_SIZE } from "../constants";
 
 class CompanyController {
   constructor() {
@@ -140,11 +142,13 @@ class CompanyController {
   }
 
   async getCompanies(
-    req: Request<{ page?: number; size?: number }>,
+    req: PaginatedRequest,
     res: Response<GridResponse>,
     next: NextFunction
   ) {
     try {
+      const page = +req.query?.page || 0;
+      const size = +req.query?.size || DEFAULT_PAGE_SIZE;
       const companies = await Company.findAll({
         include: [
           {
@@ -152,56 +156,21 @@ class CompanyController {
             attributes: ["email"],
           },
         ],
+        limit: size,
+        offset: page * size,
       });
-
-      const { page, size } = req.params;
-      if(page==null ||size==null ||page==-1 || size==-1){
-        
-        return res.json({
-          items: companies,
-          pageNumber: -1,
-          pageSize: -1,
-          totalItems: companies.length,
-          totalPages:1
-        });
-      }
-      else{
-      const paginatedData = companies.slice(
-        page*size,
-        page*size + size
-      );
+      const totalItems = await Company.count();
       return res.json({
-        items: paginatedData,
+        items: companies,
         pageNumber: page,
         pageSize: size,
-        totalItems: companies.length,
-        totalPages: Math.ceil(companies.length/size)
+        totalItems,
+        totalPages: Math.ceil(totalItems / size)
       });
-
-    }
     } catch (err) {
       next(err);
     }
   }
-  async getCompanies1(req: Request, res: Response<BaseResponse>, next: NextFunction) {
-    try {
-        const companies = await Company.findAll({
-            include: [{
-                model: User,
-                attributes: ['email']
-            }]
-        });
-        return res.json({
-            success: true,
-            status: res.statusCode,
-            message: "success retrieve all companies",
-            data: companies
-        });
-    }
-    catch (err) {
-        next(err);
-    }
-}
   async getBranches(
     req: BranchRequestBody,
     res: Response<BaseResponse>,
