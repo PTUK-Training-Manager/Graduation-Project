@@ -2,8 +2,9 @@ import { NextFunction, Request, Response } from "express";
 import { CompanyBranch, Student, Training, Company, User } from "../models";
 import { TrainingStatusEnum, TrainingTypeEnum } from "../enums";
 import { Op } from "sequelize";
-import { BaseResponse, GridResponse } from "../types";
+import { BaseResponse, GridResponse, PaginatedRequest } from "../types";
 import { getBranchesIds } from "../utils";
+import { DEFAULT_PAGE_SIZE } from "../constants";
 
 class TrainingRequestController {
   submitRequest = async (
@@ -112,16 +113,21 @@ class TrainingRequestController {
   };
 
   getPendingRequest = async (
-    req: Request<{ page?: number; size?: number }>,
+    req: PaginatedRequest,
     res: Response<GridResponse>,
     next: NextFunction
   ) => {
     try {
-      const trainingRequestsRecords = await Training.findAll({
-        attributes: ["id", "studentId", "companyBranchId"],
+      const page = +req.query?.page || 0;
+      const size = +req.query?.size || DEFAULT_PAGE_SIZE;
+      let options = {
         where: {
           status: TrainingStatusEnum.pending,
-        },
+        }
+      }
+      const trainingRequestsRecords = await Training.findAll({
+        ...options,
+        attributes: ["id", "studentId", "companyBranchId"],
         include: [
           {
             model: Student,
@@ -138,21 +144,18 @@ class TrainingRequestController {
             ],
           },
         ],
+        limit: size,
+        offset: page * size
       });
+      const totalItems = await Training.count(options);
+      return res.json({
+        items: trainingRequestsRecords,
+        pageNumber: page,
+        pageSize: size,
+        totalItems,
+        totalPages: Math.ceil(totalItems / size)
+      })
 
-      const { page, size } = req.params;
-      if(page!=null&&size!=null){
-        const paginatedData = trainingRequestsRecords.slice(
-          page*size,
-          page*size + size
-        );
-        return res.json({
-          items: paginatedData,
-          pageNumber: page,
-          pageSize: size,
-          totalItems: trainingRequestsRecords.length,
-          totalPages: Math.ceil(trainingRequestsRecords.length/size)})
-      }
     } catch (err) {
       next(err);
     }
@@ -187,17 +190,22 @@ class TrainingRequestController {
   };
 
   getTrainingRequest = async (
-    req: Request<{ page?: number; size?: number }>,
+    req: PaginatedRequest,
     res: Response<GridResponse>,
     next: NextFunction
   ) => {
     try {
+      const page = +req.query?.page || 0;
+      const size = +req.query?.size || DEFAULT_PAGE_SIZE;
       const branchesId = await getBranchesIds(req.user.userId);
-      const trainingRequests = await Training.findAll({
+      let options = {
         where: {
           status: TrainingStatusEnum.pending,
           companyBranchId: { [Op.in]: branchesId },
-        },
+        }
+      }
+      const trainingRequests = await Training.findAll({
+        ...options,
         attributes: ["id", "type", "studentId", "companyBranchId"],
         include: [
           {
@@ -209,21 +217,19 @@ class TrainingRequestController {
             attributes: ["location"],
           },
         ],
+        limit: size,
+        offset: page * size,
       });
 
-      const { page, size } = req.params;
-      if(page!=null&&size!=null){
-        const paginatedData = trainingRequests.slice(
-          page*size,
-          page*size + size
-        );
-        return res.json({
-          items: paginatedData,
-          pageNumber: page,
-          pageSize: size,
-          totalItems: trainingRequests.length,
-          totalPages: Math.ceil(trainingRequests.length/size)})
-      }
+      const totalItems = await Training.count(options);
+      return res.json({
+        items: trainingRequests,
+        pageNumber: page,
+        pageSize: size,
+        totalItems,
+        totalPages: Math.ceil(totalItems / size)
+      })
+
     } catch (err) {
       next(err);
     }

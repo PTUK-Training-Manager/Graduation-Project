@@ -85,35 +85,35 @@ class EvaluationController {
 
   getPendingEvaluations = async (req: Request, res: Response<BaseResponse>, next: NextFunction) => {
     try {
-      
-        const userId = req.user.userId;
-        const trainingIds = await getTrainingIds(userId);
-        const pendingEvaluations = await Evaluation.findAll({
-            where: {
-                status: EvaluationStatusEnum.pending,
-                trainingId: { [Op.in]: trainingIds }
-            }, include: [
-                {
-                    model: Training,
-                    attributes: ['StudentId'],
-                    include: [{
-                        model: Student,
-                        attributes: ['name']
-                    }]
-                }
-            ]
-        });
-        return res.json({
-            success: true,
-            status: res.statusCode,
-            message: "pending evaluations",
-            data: pendingEvaluations
-        });
+
+      const userId = req.user.userId;
+      const trainingIds = await getTrainingIds(userId);
+      const pendingEvaluations = await Evaluation.findAll({
+        where: {
+          status: EvaluationStatusEnum.pending,
+          trainingId: { [Op.in]: trainingIds }
+        }, include: [
+          {
+            model: Training,
+            attributes: ['StudentId'],
+            include: [{
+              model: Student,
+              attributes: ['name']
+            }]
+          }
+        ]
+      });
+      return res.json({
+        success: true,
+        status: res.statusCode,
+        message: "pending evaluations",
+        data: pendingEvaluations
+      });
 
     } catch (err) {
-        next(err);
+      next(err);
     }
-}
+  }
 
   signEvaluation = async (
     req: Request<unknown, unknown, { id: number }>,
@@ -287,7 +287,7 @@ class EvaluationController {
           },
         ],
       });
-      
+
       return res.json({
         success: true,
         status: res.statusCode,
