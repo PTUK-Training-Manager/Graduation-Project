@@ -25,7 +25,7 @@ class studentController {
       const student = await Student.findByPk(id);
 
       if (student) {
-        return false;
+        return id;
       }
 
       const { temp, password } = await UserController.generateAccount(
@@ -51,7 +51,7 @@ class studentController {
       });
 
       if (studentRecord) {
-        return true;
+        return "ok";
       }
     } catch (err) {
       next(err);
