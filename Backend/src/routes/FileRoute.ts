@@ -36,7 +36,7 @@ router.post('/upload', upload.single('file'), async (req: StudentRequestBody, re
         data.push(parsedRow);
       });
       let flag: any = true;
-      let ids:string[] =[];
+      let ids: string[] = [];
       for (let i = 1; i < data.length; i++) {
         if (Object.keys(data[i]).length === 0)
           continue;
@@ -47,20 +47,16 @@ router.post('/upload', upload.single('file'), async (req: StudentRequestBody, re
         req.body.department = data[i].department as string;
         flag = await studentController.addStudent(req, res, next);
         console.log(flag);
-        if ( flag!="ok") {
-          
+        if (flag != "ok") {
           ids.push(flag);
-          console.log(ids);
         }
       }
-      console.log("========");
-      console.log(ids);
-      if (ids.length!=0)
+      if (ids.length != 0)
         return res.json({
           success: true,
           status: res.statusCode,
           message: "error in adding students",
-          data:ids
+          data: ids
         });
       else
         return res.json({
