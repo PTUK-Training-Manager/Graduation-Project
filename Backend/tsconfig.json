@@ -134,5 +134,6 @@
   "ts-node": {
     "esm": true,
     "experimentalSpecifierResolution": "node"
-  }
+  },
+  "include": ["../.eslintrc.json", "src"]
 }

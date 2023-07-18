@@ -36,15 +36,28 @@
     "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.13",
     "@types/morgan": "^1.9.4",
+    "@typescript-eslint/eslint-plugin": "^6.1.0",
+    "@typescript-eslint/parser": "^6.1.0",
+    "eslint": "^8.45.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.3",
     "nodemon": "^2.0.22",
+    "prettier": "^3.0.0",
     "ts-alias": "^0.0.7",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0"
   },
+  "lint-staged": {
+    "src/**/*.{js,ts}": [
+      "eslint",
+      "prettier --write"
+    ]
+  },
   "scripts": {
     "dev": "nodemon",
     "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register --esm build/app.js",
-    "build": "tsc"
+    "build": "tsc",
+    "prepare": "cd .. && husky install Backend/.husky"
   },
   "author": "",
   "description": "Student's University Practical Training Management Information System"
