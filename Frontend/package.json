@@ -1,5 +1,6 @@
 {
-  "name": "gproject",
+  "name": "Trainerize",
+  "description": "Student's University Practical Training Management Information System",
   "private": true,
   "version": "0.0.0",
   "type": "module",
