@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest",
+    "prepare": "cd .. && husky install Frontend/.husky",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
@@ -38,7 +40,7 @@
     "classnames": "^2.3.2",
     "dayjs": "^1.11.8",
     "debounce": "^1.2.1",
-    "eslint": "^8.35.0",
+    "eslint": "^8.45.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-prettier": "^8.7.0",
@@ -56,7 +58,6 @@
     "jwt-decode": "^3.1.2",
     "lexical": "^0.10.0",
     "lottie-react": "^2.4.0",
-    "prettier": "^2.8.4",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-color": "^2.19.3",
@@ -78,11 +79,19 @@
     "@types/node": "^20.1.0",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
-    "@typescript-eslint/eslint-plugin": "^5.54.1",
-    "@typescript-eslint/parser": "^5.54.1",
+    "@typescript-eslint/eslint-plugin": "^6.1.0",
+    "@typescript-eslint/parser": "^6.1.0",
     "@vitejs/plugin-react": "^3.1.0",
     "eslint-plugin-react": "^7.32.2",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.3",
+    "precise-commits": "^1.0.2",
+    "prettier": "^3.0.0",
     "typescript": "^4.9.3",
     "vite": "^4.1.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,tsx,ts,css}": "prettier --write",
+    "*.{js,jsx,tsx,ts}": "eslint"
   }
 }
