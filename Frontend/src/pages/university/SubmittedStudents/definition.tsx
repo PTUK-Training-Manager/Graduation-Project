@@ -1,12 +1,12 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { createDataGrid } from 'src/components/DataGridTanstack';
-import ClearIcon from '@mui/icons-material/Clear';
+import { SubmittedTraineesData } from './api/types';
 import { IconButton } from '@mui/material';
 import NoteAltIcon from '@mui/icons-material/NoteAlt';
 import useSnackbar from 'src/hooks/useSnackbar';
 import { useState } from 'react';
-import { SubmittedStudentsData } from './api/response.dto';
 import { useTranslation } from 'react-i18next';
+import React from 'react';
 
 const uselogic = () => {
   const { showSnackbar } = useSnackbar();
@@ -21,12 +21,13 @@ const uselogic = () => {
   const handleCloseDialog = () => {
     setIsOpen(false);
   };
-  const {t}=useTranslation();
+  //@ts-ignore
+  const { t } = useTranslation();
 
   const StudentNumber = t('StudentNumber');
   const StudentName = t('StudentName');
-const DeleteRequest=t('DeleteRequest');
-  const columns: ColumnDef<SubmittedStudentsData, any>[] = [
+  const DeleteRequest = t('DeleteRequest');
+  const columns: ColumnDef<SubmittedTraineesData, any>[] = [
     {
       accessorKey: 'studentId',
       header: StudentNumber,
@@ -42,10 +43,10 @@ const DeleteRequest=t('DeleteRequest');
       cell: (props) => {
         const {
           row: { original },
-        } = props;         
-          return (
+        } = props;
+        return (
           <IconButton
-          size='small'
+            size="small"
             sx={{ ml: 3.5 }}
             aria-label="progress form"
             onClick={() => handleOpenDialog(original.id)}
@@ -57,11 +58,13 @@ const DeleteRequest=t('DeleteRequest');
     },
   ];
 
-  const SubmittedTraineesDataGrid = createDataGrid({
-    name: 'CurrentTraineesDataGrid',
-    columns,
-    shouldFlexGrowCells: true,
-  });
+  const SubmittedTraineesDataGrid = React.useMemo(() => {
+    return createDataGrid({
+      name: 'SubmittedTraineesDataGrid',
+      columns,
+      shouldFlexGrowCells: true,
+    });
+  }, []);
 
   return {
     isOpen,

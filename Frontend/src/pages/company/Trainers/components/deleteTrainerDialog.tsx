@@ -23,6 +23,7 @@ const DeleteTrainerDialog: FC<DeleteTrainerDialogProps> = ({
   handleDeleteTrainer,
   trainerName,
 })  => {
+  //@ts-ignore
   const {t}=useTranslation();
   return (
     <Dialog
@@ -37,10 +38,10 @@ const DeleteTrainerDialog: FC<DeleteTrainerDialogProps> = ({
       </DialogContent>
       <DialogActions>
         <Button onClick={handleCancelDeleteTrainer} color="primary">
-          {t("Cancel")}
+          Cancel
         </Button>
         <Button onClick={handleDeleteTrainer} color="error" variant="contained">
-          {t("Delete")}
+         Delete
         </Button>
       </DialogActions>
     </Dialog>

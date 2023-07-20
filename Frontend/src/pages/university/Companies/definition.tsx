@@ -1,17 +1,14 @@
-import { Chip, IconButton } from '@mui/material';
-import { CellContext, ColumnDef } from '@tanstack/react-table';
+import { IconButton } from '@mui/material';
+import { ColumnDef } from '@tanstack/react-table';
 import { createDataGrid } from 'src/components/DataGridTanstack';
-import { Feed } from '@mui/icons-material';
-import { FC, useEffect, useState } from 'react';
-import { progressForm } from 'src/api/progress';
-import ProgressFormCell from '../CurrentTraineesV2/ProgressFormCell';
-import { PageChangeParams } from 'src/components/DataGridTanstack/types';
+import { useState } from 'react';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import { getBranch } from 'src/api/getBranch';
-import { AddCompanyData, GetCompanyData } from './api/response.dto';
+import { CompaniesData } from './api/types';
 import useSnackbar from 'src/hooks/useSnackbar';
 import { addBranch } from './api';
 import { useTranslation } from 'react-i18next';
+import React from 'react';
 
 interface Branch {
     map(arg0: (company: any) => { id: any; location: any }): unknown;
@@ -74,7 +71,7 @@ const uselogic = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [trainingId, setTrainingId] = useState('');
   const [response, setReponse] = useState<Response>();
- 
+ //@ts-ignore
   const {t}=useTranslation();
   const ManegarName = t('ManegarName');
   const PhoneNumber = t('PhoneNumber');
@@ -95,7 +92,7 @@ const CompanyId=t('CompanyId');
     setTrainingId('');
   };
 
-  const columns: ColumnDef<GetCompanyData, any>[] = [
+  const columns: ColumnDef<CompaniesData, any>[] = [
     {
       accessorKey: 'id',
       header:CompanyId ,
@@ -140,12 +137,14 @@ const CompanyId=t('CompanyId');
       },
     },
   ];
-
-  const CompaniesDataGrid = createDataGrid({
-    name: 'CompaniesDataGrid',
-    columns,
-    shouldFlexGrowCells: true,
-  });
+  const CompaniesDataGrid = React.useMemo(() => {
+    return createDataGrid({
+      name: 'CompaniesDataGrid',
+      columns,
+      shouldFlexGrowCells: true,
+    });
+  }, []);
+  
 
   return {
    CompaniesDataGrid,

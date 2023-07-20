@@ -1,15 +1,20 @@
-import axiosInstance from "src/api";
-import { FetchUsersParams } from "./request.dto";
-import { CompletedTraineesResponse } from "./response.dto";
+import axiosInstance from 'src/api';
+import {
+  GetCompletedTrainingsParams,
+  GetCompletedTraineesResponse,
+} from './types';
 
-export const getCompletedTrainees = async (params: FetchUsersParams) => {
-  return axiosInstance.get<CompletedTraineesResponse>(
-    `/training/completedTrainings/${params.page}/${params.size}`,
-    {
+export const getCompletedTrainees = async (
+  params: GetCompletedTrainingsParams
+) => {
+  const { pageIndex, pageSize } = params;
+
+  return axiosInstance
+    .get<GetCompletedTraineesResponse>('/training/completedTrainings', {
       params: {
-        page: (params.page ?? 0) * (params.size ?? 10),
-        size: params.size,
+        page: pageIndex,
+        size: pageSize,
       },
-    }
-  );
+    })
+    .then((response) => response.data);
 };

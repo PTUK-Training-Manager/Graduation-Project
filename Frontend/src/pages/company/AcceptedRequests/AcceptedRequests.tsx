@@ -1,24 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import MuiPagination from '@mui/material/Pagination';
-import { TablePaginationProps } from '@mui/material/TablePagination';
-import {
-  DataGrid,
-  GridPagination,
-  GridToolbar,
-  gridPageCountSelector,
-  useGridApiContext,
-  useGridSelector,
-} from '@mui/x-data-grid';
-import dayjs, { Dayjs } from 'dayjs';
+import React from 'react';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import './AcceptedRequests.css';
 import theme from 'src/styling/customTheme';
-import { AssignTrainerRequestBody } from './api/request.dto';
-import { getAcceptedTrainings, assignTrainer } from './api';
-import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import DataGridPagination from 'src/components/DataGrid/DataGridPagination';
 import {
@@ -30,14 +17,10 @@ import {
   Grid,
   IconButton,
   Stack,
-  TextField,
-  TextFieldProps,
   Typography,
 } from '@mui/material';
-
 import uselogic from './definitions';
 import useAcceptedRequestsController from './hooks/useAcceptedRequestsController';
-import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import { useTranslation } from 'react-i18next';
 
 const AcceptedTrainings: React.FC = () => {
@@ -53,16 +36,11 @@ const AcceptedTrainings: React.FC = () => {
     onSetDate,
     handleJoin,
   } = uselogic();
-  const [pagination, setPagination] = useState<PageChangeParams>({
-    pageIndex: 0,
-    pageSize: 30,
-  });
+  const { rows, totalRows, isFetching, onGetDataGrid } =
+    useAcceptedRequestsController();
 
-  const { rows } = useAcceptedRequestsController({
-    pagination,
-  });
-
-  const {t}=useTranslation();
+  //@ts-ignore
+  const { t } = useTranslation();
   const trainerColumns = [
     { field: 'id', headerName: 'Trainer Id', width: 400, flex: 0.3 },
     { field: 'name', headerName: 'Trianer Name', width: 400, flex: 0.3 },
@@ -95,15 +73,15 @@ const AcceptedTrainings: React.FC = () => {
     status: row.status,
     companyId: row.companyId,
     userId: row.userId,
-  })); 
+  }));
   return (
     <>
-     <Dialog open={joinDialogOpen} onClose={handleJoinDialogClose}>
+      <Dialog open={joinDialogOpen} onClose={handleJoinDialogClose}>
         <DialogContent>
           <Stack gap={1} style={{ height: 400, width: '100%' }}>
-          <Typography component="h1" variant="h5" fontWeight={500}>
-             Trainers
-          </Typography>
+            <Typography component="h1" variant="h5" fontWeight={500}>
+              Trainers
+            </Typography>
             <DataGrid
               sx={{
                 width: '500px', // set the width to 800px
@@ -141,18 +119,22 @@ const AcceptedTrainings: React.FC = () => {
       >
         <DialogTitle>Verify Joining</DialogTitle>
         <DialogContent>
-        <Stack spacing={2} sx={{width:'250px'}}>
-          <Typography>Choose starting date for trainee if you want!</Typography>
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DemoContainer components={['DatePicker', 'DatePicker']}>
-          <DatePicker
-          label="Date for start Training"
-          value={selectedDate}
-          onChange={(newValue) => onSetDate(newValue)}
-        />
-            </DemoContainer>
+          <Stack spacing={2} sx={{ width: '250px' }}>
+            <Typography>
+              Choose starting date for trainee if you want!
+            </Typography>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <DemoContainer components={['DatePicker', 'DatePicker']}>
+                <DatePicker
+                  label="Date for start Training"
+                  value={selectedDate}
+                  onChange={(newValue) => onSetDate(newValue)}
+                />
+              </DemoContainer>
             </LocalizationProvider>
-            <Typography sx={{fontWeight:"600"}}>Are you sure you want to join this trainer to this training?</Typography>
+            <Typography sx={{ fontWeight: '600' }}>
+              Are you sure you want to join this trainer to this training?
+            </Typography>
           </Stack>
         </DialogContent>
         <DialogActions>
@@ -181,9 +163,14 @@ const AcceptedTrainings: React.FC = () => {
           }}
         >
           <Typography component="h1" variant="h5" fontWeight={500}>
-            {t("Accepted Requests")}
+            {t('Accepted Requests')}
           </Typography>
-          <AcceptedRequestsDataGrid data={rows} />
+          <AcceptedRequestsDataGrid
+            data={rows}
+            totalRows={totalRows}
+            isFetching={isFetching}
+            onFetch={onGetDataGrid}
+          />
         </Stack>
       </Grid>
     </>

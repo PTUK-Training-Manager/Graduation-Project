@@ -9,13 +9,19 @@ export interface GetTypeData {
   type: string;
   count: number;
 }
+export interface GetCompanyData {
+  companyName: string;
+  studentCount: number;
+}
 export interface GetStatusResponse extends BaseResponse {
   data: GetStatusData[];
 }
 export interface GetTypeResponse extends BaseResponse {
   data: GetTypeData[];
 }
-
+export interface GetCompanyResponse extends BaseResponse {
+  data: GetCompanyData[];
+}
 export const getCountStatus = async () => {
   const url = '/statistics/countStatus';
   return axiosInstance.get<GetStatusResponse>(url).then((res) => res.data);
@@ -27,5 +33,5 @@ export const getTypeStatus = async () => {
 };
 export const getCompanyStatus = async () => {
   const url = '/statistics/countTrainingsCompany';
-  return axiosInstance.get<GetTypeResponse>(url).then((res) => res.data);
+  return axiosInstance.get<GetCompanyResponse>(url).then((res) => res.data);
 };

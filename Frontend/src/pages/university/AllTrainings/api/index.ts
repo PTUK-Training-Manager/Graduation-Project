@@ -1,16 +1,20 @@
-import axiosInstance from "src/api";
-import { FetchUsersParams } from "./request.dto";
-import { AllTrainingsResponse } from "./response.dto";
+import axiosInstance from 'src/api';
+import {
+ GetAllTrainingsDataParams,
+ GetAllTrainingsDataResponse 
+} from './types';
 
+export const getAllTrainings = async (
+  params: GetAllTrainingsDataParams
+) => {
+  const { pageIndex, pageSize } = params;
 
-export const getAllTrainings = async (params: FetchUsersParams) => {
-  return axiosInstance.get<AllTrainingsResponse>(
-    `/training/trainings/${params.page}/${params.size}`,
-    {
+  return axiosInstance
+    .get<GetAllTrainingsDataResponse>('/training/trainings', {
       params: {
-        page: (params.page ?? 0) * (params.size ?? 10),
-        size: params.size,
+        page: pageIndex,
+        size: pageSize,
       },
-    }
-  );
+    })
+    .then((response) => response.data);
 };

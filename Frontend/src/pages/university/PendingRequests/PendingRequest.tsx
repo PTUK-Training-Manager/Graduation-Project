@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React from 'react';
 import {
   Button,
   Dialog,
@@ -6,7 +6,6 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
-  IconButton,
   Stack,
   Typography,
 } from '@mui/material';
@@ -15,26 +14,20 @@ import theme from 'src/styling/customTheme';
 
 import uselogic from './definition';
 import usePendingRequestsController from './hooks/usePendingRequestsController';
-import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import { useTranslation } from 'react-i18next';
 
 const PendingRequest: React.FC = () => {
-  const [pagination, setPagination] = useState<PageChangeParams>({
-    pageIndex: 0,
-    pageSize: 30,
-  });
+  const { rows, totalRows, isFetching, onGetDataGrid } =
+    usePendingRequestsController();
 
-  const { rows } = usePendingRequestsController({
-    pagination,
-  });
   const {
     PendingRequestsDataGrid,
     confirmDialogOpen,
     handleDeleteCancel,
-    handleDeleteClick,
     handleDeleteRequest,
   } = uselogic();
-  const {t}=useTranslation();
+  //@ts-ignore
+  const { t } = useTranslation();
   return (
     <>
       <Dialog
@@ -43,20 +36,20 @@ const PendingRequest: React.FC = () => {
         maxWidth="xs"
         fullWidth
       >
-        <DialogTitle>{t("DeleteRequest")}</DialogTitle>
+        <DialogTitle>{t('DeleteRequest')}</DialogTitle>
         <DialogContent>
-{t("          Are you sure you want to delete this request?")}   
-     </DialogContent>
+          {t('          Are you sure you want to delete this request?')}
+        </DialogContent>
         <DialogActions>
           <Button onClick={handleDeleteCancel} color="primary">
-            {t("Cancel")}
+            {t('Cancel')}
           </Button>
           <Button
             onClick={handleDeleteRequest}
             color="error"
             variant="contained"
           >
-            {t("Delete")}
+            {t('Delete')}
           </Button>
         </DialogActions>
       </Dialog>
@@ -78,10 +71,14 @@ const PendingRequest: React.FC = () => {
           }}
         >
           <Typography component="h1" variant="h5" fontWeight={500}>
-            {t("PendingRequests")}
+            {t('PendingRequests')}
           </Typography>
-          <PendingRequestsDataGrid data={rows} />
-
+          <PendingRequestsDataGrid
+            data={rows}
+            totalRows={totalRows}
+            isFetching={isFetching}
+            onFetch={onGetDataGrid}
+          />
         </Stack>
       </Grid>
     </>

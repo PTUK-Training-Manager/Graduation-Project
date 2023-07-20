@@ -1,34 +1,35 @@
-import React, { SyntheticEvent, useEffect, useMemo, useState } from 'react';
+import React, { useRef } from 'react';
 
 import EvaluStepper from './components/EvaluStepper';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
-import { Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { Button, Dialog, DialogContent, DialogTitle } from '@mui/material';
 import theme from 'src/styling/customTheme';
 import Typography from '@mui/material/Typography';
 import Transition from 'src/components/Transition';
-import DataGridPagination from 'src/components/DataGrid/DataGridPagination';
 import useCompletedTraineesController from './hooks/useCompletedTraineesController';
 import uselogic from './definition';
-import { PageChangeParams } from 'src/components/DataGridTanstack/types';
+import ReactToPrint from 'react-to-print';
 
-const SubmittedStudents: React.FC = () => {
-  const [pagination, setPagination] = useState<PageChangeParams>({
-    pageIndex: 0,
-    pageSize: 30,
-  });
+const CompletedTrainees: React.FC = () => {
+  const { rows, totalRows, isFetching, onGetDataGrid } =
+    useCompletedTraineesController();
 
-  const { rows } = useCompletedTraineesController({
-    pagination,
-  });
+  const printRef = useRef(null);
+  const handlePrint = () => {
+    if (printRef.current) {
+      //@ts-ignore
+      printRef.current.handlePrint();
+    }
+  };
+
   const {
-    AllTrainingsCompanyDataGrid,
+    CompletedTraineesDataGrid,
     handleCloseDialog,
     handleOpenDialog,
     isOpen,
     open,
-    trainingId
-    
+    trainingId,
   } = uselogic();
 
   return (
@@ -52,10 +53,15 @@ const SubmittedStudents: React.FC = () => {
           <Typography component="h1" variant="h5" fontWeight={500}>
             Completed Trainees
           </Typography>
-          <AllTrainingsCompanyDataGrid data={rows} />
+          <CompletedTraineesDataGrid
+            data={rows}
+            totalRows={totalRows}
+            isFetching={isFetching}
+            onFetch={onGetDataGrid}
+          />
         </Stack>
       </Grid>
-  
+
       <Dialog
         open={isOpen}
         onClose={handleCloseDialog}
@@ -63,13 +69,32 @@ const SubmittedStudents: React.FC = () => {
         TransitionComponent={Transition}
         sx={{ left: '50%' }}
       >
+        <ReactToPrint
+          trigger={() => (
+            <Button
+              style={{
+                backgroundColor: '#F1F1F1',
+                color: 'black',
+              }}
+              onClick={() => handlePrint()}
+              variant="outlined"
+            >
+              Print The Evaluation Report
+            </Button>
+          )}
+          content={() => printRef.current}
+          documentTitle="Evaluation Training"
+          pageStyle="print"
+        />
         <DialogTitle gap={1.5} sx={{ textAlign: 'center' }}></DialogTitle>
         <DialogContent>
-          <EvaluStepper trainingId={trainingId} />
+          <div ref={printRef} className="print-layout">
+            <EvaluStepper trainingId={trainingId} />
+          </div>
         </DialogContent>
       </Dialog>
     </>
   );
 };
 
-export default SubmittedStudents;
+export default CompletedTrainees;

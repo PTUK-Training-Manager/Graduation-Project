@@ -25,3 +25,10 @@ export interface AploadExcelFileData {
   export interface AddFieldResponse extends BaseResponse {
     tokenData: AddFieldData;
   }
+  export interface UploadFileData {  
+    studentId: string;
+  }
+
+  export interface UploadFileResponse extends BaseResponse {
+    tokenData: UploadFileData;
+  }

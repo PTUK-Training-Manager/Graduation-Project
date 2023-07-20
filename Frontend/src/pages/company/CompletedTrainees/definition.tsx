@@ -1,36 +1,25 @@
-import { Chip, IconButton, Tooltip } from '@mui/material';
-import { CellContext, ColumnDef } from '@tanstack/react-table';
+import { IconButton } from '@mui/material';
+import { ColumnDef } from '@tanstack/react-table';
 import { createDataGrid } from 'src/components/DataGridTanstack';
-import { Feed } from '@mui/icons-material';
-import { FC, useEffect, useState } from 'react';
-import { progressForm } from 'src/api/progress';
-import { PageChangeParams } from 'src/components/DataGridTanstack/types';
-import useCompletedTraineesController from './hooks/useCompletedTraineesController';
-import PrintIcon from '@mui/icons-material/Print';
-import { CompletedTraineesData } from './api/response.dto';
+import { useState } from 'react';
+import { CompletedTraineesData } from './api/types';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import { useTranslation } from 'react-i18next';
+import React from 'react';
 
-interface ProgressFormCellProps
-  extends CellContext<CompletedTraineesData, any> {}
 const uselogic = () => {
-  const [pagination, setPagination] = useState<PageChangeParams>({
-    pageIndex: 0,
-    pageSize: 10,
-  });
- 
-
   const [isOpen, setIsOpen] = useState(false);
   const [trainingId, setTrainingId] = useState('');
   const handleCloseDialog = () => {
     setIsOpen(false);
   };
+  //@ts-ignore
   const { t } = useTranslation();
   const StudentNumber = t('StudentNumber');
   const StudentName = t('StudentName');
-  const EvaluationReport=t('EvaluationReport');
-  const TrainerName=t('TrainerName');
-  const CompanyBranch=t('CompanyBranch');
+  const EvaluationReport = t('EvaluationReport');
+  const TrainerName = t('TrainerName');
+  const CompanyBranch = t('CompanyBranch');
   const columns: ColumnDef<CompletedTraineesData, any>[] = [
     {
       accessorKey: 'studentId',
@@ -42,32 +31,35 @@ const uselogic = () => {
       filterFn: 'arrIncludesSome',
     },
     {
-        accessorKey: 'Trainer.name',
-        header: TrainerName,
-        filterFn: 'arrIncludesSome',
-      },
-      {
-        accessorKey: 'CompanyBranch.location',
-        header: CompanyBranch,
-        filterFn: 'arrIncludesSome',
-      },
+      accessorKey: 'Trainer.name',
+      header: TrainerName,
+      filterFn: 'arrIncludesSome',
+    },
+    {
+      accessorKey: 'CompanyBranch.location',
+      header: CompanyBranch,
+      filterFn: 'arrIncludesSome',
+    },
 
     {
       header: EvaluationReport,
       //@ts-ignore
-        cell: (props) => {
-          const {
-            row: { original },
-          } = props;
-return(
-  <IconButton
-  sx={{ ml: 3.5 }}
-  aria-label="progress form"
-  onClick={() => handleOpenDialog(original.id)}
->
-  <ManageSearchIcon sx={{ color: '#820000' }} className="manage-icon" />
-</IconButton>
-);
+      cell: (props) => {
+        const {
+          row: { original },
+        } = props;
+        return (
+          <IconButton
+            sx={{ ml: 3.5 }}
+            aria-label="progress form"
+            onClick={() => handleOpenDialog(original.id)}
+          >
+            <ManageSearchIcon
+              sx={{ color: '#820000' }}
+              className="manage-icon"
+            />
+          </IconButton>
+        );
       },
     },
   ];
@@ -75,11 +67,13 @@ return(
     setTrainingId(id);
     setIsOpen((prev) => !prev);
   };
-  const CompletedTraineesDataGrid = createDataGrid({
-    name: 'CurrentTraineesDataGrid',
-    columns,
-    shouldFlexGrowCells: true,
-  });
+  const CompletedTraineesCompanyDataGrid = React.useMemo(() => {
+    return createDataGrid({
+      name: 'CompletedTraineesCompanyDataGrid',
+      columns,
+      shouldFlexGrowCells: true,
+    });
+  }, []);
 
   return {
     handleOpenDialog,
@@ -87,7 +81,7 @@ return(
     isOpen,
     open: !!isOpen,
     trainingId,
-    CompletedTraineesDataGrid,
+    CompletedTraineesCompanyDataGrid,
   };
 };
 export default uselogic;

@@ -3,7 +3,8 @@ import { createDataGrid } from 'src/components/DataGridTanstack';
 import { IconButton, Tooltip } from '@mui/material';
 import PrintIcon from '@mui/icons-material/Print';
 import { useState } from 'react';
-import { FinishedRequiredHoursData } from './api/response.dto';
+import { FinishedRequiredHoursData } from './api/types';
+import React from 'react';
 
 const uselogic = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +23,7 @@ const uselogic = () => {
       header: 'Student Number',
     },
     {
-      accessorKey: 'Student.name',
+      accessorKey: 'name',
       header: 'Student Name',
       filterFn: 'arrIncludesSome',
     },
@@ -33,7 +34,7 @@ const uselogic = () => {
         const {
           row: { original },
         } = props;
-                return (
+        return (
           <Tooltip title={'Evaluation Form'}>
             <IconButton
               sx={{ ml: 2.5 }}
@@ -53,11 +54,15 @@ const uselogic = () => {
     },
   ];
 
-  const TraineesFinishedRequierHoursDataGrid = createDataGrid({
-    name: 'AllTrainingsCompanyDataGrid',
-    columns,
-    shouldFlexGrowCells: true,
-  });
+  const TraineesFinishedRequierHoursDataGrid = React.useMemo(() => {
+    return createDataGrid<FinishedRequiredHoursData>({
+      name: 'TraineesFinishedRequierHoursDataGrid',
+      columns,
+      pageSize: 15,
+      pagination: 'off', // turn off pagination to enable infinite scroll
+      shouldFlexGrowCells:true,
+    });
+  }, []);
 
   return {
     handleOpenDialog,

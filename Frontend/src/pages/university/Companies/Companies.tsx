@@ -24,7 +24,6 @@ import {
   TextField,
 } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { getCompany } from 'src/api/getCompany';
 import { useEffect, useState } from 'react';
 import Collapse from '@mui/material/Collapse';
 import useSnackbar from 'src/hooks/useSnackbar';
@@ -59,11 +58,9 @@ const Companies: React.FC = () => {
     pageIndex: 0,
     pageSize: 100,
   });
-
-  const { rows, formikProps, isLoading, updatedata } =
-    useAddCompanyFormController({
-      pagination,
-    });
+  const { rows, totalRows, isFetching, onGetDataGrid, isLoading, formikProps } =
+  useAddCompanyFormController();
+ 
   const {
     CompaniesDataGrid,
     availableBranches,
@@ -238,7 +235,10 @@ const Companies: React.FC = () => {
             </Stack>
           </Grid>
 
-          <CompaniesDataGrid data={rows} />
+          <CompaniesDataGrid  data={rows}
+            totalRows={totalRows}
+            isFetching={isFetching}
+            onFetch={onGetDataGrid} />
         </Stack>
       </Grid>
       <Dialog

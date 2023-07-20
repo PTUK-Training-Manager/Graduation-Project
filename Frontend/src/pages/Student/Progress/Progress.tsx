@@ -24,14 +24,18 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import useSnackbar from 'src/hooks/useSnackbar';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DatePicker from '@mui/lab/DatePicker';
+import MobileTimePicker from '@mui/lab/MobileTimePicker';
+
 import Divider from '@mui/material/Divider';
 import Edit from '@mui/icons-material/Edit';
 import { submitEvaluation, editEvaluationForm } from './api';
 import dayjs, { Dayjs } from 'dayjs';
 import useProgressController from './hooks/useProgressController';
-import LocalizationProvider from '@mui/lab/LocalizationProvider/LocalizationProvider';
-import DatePicker from '@mui/lab/DatePicker/DatePicker';
-import MobileTimePicker from '@mui/lab/MobileTimePicker/MobileTimePicker';
+// import LocalizationProvider from '@mui/lab/LocalizationProvider/LocalizationProvider';
+// import DatePicker from '@mui/lab/DatePicker/DatePicker';
+// import MobileTimePicker from '@mui/lab/MobileTimePicker/MobileTimePicker';
 import { useTranslation } from 'react-i18next';
 
 const Root = styled('div')(({ theme }) => ({
@@ -57,6 +61,7 @@ const Progress: React.FC = () => {
   const [editEvaluation, setEditEvaluation] = useState(false);
   const [evaluationId, setEvaluationId] = useState<number>(-1);
   const [skills, setSkills] = React.useState<EditorState | null>(null);
+  //@ts-ignore
 const {t}=useTranslation();
   const handleSubmit = () => {
     submitEvaluation({

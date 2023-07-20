@@ -1,27 +1,20 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { addCompany } from '../api';
+import { useMutation } from '@tanstack/react-query';
 import { useFormik } from 'formik';
 import { validationSchema } from '../schema';
 import { INITIAL_FORM_STATE } from '../constants';
 import useSnackbar from 'src/hooks/useSnackbar';
 import { AxiosBaseError } from 'src/types';
-import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import extractErrorMessage from 'src/utils/extractErrorMessage';
 import { Row } from '../types';
-import { useEffect, useState } from 'react';
-import { getCompany } from '../api'; 
-import { IconButton } from '@mui/material';
-import { PageChangeParams } from 'src/components/DataGridTanstack/types';
+import { getCompanies, addCompany } from '../api';
+import { useQuery } from '@tanstack/react-query';
+import UsersDataGrid from 'src/pages/DataGridPaginatedPlayground/definition';
+import { useState } from 'react';
+import { DataGridFetchQuery } from 'src/components/DataGridTanstack/types';
 
-interface useAddCompanyAPIProps {}
-export interface UseDataGridPlaygroundAPIProps {
-  pagination?: PageChangeParams;
-}
 const AddCompanyQueryKey = ['addCompany'];
 
-const useAddCompanyFormController = ({
-  pagination,
-}: UseDataGridPlaygroundAPIProps) => {
+const useAddCompanyFormController = () => {
   const { showSnackbar } = useSnackbar();
   const [updatedata, setUpdateData] = useState<Row[]>([]);
 
@@ -40,10 +33,10 @@ const useAddCompanyFormController = ({
       console.log(data.data);
       if (data.success === true) {
         showSnackbar({ severity: 'success', message: data.message });
-        getCompany({page: pagination?.pageIndex, size: pagination?.pageSize})
+        getCompanies({ pageIndex, pageSize })
           .then((result) => {
             setUpdateData((prevData) => [data.data, ...prevData]);
-            console.log(result.data);
+            console.log(result.items);
           })
           .catch((error) => console.log(error));
 
@@ -64,21 +57,33 @@ const useAddCompanyFormController = ({
       });
     },
   });
-  const [totalRows, setTotalRows] = useState<number>(0);
 
-    const {data}
-        = useQuery(
-        ["users", pagination],
-        () => getCompany({page: pagination?.pageIndex, size: pagination?.pageSize}).then(res => {
-            setTotalRows(res?.headers["x-total-count"] ?? 0);
-            return res?.data.items ?? [];
-        })
-        , {
-            keepPreviousData: true, //for a smooth transition between the pages in the table.
-        }
-    );
+  const { pageSize: initialPageSize } = UsersDataGrid.configs;
+  const [pagination, setPagination] = useState<DataGridFetchQuery>({
+    pageIndex: 0,
+    pageSize: initialPageSize,
+  });
 
-  return { formikProps, mutate, isLoading, updatedata, rows: data ?? [] };
+  const { pageIndex, pageSize } = pagination;
+
+  const { data, isLoading: loading, isFetching } = useQuery(
+    ['Companies', pageIndex, pageSize],
+    () => getCompanies({ pageIndex, pageSize }),
+    {}
+  );
+
+  const onGetDataGrid = (query: DataGridFetchQuery) => setPagination(query);
+
+  return {
+    formikProps,
+    mutate,
+    isLoading,
+    updatedata,
+    rows: data?.items ?? [],
+    totalRows: data?.totalItems ?? -1,
+    onGetDataGrid,
+    isFetching: isFetching || loading,
+  };
 };
 
 export default useAddCompanyFormController;

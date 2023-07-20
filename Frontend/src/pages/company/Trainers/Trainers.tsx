@@ -4,36 +4,15 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import LoadingButton from '@mui/lab/LoadingButton';
 import { Form, FormikProvider } from 'formik';
-import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import TextFieldWrapper from 'src/components/FormsUI/TextField';
 import Stack from '@mui/material/Stack';
-import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import { getBranch } from 'src/api/getBranch';
 import theme from 'src/styling/customTheme';
-import {
-  Autocomplete,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Divider,
-  FormControl,
-  IconButton,
-  TextField,
-} from '@mui/material';
+import { Autocomplete, Button, FormControl, TextField } from '@mui/material';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { getCompany } from 'src/api/getCompany';
-import { useEffect, useState } from 'react';
+import {useState } from 'react';
 import Collapse from '@mui/material/Collapse';
-import useSnackbar from 'src/hooks/useSnackbar';
-import DataGridPagination from 'src/components/DataGrid/DataGridPagination';
-
-import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import useAllTrainersController from './hooks/useAllTrainersController';
-import useAddCompanyFormController from 'src/pages/university/Companies/hooks/useAddCompanyFormController';
 import { useTranslation } from 'react-i18next';
 import uselogic from './definition';
 import DeleteTrainerDialog from './components/deleteTrainerDialog';
@@ -60,15 +39,16 @@ const Trainers: React.FC = () => {
   const [data, setData] = useState<Row[]>([]);
   const [open, setOpen] = useState(true);
   const [location, setLocation] = useState('');
-  const [pagination, setPagination] = useState<PageChangeParams>({
-    pageIndex: 0,
-    pageSize: 100,
-  });
+  const {
+    rows,
+    totalRows,
+    isFetching,
+    onGetDataGrid,
+    fieldOptions,
+    formikProps,
+    isLoading,
+  } = useAllTrainersController();
 
-  const { trainerRows, fieldOptions, formikProps, isLoading } =
-    useAllTrainersController({
-      pagination,
-    });
   const [openAddTrainerForm, setOpenAddTrainerForm] = useState(false);
 
   const {
@@ -229,7 +209,12 @@ const Trainers: React.FC = () => {
             </Stack>
           </Grid>
 
-          <TrainerDataGrid data={trainerRows} />
+          <TrainerDataGrid
+            data={rows}
+            totalRows={totalRows}
+            isFetching={isFetching}
+            onFetch={onGetDataGrid}
+          />
         </Stack>
       </Grid>
       <DeleteTrainerDialog

@@ -1,17 +1,20 @@
-import axiosInstance from "src/api";
-import { BaseResponse } from "src/types";
-import { FetchUsersParams } from "./request.dto";
-import { SubmittedStudentsResponse } from "./response.dto";
+import axiosInstance from 'src/api';
+import {
+ GetSubmittedTrainingsParams,
+ GetSubmittedTraineesResponse
+} from './types';
 
-export const getSubmittedStudents = async (params: FetchUsersParams) => {
-  return axiosInstance.get<SubmittedStudentsResponse>(
-    `/training/submittedStudents/${params.page}/${params.size}` ,
-    {
+export const getSubmitteddTrainees = async (
+  params: GetSubmittedTrainingsParams
+) => {
+  const { pageIndex, pageSize } = params;
+
+  return axiosInstance
+    .get<GetSubmittedTraineesResponse>('/training/submittedStudents', {
       params: {
-        page: (params.page ?? 0) * (params.size ?? 10),
-        size: params.size,
+        page: pageIndex,
+        size: pageSize,
       },
-    } 
-  );
+    })
+    .then((response) => response.data);
 };
-

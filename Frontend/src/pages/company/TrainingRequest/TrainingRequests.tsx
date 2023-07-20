@@ -7,17 +7,22 @@ import { Box, Grid, Typography } from '@mui/material';
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import { useTranslation } from 'react-i18next';
 import AcceptRequestDialog from './components/AcceptRequestDialog';
+import RejectRequestDialog from './components/RejectRequestDialog';
 const TrainingRequests: React.FC = () => {
-  const [pagination, setPagination] = useState<PageChangeParams>({
-    pageIndex: 0,
-    pageSize: 30,
-  });
+  const { rows, totalRows, isFetching, onGetDataGrid } =
+    useTrainingRequestsController();
 
-  const { rows } = useTrainingRequestsController({
-    pagination,
-  });
-  const { TrainingRequestsDataGrid,handleAcceptOptionClick,handleCancelAcceptRequest,acceptRequestDialogOpen } = uselogic();
-  const {t}=useTranslation();
+  const {
+    TrainingRequestsDataGrid,
+    handleAcceptOptionClick,
+    handleCancelAcceptRequest,
+    acceptRequestDialogOpen,
+    rejectRequestDialogOpen,
+    handleRejectOptionClick,
+    handleCancelRejectRequest,
+  } = uselogic();
+  //@ts-ignore
+  const { t } = useTranslation();
 
   return (
     <>
@@ -38,16 +43,26 @@ const TrainingRequests: React.FC = () => {
           }}
         >
           <Typography component="h1" variant="h5" fontWeight={500}>
-            {t("TrainingRequests")}
+            {t('TrainingRequests')}
           </Typography>
-          <TrainingRequestsDataGrid data={rows} />
+          <TrainingRequestsDataGrid
+            data={rows}
+            totalRows={totalRows}
+            isFetching={isFetching}
+            onFetch={onGetDataGrid}
+          />
         </Stack>
       </Grid>
       <AcceptRequestDialog
-       acceptRequestDialogOpen={acceptRequestDialogOpen}
-       //@ts-ignore
-       handleAcceptRequest={handleAcceptOptionClick}
-       handleCancelAcceptRequest={handleCancelAcceptRequest}
+        acceptRequestDialogOpen={acceptRequestDialogOpen}
+        //@ts-ignore
+        handleAcceptRequest={handleAcceptOptionClick}
+        handleCancelAcceptRequest={handleCancelAcceptRequest}
+      />
+      <RejectRequestDialog
+        rejectRequestDialogOpen={rejectRequestDialogOpen}
+        handleRejectRequest={handleRejectOptionClick}
+        handleCancelRejectRequest={handleCancelRejectRequest}
       />
     </>
   );

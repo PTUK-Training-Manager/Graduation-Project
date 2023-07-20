@@ -4,3 +4,5 @@ export interface SubmitRequestBody {
     semester: string;
     companyBranchId: string;
   }
+
+  

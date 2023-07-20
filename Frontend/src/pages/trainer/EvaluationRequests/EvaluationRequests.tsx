@@ -151,7 +151,7 @@ const EvaluationRequests: React.FC = () => {
                           <Stack gap={1.5} direction="row">
                             <RichTextEditor
                             editable={false}
-                            content={item.skills}
+                            content={JSON.stringify(item.skills)}
                           />
                            
                           </Stack>

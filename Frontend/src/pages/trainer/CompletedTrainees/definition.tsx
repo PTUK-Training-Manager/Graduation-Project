@@ -1,9 +1,10 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { createDataGrid } from 'src/components/DataGridTanstack';
-import { CompletedTraineesData } from './api/response.dto';
+import { CompletedTraineesData } from './api/types';
 import { IconButton } from '@mui/material';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import { useState } from 'react';
+import React from 'react';
 
 const uselogic = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,19 +52,20 @@ const uselogic = () => {
     },
   ];
 
-  const AllTrainingsCompanyDataGrid = createDataGrid({
-    name: 'AllTrainingsCompanyDataGrid',
-    columns,
-    shouldFlexGrowCells: true,
-  });
-
+  const CompletedTraineesDataGrid = React.useMemo(() => {
+    return createDataGrid({
+      name: 'CompletedTraineesDataGrid',
+      columns,
+      shouldFlexGrowCells: true,
+    });
+  }, []);
   return {
     handleOpenDialog,
     handleCloseDialog,
     isOpen,
     open: !!isOpen,
     trainingId,
-    AllTrainingsCompanyDataGrid,
+    CompletedTraineesDataGrid,
   };
 };
 

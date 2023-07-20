@@ -15,14 +15,8 @@ import ReactToPrint from 'react-to-print';
 import { Button } from '@material-ui/core';
 
 const CompletedTrainees: React.FC = () => {
-  const [pagination, setPagination] = useState<PageChangeParams>({
-    pageIndex: 0,
-    pageSize: 30,
-  });
-
-  const { rows } = useCompletedTraineesController({
-    pagination,
-  });
+  const { rows, totalRows, isFetching, onGetDataGrid } =
+    useCompletedTraineesController();
 
   const {
     CompletedTraineesDataGrid,
@@ -61,7 +55,12 @@ const CompletedTrainees: React.FC = () => {
           <Typography component="h1" variant="h5" fontWeight={500}>
             Completed Trainees
           </Typography>
-          <CompletedTraineesDataGrid data={rows} />
+          <CompletedTraineesDataGrid
+            data={rows}
+            totalRows={totalRows}
+            isFetching={isFetching}
+            onFetch={onGetDataGrid}
+          />
         </Stack>
       </Grid>
       <Dialog

@@ -1,21 +1,13 @@
 import { IconButton, Tooltip } from '@mui/material';
-import { CellContext, ColumnDef } from '@tanstack/react-table';
+import { ColumnDef } from '@tanstack/react-table';
 import { createDataGrid } from 'src/components/DataGridTanstack';
 import { useState } from 'react';
-import { PageChangeParams } from 'src/components/DataGridTanstack/types';
-import useCompletedTraineesController from './hooks/useCompletedTraineesController';
 import PrintIcon from '@mui/icons-material/Print';
-import { CompletedTraineesData } from './api/response.dto';
+import { CompletedTraineesData } from './api/types';
 import { useTranslation } from 'react-i18next';
+import React from 'react';
 
 const uselogic = () => {
-  const [pagination, setPagination] = useState<PageChangeParams>({
-    pageIndex: 0,
-    pageSize: 10,
-  });
-  const { rows } = useCompletedTraineesController({
-    pagination,
-  });
   const handleCloseDialog = () => {
     setIsOpen(false);
   };
@@ -94,11 +86,13 @@ const uselogic = () => {
     },
   ];
 
-  const CompletedTraineesDataGrid = createDataGrid({
-    name: 'CurrentTraineesDataGrid',
-    columns,
-    shouldFlexGrowCells: true,
-  });
+  const CompletedTraineesDataGrid = React.useMemo(() => {
+    return createDataGrid({
+      name: 'CompletedTraineesDataGrid',
+      columns,
+      shouldFlexGrowCells: true,
+    });
+  }, []);
 
   return {
     isOpen,

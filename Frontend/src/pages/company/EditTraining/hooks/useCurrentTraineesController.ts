@@ -14,7 +14,7 @@ const useCurrentTrainees = () => {
   const { pageIndex, pageSize } = pagination;
 
   const { data, isLoading, isFetching } = useQuery(
-    ['CurrentTrainees', pageIndex, pageSize],
+    ['EditTrainings', pageIndex, pageSize],
     () => getCurrentTrainees({ pageIndex, pageSize }),
     {}
   );

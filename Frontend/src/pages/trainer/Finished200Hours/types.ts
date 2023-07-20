@@ -71,3 +71,9 @@ export interface Evaluation {
     trainingId: string;
   }[];
 }
+
+import {DataGridFetchQuery} from "src/components/DataGridTanstack/types";
+
+export interface UseInfiniteDataGridPlaygroundAPIProps {
+    query: DataGridFetchQuery;
+}

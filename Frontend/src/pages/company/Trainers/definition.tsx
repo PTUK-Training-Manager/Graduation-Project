@@ -8,90 +8,98 @@ import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 // import { RunningTraineesData } from './api/response.dto';
 import EditIcon from '@mui/icons-material/Edit';
 import ClearIcon from '@mui/icons-material/Clear';
-import { FieldData, TrainersData } from './api/response.dto';
+import { FieldData, TrainersData } from './api/types';
 import { deleteTrianer, updateFieldForTrianer } from './api';
 import useSnackbar from 'src/hooks/useSnackbar';
 import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
+import React from 'react';
 
 const uselogic = () => {
+  const [deleteId, setDeleteId] = useState<string>('');
+  const [updatedTrainerID, setUpdatedTrainerID] = useState<string>('');
+  const [newFieldId, setNewFieldId] = useState<string>('');
+  const [fieldOptions, setFieldOptions] = useState<FieldData[]>([]);
+  const [updateFieldForTrainerDialogOpen, setUpdateFieldForTrainerDialogOpen] =
+    useState(false);
+  const [deleteTrainerDialogOpen, setDeleteTrainerDialogOpen] =
+    useState<boolean>(false);
+  const { showSnackbar } = useSnackbar();
 
-const [deleteId, setDeleteId] = useState<string>('');
-const [updatedTrainerID, setUpdatedTrainerID] = useState<string>('');
-const [newFieldId, setNewFieldId] = useState<string>('');
-const [fieldOptions, setFieldOptions] = useState<FieldData[]>([]);
-const [updateFieldForTrainerDialogOpen, setUpdateFieldForTrainerDialogOpen] =
-  useState(false);
-const [deleteTrainerDialogOpen, setDeleteTrainerDialogOpen] =
-  useState<boolean>(false);
-const { showSnackbar } = useSnackbar();
+  const onSetNewFieldId = (id: string) => setNewFieldId(id);
 
-const onSetNewFieldId = (id: string) => setNewFieldId(id);
+  const queryClient = useQueryClient();
 
-const queryClient = useQueryClient();
-
-const handleDeleteTrainer = () => {
-  deleteTrianer({ id: deleteId }).then(
-    (res: { success: boolean; message: any }) => {
-      if (res.success === true) {
-        showSnackbar({ severity: 'success', message: res.message });
-        const result= queryClient.getQueryData( ['trainers']) as TrainersData[] ;
-        queryClient.setQueryData( ['trainers'],result.filter((row) => row.id !== deleteId));
-        setDeleteId('');
-        setDeleteTrainerDialogOpen(false);
-      } else if (res.success === false) {
-        showSnackbar({ severity: 'warning', message: res.message });
-        setDeleteId('');
-        setDeleteTrainerDialogOpen(false);
+  const handleDeleteTrainer = () => {
+    deleteTrianer({ id: deleteId }).then(
+      (res: { success: boolean; message: any }) => {
+        if (res.success === true) {
+          setDeleteTrainerDialogOpen(false);
+          showSnackbar({ severity: 'success', message: res.message });
+          const result = queryClient.getQueryData([
+            'Trainers',
+          ]) as TrainersData[];
+          queryClient.setQueryData(
+            ['Trainers'],
+            result.filter((row) => row.id !== deleteId)
+          );
+          setDeleteId('');
+        } else if (res.success === false) {
+          showSnackbar({ severity: 'warning', message: res.message });
+          setDeleteId('');
+          setDeleteTrainerDialogOpen(false);
+        }
       }
-    }
-  );
-};
-const [trainerName, setTrainerName] = useState('');
-const handleClickDeleteTrainerButton = (Trainerid: string, trainerName: string) => {
-  setTrainerName(trainerName);
-  setDeleteId(Trainerid);
-  setDeleteTrainerDialogOpen(true);
-};
+    );
+  };
+  const [trainerName, setTrainerName] = useState('');
+  const handleClickDeleteTrainerButton = (
+    Trainerid: string,
+    trainerName: string
+  ) => {
+    setTrainerName(trainerName);
+    setDeleteId(Trainerid);
+    setDeleteTrainerDialogOpen(true);
+  };
 
-const handleCancelDeleteTrainer = () => {
-  setDeleteTrainerDialogOpen(false);
-};
+  const handleCancelDeleteTrainer = () => {
+    setDeleteTrainerDialogOpen(false);
+  };
 
-const handleUpdateFieldDialogOpen = (id: string) => {
-  setUpdatedTrainerID(id);
-  setUpdateFieldForTrainerDialogOpen(true);
-};
+  const handleUpdateFieldDialogOpen = (id: string) => {
+    setUpdatedTrainerID(id);
+    setUpdateFieldForTrainerDialogOpen(true);
+  };
 
-const handleUpdateFieldDialogClose = () => {
-  setUpdateFieldForTrainerDialogOpen(false);
-};
+  const handleUpdateFieldDialogClose = () => {
+    setUpdateFieldForTrainerDialogOpen(false);
+  };
 
-
-
-const handleSaveUpdatedValueField = () => {
-  updateFieldForTrianer({ id: updatedTrainerID, fieldId: newFieldId }).then(
-    (res) => {
-      console.log(updatedTrainerID);
-      console.log(newFieldId);
-      if (res.success === true) {
-        const fieldName = res.data.Field.field;
-        showSnackbar({ severity: 'success', message: res.message });
-        const result= queryClient.getQueryData( ['trainers']) as TrainersData[] ;
-        queryClient.setQueryData( ['trainers'],result);
-        setUpdatedTrainerID('');
-        setUpdateFieldForTrainerDialogOpen(false);
-      } else if (res.success === false) {
-        showSnackbar({ severity: 'warning', message: res.message });
-        setUpdatedTrainerID('');
-        setUpdateFieldForTrainerDialogOpen(false);
+  const handleSaveUpdatedValueField = () => {
+    updateFieldForTrianer({ id: updatedTrainerID, fieldId: newFieldId }).then(
+      (res) => {
+        console.log(updatedTrainerID);
+        console.log(newFieldId);
+        if (res.success === true) {
+          const fieldName = res.data.Field.field;
+          showSnackbar({ severity: 'success', message: res.message });
+          const result = queryClient.getQueryData([
+            'trainers',
+          ]) as TrainersData[];
+          queryClient.setQueryData(['trainers'], result);
+          setUpdatedTrainerID('');
+          setUpdateFieldForTrainerDialogOpen(false);
+        } else if (res.success === false) {
+          showSnackbar({ severity: 'warning', message: res.message });
+          setUpdatedTrainerID('');
+          setUpdateFieldForTrainerDialogOpen(false);
+        }
       }
-    }
-  );
-  console.log(`New value: ${newFieldId}`);
-  console.log(`Training ID : ${updatedTrainerID}`);
-  handleUpdateFieldDialogClose();
-};
+    );
+    console.log(`New value: ${newFieldId}`);
+    console.log(`Training ID : ${updatedTrainerID}`);
+    handleUpdateFieldDialogClose();
+  };
   const columns: ColumnDef<TrainersData, any>[] = [
     {
       accessorKey: 'id',
@@ -103,55 +111,56 @@ const handleSaveUpdatedValueField = () => {
       filterFn: 'arrIncludesSome',
     },
     {
-        accessorKey: 'Field.field',
-        header: 'Field',
-        filterFn: 'arrIncludesSome',
-      },
-      
+      accessorKey: 'Field.field',
+      header: 'Field',
+      filterFn: 'arrIncludesSome',
+    },
+
     {
-      header:'Edit Field ',
+      header: 'Edit Field ',
       //@ts-ignore
-        cell: (props) => {
-          const {
-            row: { original },
-          } = props;
+      cell: (props) => {
+        const {
+          row: { original },
+        } = props;
         return (
           <IconButton
-          onClick={() => handleUpdateFieldDialogOpen(original.id)}
-          aria-label="edit field"
+            onClick={() => handleUpdateFieldDialogOpen(original.id)}
+            aria-label="edit field"
           >
-          <EditIcon sx={{ color: '#820000' }} className="edit-icon" />
-        </IconButton>
+            <EditIcon sx={{ color: '#820000' }} className="edit-icon" />
+          </IconButton>
         );
       },
     },
     {
-        header: 'Delete Trainer',
-        //@ts-ignore
-        cell: (props) => {
-          const {
-            row: { original },
-          } = props;
-          const name=original.name;
-          return (
-            <IconButton
+      header: 'Delete Trainer',
+      //@ts-ignore
+      cell: (props) => {
+        const {
+          row: { original },
+        } = props;
+        const name = original.name;
+        return (
+          <IconButton
             sx={{ ml: 3.5 }}
             color="error"
             aria-label="delete trianer"
-            onClick={() => handleClickDeleteTrainerButton(original.id,name)}
+            onClick={() => handleClickDeleteTrainerButton(original.id, name)}
           >
             <ClearIcon className="clear" />
           </IconButton>
-          );
-        },
+        );
       },
+    },
   ];
-
-  const TrainerDataGrid = createDataGrid({
-    name: 'TrainerDataGrid',
-    columns,
-    shouldFlexGrowCells: true,
-  });
+  const TrainerDataGrid = React.useMemo(() => {
+    return createDataGrid({
+      name: 'TrainerDataGrid',
+      columns,
+      shouldFlexGrowCells: true,
+    });
+  }, []);
 
   return {
     TrainerDataGrid,
@@ -165,4 +174,4 @@ const handleSaveUpdatedValueField = () => {
     onSetNewFieldId,
   };
 };
-  export default uselogic;
+export default uselogic;
