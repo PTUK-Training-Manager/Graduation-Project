@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect, useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { FinishedRequiredHoursData } from './api/types';
 import './Finished200Hours.css';
 import Grid from '@mui/material/Grid';
@@ -6,8 +6,6 @@ import Stack from '@mui/material/Stack';
 import FirstPage from './components/FirstPage';
 import theme from 'src/styling/customTheme';
 import Typography from '@mui/material/Typography';
-import Transition from 'src/components/Transition';
-import DataGridPagination from 'src/components/DataGrid/DataGridPagination';
 import useFinishedRequiredHoursController from './hooks/useFinishedRequiredHoursController';
 import {
   OnRowClick,

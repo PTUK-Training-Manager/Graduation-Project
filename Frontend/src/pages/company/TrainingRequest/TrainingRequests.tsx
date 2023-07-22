@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Stack from '@mui/material/Stack';
 import useTrainingRequestsController from './hooks/useTrainingRequestsController';
 import uselogic from './definition';
 import theme from 'src/styling/customTheme';
-import { Box, Grid, Typography } from '@mui/material';
-import { PageChangeParams } from 'src/components/DataGridTanstack/types';
+import {Grid, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import AcceptRequestDialog from './components/AcceptRequestDialog';
 import RejectRequestDialog from './components/RejectRequestDialog';

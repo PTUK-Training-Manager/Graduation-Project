@@ -10,12 +10,6 @@ import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import useForgetController from './hooks/useForgetController';
 import { useTranslation } from 'react-i18next';
-import { t } from 'i18next';
-
-interface CompanyOption {
-    id: string;
-    name: string;
-}
 
 const ForgetPassword: React.FC = () => {
     const [selectedCompany, setSelectedCompany] = React.useState('');

@@ -4,7 +4,6 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import { getCompany } from 'src/api/getCompany';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import { getBranch } from 'src/api/getBranch';
 import {
@@ -41,8 +40,7 @@ const TrainingRequestForm: React.FC = () => {
   const { isValid } = formikProps;
   const navigate = useNavigate();
   //@ts-ignore
-  const { t, i18n } = useTranslation();
-  const [currentLanguage, setCurrentLanguage] = useState('en'); // Replace with your language state or context value
+  const { t } = useTranslation();
 
   const PaperComponentCustom: React.FC<{
     containerProps: any;
@@ -91,7 +89,6 @@ const TrainingRequestForm: React.FC = () => {
   };
   const [companyOptions, setCompanyOptions] = useState<CompanyOption[]>([]);
   const [branchOptions, setBranchOptions] = useState<BranchOption[]>([]);
-  const { rows } = useAddCompanyFormController();
   useEffect(() => {
     getCompanies({ pageIndex:0, pageSize:9999 }).then((res) => {
       const options = res.items.map((company) => ({

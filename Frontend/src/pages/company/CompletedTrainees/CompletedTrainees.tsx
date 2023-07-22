@@ -1,5 +1,4 @@
 import React, { useRef } from 'react';
-
 import EvaluStepper from './components/EvaluStepper';
 import './CompletedTrainees.css';
 import Grid from '@mui/material/Grid';
@@ -26,9 +25,7 @@ const CompletedTrainees: React.FC = () => {
   };
   const {
     handleCloseDialog,
-    handleOpenDialog,
     isOpen,
-    open,
     trainingId,
     CompletedTraineesCompanyDataGrid,
   } = uselogic();

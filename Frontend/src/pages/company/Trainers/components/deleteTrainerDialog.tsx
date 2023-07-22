@@ -1,9 +1,8 @@
+/* eslint-disable react/react-in-jsx-scope */
 import {
   Dialog,
   DialogTitle,
   DialogContent,
-  Autocomplete,
-  TextField,
   DialogActions,
   Button,
 } from '@mui/material';

@@ -29,16 +29,8 @@ interface Row {
     email: string;
   };
 }
-interface Branch {
-  map(arg0: (company: any) => { id: any; location: any }): unknown;
-  id: string;
-  location: string;
-}
 
 const Trainers: React.FC = () => {
-  const [data, setData] = useState<Row[]>([]);
-  const [open, setOpen] = useState(true);
-  const [location, setLocation] = useState('');
   const {
     rows,
     totalRows,
@@ -63,7 +55,6 @@ const Trainers: React.FC = () => {
     updateFieldForTrainerDialogOpen,
   } = uselogic();
 
-  const [showBranches, setShowBranches] = useState<boolean>(false);
   const { isValid } = formikProps;
   //@ts-ignore
   const { t } = useTranslation();

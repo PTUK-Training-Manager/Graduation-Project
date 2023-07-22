@@ -23,8 +23,6 @@ const uselogic = () => {
   const { t } = useTranslation();
   const StudentNumber = t('StudentNumber');
   const StudentName = t('StudentName');
-  const EvaluationReport = t('EvaluationReport');
-  const ProgressForm = t('ProgressForm');
   const columns: ColumnDef<CompletedTraineesData, any>[] = [
     {
       accessorKey: 'studentId',

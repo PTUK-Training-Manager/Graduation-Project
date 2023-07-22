@@ -9,8 +9,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import TextFieldWrapper from 'src/components/FormsUI/TextField';
 import Stack from '@mui/material/Stack';
-import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import { getBranch } from 'src/api/getBranch';
+
 import theme from 'src/styling/customTheme';
 import { addBranch } from './api';
 import {
@@ -20,44 +19,23 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
-  IconButton,
   TextField,
 } from '@mui/material';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Collapse from '@mui/material/Collapse';
 import useSnackbar from 'src/hooks/useSnackbar';
 import DataGridPagination from 'src/components/DataGrid/DataGridPagination';
 import uselogic from './definition';
-import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import { useTranslation } from 'react-i18next';
 
-interface Row {
-  map(arg0: (company: any) => { id: any; name: any }): unknown;
-  id: string;
-  name: string;
-  phoneNumber: string;
-  managerName: string;
-  userId: string;
-  User: {
-    email: string;
-  };
-}
-interface Branch {
-  map(arg0: (company: any) => { id: any; location: any }): unknown;
-  id: string;
-  location: string;
-}
+
 
 const Companies: React.FC = () => {
-  const [data, setData] = useState<Row[]>([]);
   const [open, setOpen] = useState(false);
   const [location, setLocation] = useState('');
   const { showSnackbar } = useSnackbar();
-  const [pagination, setPagination] = useState<PageChangeParams>({
-    pageIndex: 0,
-    pageSize: 100,
-  });
+
   const { rows, totalRows, isFetching, onGetDataGrid, isLoading, formikProps } =
   useAddCompanyFormController();
  
@@ -69,9 +47,6 @@ const Companies: React.FC = () => {
     // handleAddBranch,
     handleAddBranchDialogClose,
     handleAddBranchDialogOpen,
-    handleCloseDialog,
-    handleOpenDialog,
-    handleShowBranchesOpen,
     handleshowBranchesClose,
     addBranchDiolog,
     showBranches,

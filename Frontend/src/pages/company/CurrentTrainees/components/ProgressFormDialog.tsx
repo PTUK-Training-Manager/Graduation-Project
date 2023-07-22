@@ -1,12 +1,9 @@
+/* eslint-disable react/jsx-key */
 import {
   FC,
-  JSXElementConstructor,
-  ReactElement,
-  ReactFragment,
-  ReactPortal,
   SyntheticEvent,
 } from 'react';
-
+import React from 'react';
 // Radial separators
 // import CircularProgress from '@mui/joy/CircularProgress';
 import Accordion from '@mui/material/Accordion';
@@ -17,15 +14,13 @@ import IconButton from '@mui/material/IconButton';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PersonIcon from '@mui/icons-material/Person';
 import CloseIcon from '@mui/icons-material/Close';
-import { Response, Row } from '../types';
+import { Response } from '../types';
 import Transition from 'src/components/Transition';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Grid from '@mui/material/Grid';
 import HourglassFullIcon from '@mui/icons-material/HourglassFull';
 import HourglassTopIcon from '@mui/icons-material/HourglassTop';
 import WatchLaterIcon from '@mui/icons-material/WatchLater';
-
-import CircularProgress from '@mui/material/CircularProgress';
 import { useTranslation } from 'react-i18next';
 
 import Box from '@mui/material/Box';
@@ -39,7 +34,6 @@ import {
   CardContent,
   LinearProgress,
   LinearProgressProps,
-  CircularProgressProps,
   Tooltip,
 } from '@mui/material';
 import RichTextEditor from 'src/containers/RichTextEditor';
@@ -64,33 +58,7 @@ function LinearProgressWithLabel(
     </Stack>
   );
 }
-function CircularProgressWithLabel(
-  props: CircularProgressProps & { value: number }
-) {
-  return (
-    <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-      <CircularProgress color="warning" variant="determinate" {...props} />
-      <Box
-        sx={{
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
-          position: 'absolute',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Typography
-          variant="caption"
-          component="div"
-          color="text.secondary"
-        >{`${Math.round(props.value)}%`}</Typography>
-      </Box>
-    </Box>
-  );
-}
+ 
 
 interface ProgressFormDialogProps {
   isOpen: boolean;
@@ -104,8 +72,6 @@ interface ProgressFormDialogProps {
 
 const ProgressFormDialog: FC<ProgressFormDialogProps> = ({
   isOpen,
-  currentTab,
-  handleChangeTab,
   handleCloseDialog,
   trainingId,
   response,
@@ -120,9 +86,7 @@ const ProgressFormDialog: FC<ProgressFormDialogProps> = ({
     : 0;
   console.log(percentage);
   const student = data?.find((trainee) => trainee.id === trainingId)?.Student;
-  const studentId = data?.find(
-    (trainee) => trainee.id === trainingId
-  )?.studentId;
+
   //@ts-ignore
   const { t } = useTranslation();
 

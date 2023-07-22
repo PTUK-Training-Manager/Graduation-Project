@@ -1,49 +1,36 @@
-import { FC } from 'react';
-import Accordion from '@mui/material/Accordion';
-import Dialog from '@mui/material/Dialog';
-import Typography from '@mui/material/Typography';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import IconButton from '@mui/material/IconButton';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import PersonIcon from '@mui/icons-material/Person';
-import CloseIcon from '@mui/icons-material/Close';
-import { Response, Row } from '../types';
-import Transition from 'src/components/Transition';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import Grid from '@mui/material/Grid';
-import HourglassFullIcon from '@mui/icons-material/HourglassFull';
-import HourglassTopIcon from '@mui/icons-material/HourglassTop';
-import WatchLaterIcon from '@mui/icons-material/WatchLater';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import '../CurrentTrainees.css';
-import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
+/* eslint-disable react/jsx-key */
+import React, { FC } from "react";
+import Accordion from "@mui/material/Accordion";
+import Dialog from "@mui/material/Dialog";
+import Typography from "@mui/material/Typography";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import IconButton from "@mui/material/IconButton";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import PersonIcon from "@mui/icons-material/Person";
+import CloseIcon from "@mui/icons-material/Close";
+import { Response, Row } from "../types";
+import Transition from "src/components/Transition";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import Grid from "@mui/material/Grid";
+import HourglassFullIcon from "@mui/icons-material/HourglassFull";
+import HourglassTopIcon from "@mui/icons-material/HourglassTop";
+import WatchLaterIcon from "@mui/icons-material/WatchLater";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
+import "../CurrentTrainees.css";
+import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 
-import {
-  Card,
-  CardContent,
-  LinearProgress,
-  LinearProgressProps,
-  Tooltip,
-} from '@mui/material';
-import RichTextEditor from 'src/containers/RichTextEditor';
-import { useTranslation } from 'react-i18next';
+import { Card, CardContent, LinearProgress, LinearProgressProps, Tooltip } from "@mui/material";
+import RichTextEditor from "src/containers/RichTextEditor";
+import { useTranslation } from "react-i18next";
 
-function LinearProgressWithLabel(
-  props: LinearProgressProps & { value: number }
-) {
+function LinearProgressWithLabel(props: LinearProgressProps & { value: number }) {
   return (
-    <Stack
-      direction="row"
-      sx={{ display: 'flex', alignItems: 'center', paddingRight: '16px' }}
-    >
-      <Box sx={{ width: '100%', paddingLeft: '16px', paddingRight: '8px' }}>
+    <Stack direction="row" sx={{ display: "flex", alignItems: "center", paddingRight: "16px" }}>
+      <Box sx={{ width: "100%", paddingLeft: "16px", paddingRight: "8px" }}>
         <LinearProgress color="warning" variant="determinate" {...props} />
       </Box>
-      <Typography
-        sx={{ color: 'black' }}
-        color="text.secondary"
-      >{`${props.value}%`}</Typography>
+      <Typography sx={{ color: "black" }} color="text.secondary">{`${props.value}%`}</Typography>
     </Stack>
   );
 }
@@ -67,42 +54,33 @@ const ProgressFormDialog: FC<ProgressFormDialogProps> = ({
     ? parseFloat(response.totalHours) - parseFloat(response.achievedHours)
     : 0;
   const percentage = response
-    ? (parseFloat(response.achievedHours) / parseFloat(response.totalHours)) *
-      100.0
+    ? (parseFloat(response.achievedHours) / parseFloat(response.totalHours)) * 100.0
     : 0;
   console.log(percentage);
-  const student = data?.find((trainee) => trainee.id === trainingId)?.Student;
-  const studentId = data?.find(
-    (trainee) => trainee.id === trainingId
-  )?.studentId;
+  const student = data?.find(trainee => trainee.id === trainingId)?.Student;
   //@ts-ignore
   const { t } = useTranslation();
   return (
-    <Grid sx={{ padding: '2' }}>
+    <Grid sx={{ padding: "2" }}>
       <Dialog
-        sx={{ left: '50%' }}
+        sx={{ left: "50%" }}
         fullScreen
         open={isOpen}
         onClose={handleCloseDialog}
         TransitionComponent={Transition}
       >
-        <IconButton
-          edge="start"
-          color="inherit"
-          onClick={handleCloseDialog}
-          aria-label="close"
-        >
+        <IconButton edge="start" color="inherit" onClick={handleCloseDialog} aria-label="close">
           <CloseIcon color="action" />
         </IconButton>
         <>
           <LinearProgressWithLabel value={percentage} />
-          <Grid sx={{ p: 2, height: '100vh' }}>
+          <Grid sx={{ p: 2, height: "100vh" }}>
             <Stack spacing={2}>
               {student && (
                 <>
                   <Stack gap={2}>
                     <Stack gap={1.5} direction="row">
-                      <Tooltip title={'Student Name'}>
+                      <Tooltip title={"Student Name"}>
                         <PersonIcon color="action" />
                       </Tooltip>
                       <Typography variant="h6">{student.name}</Typography>
@@ -114,20 +92,20 @@ const ProgressFormDialog: FC<ProgressFormDialogProps> = ({
               <Stack gap={1.5} direction="row">
                 <HourglassTopIcon color="action" />
                 <Typography>
-                  {t('Achieved Hours')}: {response?.achievedHours}
+                  {t("Achieved Hours")}: {response?.achievedHours}
                 </Typography>
               </Stack>
               <Stack gap={1.5} direction="row">
                 <HourglassTopIcon color="action" />
                 <Typography>
-                  {' '}
-                  {t('Remaining Hours')}: {remainingHours}{' '}
+                  {" "}
+                  {t("Remaining Hours")}: {remainingHours}{" "}
                 </Typography>
               </Stack>
               <Stack gap={1.5} direction="row">
                 <HourglassFullIcon color="action" />
                 <Typography>
-                  {t('Total Hours:')} {response?.totalHours}
+                  {t("Total Hours:")} {response?.totalHours}
                 </Typography>
               </Stack>
 
@@ -146,15 +124,13 @@ const ProgressFormDialog: FC<ProgressFormDialogProps> = ({
                       <Typography>Day {index + 1}</Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                      <Box sx={{ width: '100%', typography: 'body1' }}>
-                        <Box
-                          sx={{ borderBottom: 1, borderColor: 'divider' }}
-                        ></Box>
+                      <Box sx={{ width: "100%", typography: "body1" }}>
+                        <Box sx={{ borderBottom: 1, borderColor: "divider" }}></Box>
                         <Card
                           sx={{
                             minWidth: 275,
                             borderLeft: 6,
-                            borderColor: 'orange',
+                            borderColor: "orange",
                           }}
                         >
                           <CardContent>
@@ -162,21 +138,19 @@ const ProgressFormDialog: FC<ProgressFormDialogProps> = ({
                               <Stack gap={1.5} direction="row">
                                 <WatchLaterIcon color="action" />
                                 <Typography>
-                                  {t(' Start Time')}: {item.startTime}{' '}
+                                  {t(" Start Time")}: {item.startTime}{" "}
                                 </Typography>
                               </Stack>
                               <Stack gap={1.5} direction="row">
                                 <WatchLaterIcon color="action" />
                                 <Typography>
-                                  {'End Time'}:{item.endTime}{' '}
+                                  {"End Time"}:{item.endTime}{" "}
                                 </Typography>
                               </Stack>
                               <Stack gap={1.5}>
                                 <Stack gap={1.5} direction="row">
                                   <FormatListNumberedIcon color="action" />
-                                  <Typography sx={{ fontWeight: '600' }}>
-                                    {t('Skills')}:
-                                  </Typography>
+                                  <Typography sx={{ fontWeight: "600" }}>{t("Skills")}:</Typography>
                                 </Stack>
                                 <RichTextEditor
                                   editable={false}

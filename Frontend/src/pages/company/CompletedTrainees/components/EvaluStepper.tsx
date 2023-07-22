@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import Box from '@mui/material/Box';
 import FirstPage from './FirstPage';
 import { FC, useEffect, useState } from 'react';

@@ -3,6 +3,7 @@ import { createDataGrid } from 'src/components/DataGridTanstack';
 import { AllTrainingsData } from './api/types';
 import StatusCell from './StatusCell';
 
+
 const columns: ColumnDef<AllTrainingsData, any>[] = [
   {
     accessorKey: 'studentId',

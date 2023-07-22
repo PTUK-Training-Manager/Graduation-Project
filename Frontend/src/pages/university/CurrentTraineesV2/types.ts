@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-interface */
 import {DataGridCellProps, DataGridFetchQuery} from "src/components/DataGridTanstack/types";
 import {RunningTraineesData} from "src/pages/university/CurrentTraineesV2/API/types";
 

@@ -5,6 +5,7 @@ import { CategoryScale,Chart as ChartJS,LinearScale,BarElement,Tooltip, Legend} 
 ChartJS.register(CategoryScale,LinearScale,BarElement,Tooltip,Legend);
 
 //@ts-ignore
+// eslint-disable-next-line react/prop-types
 function BarChart({ chartData }) {
   return <Bar data={chartData} />;
 }

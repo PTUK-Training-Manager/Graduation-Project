@@ -26,9 +26,7 @@ const CompletedTrainees: React.FC = () => {
   const {
     CompletedTraineesDataGrid,
     handleCloseDialog,
-    handleOpenDialog,
     isOpen,
-    open,
     trainingId,
   } = uselogic();
 
