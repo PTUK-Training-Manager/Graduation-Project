@@ -1,26 +1,17 @@
 import React from 'react';
 import {IAppMenuItem} from 'src/routes/types';
-import {UserRoleKey, MenuItemsMapKey} from 'src/types';
+import {MenuItemsMapKey} from 'src/types';
 // MUI icons
 import HomeIcon from '@mui/icons-material/Home';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import GroupIcon from '@mui/icons-material/Group';
-import DomainAddIcon from '@mui/icons-material/DomainAdd';
-import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import StoreIcon from '@mui/icons-material/Store';
 import SchoolIcon from '@mui/icons-material/School';
-import PeopleIcon from '@mui/icons-material/People';
-import ManageSearchIcon from '@mui/icons-material/ManageSearch';
-import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import RecentActorsIcon from '@mui/icons-material/RecentActors';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import BarChartIcon from '@mui/icons-material/BarChart';
-import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
-import AddchartIcon from '@mui/icons-material/Addchart';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
-import HailIcon from '@mui/icons-material/Hail';
 import Groups3Icon from '@mui/icons-material/Groups3';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import PendingActionsIcon from '@mui/icons-material/PendingActions';
