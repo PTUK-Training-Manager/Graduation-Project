@@ -73,6 +73,7 @@ const AccountMenu: FC = () => {
     });
     console.log(fields);
     //@ts-ignore
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     addField({ fields }).then((res: { success: boolean; message: any }) => {
       if (res.success === true) {
         showSnackbar({ severity: "success", message: res.message });
