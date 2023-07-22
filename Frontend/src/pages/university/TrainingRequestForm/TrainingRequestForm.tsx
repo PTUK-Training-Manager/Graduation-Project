@@ -21,7 +21,6 @@ import TextFieldWrapper from 'src/components/FormsUI/TextField';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import useAddCompanyFormController from '../Companies/hooks/useAddCompanyFormController';
 import { getCompanies } from './api';
 
 interface CompanyOption {

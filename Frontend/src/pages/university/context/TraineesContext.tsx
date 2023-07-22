@@ -1,4 +1,4 @@
-import {createContext, useContext, PropsWithChildren, FC, ReactNode, useState} from "react";
+import {createContext, useContext, FC, ReactNode, useState} from "react";
 import {noop} from "src/utils/functionsUtils";
 import {TrainingDialog} from "../constants";
 

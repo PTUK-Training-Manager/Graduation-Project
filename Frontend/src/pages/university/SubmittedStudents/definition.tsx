@@ -3,13 +3,11 @@ import { createDataGrid } from 'src/components/DataGridTanstack';
 import { SubmittedTraineesData } from './api/types';
 import { IconButton } from '@mui/material';
 import NoteAltIcon from '@mui/icons-material/NoteAlt';
-import useSnackbar from 'src/hooks/useSnackbar';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import React from 'react';
 
 const uselogic = () => {
-  const { showSnackbar } = useSnackbar();
   const [isOpen, setIsOpen] = useState(false);
   const [trainingId, setTrainingId] = useState('');
   const handleOpenDialog = (id: string) => {

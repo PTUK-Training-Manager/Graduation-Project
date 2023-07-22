@@ -1,5 +1,4 @@
 import React, {FC} from 'react';
-import {ProgressFormDialogProps} from "./types";
 import {useTraineesContext} from "../context/TraineesContext";
 import Dialog from "@mui/material/Dialog";
 import Transition from "src/components/Transition";
@@ -10,13 +9,11 @@ import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Typography from "@mui/material/Typography";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
 import {TrainingDialog} from "../constants";
 
-const ProgressFormDialog: FC<ProgressFormDialogProps> = (props) => {
+const ProgressFormDialog: FC = () => {
 
-    const {openDialog, onOpenDialog, onCloseDialog} = useTraineesContext();
+    const {openDialog, onCloseDialog} = useTraineesContext();
 
     return (
         <Dialog
