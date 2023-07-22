@@ -32,11 +32,6 @@ const sharedMenuItems: IAppMenuItem[] = [
         link: '/me',
         Icon: () => <HomeIcon/>,
     },
-    {
-        label: 'Dashboard',
-        link: '/me/dashboard',
-        Icon: () => <DashboardIcon/>,
-    },
 ];
 
 
