@@ -2,8 +2,9 @@ import axiosInstance from 'src/api';
 import { BaseResponse } from 'src/types';
 
 export interface GetAllFieldsData {
-  id: string;
-  field: string;
+  label: any;
+  id?: string;
+  field?: string;
 }
 
 export interface GetAllFieldsResponse extends BaseResponse {
