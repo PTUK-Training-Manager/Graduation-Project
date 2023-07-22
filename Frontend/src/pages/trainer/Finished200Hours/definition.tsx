@@ -2,9 +2,10 @@ import { ColumnDef } from '@tanstack/react-table';
 import { createDataGrid } from 'src/components/DataGridTanstack';
 import { IconButton, Tooltip } from '@mui/material';
 import PrintIcon from '@mui/icons-material/Print';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FinishedRequiredHoursData } from './api/types';
 import React from 'react';
+import { QuestionsRequestData, getQuestion } from 'src/api/getQuestions';
 
 const uselogic = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,6 +18,18 @@ const uselogic = () => {
   const handleCloseDialog = () => {
     setIsOpen(false);
   };
+
+  const [response, setResponse] = React.useState<QuestionsRequestData[]>([]);
+ 
+
+  useEffect(() => {
+    getQuestion()
+      .then((result) => {
+        setResponse(result.data);
+        console.log(result.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
   const columns: ColumnDef<FinishedRequiredHoursData, any>[] = [
     {
       accessorKey: 'studentId',
@@ -71,6 +84,7 @@ const uselogic = () => {
     open: !!isOpen,
     trainingId,
     TraineesFinishedRequierHoursDataGrid,
+    response,
   };
 };
 

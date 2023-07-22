@@ -23,6 +23,7 @@ const uselogic = () => {
   };
   //@ts-ignore
   const { t } = useTranslation();
+  const onSetClosDialog = (isNeed: boolean) => setIsOpen(isNeed);
 
   const StudentNumber = t('StudentNumber');
   const StudentName = t('StudentName');
@@ -72,6 +73,7 @@ const uselogic = () => {
     handleCloseDialog,
     handleOpenDialog,
     SubmittedTraineesDataGrid,
+    onSetClosDialog,
   };
 };
 export default uselogic;

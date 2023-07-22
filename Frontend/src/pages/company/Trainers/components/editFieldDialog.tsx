@@ -8,7 +8,7 @@ import {
   Button,
 } from '@mui/material';
 import { FC } from 'react';
-import { FieldData } from '../api/response.dto';
+import { FieldData } from '../api/types';
 import { useTranslation } from 'react-i18next';
 
 interface EditFieldForTrainerDialogProps {

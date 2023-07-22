@@ -23,6 +23,7 @@ const uselogic = () => {
           setConfirmDialogOpen(false);
 
           showSnackbar({ severity: 'success', message: result.message });
+
           const res = queryClient.getQueryData([
             'PendingRequests',
           ]) as PendingRequestsData[];
@@ -30,6 +31,7 @@ const uselogic = () => {
             ['PendingRequests'],
             res.filter((row) => row.id !== deleteId)
           );
+          console.log(res);
           setDeleteId('');
         } else if (result.success === false) {
           showSnackbar({ severity: 'warning', message: result.message });

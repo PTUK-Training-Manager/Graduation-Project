@@ -15,7 +15,6 @@ import useAllTrainingsController from './hooks/useAllTrainingsController';
 import { useNavigate } from 'react-router-dom';
 import { progressForm } from 'src/api/progress';
 import { Response } from './types';
-import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import { useTranslation } from 'react-i18next';
 import ReactToPrint from 'react-to-print';
 
@@ -64,17 +63,7 @@ const AddCompanyForm: React.FC = () => {
     setIsProgressReportOpen((prev) => !prev);
   };
 
-  // useEffect(() => {
-  //   progressForm({ trainingId: trainingId }).then((res) => {
-  //     //@ts-ignore
-  //     setReponse(res.data);
-  //   });
-  // }, [trainingId]);
   const navigate = useNavigate();
-  const [pagination, setPagination] = useState<PageChangeParams>({
-    pageIndex: 0,
-    pageSize: 30,
-  });
 
   const { rows } = useAllTrainingsController();
   //@ts-ignore
@@ -142,7 +131,7 @@ const AddCompanyForm: React.FC = () => {
                       sx={{ justifyContent: 'space-between' }}
                     >
                       <Typography>
-                        {training.CompanyBranch.Company.name}{' '}
+                        {training?.CompanyBranch?.Company?.name}{' '}
                       </Typography>
                       <Chip
                         label={training.status}

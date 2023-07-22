@@ -8,6 +8,10 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import RichTextEditor from 'src/containers/RichTextEditor/RichTextEditor';
 import { EditorState } from 'lexical';
 import { useRef } from 'react';
+import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
 import theme from 'src/styling/customTheme';
 import {
   Accordion,
@@ -24,9 +28,8 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import useSnackbar from 'src/hooks/useSnackbar';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import DatePicker from '@mui/lab/DatePicker';
-import MobileTimePicker from '@mui/lab/MobileTimePicker';
+// import LocalizationProvider from '@mui/lab/LocalizationProvider';
+// import DatePicker from '@mui/lab/DatePicker';
 
 import Divider from '@mui/material/Divider';
 import Edit from '@mui/icons-material/Edit';
@@ -62,7 +65,7 @@ const Progress: React.FC = () => {
   const [evaluationId, setEvaluationId] = useState<number>(-1);
   const [skills, setSkills] = React.useState<EditorState | null>(null);
   //@ts-ignore
-const {t}=useTranslation();
+  const { t } = useTranslation();
   const handleSubmit = () => {
     submitEvaluation({
       startTime: startTime,
@@ -126,7 +129,7 @@ const {t}=useTranslation();
     setEvaluationId(evaluationId);
     topRef.current?.scrollIntoView({ behavior: 'auto' });
   };
-//@ts-ignore
+  //@ts-ignore
   const handleStartTimeChange = (newValue: string | null) => {
     if (newValue) {
       const time = dayjs(newValue, 'HH:mm:ss');
@@ -221,7 +224,9 @@ const {t}=useTranslation();
                       <DatePicker
                         label="Date"
                         value={date}
-                        onChange={(newValue: React.SetStateAction<dayjs.Dayjs | null>) => setDate(newValue)}
+                        onChange={(
+                          newValue: React.SetStateAction<dayjs.Dayjs | null>
+                        ) => setDate(newValue)}
                       />
 
                       <MobileTimePicker
@@ -368,7 +373,7 @@ const {t}=useTranslation();
                                   </Typography>
                                   <RichTextEditor
                                     editable={false}
-                                   content={evaluation.Note?.note}
+                                    content={evaluation.Note?.note}
                                   />
                                   <IconButton
                                     onClick={() =>
