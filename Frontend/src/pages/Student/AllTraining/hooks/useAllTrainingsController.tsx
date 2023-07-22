@@ -7,7 +7,7 @@ import { DataGridFetchQuery } from 'src/components/DataGridTanstack/types';
 const useAllTrainingsController = () => {
   const { data, isLoading, isFetching } = useQuery(
     ['AllTrainings'],
-    () => getAllTrainings({ pageIndex: 0, pageSize: 999999999 }),
+    () => getAllTrainings({ pageIndex: 0, pageSize: 999 }),
     {}
   );
 
