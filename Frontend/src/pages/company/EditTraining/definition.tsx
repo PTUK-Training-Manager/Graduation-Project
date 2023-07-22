@@ -19,7 +19,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { AssignTrainerRequestBody } from '../AcceptedRequests/api/types';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import React from 'react';
-interface ProgressFormCellProps extends CellContext<RunningTraineesData, any> {}
+
 const uselogic = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [trainingId, setTrainingId] = useState('');
@@ -86,7 +86,7 @@ const uselogic = () => {
   };
   const handleJoinDialogOpen = async () => {
     try {
-      const result = await getTrainers({ pageIndex: 0, pageSize: 9999 });
+      const result = await getTrainers({ pageIndex: 0, pageSize: 999 });
       setAvailableTrainers(result.items);
     } catch (error) {
       console.log(error);

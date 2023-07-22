@@ -89,7 +89,7 @@ const TrainingRequestForm: React.FC = () => {
   const [companyOptions, setCompanyOptions] = useState<CompanyOption[]>([]);
   const [branchOptions, setBranchOptions] = useState<BranchOption[]>([]);
   useEffect(() => {
-    getCompanies({ pageIndex:0, pageSize:9999 }).then((res) => {
+    getCompanies({ pageIndex:0, pageSize:999}).then((res) => {
       const options = res.items.map((company) => ({
         id: company.id.toString(),
         name: company.name,

@@ -47,7 +47,7 @@ const uselogic = () => {
 
   const handleJoinDialogOpen = async () => {
     try {
-      const result = await getTrainers({ pageIndex: 0, pageSize: 9999 });
+      const result = await getTrainers({ pageIndex: 0, pageSize: 999 });
       //@ts-ignore
       setAvailableTrainers(result.items);
       console.log(result.items);
