@@ -34,7 +34,7 @@ export const getTrainers = async (params: GetTrainersParams) => {
     .get<GetTrainerssResponse>('/company/trainers', {
       params: {
         page: 0,
-        size: 99999999,
+        size: 999,
       },
     })
     .then((response) => response.data);
