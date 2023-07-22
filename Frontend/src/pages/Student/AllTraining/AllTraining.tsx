@@ -6,7 +6,7 @@ import Stack from '@mui/material/Stack';
 import theme from 'src/styling/customTheme';
 import { Box, Button, Dialog, DialogContent, DialogTitle } from '@mui/material';
 import { green } from '@mui/material/colors';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Chip from '@mui/material/Chip';
 import EvaluStepper from './components/EvaluStepper';
 import ProgressFormDialog from './components/ProgressFormDialog';
@@ -15,8 +15,8 @@ import useAllTrainingsController from './hooks/useAllTrainingsController';
 import { useNavigate } from 'react-router-dom';
 import { progressForm } from 'src/api/progress';
 import { Response } from './types';
-import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import { useTranslation } from 'react-i18next';
+import ReactToPrint from 'react-to-print';
 
 const AddCompanyForm: React.FC = () => {
   const [isEvaluationReportOpen, setIsEvaluationReportOpen] = useState(false);
@@ -63,24 +63,18 @@ const AddCompanyForm: React.FC = () => {
     setIsProgressReportOpen((prev) => !prev);
   };
 
-  // useEffect(() => {
-  //   progressForm({ trainingId: trainingId }).then((res) => {
-  //     //@ts-ignore
-  //     setReponse(res.data);
-  //   });
-  // }, [trainingId]);
   const navigate = useNavigate();
-  const [pagination, setPagination] = useState<PageChangeParams>({
-    pageIndex: 0,
-    pageSize: 30,
-  });
 
-  const { rows } = useAllTrainingsController({
-    pagination,
-  });
+  const { rows } = useAllTrainingsController();
   //@ts-ignore
   const { t } = useTranslation();
-
+  const printRef = useRef(null);
+  const handlePrint = () => {
+    if (printRef.current) {
+      //@ts-ignore
+      printRef.current.handlePrint();
+    }
+  };
   return (
     <>
       <Grid
@@ -100,7 +94,7 @@ const AddCompanyForm: React.FC = () => {
           }}
         >
           <Typography component="h1" variant="h5" fontWeight={500}>
-            {t("All Trainings")}
+            {t('All Trainings')}
           </Typography>
 
           <>
@@ -126,7 +120,7 @@ const AddCompanyForm: React.FC = () => {
                       direction="row"
                       sx={{ justifyContent: 'space-between' }}
                     >
-                      <Typography> {t("CompanyName")} </Typography>
+                      <Typography> {t('CompanyName')} </Typography>
                       <Typography sx={{ color: 'white' }}>
                         Evaluation Trainininasd Report..
                       </Typography>
@@ -137,7 +131,7 @@ const AddCompanyForm: React.FC = () => {
                       sx={{ justifyContent: 'space-between' }}
                     >
                       <Typography>
-                        {training.CompanyBranch.Company.name}{' '}
+                        {training?.CompanyBranch?.Company?.name}{' '}
                       </Typography>
                       <Chip
                         label={training.status}
@@ -241,9 +235,28 @@ const AddCompanyForm: React.FC = () => {
         TransitionComponent={Transition}
         sx={{ left: '50%' }}
       >
+        <ReactToPrint
+          trigger={() => (
+            <Button
+              style={{
+                backgroundColor: '#F1F1F1',
+                color: 'black',
+              }}
+              onClick={() => handlePrint()}
+              variant="outlined"
+            >
+              Print The Evaluation Report
+            </Button>
+          )}
+          content={() => printRef.current}
+          documentTitle="Evaluation Training"
+          pageStyle="print"
+        />
         <DialogTitle gap={1.5} sx={{ textAlign: 'center' }}></DialogTitle>
         <DialogContent>
-          <EvaluStepper trainingId={trainingId} />
+          <div ref={printRef} className="print-layout">
+            <EvaluStepper trainingId={trainingId} />
+          </div>{' '}
         </DialogContent>
       </Dialog>
       <Dialog

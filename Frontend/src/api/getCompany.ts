@@ -1,8 +1,7 @@
 import axiosInstance from "src/api";
 import {BaseResponse} from "src/types";
 
-export interface GetCompanyData {
-  map(arg0: (company: any) => { id: any; name: any; }): unknown;
+export interface CompaniesData {
   id: string;
   name: string;
   phoneNumber: string;
@@ -13,8 +12,12 @@ export interface GetCompanyData {
   };
 }
 
-export interface GetCompanyResponse extends BaseResponse {
-  data: GetCompanyData[];
+export interface GetCompanyResponse  {
+  items: CompaniesData[];
+  pageNumber: number;
+  pageSize: number;
+  totalItems: number;
+  totalPages: number;
 }
 
 export const getCompany = async () => {

@@ -1,24 +1,16 @@
-import React, { FC, useState } from 'react';
+import { FC } from 'react';
 import Stack from '@mui/material/Stack';
 import useAllTrainingsController from './hooks/useAllTrainingsController';
 import theme from 'src/styling/customTheme';
 import { Grid, Typography } from '@mui/material';
-import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import AllTrainingsDataGrid from './definition';
-import { AllTrainingsData } from './api/response.dto';
-import { CellContext } from '@tanstack/react-table';
-import AllTrainingss from './definition';
 import { useTranslation } from 'react-i18next';
 
 const AllTrainings: FC = () => {
-  const [pagination, setPagination] = useState<PageChangeParams>({
-    pageIndex: 0,
-    pageSize: 10,
-  });
+  const { rows, totalRows, isFetching, onGetDataGrid } =
+    useAllTrainingsController();
 
-  const { rows } = useAllTrainingsController({
-    pagination,
-  });
+  //@ts-ignore
   const { t } = useTranslation();
   return (
     <>
@@ -41,7 +33,12 @@ const AllTrainings: FC = () => {
           <Typography component="h1" variant="h5" fontWeight={500}>
             {t('All Trainings')}
           </Typography>
-          <AllTrainingsDataGrid data={rows} />
+          <AllTrainingsDataGrid
+            data={rows}
+            totalRows={totalRows}
+            isFetching={isFetching}
+            onFetch={onGetDataGrid}
+          />
         </Stack>
       </Grid>
     </>

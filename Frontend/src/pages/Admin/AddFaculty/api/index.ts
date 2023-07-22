@@ -1,6 +1,7 @@
 import axiosInstance from "src/api";
 import {AploadExcelFileBody, AddFacultyBody} from "./request.dto";
-import {AploadExcelFileResponse, AddFieldResponse} from "./response.dto";
+import {AddFieldResponse, UploadFileResponse} from "./response.dto";
+import { File } from "buffer";
 
 
 
@@ -9,11 +10,16 @@ export const addFaculty = async (body: AddFacultyBody) => {
     return axiosInstance.post<AddFieldResponse>(url, body).then(res => res.data);
 };
 
-export const aploadExcelFile = async (file: File) => {
+export const uploadExcelFile = async (body: AploadExcelFileBody) => {
     const url = "/admin/upload";
     const formData = new FormData();
-    formData.set("files" , file);
-    return axiosInstance.post<AploadExcelFileResponse>(url, formData).then(res => res.data);
+    //@ts-ignore
+    formData.append('file', body);
+    return axiosInstance.post<UploadFileResponse>(url, formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }).then(res => res.data);
   };
   
   

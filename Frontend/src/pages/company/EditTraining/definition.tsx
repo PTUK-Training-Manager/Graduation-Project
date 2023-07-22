@@ -10,13 +10,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useTranslation } from 'react-i18next';
 import useSnackbar from 'src/hooks/useSnackbar';
-import { TrainersData } from '../Trainers/api/response.dto';
-import { assignTrainer, getTrainers } from '../AcceptedRequests/api';
+import { TrainersData } from '../Trainers/api/types';
+import { assignTrainer, getTrainers } from '../AcceptedRequests/api/index';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { HandleTrainingRequestBody } from '../TrainingRequest/types';
-import { handleTrainingRequest } from '../TrainingRequest/api';
+import { handleTrainingRequest } from '../TrainingRequest/api/index';
 import { useQueryClient } from '@tanstack/react-query';
-import { AssignTrainerRequestBody } from '../AcceptedRequests/api/request.dto';
+import { AssignTrainerRequestBody } from '../AcceptedRequests/api/types';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import React from 'react';
 interface ProgressFormCellProps extends CellContext<RunningTraineesData, any> {}
@@ -54,16 +54,16 @@ const uselogic = () => {
     handleTrainingRequest(body)
       .then((result) => {
         if (result.success === true) {
+          setConfirmDialogOpen(false);
           showSnackbar({ severity: 'success', message: result.message });
           const res = queryClient.getQueryData([
-            'editRunningTrainings',
+            'EditTrainings',
           ]) as RunningTraineesData[];
           queryClient.setQueryData(
-            ['editRunningTrainings'],
+            ['EditTrainings'],
             res.filter((row) => row.id !== trainingID)
           );
           setCanceledId('');
-          setConfirmDialogOpen(false);
         } else if (result.success === false) {
           showSnackbar({ severity: 'warning', message: result.message });
           setCanceledId('');
@@ -86,8 +86,8 @@ const uselogic = () => {
   };
   const handleJoinDialogOpen = async () => {
     try {
-      const result = await getTrainers({ page: -1, size: -1 });
-      setAvailableTrainers(result.data.items);
+      const result = await getTrainers({ pageIndex: 0, pageSize: 9999 });
+      setAvailableTrainers(result.items);
     } catch (error) {
       console.log(error);
     }
@@ -97,7 +97,6 @@ const uselogic = () => {
     setConfirmDialogOpen(true);
   };
   const handleJoin = (trainerId: string) => {
-    
     setTrainerID(trainerId);
     handleverifyClick();
   };
@@ -127,11 +126,11 @@ const uselogic = () => {
   const { t } = useTranslation();
   const StudentNumber = t('StudentNumber');
   const StudentName = t('StudentName');
-  const EditTrainer=t('EditTrainer');
-  const TrainerName=t('TrainerName');
-  const CompanyBranch=t('CompanyBranch');
-  const CancelTraining=t('CancelTraining');
-  CancelTraining
+  const EditTrainer = t('EditTrainer');
+  const TrainerName = t('TrainerName');
+  const CompanyBranch = t('CompanyBranch');
+  const CancelTraining = t('CancelTraining');
+  CancelTraining;
   const columnsForDialog: ColumnDef<TrainersData, any>[] = [
     {
       accessorKey: 'id',
@@ -180,17 +179,17 @@ const uselogic = () => {
       filterFn: 'arrIncludesSome',
     },
     {
-        accessorKey: 'CompanyBranch.location',
-        header: CompanyBranch,
-        filterFn: 'arrIncludesSome',
-      },
-      {
-        accessorKey: 'Trainer.name',
-        header: TrainerName,
-        filterFn: 'arrIncludesSome',
-      },
+      accessorKey: 'CompanyBranch.location',
+      header: CompanyBranch,
+      filterFn: 'arrIncludesSome',
+    },
     {
-      header:EditTrainer ,
+      accessorKey: 'Trainer.name',
+      header: TrainerName,
+      filterFn: 'arrIncludesSome',
+    },
+    {
+      header: EditTrainer,
       //@ts-ignore
       cell: (props) => {
         const {
@@ -199,12 +198,11 @@ const uselogic = () => {
         return (
           <IconButton
             aria-label="edit field"
-            size='small'
+            size="small"
             onClick={() => handleJoinClick(original.id)}
           >
             <ManageAccountsIcon
-              sx={{                 color: '#820000'
-              ,ml:'1.5rem' }}
+              sx={{ color: '#820000', ml: '1.5rem' }}
               className="edit-icon"
             />
           </IconButton>
@@ -220,7 +218,7 @@ const uselogic = () => {
         } = props;
         return (
           <IconButton
-            sx={{ ml: 3.7}}
+            sx={{ ml: 3.7 }}
             color="error"
             aria-label="cancel training"
             onClick={() => handleCancelClick(original.id)}
@@ -254,7 +252,7 @@ const uselogic = () => {
             return row;
           });
           setData(updatedData);
-         
+
           showSnackbar({ severity: 'success', message: result.message });
           handleVerifyCancel();
         } else if (result.success === false) {
@@ -270,12 +268,6 @@ const uselogic = () => {
       shouldFlexGrowCells: true,
     });
   }, []);
-
-  const TrainerDialogDataGrid = createDataGrid({
-    name: 'TrainerDialogDataGrid',
-    columns,
-    shouldFlexGrowCells: true,
-  });
 
   return {
     onSetJoinDialogOpen,

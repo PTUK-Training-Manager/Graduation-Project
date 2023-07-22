@@ -1,19 +1,15 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React from 'react';
 import MuiPagination from '@mui/material/Pagination';
 import { TablePaginationProps } from '@mui/material/TablePagination';
 import {
   DataGrid,
   GridPagination,
   GridToolbar,
-  gridClasses,
   gridPageCountSelector,
   useGridApiContext,
   useGridSelector,
 } from '@mui/x-data-grid';
 import './EditTraining.css';
-import { getCurrentTrainees } from './api';
-import EditIcon from '@mui/icons-material/Edit';
-import ClearIcon from '@mui/icons-material/Clear';
 import theme from 'src/styling/customTheme';
 import {
   Button,
@@ -24,106 +20,16 @@ import {
   Grid,
   IconButton,
   Stack,
-  TextField,
   Typography,
 } from '@mui/material';
-import { handleTrainingRequest } from '../TrainingRequest/api';
-import { HandleTrainingRequestBody } from '../TrainingRequest/types';
-import { assignTrainer } from '../AcceptedRequests/api';
-import { AssignTrainerRequestBody } from '../AcceptedRequests/api/request.dto';
-import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
-import { getTrainers } from '../Trainers/api';
+import DataGridPagination from 'src/components/DataGrid/DataGridPagination';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import useSnackbar from 'src/hooks/useSnackbar';
-import useCurrentTraineesController from './hooks/useCurrentTraineesController';
 import uselogic from './definition';
-import { PageChangeParams } from 'src/components/DataGridTanstack/types';
-import { useTranslation } from 'react-i18next';
-import uselogicc from './definitionForTrainers';
-import useAllTrainersController from '../Trainers/hooks/useAllTrainersController';
 import useCurrentTrainees from './hooks/useCurrentTraineesController';
 
-function Pagination({
-  page,
-  onPageChange,
-  className,
-}: Pick<TablePaginationProps, 'page' | 'onPageChange' | 'className'>) {
-  const apiRef = useGridApiContext();
-  const pageCount = useGridSelector(apiRef, gridPageCountSelector);
-
-  return (
-    <MuiPagination
-      color="primary"
-      className={className}
-      count={pageCount}
-      page={page + 1}
-      onChange={(event, newPage) => {
-        onPageChange(event as any, newPage - 1);
-      }}
-    />
-  );
-}
-
-function CustomPagination(props: any) {
-  return <GridPagination ActionsComponent={Pagination} {...props} />;
-}
-interface Row {
-  id: string;
-  studentId: string;
-  companyBranchId: string;
-  Student: {
-    name: string;
-  };
-  CompanyBranch: {
-    location: string;
-  };
-  Trainer: {
-    name: string;
-  };
-  trainerId: string;
-}
-
-interface Trainer {
-  id: string;
-  companyId: string;
-  fieldId: string;
-  Field: {
-    id: string;
-    field: string;
-  };
-  name: string;
-  status: string;
-  userId: string;
-}
-
 const EditTraining: React.FC = () => {
-  const trainerColumns = [
-    { field: 'id', headerName: 'Trainer Id', width: 400, flex: 0.3 },
-    { field: 'name', headerName: 'Trianer Name', width: 400, flex: 0.3 },
-    { field: 'Field.field', headerName: 'field', width: 400, flex: 0.3 },
-    {
-      field: 'joinTrainer',
-      headerName: 'Join Trainer',
-      flex: 0.3,
-      width: 400,
-      headerClassName: 'ctrainees',
-      filterable: false,
-      sortable: false,
-      renderCell: (params: { id: any }) => (
-        <IconButton
-          aria-label="edit field"
-          onClick={() => handleJoin(params.id)}
-        >
-          <CheckBoxIcon
-            sx={{ color: 'blue', backgroundColor: 'white' }}
-            className="edit-icon"
-          />
-        </IconButton>
-      ),
-    },
-  ];
-
   const { rows, totalRows, isFetching, onGetDataGrid } = useCurrentTrainees();
+  //@ts-ignore
 
   const {
     CurrentTraineesDataGrid,
@@ -145,12 +51,39 @@ const EditTraining: React.FC = () => {
     handleVerifyCancel,
     confirmEditOpen,
   } = uselogic();
-  const {
-    TrainerDialogDataGrid,
-    //  handleVerifyCancel,
-    //  handleverifyClick,
-    //  confirmEditOpen
-  } = uselogicc();
+  const trainerColumns = [
+    { field: 'id', headerName: 'Trainer Id', width: 400, flex: 0.3 },
+    { field: 'name', headerName: 'Trianer Name', width: 400, flex: 0.3 },
+    { field: 'field', headerName: 'field', width: 400, flex: 0.3 },
+    {
+      field: 'joinTrainer',
+      headerName: 'Join Trainer ',
+      flex: 0.3,
+      width: 400,
+      headerClassName: 'ctrainees',
+      filterable: false,
+      sortable: false,
+      renderCell: (params: { id: any }) => (
+        <IconButton
+          aria-label="edit field"
+          onClick={() => handleJoin(params.id)}
+        >
+          <CheckBoxIcon
+            sx={{ color: 'blue', backgroundColor: 'white' }}
+            className="edit-icon"
+          />
+        </IconButton>
+      ),
+    },
+  ];
+  const trainerrows = availableTrainers.map((row) => ({
+    id: row.id,
+    name: row.name,
+    field: row.Field.field,
+    status: row.status,
+    companyId: row.companyId,
+    userId: row.userId,
+  }));
 
   return (
     <>
@@ -208,7 +141,7 @@ const EditTraining: React.FC = () => {
                 width: '500px', // set the width to 800px
               }}
               columns={trainerColumns}
-              rows={availableTrainers}
+              rows={trainerrows}
               getRowId={(row) => row['id']}
               initialState={{
                 pagination: { paginationModel: { pageSize: 30 } },
@@ -216,10 +149,9 @@ const EditTraining: React.FC = () => {
               pageSizeOptions={[5, 10, 20, 30]}
               slots={{
                 toolbar: GridToolbar,
-                pagination: CustomPagination,
+                pagination: DataGridPagination,
               }}
             />
-            {/* <TrainerDialogDataGrid data={trainerRows} /> */}
           </div>
         </DialogContent>
         <DialogActions>

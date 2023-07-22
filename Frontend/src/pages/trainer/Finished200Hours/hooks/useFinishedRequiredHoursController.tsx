@@ -1,37 +1,39 @@
-import React, {useEffect, useState, SyntheticEvent} from "react";
-import {getTraineesFinishedRequiredHours} from "../api";
-import {IconButton} from "@mui/material";
-import {Feed} from "@mui/icons-material";
-import { progressForm } from "src/api/progress";
-import {useQuery} from "@tanstack/react-query";
-import {PageChangeParams} from "src/components/DataGridTanstack/types";
+import { useState, useMemo } from 'react';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { getTraineesFinishedRequiredHours } from '../api';
+import { generateRandomDate } from 'src/components/DataGridTanstack/utils';
+import { UseInfiniteDataGridPlaygroundAPIProps } from '../types';
 
-export interface UseDataGridPlaygroundAPIProps {
-    pagination?: PageChangeParams;
-}
+const useFinishedRequiredHoursController = ({
+  query,
+}: UseInfiniteDataGridPlaygroundAPIProps) => {
+  const { data, error, isFetching, status, fetchNextPage, isError, isSuccess } =
+    useInfiniteQuery({
+      queryKey: ['FinidhedRequiredHours'],
+      queryFn: ({ pageParam = 0 }) => {
+        return getTraineesFinishedRequiredHours({
+          pageIndex: pageParam ?? 0,
+          pageSize: query?.pageSize ?? 20,
+        });
+      },
+      getNextPageParam: (lastPage, allPages) => allPages?.length ?? 0, // because first page is 0, not 1
+      keepPreviousData: true, //for a smooth transition between the pages in the table.
+    });
+  console.log(data);
+  const allRows = useMemo(
+    () => data?.pages?.flatMap((page) => page.items) ?? [],
+    [data]
+  );
 
-const useFinishedRequiredHoursController = ({pagination}: UseDataGridPlaygroundAPIProps) => {
-                  
-    const [totalRows, setTotalRows] = useState<number>(0);
-
-    const {data}
-        = useQuery(
-        ["users", pagination],
-        () => getTraineesFinishedRequiredHours({page: pagination?.pageIndex, size: pagination?.pageSize}).then(res => {
-            setTotalRows(res?.headers["x-total-count"] ?? 0);
-            return res?.data.items ?? [];
-        })
-        , {
-            keepPreviousData: true, //for a smooth transition between the pages in the table.
-        }
-    );
-     return {
-      
-            rows: data ?? [],
-    };
+  console.log(allRows);
+  return {
+    allRows,
+    isFetching,
+    isError,
+    error,
+    isSuccess,
+    fetchNextPage,
+  };
 };
+
 export default useFinishedRequiredHoursController;
-
-
-
-

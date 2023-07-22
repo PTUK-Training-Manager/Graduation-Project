@@ -46,8 +46,8 @@ const AccountMenu: FC = () => {
     const {showSnackbar} = useSnackbar();
     const navigate = useNavigate();
     const navigateToResetPasswordPagePage = () => {
-        setAnchorEl(null);
         navigate('/me/reset-password');
+        handleClose();
     };
     const userInitial = user?.username[0].toUpperCase();
 

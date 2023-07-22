@@ -1,11 +1,7 @@
-import React, { FC } from 'react';
-import IconButton from '@mui/material/IconButton';
-import { Feed } from '@mui/icons-material';
+import { FC } from 'react';
 import { CellContext } from '@tanstack/react-table';
-
-import { TrainingDialog } from 'src/pages/university/constants';
-import { AllTrainingsData } from './api/response.dto';
-import { Chip, ChipProps} from '@mui/material';
+import { AllTrainingsData } from './api/types';
+import { Chip, ChipProps } from '@mui/material';
 
 interface StatusCellProps extends CellContext<AllTrainingsData, any> {}
 

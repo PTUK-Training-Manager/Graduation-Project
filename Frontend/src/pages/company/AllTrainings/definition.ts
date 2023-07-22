@@ -1,6 +1,6 @@
 import {ColumnDef} from '@tanstack/react-table';
 import {createDataGrid} from 'src/components/DataGridTanstack';
-import { AllTrainingsData } from './api/response.dto';
+import { AllTrainingsData } from './api/types';
 import StatusCell from './StatusCell';
 
 const columns: ColumnDef<AllTrainingsData, any>[] = [
@@ -54,6 +54,8 @@ const AllTrainingsCompanyDataGrid = createDataGrid({
     name: 'AllTrainingsCompanyDataGrid',
     columns,
     shouldFlexGrowCells: true,
-});
+  });
+  
+
 
 export default AllTrainingsCompanyDataGrid;

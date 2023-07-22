@@ -4,17 +4,11 @@ import useAllTrainingsController from './hooks/useAllTrainingsController';
 import theme from 'src/styling/customTheme';
 import { Grid, Typography } from '@mui/material';
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
-import  AllTrainingsCompanyDataGrid from './definition';
+import AllTrainingsCompanyDataGrid from './definition';
 
 const AllTrainings: React.FC = () => {
-  const [pagination, setPagination] = useState<PageChangeParams>({
-    pageIndex: 0,
-    pageSize: 10,
-  });
-
-  const { rows } = useAllTrainingsController({
-    pagination,
-  });
+  const { rows, totalRows, isFetching, onGetDataGrid } =
+    useAllTrainingsController();
 
   return (
     <>
@@ -37,7 +31,12 @@ const AllTrainings: React.FC = () => {
           <Typography component="h1" variant="h5" fontWeight={500}>
             All Trainings
           </Typography>
-          <AllTrainingsCompanyDataGrid data={rows} />
+          <AllTrainingsCompanyDataGrid
+            data={rows}
+            totalRows={totalRows}
+            isFetching={isFetching}
+            onFetch={onGetDataGrid}
+          />
         </Stack>
       </Grid>
     </>

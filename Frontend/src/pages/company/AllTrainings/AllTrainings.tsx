@@ -4,19 +4,15 @@ import useAllTrainingsController from './hooks/useAllTrainingsController';
 import theme from 'src/styling/customTheme';
 import { Grid, Typography } from '@mui/material';
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
-import  AllTrainingsCompanyDataGrid from './definition';
+import AllTrainingsCompanyDataGrid from './definition';
 import { useTranslation } from 'react-i18next';
 
 const AllTrainings: React.FC = () => {
-  const [pagination, setPagination] = useState<PageChangeParams>({
-    pageIndex: 0,
-    pageSize: 100,
-  });
+  const { rows, totalRows, isFetching, onGetDataGrid } =
+    useAllTrainingsController();
 
-  const { rows } = useAllTrainingsController({
-    pagination,
-  });
-  const {t}=useTranslation();
+  //@ts-ignore
+  const { t } = useTranslation();
 
   return (
     <>
@@ -37,9 +33,14 @@ const AllTrainings: React.FC = () => {
           }}
         >
           <Typography component="h1" variant="h5" fontWeight={500}>
-           {t("All Trainings")}
+            {t('All Trainings')}
           </Typography>
-          <AllTrainingsCompanyDataGrid data={rows} />
+          <AllTrainingsCompanyDataGrid
+            data={rows}
+            totalRows={totalRows}
+            isFetching={isFetching}
+            onFetch={onGetDataGrid}
+          />
         </Stack>
       </Grid>
     </>

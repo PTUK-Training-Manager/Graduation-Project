@@ -1,5 +1,5 @@
 export interface AploadExcelFileBody {
-    file: File;
+    file: string | Blob;
   }
 
   export interface AddFacultyBody {

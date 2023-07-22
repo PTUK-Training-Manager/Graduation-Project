@@ -1,35 +1,41 @@
 import axiosInstance from 'src/api';
-import {AssignTrainerRequestBody,FetchUsersParams} from './request.dto'
-import { AcceptedTrainingsResponse,AssignTrainerRequestResponse } from './response.dto';
-import { TrainersResponse } from '../../Trainers/api/response.dto';
+import {
+  GetAcceptedTrainingssParams,
+  GetAcceptedTrainingsResponse,
+  AssignTrainerRequestBody,
+  AssignTrainerRequestResponse,
+} from './types';
+import { GetTrainersParams, GetTrainerssResponse } from '../../Trainers/api/types';
 
+export const getAcceptedTrainings = async (
+  params: GetAcceptedTrainingssParams
+) => {
+  const { pageIndex, pageSize } = params;
 
-export const getTrainers = async (params: FetchUsersParams) => {
-  return axiosInstance.get<TrainersResponse>(
-    `/company/trainers/-1/-1`,
-    {
+  return axiosInstance
+    .get<GetAcceptedTrainingsResponse>('/training/acceptedTrainings', {
       params: {
-        page: (params.page ?? 0) * (params.size ?? 10),
-        limit: params.size,
+        page: pageIndex,
+        size: pageSize,
       },
-    }
-  );
+    })
+    .then((response) => response.data);
 };
 
-  export const assignTrainer = (body: AssignTrainerRequestBody) => {
-    const url = "/training/assignTrainer";
-    return axiosInstance
-      .patch<AssignTrainerRequestResponse>(url, body)
-      .then((res) => res.data);
-  };
-  export const getAcceptedTrainings = async (params: FetchUsersParams) => {
-    return axiosInstance.get<AcceptedTrainingsResponse>(
-      `/training/acceptedTrainings/${params.page}/${params.size}`,
-      {
-        params: {
-          page: (params.page ?? 0) * (params.size ?? 10),
-          size: params.size,
-        },
-      }
-    );
-  };
+export const assignTrainer = (body: AssignTrainerRequestBody) => {
+  const url = '/training/assignTrainer';
+  return axiosInstance
+    .patch<AssignTrainerRequestResponse>(url, body)
+    .then((res) => res.data);
+};
+
+export const getTrainers = async (params: GetTrainersParams) => {
+  return axiosInstance
+    .get<GetTrainerssResponse>('/company/trainers', {
+      params: {
+        page: 0,
+        size: 99999999,
+      },
+    })
+    .then((response) => response.data);
+};

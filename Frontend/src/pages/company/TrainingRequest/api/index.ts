@@ -1,24 +1,28 @@
 import axiosInstance from 'src/api';
-import { TrainingRequestsResponse } from './response.dto';
+import {
+GetTrainingRequestsParams, GetTrainingRequestsResponse
+} from './types';
+import { GetTrainerssResponse } from '../../Trainers/api/types';
 import { HandleTrainingRequestBody, HandleTrainingRequestResponse } from '../types';
-import { FetchUsersParams } from './request.dto';
 
+export const getTrainingRequests = async (
+  params: GetTrainingRequestsParams
+) => {
+  const { pageIndex, pageSize } = params;
 
-export const getTrainingRequests = async (params: FetchUsersParams) => {
-  return axiosInstance.get<TrainingRequestsResponse>(
-    `/request/trainingRequests/${params.page}/${params.size}`,
-    {
+  return axiosInstance
+    .get<GetTrainingRequestsResponse>('/request/trainingRequests', {
       params: {
-        page: (params.page ?? 0) * (params.size ?? 10),
-        size: params.size,
+        page: pageIndex,
+        size: pageSize,
       },
-    }
-  );
+    })
+    .then((response) => response.data);
 };
 
-  export const handleTrainingRequest = (body: HandleTrainingRequestBody) => {
-    const url = "/training/changeTrainingStatus";
-    return axiosInstance
-      .patch<HandleTrainingRequestResponse>(url, body)
-      .then((res) => res.data);
-  };
+export const handleTrainingRequest = (body: HandleTrainingRequestBody) => {
+  const url = "/training/changeTrainingStatus";
+  return axiosInstance
+    .patch<HandleTrainingRequestResponse>(url, body)
+    .then((res) => res.data);
+};

@@ -1,59 +1,45 @@
 import React, { SyntheticEvent, useEffect, useMemo, useState } from 'react';
-import MuiPagination from '@mui/material/Pagination';
-import { TablePaginationProps } from '@mui/material/TablePagination';
-import {
-  DataGrid,
-  GridPagination,
-  GridToolbar,
-  gridClasses,
-  gridPageCountSelector,
-  useGridApiContext,
-  useGridSelector,
-} from '@mui/x-data-grid';
-import EvaluStepper from './components/EvaluStepper';
+import { FinishedRequiredHoursData } from './api/types';
 import './Finished200Hours.css';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
-import PrintIcon from '@mui/icons-material/Print';
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Tooltip,
-} from '@mui/material';
+import FirstPage from './components/FirstPage';
 import theme from 'src/styling/customTheme';
 import Typography from '@mui/material/Typography';
 import Transition from 'src/components/Transition';
 import DataGridPagination from 'src/components/DataGrid/DataGridPagination';
 import useFinishedRequiredHoursController from './hooks/useFinishedRequiredHoursController';
-import { PageChangeParams } from 'src/components/DataGridTanstack/types';
+import {
+  OnRowClick,
+  PageChangeParams,
+} from 'src/components/DataGridTanstack/types';
 import uselogic from './definition';
 
-
-
 const Finished200Hours: React.FC = () => {
-  const [pagination, setPagination] = useState<PageChangeParams>({
-    pageIndex: 0,
-    pageSize: 30,
-  });
-
-  const { rows } = useFinishedRequiredHoursController({
-    pagination,
-  });
   const {
-  TraineesFinishedRequierHoursDataGrid,
-  handleCloseDialog,
-  handleOpenDialog,
-  isOpen,
-  trainingId,
-  open,
+    TraineesFinishedRequierHoursDataGrid,
+    handleCloseDialog,
+    isOpen,
+    trainingId,
+    response,
   } = uselogic();
 
-  
+  const { pageSize } = TraineesFinishedRequierHoursDataGrid.configs;
+
+  const [query, setQuery] = useState<PageChangeParams>({
+    pageIndex: 0,
+    pageSize,
+  });
+
+  const { allRows, isFetching, fetchNextPage } =
+    useFinishedRequiredHoursController({ query });
+
+  const handleOnRowClick: OnRowClick<FinishedRequiredHoursData> = (cell, row) =>
+    console.log({ cell, row });
+
   return (
     <>
-     <Grid
+      <Grid
         container
         sx={{
           p: 3,
@@ -70,13 +56,39 @@ const Finished200Hours: React.FC = () => {
           }}
         >
           <Typography component="h1" variant="h5" fontWeight={500}>
-          Trainees Finished Required Houres
+            Trainees Finished Required Hours
           </Typography>
-          <TraineesFinishedRequierHoursDataGrid data={rows} />
+          <TraineesFinishedRequierHoursDataGrid.Provider
+            data={allRows}
+            isFetching={isFetching}
+            // totalPages={Math.floor(totalRows / pagination.pageSize)}
+            // onFetch={(pagination) => setPagination(pagination)}
+            onFetch={(query) => fetchNextPage()}
+          >
+            <TraineesFinishedRequierHoursDataGrid.Container>
+              <TraineesFinishedRequierHoursDataGrid.Toolbar>
+                <TraineesFinishedRequierHoursDataGrid.Toolbar.Start>
+                  <TraineesFinishedRequierHoursDataGrid.SearchBox />
+                </TraineesFinishedRequierHoursDataGrid.Toolbar.Start>
+                <TraineesFinishedRequierHoursDataGrid.Toolbar.End>
+                  <TraineesFinishedRequierHoursDataGrid.Filters />
+                </TraineesFinishedRequierHoursDataGrid.Toolbar.End>
+              </TraineesFinishedRequierHoursDataGrid.Toolbar>
+              <TraineesFinishedRequierHoursDataGrid.Table>
+                <TraineesFinishedRequierHoursDataGrid.Head />
+                <TraineesFinishedRequierHoursDataGrid.Body
+                  onRowClick={handleOnRowClick}
+                />
+                {/*<TraineesFinishedRequierHoursDataGrid.Placeholder/>*/}
+              </TraineesFinishedRequierHoursDataGrid.Table>
+              <TraineesFinishedRequierHoursDataGrid.Footer />
+            </TraineesFinishedRequierHoursDataGrid.Container>
+            {/*<TraineesFinishedRequierHoursDataGrid.TableStateTree/>*/}
+          </TraineesFinishedRequierHoursDataGrid.Provider>
         </Stack>
       </Grid>
-         
-      <Dialog
+      <FirstPage response={response} trainingID={trainingId} handleCloseDialog={handleCloseDialog} isOpen={isOpen} />
+      {/* <Dialog
         open={isOpen}
         onClose={handleCloseDialog}
         fullScreen
@@ -87,7 +99,7 @@ const Finished200Hours: React.FC = () => {
         <DialogContent>
           <EvaluStepper trainingId={trainingId} />
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
     </>
   );
 };

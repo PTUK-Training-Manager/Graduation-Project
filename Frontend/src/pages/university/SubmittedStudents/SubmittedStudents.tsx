@@ -15,11 +15,6 @@ import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import uselogic from './definition';
 
 const SubmittedStudents: React.FC = () => {
-  const [pagination, setPagination] = useState<PageChangeParams>({
-    pageIndex: 0,
-    pageSize: 30,
-  });
-
   const {
     SubmittedTraineesDataGrid,
     handleCloseDialog,
@@ -27,11 +22,11 @@ const SubmittedStudents: React.FC = () => {
     isOpen,
     trainingId,
   } = uselogic();
-  
-  const { rows } = useSubmittedTraineesController({
-    pagination,
-  });
-  
+
+  const { rows, totalRows, isFetching, onGetDataGrid } =
+    useSubmittedTraineesController();
+
+    //@ts-ignore
   const { t, i18n } = useTranslation();
 
   return (
@@ -55,7 +50,12 @@ const SubmittedStudents: React.FC = () => {
           <Typography component="h1" variant="h5" fontWeight={500}>
             {t('Submitted Students')}
           </Typography>
-          <SubmittedTraineesDataGrid data={rows} />
+          <SubmittedTraineesDataGrid
+            data={rows}
+            totalRows={totalRows}
+            isFetching={isFetching}
+            onFetch={onGetDataGrid}
+          />
         </Stack>
       </Grid>
       <Dialog
@@ -69,8 +69,9 @@ const SubmittedStudents: React.FC = () => {
         }}
       >
         <DialogTitle gap={1.5} sx={{ textAlign: 'center' }}></DialogTitle>
-        <DialogContent sx={{          direction: i18n.language === 'ar' ? 'rtl' : 'ltr',
-}}>
+        <DialogContent
+          sx={{ direction: i18n.language === 'ar' ? 'rtl' : 'ltr' }}
+        >
           <EvaluStepper trainingId={trainingId} />
         </DialogContent>
       </Dialog>

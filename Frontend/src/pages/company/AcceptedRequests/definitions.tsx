@@ -1,27 +1,27 @@
 import { ColumnDef } from '@tanstack/react-table';
 import { createDataGrid } from 'src/components/DataGridTanstack';
-import { AcceptedTrainingsData } from './api/response.dto';
-import { Button, IconButton } from '@mui/material';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import CancelIcon from '@mui/icons-material/Cancel';
-import { assignTrainer } from './api';
+import { AcceptedTrainingsData } from './api/types';
+import { IconButton } from '@mui/material';
+import { assignTrainer } from './api/index';
 import useSnackbar from 'src/hooks/useSnackbar';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import { useState } from 'react';
-import { AssignTrainerRequestBody } from './api/request.dto';
+import { AssignTrainerRequestBody } from './api/types';
 import dayjs, { Dayjs } from 'dayjs';
-import { getTrainers } from '../Trainers/api';
+import { getTrainers } from './api/index';
 import { useTranslation } from 'react-i18next';
-import { TrainersData } from '../Trainers/api/response.dto';
+import { TrainersData } from '../Trainers/api/types';
 import { useQueryClient } from '@tanstack/react-query';
-
+import React from 'react';
 
 const uselogic = () => {
   const { showSnackbar } = useSnackbar();
   const [trainingID, setTrainingID] = useState<string>('');
   const [trainerID, setTrainerID] = useState<string>('');
   const [joinDialogOpen, setJoinDialogOpen] = useState<boolean>(false);
-  const [availableTrainers, setAvailableTrainers] = useState<TrainersData[]>([]);
+  const [availableTrainers, setAvailableTrainers] = useState<TrainersData[]>(
+    []
+  );
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs(''));
   const [data, setData] = useState<AcceptedTrainingsData[]>([]);
@@ -42,15 +42,15 @@ const uselogic = () => {
   const handleVerifyCancel = () => {
     setConfirmDialogOpen(false);
     setJoinDialogOpen(false);
-    setSelectedDate(null)
+    setSelectedDate(null);
   };
 
   const handleJoinDialogOpen = async () => {
     try {
-      const result = await getTrainers({page: -1, size: -1});
+      const result = await getTrainers({ pageIndex: 0, pageSize: 9999 });
       //@ts-ignore
-      setAvailableTrainers(result.data.items);
-      console.log(result.data);
+      setAvailableTrainers(result.items);
+      console.log(result.items);
     } catch (error) {
       console.log(error);
     }
@@ -72,10 +72,17 @@ const uselogic = () => {
     assignTrainer(body)
       .then((result) => {
         if (result.success === true) {
+          setConfirmDialogOpen(false);
+          setJoinDialogOpen(false);
           showSnackbar({ severity: 'success', message: result.message });
-          const res= queryClient.getQueryData(["aceeptedRequests"]) as AcceptedTrainingsData[] ;
-          queryClient.setQueryData(["aceeptedRequests"],res.filter((row) => row.id !== trainingID));
-          handleVerifyCancel();
+          const res = queryClient.getQueryData([
+            'aceeptedRequests',
+          ]) as AcceptedTrainingsData[];
+          queryClient.setQueryData(
+            ['aceeptedRequests'],
+            res.filter((row) => row.id !== trainingID)
+          );
+          setSelectedDate(null);
         } else if (result.success === false) {
           console.log('error');
         }
@@ -83,12 +90,12 @@ const uselogic = () => {
       .catch((error) => console.log(error));
   };
   //@ts-ignore
-  const {t}=useTranslation();
+  const { t } = useTranslation();
   const StudentNumber = t('StudentNumber');
   const StudentName = t('StudentName');
-  const CompanyBranch=t('CompanyBranch');
-  const JoinTrainer=t('JoinTrainer');
-  
+  const CompanyBranch = t('CompanyBranch');
+  const JoinTrainer = t('JoinTrainer');
+
   const columns: ColumnDef<AcceptedTrainingsData, any>[] = [
     {
       accessorKey: 'studentId',
@@ -105,14 +112,13 @@ const uselogic = () => {
       filterFn: 'arrIncludesSome',
     },
     {
-    
-    header: JoinTrainer,
-    cell: (props) => {
+      header: JoinTrainer,
+      cell: (props) => {
         const {
           row: { original },
         } = props;
         return (
-            <IconButton
+          <IconButton
             sx={{ ml: 3 }}
             aria-label="progress form"
             onClick={() => handleJoinClick(original.id)}
@@ -128,11 +134,13 @@ const uselogic = () => {
   ];
   const onSetDate = (date: Dayjs | null) => setSelectedDate(date);
 
-  const AcceptedRequestsDataGrid = createDataGrid({
-    name: 'TrainingRequestsDataGrid',
-    columns,
-    shouldFlexGrowCells: true,
-  });
+  const AcceptedRequestsDataGrid = React.useMemo(() => {
+    return createDataGrid({
+      name: 'AcceptedRequestsDataGrid',
+      columns,
+      shouldFlexGrowCells: true,
+    });
+  }, []);
 
   return {
     availableTrainers,

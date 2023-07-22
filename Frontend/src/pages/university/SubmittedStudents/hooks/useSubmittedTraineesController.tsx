@@ -1,33 +1,33 @@
-import { SyntheticEvent, useEffect, useState } from 'react';
-import { Row } from '../types';
-import { IconButton } from '@mui/material';
-import NoteAltIcon from '@mui/icons-material/NoteAlt';
-import { getSubmittedStudents } from '../api';
-import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import { useQuery } from '@tanstack/react-query';
+import { getSubmitteddTrainees } from '../api';
+import UsersDataGrid from 'src/pages/DataGridPaginatedPlayground/definition';
+import { useState } from 'react';
+import { DataGridFetchQuery } from 'src/components/DataGridTanstack/types';
 
-export interface UseDataGridPlaygroundAPIProps {
-  pagination?: PageChangeParams;
-}
 
-const useSubmittedTraineesController = ({pagination}: UseDataGridPlaygroundAPIProps) => {
+const useSubmittedTraineesController = () => {
 
-  const [totalRows, setTotalRows] = useState<number>(0);
+  const { pageSize: initialPageSize } = UsersDataGrid.configs;
+  const [pagination, setPagination] = useState<DataGridFetchQuery>({
+    pageIndex: 0,
+    pageSize: initialPageSize,
+  });
 
-  const {data}
-      = useQuery(
-      ["users", pagination],
-      () => getSubmittedStudents({page: pagination?.pageIndex, size: pagination?.pageSize}).then(res => {
-          setTotalRows(res?.headers["x-total-count"] ?? 0);
-          return res?.data.items ?? [];
-      })
-      , {
-          keepPreviousData: true, //for a smooth transition between the pages in the table.
-      }
+  const { pageIndex, pageSize } = pagination;
+
+  const { data, isLoading, isFetching } = useQuery(
+    ['SubmittedTrainees', pageIndex, pageSize],
+    () => getSubmitteddTrainees({ pageIndex, pageSize }),
+    {}
   );
-   return {
-    
-          rows: data ?? [],
+
+  const onGetDataGrid = (query: DataGridFetchQuery) => setPagination(query);
+
+  return {
+    rows: data?.items ?? [],
+    totalRows: data?.totalItems ?? -1,
+    onGetDataGrid,
+    isFetching: isFetching || isLoading,
   };
 };
   
