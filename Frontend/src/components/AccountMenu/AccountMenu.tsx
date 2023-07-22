@@ -1,5 +1,5 @@
+/* eslint-disable react/jsx-key */
 import React, {FC, useState, MouseEvent, useEffect} from 'react';
-import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -7,7 +7,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
 import AddIcon from '@mui/icons-material/Add';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
@@ -27,26 +26,22 @@ import {
 } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import useSnackbar from 'src/hooks/useSnackbar';
-import {AddFieldData} from 'src/api/addField';
 import {useNavigate} from 'react-router-dom';
 
-interface AccountMenuProps {
-}
 
-const AccountMenu: FC<AccountMenuProps> = (props) => {
+const AccountMenu: FC = () => {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [fieldOptions, setFieldOptions] = useState<GetAllFieldsData[]>([]);
     const [selectedFields, setSelectedFields] = useState<
         { id: string; label: string }[]
     >([]);
-    const [newField, setNewField] = useState('');
 
     const open = Boolean(anchorEl);
 
     const {getUser} = useAccountContext();
     const user = getUser();
 
-    const {logout, isLoggingOut} = useAccountMenuAPI();
+    const {logout} = useAccountMenuAPI();
     const [openAddFieldDialog, setOpenAddFieldDialog] = useState(false);
     const {showSnackbar} = useSnackbar();
     const navigate = useNavigate();
@@ -82,16 +77,15 @@ const AccountMenu: FC<AccountMenuProps> = (props) => {
         });
         console.log(fields);
         //@ts-ignore
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         addField({fields}).then((res: { success: boolean; message: any }) => {
             if (res.success === true) {
                 showSnackbar({severity: 'success', message: res.message});
                 setSelectedFields([]);
-                setNewField('');
                 setOpenAddFieldDialog(false);
             } else if (res.success === false) {
                 showSnackbar({severity: 'warning', message: res.message});
                 setSelectedFields([]);
-                setNewField('');
                 setOpenAddFieldDialog(false);
             }
         });
@@ -246,6 +240,7 @@ const AccountMenu: FC<AccountMenuProps> = (props) => {
                                 if (option.label) {
                                     // Render existing options
                                     return (
+                                        // eslint-disable-next-line react/jsx-key
                                         <Chip
                                             variant="outlined"
                                             //@ts-ignore

@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Add your commands here - these will be executed before the commit can be made
+cd Frontend && yarn lint-staged
