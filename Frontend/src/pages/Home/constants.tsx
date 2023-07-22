@@ -30,7 +30,7 @@ export const panelButtonsForUniversity: PanelButtonProps[] = [
   },
   {
     link: '/me/submitted-trainees',
-    label: 'Applicants',
+    label: 'Submitted Trainees',
     Icon: <PeopleAltSharpIcon sx={panelButtonIconSx} />,
     bgcolor: pink[500],
   },
