@@ -219,7 +219,7 @@ const ProgressFormDialog: FC<ProgressFormDialogProps> = ({
                           <RichTextEditor
                             editable={false}
                             //@ts-ignore
-                            content={JSON.stringify(item.skills)}
+                            content={item.skills}
                           />
                               </Stack>
                             </Stack>

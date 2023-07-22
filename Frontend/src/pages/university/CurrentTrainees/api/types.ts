@@ -1,5 +1,3 @@
-import { BaseResponse } from 'src/types';
-
 export interface RunningTraineesData {
   id: string;
   studentId: string;
@@ -9,17 +7,21 @@ export interface RunningTraineesData {
   };
   CompanyBranch: {
     location: string;
+    Company: {
+      name: string;
+    };
   };
-  Trainer: {
-    name: string;
-  };
-  trainerId: string
 }
 
-export interface GetCurrentTraineesResponse{
+export interface GetRunningTrainingsParams {
+  pageIndex: number; // page number
+  pageSize: number; // page size
+}
+
+export interface GetCurrentTraineesResponse {
   items: RunningTraineesData[];
-  pageNumber: string;
-  pageSzie: string;
+  pageNumber: number;
+  pageSize: number;
   totalItems: number;
   totalPages: number;
 }

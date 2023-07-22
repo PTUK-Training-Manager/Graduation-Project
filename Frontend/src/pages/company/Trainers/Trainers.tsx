@@ -65,27 +65,28 @@ const Trainers: React.FC = () => {
     pageSize: 100,
   });
 
-  const { trainerRows,fieldOptions,formikProps,isLoading} = useAllTrainersController({
-    pagination,
-  });
+  const { trainerRows, fieldOptions, formikProps, isLoading } =
+    useAllTrainersController({
+      pagination,
+    });
   const [openAddTrainerForm, setOpenAddTrainerForm] = useState(false);
 
   const {
-  
-  TrainerDataGrid, 
-  deleteTrainerDialogOpen,
-  handleCancelDeleteTrainer,
-  handleDeleteTrainer,
-  trainerName,
-  handleSaveUpdatedValueField,
-  handleUpdateFieldDialogClose,
-  onSetNewFieldId,
-  updateFieldForTrainerDialogOpen,
+    TrainerDataGrid,
+    deleteTrainerDialogOpen,
+    handleCancelDeleteTrainer,
+    handleDeleteTrainer,
+    trainerName,
+    handleSaveUpdatedValueField,
+    handleUpdateFieldDialogClose,
+    onSetNewFieldId,
+    updateFieldForTrainerDialogOpen,
   } = uselogic();
 
-    const [showBranches, setShowBranches] = useState<boolean>(false);
+  const [showBranches, setShowBranches] = useState<boolean>(false);
   const { isValid } = formikProps;
-  const {t}=useTranslation();
+  //@ts-ignore
+  const { t } = useTranslation();
   const handleChange = () => {
     setOpenAddTrainerForm((prev) => !prev);
   };
@@ -107,9 +108,9 @@ const Trainers: React.FC = () => {
             height: '100%',
           }}
         >
-           <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
+          <Stack direction="row" sx={{ justifyContent: 'space-between' }}>
             <Typography component="h1" variant="h5" fontWeight={500}>
-              {t("Trainers")}
+              {t('Trainers')}
             </Typography>
             <Button
               variant="contained"
@@ -155,7 +156,7 @@ const Trainers: React.FC = () => {
                     <Form>
                       <Stack gap={1} spacing={1} alignItems="center">
                         <Typography component="h1" variant="h5">
-                          {t("AddTrainer")}
+                          {t('AddTrainer')}
                         </Typography>
                         <Grid
                           sx={{
@@ -166,10 +167,7 @@ const Trainers: React.FC = () => {
                           spacing={2}
                         >
                           <Grid item xs={12} sm={6} md={2.4}>
-                            <TextFieldWrapper
-                              label="Trainer Id"
-                              name="id"
-                            />
+                            <TextFieldWrapper label="Trainer Id" name="id" />
                           </Grid>
                           <Grid item xs={12} sm={6} md={2.4}>
                             <TextFieldWrapper
@@ -178,13 +176,9 @@ const Trainers: React.FC = () => {
                             />
                           </Grid>
                           <Grid item xs={12} sm={6} md={2.4}>
-                            <TextFieldWrapper
-                              label="E-mail"
-                              name="email"
-                            />
+                            <TextFieldWrapper label="E-mail" name="email" />
                           </Grid>
-                          
-                          
+
                           <Grid item xs={12} sm={6} md={2.4}>
                             <TextFieldWrapper
                               label="Phone Number"
@@ -200,11 +194,15 @@ const Trainers: React.FC = () => {
                                 //@ts-ignore
                                 getOptionLabel={(option) => option.Field.field}
                                 onChange={(event, newValue) => {
-                                 console.log("fdf");
+                                  formikProps.setFieldValue(
+                                    'fieldId',
+                                    newValue?.fieldId || ''
+                                  );
                                 }}
                                 renderInput={(params) => (
                                   <TextField
                                     {...params}
+                                    name="fieldId"
                                     label="Field"
                                     variant="outlined"
                                   />
@@ -213,15 +211,15 @@ const Trainers: React.FC = () => {
                             </FormControl>
                           </Grid>
                         </Grid>
+
                         <LoadingButton
                           type="submit"
                           // fullWidth
-                          disabled={!isValid}
-                          
                           variant="contained"
+                          disabled={!isValid}
                           loading={isLoading}
                         >
-                          {t("GenerateAccount")}
+                          {t('GenerateAccount')}
                         </LoadingButton>
                       </Stack>
                     </Form>
@@ -235,20 +233,19 @@ const Trainers: React.FC = () => {
         </Stack>
       </Grid>
       <DeleteTrainerDialog
-                deleteTrainerDialogOpen={deleteTrainerDialogOpen}
-                handleCancelDeleteTrainer={handleCancelDeleteTrainer}
-                handleDeleteTrainer={handleDeleteTrainer}
-                trainerName={trainerName}
-            />
-            <EditTrainerDialog
-            updateFieldForTrainerDialogOpen={updateFieldForTrainerDialogOpen}
-            handleSaveUpdatedValueField={handleSaveUpdatedValueField}
-            handleUpdateFieldDialogClose={handleUpdateFieldDialogClose}
-            onSetNewFieldId={onSetNewFieldId}
-            fieldOptions={fieldOptions}
-            formikProps={formikProps}
-            
-            />
+        deleteTrainerDialogOpen={deleteTrainerDialogOpen}
+        handleCancelDeleteTrainer={handleCancelDeleteTrainer}
+        handleDeleteTrainer={handleDeleteTrainer}
+        trainerName={trainerName}
+      />
+      <EditTrainerDialog
+        updateFieldForTrainerDialogOpen={updateFieldForTrainerDialogOpen}
+        handleSaveUpdatedValueField={handleSaveUpdatedValueField}
+        handleUpdateFieldDialogClose={handleUpdateFieldDialogClose}
+        onSetNewFieldId={onSetNewFieldId}
+        fieldOptions={fieldOptions}
+        formikProps={formikProps}
+      />
     </>
   );
 };

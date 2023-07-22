@@ -1,23 +1,18 @@
-import { Chip, IconButton } from '@mui/material';
-import { CellContext, ColumnDef } from '@tanstack/react-table';
+import { IconButton } from '@mui/material';
+import { ColumnDef } from '@tanstack/react-table';
 import { createDataGrid } from 'src/components/DataGridTanstack';
 import { Feed } from '@mui/icons-material';
-import { FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { progressForm } from 'src/api/progress';
-import useCurrentTraineesController from './hooks/useCurrentTraineesController';
-import { PageChangeParams } from 'src/components/DataGridTanstack/types';
-import { RunningTraineesData } from './api/response.dto';
 import { useTranslation } from 'react-i18next';
+import { RunningTraineesData } from './api/types';
+import React from 'react';
 
 const uselogic = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [trainingId, setTrainingId] = useState('');
   const [response, setReponse] = useState<Response>();
-  const [pagination, setPagination] = useState<PageChangeParams>({
-    pageIndex: 0,
-    pageSize: 10,
-  });
- 
+
   useEffect(() => {
     progressForm({ trainingId: trainingId }).then((res) => {
       //@ts-ignore
@@ -36,11 +31,12 @@ const uselogic = () => {
     setIsOpen(false);
     setTrainingId('');
   };
+  //@ts-ignore
   const { t } = useTranslation();
   const StudentNumber = t('StudentNumber');
   const StudentName = t('StudentName');
-  const ProgressForm=t('ProgressForm');
-  const CompanyBranch=t('CompanyBranch');
+  const ProgressForm = t('ProgressForm');
+  const CompanyBranch = t('CompanyBranch');
   const columns: ColumnDef<RunningTraineesData, any>[] = [
     {
       accessorKey: 'studentId',
@@ -52,13 +48,13 @@ const uselogic = () => {
       filterFn: 'arrIncludesSome',
     },
     {
-        accessorKey: 'CompanyBranch.location',
-        header: CompanyBranch,
-        filterFn: 'arrIncludesSome',
-      },
-  
+      accessorKey: 'CompanyBranch.location',
+      header: CompanyBranch,
+      filterFn: 'arrIncludesSome',
+    },
+
     {
-      header:ProgressForm  ,
+      header: ProgressForm,
       //@ts-ignore
       cell: (props) => {
         const {
@@ -85,11 +81,13 @@ const uselogic = () => {
     },
   ];
 
-  const CurrentTraineesDataGrid = createDataGrid({
-    name: 'CurrentTraineesDataGrid',
-    columns,
-    shouldFlexGrowCells: true,
-  });
+  const CurrentTraineesDataGrid = React.useMemo(() => {
+    return createDataGrid({
+      name: 'CurrentTraineesDataGrid',
+      columns,
+      shouldFlexGrowCells: true,
+    });
+  }, []);
 
   return {
     handleOpenDialog,

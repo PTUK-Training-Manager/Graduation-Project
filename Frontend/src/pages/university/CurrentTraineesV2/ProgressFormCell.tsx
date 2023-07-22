@@ -17,7 +17,6 @@ const ProgressFormCell: FC<ProgressFormCellProps> = (props) => {
         onSetSelectedTrainingId(+original.id);
         onOpenDialog(TrainingDialog.Progress);
     }
-
     return (
         <IconButton
             sx={{ml: 3.5}}

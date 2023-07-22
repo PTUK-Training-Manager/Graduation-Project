@@ -1,14 +1,14 @@
 import { Chip, IconButton } from '@mui/material';
 import { CellContext, ColumnDef } from '@tanstack/react-table';
-import { CurrentTraineesData } from './api/response.dto';
+import { RunningTraineesData } from './api/types';
 import { createDataGrid } from 'src/components/DataGridTanstack';
 import { Feed } from '@mui/icons-material';
 import { FC, useEffect, useState } from 'react';
 import { progressForm } from 'src/api/progress';
-import useCurrentTraineesController from './hooks/useCurrentTraineesController';
+import useCurrentTrainees from './hooks/useCurrentTraineesController';
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
+import React from 'react';
 
-interface ProgressFormCellProps extends CellContext<CurrentTraineesData, any> {}
 const uselogic = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [trainingId, setTrainingId] = useState('');
@@ -17,9 +17,7 @@ const uselogic = () => {
     pageIndex: 0,
     pageSize: 10,
   });
-  const { rows } = useCurrentTraineesController({
-    pagination,
-  });
+  const { rows } = useCurrentTrainees();
   console.log(rows);
   useEffect(() => {
     progressForm({ trainingId: trainingId }).then((res) => {
@@ -40,7 +38,7 @@ const uselogic = () => {
     setTrainingId('');
   };
 
-  const columns: ColumnDef<CurrentTraineesData, any>[] = [
+  const columns: ColumnDef<RunningTraineesData, any>[] = [
     {
       accessorKey: 'studentId',
       header: 'Student Number',
@@ -81,11 +79,13 @@ const uselogic = () => {
     },
   ];
 
-  const CurrentTraineesDataGrid = createDataGrid({
-    name: 'CurrentTraineesDataGrid',
-    columns,
-    shouldFlexGrowCells: true,
-  });
+  const CurrentTraineesDataGrid = React.useMemo(() => {
+    return createDataGrid({
+      name: 'CurrentTraineesDataGrid',
+      columns,
+      shouldFlexGrowCells: true,
+    });
+  }, []);
 
   return {
     handleOpenDialog,

@@ -5,139 +5,137 @@ import Stack from '@mui/material/Stack';
 import { Card, CardContent, Radio, RadioGroup } from '@mui/material';
 import './style.css';
 import { FormControlLabel } from '@mui/material';
-import { FC } from 'react';
+import { FC, forwardRef } from 'react';
 import { EvaluationData } from 'src/api/types';
-import RichTextEditor from 'src/containers/RichTextEditor';
-import { useTranslation } from 'react-i18next';
-
+import RichTextEditor from 'src/containers/RichTextEditor/RichTextEditor';
 interface SecondPageProps {
   response: EvaluationData[];
+
 }
-const {t}=useTranslation();
 
 const SecondPage: FC<SecondPageProps> = ({ response }) => {
   return (
     <>
-    <Grid container sx={{ padding: '24px' }}>
-      <Stack gap={2}>
-        <Typography variant="h6" gutterBottom>
-          {t("Student_benefit_from_training")}:
-        </Typography>
-        {response[0]?.Answered_Questions?.slice(0, length - 2).map(
-          (item, index) => {
-            const re = JSON.stringify(item.Note?.note);
-            const result = `${re}`;
-            console.log(item.Note?.note);
-            console.log(result);
-            return(
-            <>
-              <Stack gap={2} spacing={2}>
-                <Stack gap={5} spacing={2}>
-                  <Card
-                    sx={{
-                      minWidth: 275,
-                      borderLeft: 6,
-                      borderColor: 'black',
-                    }}
-                  >
-                    <CardContent>
-                      <Stack spacing={2}>
-                        <Typography sx={{ fontWeight: '600' }}>
-                          {t("Question")} {index + 1} :
-                        </Typography>
-                        <Stack gap={1.5} direction="row">
+      <Grid container sx={{ padding: '24px' }}>
+        <Stack gap={2}>
+          <Typography variant="h6" gutterBottom>
+            Student benefit from training:
+          </Typography>
+          {response[0]?.Answered_Questions?.map(
+            (item, index) => {
+              const re = JSON.stringify(item.Note?.note);
+              const result = `${re}`;
+              console.log(item.Note?.note);
+              console.log(result);
+              return(
+              <>
+                <Stack gap={2} spacing={2}>
+                  <Stack gap={5} spacing={2}>
+                    <Card
+                      sx={{
+                        minWidth: 275,
+                        borderLeft: 6,
+                        borderColor: 'black',
+                      }}
+                    >
+                      <CardContent>
+                        <Stack spacing={2}>
                           <Typography sx={{ fontWeight: '600' }}>
-                            {item.Question.question}
+                            Question {index + 1} :
                           </Typography>
-                        </Stack>
-                        {item.Answer?.answer && (
-                          <>
-                            <Stack>
-                              <RadioGroup
-                                row
-                                aria-labelledby="demo-row-radio-buttons-group-label"
-                                name="row-radio-buttons-group"
-                                value={item.Answer.answer}
-                              >
-                                <FormControlLabel
-                                  disabled
-                                  value="excellent"
-                                  control={<Radio />}
-                                  label="Excellent"
-                                />
-                                <FormControlLabel
-                                  disabled
-                                  value="good"
-                                  control={<Radio />}
-                                  label="Good"
-                                />
-                                <FormControlLabel
-                                  disabled
-                                  value="acceptable"
-                                  control={<Radio />}
-                                  label="Acceptable"
-                                />
-                                <FormControlLabel
-                                  disabled
-                                  value="weak"
-                                  control={<Radio />}
-                                  label="Weak"
-                                />
-                              </RadioGroup>
-                            </Stack>
-                          </>
-                        )}
-                        {item.Note?.note && (
-                          <Stack gap={1.5} >
+                          <Stack gap={1.5} direction="row">
                             <Typography sx={{ fontWeight: '600' }}>
-                              {t("Note")}:{' '}
-                              </Typography>
-                          
-                              <RichTextEditor
-                          editable={false}
-                          //@ts-ignore
-                          content={item.Note?.note}
-                        />
-                            
-
+                              {item.Question.question}
+                            </Typography>
                           </Stack>
-                        )}
-                      </Stack>
-                    </CardContent>
-                  </Card>
-                </Stack>
-              </Stack>
-            </>
-            );
-          }
-        )}
-        <Card
-          sx={{
-            minWidth: 275,
-            borderLeft: 6,
-            borderColor: 'black',
-          }}
-        >
-          <CardContent>
-            <Stack spacing={2} gap={2}>
-              <Typography sx={{ fontWeight: '600' }}>
-                {response[0]?.Answered_Questions[8]?.Question.question}
-                </Typography>
-                <Typography sx={{ fontWeight: '600' }}>
-                {t("Note")}:
-                </Typography>
-                <RichTextEditor
-                          editable={false}
-                          //@ts-ignore
-                          content={response[0]?.Answered_Questions[8]?.Note?.note}
-                        />
+                          {item.Answer?.answer && (
+                            <>
+                              <Stack>
+                                <RadioGroup
+                                  row
+                                  aria-labelledby="demo-row-radio-buttons-group-label"
+                                  name="row-radio-buttons-group"
+                                  value={item.Answer.answer}
+                                >
+                                  <FormControlLabel
+                                    disabled
+                                    value="excellent"
+                                    control={<Radio />}
+                                    label="Excellent"
+                                  />
+                                  <FormControlLabel
+                                    disabled
+                                    value="good"
+                                    control={<Radio />}
+                                    label="Good"
+                                  />
+                                  <FormControlLabel
+                                    disabled
+                                    value="acceptable"
+                                    control={<Radio />}
+                                    label="Acceptable"
+                                  />
+                                  <FormControlLabel
+                                    disabled
+                                    value="weak"
+                                    control={<Radio />}
+                                    label="Weak"
+                                  />
+                                </RadioGroup>
+                              </Stack>
+                            </>
+                          )}
+                          {item.Note?.note && (
+                            <Stack gap={1.5} >
+                              <Typography sx={{ fontWeight: '600' }}>
+                                Note:{' '}
+                                </Typography>
                             
-            </Stack>
-          </CardContent>
-        </Card>
-      </Stack>
-    </Grid>
-  </>
+                                <RichTextEditor
+                            editable={false}
+                            //@ts-ignore
+                            content={item.Note?.note}
+                          />
+                              
+
+                            </Stack>
+                          )}
+                        </Stack>
+                      </CardContent>
+                    </Card>
+                  </Stack>
+                </Stack>
+              </>
+              );
+            }
+          )}
+          {/* <Card
+            sx={{
+              minWidth: 275,
+              borderLeft: 6,
+              borderColor: 'black',
+            }}
+          >
+            <CardContent>
+              <Stack spacing={2} gap={2}>
+                <Typography sx={{ fontWeight: '600' }}>
+                  {response[0]?.Answered_Questions[8]?.Question.question}
+                  </Typography>
+                  <Typography sx={{ fontWeight: '600' }}>
+                    Note:{' '}
+                  </Typography>
+                  <RichTextEditor
+                            editable={false}
+                            //@ts-ignore
+                            content={response[0]?.Answered_Questions[8]?.Note?.note}
+                          />
+                              
+              </Stack>
+            </CardContent>
+          </Card> */}
+        </Stack>
+      </Grid>
+    </>
   );
 };
 export default SecondPage;

@@ -82,6 +82,7 @@ const uselogic = () => {
       })
       .catch((error) => console.log(error));
   };
+  //@ts-ignore
   const {t}=useTranslation();
   const StudentNumber = t('StudentNumber');
   const StudentName = t('StudentName');

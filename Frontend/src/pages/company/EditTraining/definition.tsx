@@ -5,7 +5,7 @@ import { Feed } from '@mui/icons-material';
 import { FC, useEffect, useState } from 'react';
 import { progressForm } from 'src/api/progress';
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
-import { RunningTraineesData } from './api/response.dto';
+import { RunningTraineesData } from './api/types';
 import EditIcon from '@mui/icons-material/Edit';
 import ClearIcon from '@mui/icons-material/Clear';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +18,7 @@ import { handleTrainingRequest } from '../TrainingRequest/api';
 import { useQueryClient } from '@tanstack/react-query';
 import { AssignTrainerRequestBody } from '../AcceptedRequests/api/request.dto';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import React from 'react';
 interface ProgressFormCellProps extends CellContext<RunningTraineesData, any> {}
 const uselogic = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -122,6 +123,7 @@ const uselogic = () => {
     setIsOpen(false);
     setTrainingId('');
   };
+  //@ts-ignore
   const { t } = useTranslation();
   const StudentNumber = t('StudentNumber');
   const StudentName = t('StudentName');
@@ -261,11 +263,13 @@ const uselogic = () => {
       })
       .catch((error) => console.log(error));
   };
-  const CurrentTraineesDataGrid = createDataGrid({
-    name: 'CurrentTraineesDataGrid',
-    columns,
-    shouldFlexGrowCells: true,
-  });
+  const CurrentTraineesDataGrid = React.useMemo(() => {
+    return createDataGrid({
+      name: 'CurrentTraineesDataGrid',
+      columns,
+      shouldFlexGrowCells: true,
+    });
+  }, []);
 
   const TrainerDialogDataGrid = createDataGrid({
     name: 'TrainerDialogDataGrid',

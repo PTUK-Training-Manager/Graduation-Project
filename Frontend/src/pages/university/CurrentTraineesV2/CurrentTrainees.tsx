@@ -9,7 +9,7 @@ const CurrentTrainees: FC<CurrentTraineesProps> = (props) => {
     return (
         <TraineesProvider>
             <CurrentTraineesGrid/>
-            <ProgressFormDialog/>
+            <ProgressFormDialog  />
         </TraineesProvider>
     );
 };

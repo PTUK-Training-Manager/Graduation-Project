@@ -24,7 +24,7 @@ interface ThirdPageProps {
 }
 
 const ThirdPage: React.FC<ThirdPageProps> = ({ response }) => {
-
+//@ts-ignore
 const {t}=useTranslation();
   return (
     <>
@@ -94,7 +94,7 @@ const {t}=useTranslation();
                           <RichTextEditor
                             editable={false}
                             //@ts-ignore
-                            content={item.skills}
+                            content={JSON.stringify(item.skills)}
                           />
                         </Stack>
                       </Stack>

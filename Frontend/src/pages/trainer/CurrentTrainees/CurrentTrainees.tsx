@@ -7,16 +7,11 @@ import theme from 'src/styling/customTheme';
 import { Box, Grid, Typography } from '@mui/material';
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import ProgressFormDialog from './components/ProgressFormDialog';
+import useCurrentTrainees from './hooks/useCurrentTraineesController';
 
 const CurrentTrainees: React.FC = () => {
-  const [pagination, setPagination] = useState<PageChangeParams>({
-    pageIndex: 0,
-    pageSize: 30,
-  });
+  const { rows, totalRows, isFetching, onGetDataGrid } = useCurrentTrainees();
 
-  const { rows } = useCurrentTraineesController({
-    pagination,
-  });
   const {
     CurrentTraineesDataGrid,
     isOpen,
@@ -46,7 +41,12 @@ const CurrentTrainees: React.FC = () => {
           <Typography component="h1" variant="h5" fontWeight={500}>
             Current Trainees
           </Typography>
-          <CurrentTraineesDataGrid data={rows} />
+          <CurrentTraineesDataGrid
+            data={rows}
+            totalRows={totalRows}
+            isFetching={isFetching}
+            onFetch={onGetDataGrid}
+          />
         </Stack>
       </Grid>
       <ProgressFormDialog

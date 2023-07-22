@@ -41,6 +41,7 @@ import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import { useTranslation } from 'react-i18next';
 import uselogicc from './definitionForTrainers';
 import useAllTrainersController from '../Trainers/hooks/useAllTrainersController';
+import useCurrentTrainees from './hooks/useCurrentTraineesController';
 
 function Pagination({
   page,
@@ -122,16 +123,7 @@ const EditTraining: React.FC = () => {
     },
   ];
 
-  const [pagination, setPagination] = useState<PageChangeParams>({
-    pageIndex: 0,
-    pageSize: 100,
-  });
-  const { trainerRows} = useAllTrainersController({
-    pagination,
-  });
-  const { rows } = useCurrentTraineesController({
-    pagination,
-  });
+  const { rows, totalRows, isFetching, onGetDataGrid } = useCurrentTrainees();
 
   const {
     CurrentTraineesDataGrid,
@@ -143,21 +135,21 @@ const EditTraining: React.FC = () => {
     handleJoinClick,
     handleJoinDialogClose,
     handleJoinDialogOpen,
-    handleOpenDialog, 
+    handleOpenDialog,
     handleTrainingRequest,
-     handleverifyClick, 
+    handleverifyClick,
     handleVerifyJoin,
     availableTrainers,
     joinDialogOpen,
     confirmDialogOpen,
     handleVerifyCancel,
-   confirmEditOpen, 
+    confirmEditOpen,
   } = uselogic();
   const {
-   TrainerDialogDataGrid,
-  //  handleVerifyCancel,
-  //  handleverifyClick,
-  //  confirmEditOpen
+    TrainerDialogDataGrid,
+    //  handleVerifyCancel,
+    //  handleverifyClick,
+    //  confirmEditOpen
   } = uselogicc();
 
   return (
@@ -181,7 +173,12 @@ const EditTraining: React.FC = () => {
           <Typography component="h1" variant="h5" fontWeight={500}>
             Edit Training
           </Typography>
-          <CurrentTraineesDataGrid data={rows} />
+          <CurrentTraineesDataGrid
+            data={rows}
+            totalRows={totalRows}
+            isFetching={isFetching}
+            onFetch={onGetDataGrid}
+          />{' '}
         </Stack>
       </Grid>
       <Dialog
@@ -222,8 +219,7 @@ const EditTraining: React.FC = () => {
                 pagination: CustomPagination,
               }}
             />
-                      {/* <TrainerDialogDataGrid data={trainerRows} /> */}
-
+            {/* <TrainerDialogDataGrid data={trainerRows} /> */}
           </div>
         </DialogContent>
         <DialogActions>

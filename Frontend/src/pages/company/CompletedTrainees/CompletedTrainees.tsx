@@ -1,11 +1,17 @@
-import React, { SyntheticEvent, useEffect, useMemo, useState } from 'react';
+import React, {
+  SyntheticEvent,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import EvaluStepper from './components/EvaluStepper';
 import './CompletedTrainees.css';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
-import { Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { Button, Dialog, DialogContent, DialogTitle } from '@mui/material';
 import theme from 'src/styling/customTheme';
 import Typography from '@mui/material/Typography';
 import Transition from 'src/components/Transition';
@@ -14,6 +20,7 @@ import useCompletedTraineesController from './hooks/useCompletedTraineesControll
 import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import uselogic from './definition';
 import { useTranslation } from 'react-i18next';
+import ReactToPrint from 'react-to-print';
 
 const CompletedTrainees: React.FC = () => {
   const [pagination, setPagination] = useState<PageChangeParams>({
@@ -24,17 +31,23 @@ const CompletedTrainees: React.FC = () => {
   const { rows } = useCompletedTraineesController({
     pagination,
   });
-
+  const printRef = useRef(null);
+  const handlePrint = () => {
+    if (printRef.current) {
+      //@ts-ignore
+      printRef.current.handlePrint();
+    }
+  };
   const {
-   handleCloseDialog,
-   handleOpenDialog,
-   isOpen,
-   open,
-   trainingId,
-   CompletedTraineesDataGrid
-
+    handleCloseDialog,
+    handleOpenDialog,
+    isOpen,
+    open,
+    trainingId,
+    CompletedTraineesDataGrid,
   } = uselogic();
-  const {t}=useTranslation();
+  //@ts-ignore
+  const { t } = useTranslation();
 
   return (
     <>
@@ -55,10 +68,9 @@ const CompletedTrainees: React.FC = () => {
           }}
         >
           <Typography component="h1" variant="h5" fontWeight={500}>
-            {t("Completed Trainees")}
+            {t('Completed Trainees')}
           </Typography>
           <CompletedTraineesDataGrid data={rows} />
-
         </Stack>
       </Grid>
       <Dialog
@@ -70,8 +82,20 @@ const CompletedTrainees: React.FC = () => {
       >
         <DialogTitle gap={1.5} sx={{ textAlign: 'center' }}></DialogTitle>
         <DialogContent>
-          <EvaluStepper trainingId={trainingId} />
+          <div ref={printRef} className="print-layout">
+            <EvaluStepper trainingId={trainingId} />
+          </div>
         </DialogContent>
+        <ReactToPrint
+          trigger={() => (
+            <Button onClick={() => handlePrint()} variant="outlined">
+              Print
+            </Button>
+          )}
+          content={() => printRef.current}
+          documentTitle="Evaluation Training"
+          pageStyle="print"
+        />
       </Dialog>
     </>
   );
