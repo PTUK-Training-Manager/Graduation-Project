@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
@@ -8,7 +9,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import RichTextEditor from 'src/containers/RichTextEditor/RichTextEditor';
 import { EditorState } from 'lexical';
 import { useRef } from 'react';
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
@@ -22,32 +22,18 @@ import {
   Card,
   CardContent,
   IconButton,
-  TextField,
   Tooltip,
-  styled,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import useSnackbar from 'src/hooks/useSnackbar';
-// import LocalizationProvider from '@mui/lab/LocalizationProvider';
-// import DatePicker from '@mui/lab/DatePicker';
-
 import Divider from '@mui/material/Divider';
 import Edit from '@mui/icons-material/Edit';
 import { submitEvaluation, editEvaluationForm } from './api';
 import dayjs, { Dayjs } from 'dayjs';
 import useProgressController from './hooks/useProgressController';
-// import LocalizationProvider from '@mui/lab/LocalizationProvider/LocalizationProvider';
-// import DatePicker from '@mui/lab/DatePicker/DatePicker';
-// import MobileTimePicker from '@mui/lab/MobileTimePicker/MobileTimePicker';
+
 import { useTranslation } from 'react-i18next';
 
-const Root = styled('div')(({ theme }) => ({
-  width: '100%',
-  ...theme.typography.body2,
-  '& > :not(style) + :not(style)': {
-    marginTop: theme.spacing(2),
-  },
-}));
 
 const Progress: React.FC = () => {
   const topRef = useRef<HTMLDivElement>(null);

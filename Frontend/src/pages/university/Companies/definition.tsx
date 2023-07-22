@@ -70,7 +70,6 @@ const uselogic = () => {
       };
   const [isOpen, setIsOpen] = useState(false);
   const [trainingId, setTrainingId] = useState('');
-  const [response, setReponse] = useState<Response>();
  //@ts-ignore
   const {t}=useTranslation();
   const ManegarName = t('ManegarName');

@@ -1,6 +1,5 @@
-import React, { SyntheticEvent, useEffect, useMemo, useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import EvaluStepper from './components/EvaluStepper';
 import './SubmittedStudents.css';
 import Grid from '@mui/material/Grid';
@@ -9,16 +8,13 @@ import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import theme from 'src/styling/customTheme';
 import Typography from '@mui/material/Typography';
 import Transition from 'src/components/Transition';
-import DataGridPagination from 'src/components/DataGrid/DataGridPagination';
 import useSubmittedTraineesController from './hooks/useSubmittedTraineesController';
-import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import uselogic from './definition';
 
 const SubmittedStudents: React.FC = () => {
   const {
     SubmittedTraineesDataGrid,
     handleCloseDialog,
-    handleOpenDialog,
     isOpen,
     trainingId,
   } = uselogic();

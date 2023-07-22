@@ -1,12 +1,8 @@
+/* eslint-disable react/jsx-key */
 import {
-  FC,
-  JSXElementConstructor,
-  ReactElement,
-  ReactFragment,
-  ReactPortal,
-  SyntheticEvent,
+  FC
 } from 'react';
-
+import React from 'react';
 // Radial separators
 // import CircularProgress from '@mui/joy/CircularProgress';
 import Accordion from '@mui/material/Accordion';
@@ -15,9 +11,8 @@ import Typography from '@mui/material/Typography';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import IconButton from '@mui/material/IconButton';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import PersonIcon from '@mui/icons-material/Person';
 import CloseIcon from '@mui/icons-material/Close';
-import { Response, Row } from '../types';
+import { Response } from '../types';
 import Transition from 'src/components/Transition';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Grid from '@mui/material/Grid';
@@ -38,7 +33,6 @@ import {
   LinearProgress,
   LinearProgressProps,
   CircularProgressProps,
-  Tooltip,
 } from '@mui/material';
 import RichTextEditor from 'src/containers/RichTextEditor';
 
@@ -60,33 +54,7 @@ function LinearProgressWithLabel(
     </Stack>
   );
 }
-function CircularProgressWithLabel(
-  props: CircularProgressProps & { value: number }
-) {
-  return (
-    <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-      <CircularProgress color="warning" variant="determinate" {...props} />
-      <Box
-        sx={{
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
-          position: 'absolute',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Typography
-          variant="caption"
-          component="div"
-          color="text.secondary"
-        >{`${Math.round(props.value)}%`}</Typography>
-      </Box>
-    </Box>
-  );
-}
+
 
 interface ProgressFormDialogProps {
   isOpen: boolean;

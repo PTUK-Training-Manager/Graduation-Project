@@ -59,6 +59,7 @@ export const TraineesProvider: FC<TraineesProviderProps> = ({children}) => {
     console.log(contextValues);
 
     return (
+        // eslint-disable-next-line react/react-in-jsx-scope
         <TraineesContext.Provider value={contextValues}>
             {children}
         </TraineesContext.Provider>

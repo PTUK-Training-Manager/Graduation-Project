@@ -1,22 +1,18 @@
-import { Chip, IconButton } from '@mui/material';
-import { CellContext, ColumnDef } from '@tanstack/react-table';
+import { IconButton } from '@mui/material';
+import { ColumnDef } from '@tanstack/react-table';
 import { RunningTraineesData } from './api/types';
 import { createDataGrid } from 'src/components/DataGridTanstack';
 import { Feed } from '@mui/icons-material';
-import { FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { progressForm } from 'src/api/progress';
 import useCurrentTrainees from './hooks/useCurrentTraineesController';
-import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import React from 'react';
 
 const uselogic = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [trainingId, setTrainingId] = useState('');
   const [response, setReponse] = useState<Response>();
-  const [pagination, setPagination] = useState<PageChangeParams>({
-    pageIndex: 0,
-    pageSize: 10,
-  });
+  
   const { rows } = useCurrentTrainees();
   console.log(rows);
   useEffect(() => {
@@ -58,7 +54,6 @@ const uselogic = () => {
         } = props;
                 const rowData = rows;
         console.log(rowData);
-        const ids = rowData.map((data) => data.id);
         return (
           <IconButton
             sx={{ ml: 3.5 }}

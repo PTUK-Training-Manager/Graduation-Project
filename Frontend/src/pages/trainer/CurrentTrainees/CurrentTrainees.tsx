@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Stack from '@mui/material/Stack';
 import './CurrentTrainees.css';
-import useCurrentTraineesController from './hooks/useCurrentTraineesController';
 import uselogic from './definition';
 import theme from 'src/styling/customTheme';
-import { Box, Grid, Typography } from '@mui/material';
-import { PageChangeParams } from 'src/components/DataGridTanstack/types';
+import { Grid, Typography } from '@mui/material';
 import ProgressFormDialog from './components/ProgressFormDialog';
 import useCurrentTrainees from './hooks/useCurrentTraineesController';
 

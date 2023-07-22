@@ -1,5 +1,4 @@
-import React, { useRef, useState } from 'react';
-
+import React, { useRef } from 'react';
 import EvaluStepper from './components/EvaluStepper';
 import './CompletedTrainees.css';
 import Grid from '@mui/material/Grid';
@@ -9,7 +8,6 @@ import theme from 'src/styling/customTheme';
 import Typography from '@mui/material/Typography';
 import Transition from 'src/components/Transition';
 import useCompletedTraineesController from './hooks/useCompletedTraineesController';
-import { PageChangeParams } from 'src/components/DataGridTanstack/types';
 import uselogic from './definition';
 import ReactToPrint from 'react-to-print';
 import { Button } from '@material-ui/core';

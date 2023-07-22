@@ -5,7 +5,6 @@ import AppLayout from 'src/containers/AppLayout';
 import ProtectedRoute from 'src/routes/ProtectedRoute';
 
 const LandingPage = lazy(() => import('src/pages/LandingPage'));
-const Admin = lazy(() => import('src/pages/Admin'));
 const Home = lazy(() => import('src/pages/Home/Home'));
 const Dashboard = lazy(() => import('src/pages/Dashboard'));
 const Login = lazy(() => import('src/pages/Login'));
@@ -40,9 +39,7 @@ const SubmittedRequests = lazy(
 const CurrentTrainees = lazy(
   () => import('src/pages/university/CurrentTrainees')
 );
-const CurrentTraineesV2 = lazy(
-  () => import('src/pages/university/CurrentTraineesV2/CurrentTrainees')
-);
+
 const AllTrainings = lazy(() => import('src/pages/university/AllTrainings'));
 
 // company pages

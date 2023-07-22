@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import './style.css';
 
-import { FC, useRef } from 'react';
+import React, { FC } from 'react';
 import { EvaluationData } from 'src/api/types';
 import { useTranslation } from 'react-i18next';
 import RichTextEditor from 'src/containers/RichTextEditor';
@@ -24,7 +24,7 @@ interface FirstPageProps {
 
 const FirstPage: FC<FirstPageProps> = ({ response }) => {
   //@ts-ignore
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <>

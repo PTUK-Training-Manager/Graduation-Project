@@ -1,23 +1,21 @@
-import React, { FC } from 'react';
-import IconButton from '@mui/material/IconButton';
-import { Feed } from '@mui/icons-material';
-import { CellContext } from '@tanstack/react-table';
-
-import { TrainingDialog } from 'src/pages/university/constants';
-import { AllTrainingsData } from './api/response.dto';
-import { Chip, ChipProps} from '@mui/material';
+/* eslint-disable @typescript-eslint/no-empty-interface */
+import React, { FC } from "react";
+import { CellContext } from "@tanstack/react-table";
+//@ts-ignore
+import { AllTrainingsData } from "./api/response.dto";
+import { Chip, ChipProps } from "@mui/material";
 
 interface StatusCellProps extends CellContext<AllTrainingsData, any> {}
 
-const StatusCell: FC<StatusCellProps> = (props) => {
-  const mapStatusToColor: Record<string, ChipProps['color']> = {
-    completed: 'success',
-    rejected: 'error',
-    accepted: 'primary',
-    running: 'warning',
-    canceled: 'error',
-    submitted: 'success',
-    pending: 'default',
+const StatusCell: FC<StatusCellProps> = props => {
+  const mapStatusToColor: Record<string, ChipProps["color"]> = {
+    completed: "success",
+    rejected: "error",
+    accepted: "primary",
+    running: "warning",
+    canceled: "error",
+    submitted: "success",
+    pending: "default",
   };
 
   const {
@@ -31,7 +29,7 @@ const StatusCell: FC<StatusCellProps> = (props) => {
       color={mapStatusToColor[original.status]}
       size="small"
       variant="filled"
-      sx={{ fontSize: '1rem', width: '6rem' }}
+      sx={{ fontSize: "1rem", width: "6rem" }}
     />
   );
 };

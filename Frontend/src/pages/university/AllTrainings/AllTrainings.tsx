@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 import Stack from '@mui/material/Stack';
 import useAllTrainingsController from './hooks/useAllTrainingsController';
 import theme from 'src/styling/customTheme';

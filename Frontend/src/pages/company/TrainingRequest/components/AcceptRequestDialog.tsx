@@ -1,9 +1,8 @@
+/* eslint-disable react/react-in-jsx-scope */
 import {
   Dialog,
   DialogTitle,
   DialogContent,
-  Autocomplete,
-  TextField,
   DialogActions,
   Button,
 } from '@mui/material';
@@ -21,6 +20,7 @@ const AcceptRequestDialog: FC<AcceptRequestDialog> = ({
   handleCancelAcceptRequest,
   handleAcceptRequest,
 })  => {
+  //@ts-ignore
   const {t}=useTranslation();
 
   return (

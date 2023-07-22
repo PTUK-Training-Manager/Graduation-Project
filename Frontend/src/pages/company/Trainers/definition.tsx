@@ -1,29 +1,21 @@
-import { Chip, IconButton } from '@mui/material';
-import { CellContext, ColumnDef } from '@tanstack/react-table';
-import { createDataGrid } from 'src/components/DataGridTanstack';
-import { Feed } from '@mui/icons-material';
-import { FC, useEffect, useState } from 'react';
-import { progressForm } from 'src/api/progress';
-import { PageChangeParams } from 'src/components/DataGridTanstack/types';
-// import { RunningTraineesData } from './api/response.dto';
-import EditIcon from '@mui/icons-material/Edit';
-import ClearIcon from '@mui/icons-material/Clear';
-import { FieldData, TrainersData } from './api/types';
-import { deleteTrianer, updateFieldForTrianer } from './api';
-import useSnackbar from 'src/hooks/useSnackbar';
-import { useQueryClient } from '@tanstack/react-query';
-import { useTranslation } from 'react-i18next';
-import React from 'react';
+import { IconButton } from "@mui/material";
+import { ColumnDef } from "@tanstack/react-table";
+import { createDataGrid } from "src/components/DataGridTanstack";
+import { useState } from "react";
+import EditIcon from "@mui/icons-material/Edit";
+import ClearIcon from "@mui/icons-material/Clear";
+import { FieldData, TrainersData } from "./api/types";
+import { deleteTrianer, updateFieldForTrianer } from "./api";
+import useSnackbar from "src/hooks/useSnackbar";
+import { useQueryClient } from "@tanstack/react-query";
+import React from "react";
 
 const uselogic = () => {
-  const [deleteId, setDeleteId] = useState<string>('');
-  const [updatedTrainerID, setUpdatedTrainerID] = useState<string>('');
-  const [newFieldId, setNewFieldId] = useState<string>('');
-  const [fieldOptions, setFieldOptions] = useState<FieldData[]>([]);
-  const [updateFieldForTrainerDialogOpen, setUpdateFieldForTrainerDialogOpen] =
-    useState(false);
-  const [deleteTrainerDialogOpen, setDeleteTrainerDialogOpen] =
-    useState<boolean>(false);
+  const [deleteId, setDeleteId] = useState<string>("");
+  const [updatedTrainerID, setUpdatedTrainerID] = useState<string>("");
+  const [newFieldId, setNewFieldId] = useState<string>("");
+  const [updateFieldForTrainerDialogOpen, setUpdateFieldForTrainerDialogOpen] = useState(false);
+  const [deleteTrainerDialogOpen, setDeleteTrainerDialogOpen] = useState<boolean>(false);
   const { showSnackbar } = useSnackbar();
 
   const onSetNewFieldId = (id: string) => setNewFieldId(id);
@@ -31,32 +23,25 @@ const uselogic = () => {
   const queryClient = useQueryClient();
 
   const handleDeleteTrainer = () => {
-    deleteTrianer({ id: deleteId }).then(
-      (res: { success: boolean; message: any }) => {
-        if (res.success === true) {
-          setDeleteTrainerDialogOpen(false);
-          showSnackbar({ severity: 'success', message: res.message });
-          const result = queryClient.getQueryData([
-            'Trainers',
-          ]) as TrainersData[];
-          queryClient.setQueryData(
-            ['Trainers'],
-            result.filter((row) => row.id !== deleteId)
-          );
-          setDeleteId('');
-        } else if (res.success === false) {
-          showSnackbar({ severity: 'warning', message: res.message });
-          setDeleteId('');
-          setDeleteTrainerDialogOpen(false);
-        }
+    deleteTrianer({ id: deleteId }).then((res: { success: boolean; message: any }) => {
+      if (res.success === true) {
+        setDeleteTrainerDialogOpen(false);
+        showSnackbar({ severity: "success", message: res.message });
+        const result = queryClient.getQueryData(["Trainers"]) as TrainersData[];
+        queryClient.setQueryData(
+          ["Trainers"],
+          result.filter(row => row.id !== deleteId)
+        );
+        setDeleteId("");
+      } else if (res.success === false) {
+        showSnackbar({ severity: "warning", message: res.message });
+        setDeleteId("");
+        setDeleteTrainerDialogOpen(false);
       }
-    );
+    });
   };
-  const [trainerName, setTrainerName] = useState('');
-  const handleClickDeleteTrainerButton = (
-    Trainerid: string,
-    trainerName: string
-  ) => {
+  const [trainerName, setTrainerName] = useState("");
+  const handleClickDeleteTrainerButton = (Trainerid: string, trainerName: string) => {
     setTrainerName(trainerName);
     setDeleteId(Trainerid);
     setDeleteTrainerDialogOpen(true);
@@ -76,50 +61,46 @@ const uselogic = () => {
   };
 
   const handleSaveUpdatedValueField = () => {
-    updateFieldForTrianer({ id: updatedTrainerID, fieldId: newFieldId }).then(
-      (res) => {
-        console.log(updatedTrainerID);
-        console.log(newFieldId);
-        if (res.success === true) {
-          const fieldName = res.data.Field.field;
-          showSnackbar({ severity: 'success', message: res.message });
-          const result = queryClient.getQueryData([
-            'trainers',
-          ]) as TrainersData[];
-          queryClient.setQueryData(['trainers'], result);
-          setUpdatedTrainerID('');
-          setUpdateFieldForTrainerDialogOpen(false);
-        } else if (res.success === false) {
-          showSnackbar({ severity: 'warning', message: res.message });
-          setUpdatedTrainerID('');
-          setUpdateFieldForTrainerDialogOpen(false);
-        }
+    updateFieldForTrianer({ id: updatedTrainerID, fieldId: newFieldId }).then(res => {
+      console.log(updatedTrainerID);
+      console.log(newFieldId);
+      if (res.success === true) {
+        const fieldName = res.data.Field.field;
+        showSnackbar({ severity: "success", message: res.message });
+        const result = queryClient.getQueryData(["trainers"]) as TrainersData[];
+        queryClient.setQueryData(["trainers"], result);
+        setUpdatedTrainerID("");
+        setUpdateFieldForTrainerDialogOpen(false);
+      } else if (res.success === false) {
+        showSnackbar({ severity: "warning", message: res.message });
+        setUpdatedTrainerID("");
+        setUpdateFieldForTrainerDialogOpen(false);
       }
-    );
+    });
     console.log(`New value: ${newFieldId}`);
     console.log(`Training ID : ${updatedTrainerID}`);
     handleUpdateFieldDialogClose();
   };
   const columns: ColumnDef<TrainersData, any>[] = [
     {
-      accessorKey: 'id',
-      header: 'Trainer Id',
+      accessorKey: "id",
+      header: "Trainer Id",
     },
     {
-      accessorKey: 'name',
-      header: 'Trainer Name',
-      filterFn: 'arrIncludesSome',
+      accessorKey: "name",
+      header: "Trainer Name",
+      filterFn: "arrIncludesSome",
     },
     {
-      accessorKey: 'Field.field',
-      header: 'Field',
-      filterFn: 'arrIncludesSome',
+      accessorKey: "Field.field",
+      header: "Field",
+      filterFn: "arrIncludesSome",
     },
 
     {
-      header: 'Edit Field ',
+      header: "Edit Field ",
       //@ts-ignore
-      cell: (props) => {
+      cell: props => {
         const {
           row: { original },
         } = props;
@@ -128,15 +109,15 @@ const uselogic = () => {
             onClick={() => handleUpdateFieldDialogOpen(original.id)}
             aria-label="edit field"
           >
-            <EditIcon sx={{ color: '#820000' }} className="edit-icon" />
+            <EditIcon sx={{ color: "#820000" }} className="edit-icon" />
           </IconButton>
         );
       },
     },
     {
-      header: 'Delete Trainer',
+      header: "Delete Trainer",
       //@ts-ignore
-      cell: (props) => {
+      cell: props => {
         const {
           row: { original },
         } = props;
@@ -156,7 +137,7 @@ const uselogic = () => {
   ];
   const TrainerDataGrid = React.useMemo(() => {
     return createDataGrid({
-      name: 'TrainerDataGrid',
+      name: "TrainerDataGrid",
       columns,
       shouldFlexGrowCells: true,
     });

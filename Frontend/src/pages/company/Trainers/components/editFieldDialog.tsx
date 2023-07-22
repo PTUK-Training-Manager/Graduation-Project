@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import {
   Dialog,
   DialogTitle,
@@ -28,6 +29,7 @@ const EditTrainerDialog: FC<EditFieldForTrainerDialogProps> = ({
   formikProps,
   onSetNewFieldId,
 }) => {
+  //@ts-ignore
   const {t}=useTranslation();
 
   return (

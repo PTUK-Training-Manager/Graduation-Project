@@ -1,8 +1,9 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { CellContext } from '@tanstack/react-table';
 import { AllTrainingsData } from './api/types';
 import { Chip, ChipProps } from '@mui/material';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface StatusCellProps extends CellContext<AllTrainingsData, any> {}
 
 const StatusCell: FC<StatusCellProps> = (props) => {

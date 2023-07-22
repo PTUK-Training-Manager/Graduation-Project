@@ -1,6 +1,7 @@
+/* eslint-disable react/react-in-jsx-scope */
 import Box from '@mui/material/Box';
 import FirstPage from './FirstPage';
-import { FC, useEffect, useRef, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { getEvaluations } from 'src/api/getEvaluation';
 import { EvaluationData } from 'src/api/types';
 import '../CompletedTrainees.css';

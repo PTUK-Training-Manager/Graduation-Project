@@ -1,13 +1,7 @@
 import React from 'react';
-import MuiPagination from '@mui/material/Pagination';
-import { TablePaginationProps } from '@mui/material/TablePagination';
 import {
   DataGrid,
-  GridPagination,
   GridToolbar,
-  gridPageCountSelector,
-  useGridApiContext,
-  useGridSelector,
 } from '@mui/x-data-grid';
 import './EditTraining.css';
 import theme from 'src/styling/customTheme';
@@ -34,16 +28,9 @@ const EditTraining: React.FC = () => {
   const {
     CurrentTraineesDataGrid,
     handleCancel,
-    handleCancelClick,
-    handleCloseDialog,
     handleDeleteCancel,
     handleJoin,
-    handleJoinClick,
     handleJoinDialogClose,
-    handleJoinDialogOpen,
-    handleOpenDialog,
-    handleTrainingRequest,
-    handleverifyClick,
     handleVerifyJoin,
     availableTrainers,
     joinDialogOpen,

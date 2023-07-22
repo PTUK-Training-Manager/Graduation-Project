@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import { PanelButtonProps } from './types';
 import { SxProps } from '@mui/material';
 import PostAddIcon from '@mui/icons-material/PostAdd';
