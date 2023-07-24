@@ -1,19 +1,17 @@
-.search-dataGrid{
- 
-    width: 100%;
-    margin: auto;
- }
- .trainer-dataGrid{
-        width: 100%;
-    margin: auto;
- }
- .MuiDataGrid-columnHeaders{
-         background-color: #ecf1f1;
- font-size: 15px;
- font-weight: 400;
- }
- 
- .manage-icon {
-        font-size: 1.3em;
-      }
- 
+.search-dataGrid {
+  width: 100%;
+  margin: auto;
+}
+.trainer-dataGrid {
+  width: 100%;
+  margin: auto;
+}
+.MuiDataGrid-columnHeaders {
+  background-color: #ecf1f1;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.manage-icon {
+  font-size: 1.3em;
+}

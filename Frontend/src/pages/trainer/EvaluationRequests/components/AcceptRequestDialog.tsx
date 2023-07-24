@@ -1,11 +1,6 @@
-import Dialog from '@mui/material/Dialog';
-import {
-  Button,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from '@mui/material';
-import { FC } from 'react';
+import React, { FC } from "react";
+import Dialog from "@mui/material/Dialog";
+import { Button, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 
 interface DeleteTrainerDialogProps {
   openAcceptRequestDialog: boolean;
@@ -26,18 +21,12 @@ const AcceptRequestDialog: FC<DeleteTrainerDialogProps> = ({
       fullWidth
     >
       <DialogTitle>Accept Request</DialogTitle>
-      <DialogContent>
-        Are you sure you want to accept this Progress Request?
-      </DialogContent>
+      <DialogContent>Are you sure you want to accept this Progress Request?</DialogContent>
       <DialogActions>
         <Button onClick={handleAcceptRequestClose} color="primary">
           Cancel
         </Button>
-        <Button
-          onClick={handleAcceptRequestClick}
-          color="success"
-          variant="contained"
-        >
+        <Button onClick={handleAcceptRequestClick} color="success" variant="contained">
           Yes
         </Button>
       </DialogActions>

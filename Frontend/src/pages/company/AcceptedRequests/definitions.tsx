@@ -1,30 +1,27 @@
-import { ColumnDef } from '@tanstack/react-table';
-import { createDataGrid } from 'src/components/DataGridTanstack';
-import { AcceptedTrainingsData } from './api/types';
-import { IconButton } from '@mui/material';
-import { assignTrainer } from './api/index';
-import useSnackbar from 'src/hooks/useSnackbar';
-import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
-import { useState } from 'react';
-import { AssignTrainerRequestBody } from './api/types';
-import dayjs, { Dayjs } from 'dayjs';
-import { getTrainers } from './api/index';
-import { useTranslation } from 'react-i18next';
-import { TrainersData } from '../Trainers/api/types';
-import { useQueryClient } from '@tanstack/react-query';
-import React from 'react';
+import { ColumnDef } from "@tanstack/react-table";
+import { createDataGrid } from "src/components/DataGridTanstack";
+import { AcceptedTrainingsData } from "./api/types";
+import { IconButton } from "@mui/material";
+import { assignTrainer } from "./api/index";
+import useSnackbar from "src/hooks/useSnackbar";
+import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
+import { useState } from "react";
+import { AssignTrainerRequestBody } from "./api/types";
+import dayjs, { Dayjs } from "dayjs";
+import { getTrainers } from "./api/index";
+import { useTranslation } from "react-i18next";
+import { TrainersData } from "../Trainers/api/types";
+import { useQueryClient } from "@tanstack/react-query";
+import React from "react";
 
 const uselogic = () => {
   const { showSnackbar } = useSnackbar();
-  const [trainingID, setTrainingID] = useState<string>('');
-  const [trainerID, setTrainerID] = useState<string>('');
+  const [trainingID, setTrainingID] = useState<string>("");
+  const [trainerID, setTrainerID] = useState<string>("");
   const [joinDialogOpen, setJoinDialogOpen] = useState<boolean>(false);
-  const [availableTrainers, setAvailableTrainers] = useState<TrainersData[]>(
-    []
-  );
+  const [availableTrainers, setAvailableTrainers] = useState<TrainersData[]>([]);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
-  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs(''));
-  const [data, setData] = useState<AcceptedTrainingsData[]>([]);
+  const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs(""));
 
   const handleJoinClick = (id: string) => {
     setTrainingID(id);
@@ -70,50 +67,48 @@ const uselogic = () => {
       startDate: selectedDate,
     };
     assignTrainer(body)
-      .then((result) => {
+      .then(result => {
         if (result.success === true) {
           setConfirmDialogOpen(false);
           setJoinDialogOpen(false);
-          showSnackbar({ severity: 'success', message: result.message });
-          const res = queryClient.getQueryData([
-            'aceeptedRequests',
-          ]) as AcceptedTrainingsData[];
+          showSnackbar({ severity: "success", message: result.message });
+          const res = queryClient.getQueryData(["aceeptedRequests"]) as AcceptedTrainingsData[];
           queryClient.setQueryData(
-            ['aceeptedRequests'],
-            res.filter((row) => row.id !== trainingID)
+            ["aceeptedRequests"],
+            res.filter(row => row.id !== trainingID)
           );
           setSelectedDate(null);
         } else if (result.success === false) {
-          console.log('error');
+          console.log("error");
         }
       })
-      .catch((error) => console.log(error));
+      .catch(error => console.log(error));
   };
   //@ts-ignore
   const { t } = useTranslation();
-  const StudentNumber = t('StudentNumber');
-  const StudentName = t('StudentName');
-  const CompanyBranch = t('CompanyBranch');
-  const JoinTrainer = t('JoinTrainer');
+  const StudentNumber = t("StudentNumber");
+  const StudentName = t("StudentName");
+  const CompanyBranch = t("CompanyBranch");
+  const JoinTrainer = t("JoinTrainer");
 
-  const columns: ColumnDef<AcceptedTrainingsData, any>[] = [
+  const columns: ColumnDef<AcceptedTrainingsData>[] = [
     {
-      accessorKey: 'studentId',
+      accessorKey: "studentId",
       header: StudentNumber,
     },
     {
-      accessorKey: 'Student.name',
+      accessorKey: "Student.name",
       header: StudentName,
-      filterFn: 'arrIncludesSome',
+      filterFn: "arrIncludesSome",
     },
     {
-      accessorKey: 'CompanyBranch.location',
+      accessorKey: "CompanyBranch.location",
       header: CompanyBranch,
-      filterFn: 'arrIncludesSome',
+      filterFn: "arrIncludesSome",
     },
     {
       header: JoinTrainer,
-      cell: (props) => {
+      cell: props => {
         const {
           row: { original },
         } = props;
@@ -123,10 +118,7 @@ const uselogic = () => {
             aria-label="progress form"
             onClick={() => handleJoinClick(original.id)}
           >
-            <PersonAddAlt1Icon
-              sx={{ color: '#820000' }}
-              className="manage-icon"
-            />
+            <PersonAddAlt1Icon sx={{ color: "#820000" }} className="manage-icon" />
           </IconButton>
         );
       },
@@ -136,7 +128,7 @@ const uselogic = () => {
 
   const AcceptedRequestsDataGrid = React.useMemo(() => {
     return createDataGrid({
-      name: 'AcceptedRequestsDataGrid',
+      name: "AcceptedRequestsDataGrid",
       columns,
       shouldFlexGrowCells: true,
     });

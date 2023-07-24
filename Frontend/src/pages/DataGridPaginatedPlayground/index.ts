@@ -1,1 +1,1 @@
-export {default} from "./DataGridPaginatedPlayground";
+export { default } from "./DataGridPaginatedPlayground";

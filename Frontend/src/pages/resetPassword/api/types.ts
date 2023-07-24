@@ -1,15 +1,15 @@
-import {BaseResponse} from 'src/types';
+import { BaseResponse } from "src/types";
 
 interface ResetPasswordResponseData {
-    id: string;
+  id: string;
 }
 
 export interface ResetPasswordResponse extends BaseResponse {
-    data: ResetPasswordResponseData;
+  data: ResetPasswordResponseData;
 }
 
 export interface ResetPasswordBody {
-    oldPassword: string;
-    newPassword: string;
-    confirmNewPassword: string;
+  oldPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
 }

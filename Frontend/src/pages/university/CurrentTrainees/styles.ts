@@ -1,5 +1,5 @@
-import makeStyles from '@mui/styles/makeStyles';
-import theme from 'src/styling/customTheme';
+import makeStyles from "@mui/styles/makeStyles";
+import theme from "src/styling/customTheme";
 
 const useStyles = makeStyles(() => ({
   tableContainer: {

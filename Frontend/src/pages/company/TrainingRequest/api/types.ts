@@ -1,5 +1,3 @@
-import { BaseResponse } from "src/types";
-
 export interface TrainingRequestsData {
   id: string;
   studentId: string;
@@ -25,5 +23,3 @@ export interface GetTrainingRequestsResponse {
   totalItems: number;
   totalPages: number;
 }
-
-

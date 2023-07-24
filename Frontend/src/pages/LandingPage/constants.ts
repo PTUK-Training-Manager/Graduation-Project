@@ -1,5 +1,5 @@
 export enum ButtonType {
-    hero = "hero",
-    guide = "guide",
-    getStarted = "getStarted",
+  hero = "hero",
+  guide = "guide",
+  getStarted = "getStarted",
 }

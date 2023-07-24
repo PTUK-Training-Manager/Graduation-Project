@@ -43,4 +43,3 @@ export interface AssignTrainerData {
 export interface AssignTrainerRequestResponse extends BaseResponse {
   data: AssignTrainerData;
 }
-

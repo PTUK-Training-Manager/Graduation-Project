@@ -1,7 +1,7 @@
 export interface Row {
   studentId: string;
   Student: {
-      name: string;
+    name: string;
   };
   count: string;
 }

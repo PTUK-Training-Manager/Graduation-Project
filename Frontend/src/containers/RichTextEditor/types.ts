@@ -1,68 +1,68 @@
-import React, {ReactElement} from "react";
-import {SvgIconProps} from "@mui/material/SvgIcon";
-import {EditorState, ElementFormatType, TextFormatType} from "lexical";
-import {blockTypeToBlockName} from "./constants";
+import React, { ReactElement } from "react";
+import { SvgIconProps } from "@mui/material/SvgIcon";
+import { EditorState, ElementFormatType, TextFormatType } from "lexical";
+import { blockTypeToBlockName } from "./constants";
 
-export type DebouncedFunctionType = (...params: any[]) => void;
+export type DebouncedFunctionType = (...params: unknown[]) => void;
 
 export interface AlignMenuItem {
-    name: string;
-    icon: ReactElement<SvgIconProps>,
-    payload: ElementFormatType
+  name: string;
+  icon: ReactElement<SvgIconProps>;
+  payload: ElementFormatType;
 }
 
 export interface FormatTextMenuItem {
-    name: string;
-    icon: ReactElement<SvgIconProps>,
-    payload: TextFormatType
+  name: string;
+  icon: ReactElement<SvgIconProps>;
+  payload: TextFormatType;
 }
 
 export interface ToolbarProps {
-    editable: boolean;
+  editable: boolean;
 }
 
 export interface FormatTextMenuProps {
-    hasFormat: Record<TextFormatType, boolean>;
+  hasFormat: Record<TextFormatType, boolean>;
 }
 
 export interface ColorPickerProps {
-    title: string;
-    onChange: (color: string) => void;
-    icon?: React.ReactElement<SvgIconProps>;
+  title: string;
+  onChange: (color: string) => void;
+  icon?: React.ReactElement<SvgIconProps>;
 }
 
 export interface BlockFormatMenuProps {
-    blockType: keyof typeof blockTypeToBlockName;
+  blockType: keyof typeof blockTypeToBlockName;
 }
 
 export interface PlaceholderProps {
-    className?: string;
-    children?: React.ReactNode;
+  className?: string;
+  children?: React.ReactNode;
 }
 
 export interface IMenuButtonStyle {
-    open: boolean;
-    isMdViewport: boolean;
+  open: boolean;
+  isMdViewport: boolean;
 }
 
 export interface UseBlockFormatProps {
-    blockType: keyof typeof blockTypeToBlockName;
+  blockType: keyof typeof blockTypeToBlockName;
 }
 
 export interface UseCustomCommandsReturn {
-    clearEditorContent: () => void;
+  clearEditorContent: () => void;
 }
 
 export interface LocalStoragePluginProps {
-    namespace: string;
+  namespace: string;
 }
 
 export interface RichTextEditorProps {
-    onChange?: (editorState: EditorState) => void;
-    editable?: boolean;
-    hasBorder?: boolean;
-    showTreeView?: boolean;
-    namespace?: string;
-    shouldReadFromLocalStorage?: boolean;
-    content?: string;
+  onChange?: (editorState: EditorState) => void;
+  editable?: boolean;
+  hasBorder?: boolean;
+  showTreeView?: boolean;
+  namespace?: string;
+  shouldReadFromLocalStorage?: boolean;
+  content?: string;
 }
