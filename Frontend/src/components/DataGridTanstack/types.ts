@@ -7,6 +7,7 @@ import React, {
   MouseEvent,
   PropsWithChildren,
   FC,
+  ReactNode,
 } from "react";
 import {
   Cell,
@@ -190,3 +191,7 @@ export interface AutocompleteColumnOption {
 
 export interface DataGridCellProps<TData extends RowData, TValue>
   extends CellContext<TData, TValue> {}
+
+export interface EmptyBodyProps {
+  message?: ReactNode;
+}

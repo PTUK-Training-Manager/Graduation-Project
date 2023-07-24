@@ -10,6 +10,7 @@ import TableBody from "@mui/material/TableBody";
 import theme from "src/styling/customTheme";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { makePlaceholder } from "src/components/DataGridTanstack/Placeholder";
+import EmptyBody from "./EmptyBody";
 
 export function makeDataGridInfiniteBody<T extends object>(
   configs: CreateDataGridConfigWithDefaults<T>
@@ -57,6 +58,8 @@ export function makeDataGridInfiniteBody<T extends object>(
           ))}
         </StyledTableRow>
       ));
+
+    if (getRowModel().rows.length === 0) return <EmptyBody />;
 
     return (
       <TableBody

@@ -154,7 +154,6 @@ export function makeFilters<T extends object>(configs: CreateDataGridConfig<T>) 
                   </Grid>
                   {cf.id !== "" && (
                     <Grid item container xs={5}>
-                      {/*<ColumnFilter column={table.getColumn(cf.id)!}/>*/}
                       <ColumnFilter key={index} index={index} columnId={cf.id} />
                     </Grid>
                   )}

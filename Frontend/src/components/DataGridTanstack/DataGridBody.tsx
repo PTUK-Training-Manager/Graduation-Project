@@ -6,6 +6,7 @@ import { StyledTableRow } from "src/components/DataGridTanstack/styled";
 import TableCell from "@mui/material/TableCell";
 import { flexRender } from "@tanstack/react-table";
 import { makePlaceholder } from "./Placeholder";
+import EmptyBody from "./EmptyBody";
 
 export function makeDataGridBody<T extends object>(configs: CreateDataGridConfigWithDefaults<T>) {
   const BodyPlaceholder = makePlaceholder(configs);
@@ -53,6 +54,8 @@ export function makeDataGridBody<T extends object>(configs: CreateDataGridConfig
       ));
 
     if (isFetching) return <BodyPlaceholder />;
+
+    if (getRowModel().rows.length === 0) return <EmptyBody />;
 
     return (
       <TableBody
