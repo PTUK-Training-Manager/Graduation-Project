@@ -52,7 +52,8 @@ const AcceptedTrainings: React.FC = () => {
       headerClassName: "ctrainees",
       filterable: false,
       sortable: false,
-      renderCell: (params: { id: string }) => (
+      // @ts-ignore
+      renderCell: (params: any) => (
         <IconButton aria-label="edit field" onClick={() => handleJoin(params.id)}>
           <CheckBoxIcon sx={{ color: "blue", backgroundColor: "white" }} className="edit-icon" />
         </IconButton>

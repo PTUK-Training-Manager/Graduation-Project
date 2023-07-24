@@ -90,7 +90,7 @@ export interface DebouncedInputProps
 }
 
 export interface DataGridContextValues<T> {
-  table: Table<unknown>;
+  table: Table<T>;
   dataMemoized: T[];
   columnsMemoized: ColumnDef<T>[];
   headerComponentMemoized?: JSX.Element;

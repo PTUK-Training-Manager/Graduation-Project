@@ -3,7 +3,8 @@ import { SvgIconProps } from "@mui/material/SvgIcon";
 import { EditorState, ElementFormatType, TextFormatType } from "lexical";
 import { blockTypeToBlockName } from "./constants";
 
-export type DebouncedFunctionType = (...params: unknown[]) => void;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type DebouncedFunctionType = (...params: any[]) => void;
 
 export interface AlignMenuItem {
   name: string;
