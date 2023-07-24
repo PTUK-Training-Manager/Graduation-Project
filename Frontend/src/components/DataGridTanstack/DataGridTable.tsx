@@ -7,7 +7,7 @@ import theme from "src/styling/customTheme";
 import { CreateDataGridConfigWithDefaults } from "./types";
 
 export function makeDataGridTable<T extends object>(configs: CreateDataGridConfigWithDefaults<T>) {
-  const DataGridTable = <T extends any>(props: DataGridTableProps) => {
+  const DataGridTable = (props: DataGridTableProps) => {
     const { children, TableContainerProps, TableProps } = props;
 
     const { table } = useContext(configs.Context);

@@ -21,7 +21,7 @@ import { useTranslation } from "react-i18next";
 export function makeFilters<T extends object>(configs: CreateDataGridConfig<T>) {
   const ColumnFilter = makeColumnFilter(configs);
 
-  const FiltersModal = <T extends any>() => {
+  const FiltersModal = () => {
     const {
       table,
       isOpenFiltersModal,
