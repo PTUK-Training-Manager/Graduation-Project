@@ -1,8 +1,8 @@
-import { useQuery } from '@tanstack/react-query';
-import { getTrainingRequests } from '../api';
-import UsersDataGrid from 'src/pages/DataGridPaginatedPlayground/definition';
-import { useState } from 'react';
-import { DataGridFetchQuery } from 'src/components/DataGridTanstack/types';
+import { useQuery } from "@tanstack/react-query";
+import { getTrainingRequests } from "../api";
+import UsersDataGrid from "src/pages/DataGridPaginatedPlayground/definition";
+import { useState } from "react";
+import { DataGridFetchQuery } from "src/components/DataGridTanstack/types";
 
 const useTrainingRequestsController = () => {
   const { pageSize: initialPageSize } = UsersDataGrid.configs;
@@ -14,7 +14,7 @@ const useTrainingRequestsController = () => {
   const { pageIndex, pageSize } = pagination;
 
   const { data, isLoading, isFetching } = useQuery(
-    ['TrainingRequests', pageIndex, pageSize],
+    ["TrainingRequests", pageIndex, pageSize],
     () => getTrainingRequests({ pageIndex, pageSize }),
     {}
   );

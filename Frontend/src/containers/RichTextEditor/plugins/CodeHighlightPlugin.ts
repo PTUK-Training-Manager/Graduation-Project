@@ -1,16 +1,15 @@
-import React, { FC, useEffect } from 'react';
-import {registerCodeHighlighting} from '@lexical/code';
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
+import { FC, useEffect } from "react";
+import { registerCodeHighlighting } from "@lexical/code";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 
 const CodeHighlightPlugin: FC = () => {
+  const [editor] = useLexicalComposerContext();
 
-    const [editor] = useLexicalComposerContext();
+  useEffect(() => {
+    return registerCodeHighlighting(editor);
+  }, [editor]);
 
-    useEffect(() => {
-        return registerCodeHighlighting(editor);
-    }, [editor]);
-
-    return null;
+  return null;
 };
 
 export default CodeHighlightPlugin;

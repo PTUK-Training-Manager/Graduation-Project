@@ -1,12 +1,9 @@
-.search-dataGrid{
- 
-    width: 100%;
-    margin: auto;
- }
- .MuiDataGrid-columnHeaders{
-         background-color: #ecf1f1;
- font-size: 15px;
- font-weight: 400;
- }
- 
- 
+.search-dataGrid {
+  width: 100%;
+  margin: auto;
+}
+.MuiDataGrid-columnHeaders {
+  background-color: #ecf1f1;
+  font-size: 15px;
+  font-weight: 400;
+}

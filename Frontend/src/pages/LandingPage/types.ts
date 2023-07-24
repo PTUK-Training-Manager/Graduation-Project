@@ -1,15 +1,15 @@
-import {ButtonProps} from "@mui/material";
-import {ButtonType} from "./constants";
+import { ButtonProps } from "@mui/material";
+import { ButtonType } from "./constants";
 
 export interface CustomButtonProps extends Omit<ButtonProps, "color" | "type"> {
-    backgroundColor?: string;
-    color?: string;
-    buttonText?: string;
-    type?: ButtonType;
+  backgroundColor?: string;
+  color?: string;
+  buttonText?: string;
+  type?: ButtonType;
 }
 
 export type ListAnchor = "top" | "left" | "bottom" | "right";
 
 export interface StyledButtonProps extends ButtonProps {
-    text?: string;
+  text?: string;
 }

@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 import {
   getTrainingIdForRunnigTraining,
   getRejectedEvaluations,
   getPendingEvaluations,
-} from '../api';
+} from "../api";
 import {
   TrainingRunningIDData,
   RejectedEvaluationData,
   PendingEvaluationData,
-} from '../api/response.dto';
+} from "../api/response.dto";
 
 const useProgressController = () => {
   const [data, setData] = useState<TrainingRunningIDData>();
@@ -18,36 +18,36 @@ const useProgressController = () => {
 
   useEffect(() => {
     getTrainingIdForRunnigTraining()
-      .then((result) => {
+      .then(result => {
         setData(result.data);
-        console.log(result.data)
+        console.log(result.data);
         setTrainingId(result.data.trainingId);
       })
-      .catch((error) => console.log(error));
+      .catch(error => console.log(error));
   }, []);
 
   useEffect(() => {
     getRejectedEvaluations({ trainingId: trainingId })
-      .then((result) => {
+      .then(result => {
         setRejectedEvaluations(result.data);
         console.log(result.data);
       })
-      .catch((error) => console.log(error));
+      .catch(error => console.log(error));
   }, [trainingId]);
 
   useEffect(() => {
     getPendingEvaluations({ trainingId: trainingId })
-      .then((result) => {
+      .then(result => {
         setPendingEvaluations(result.data);
         console.log(result.data);
       })
-      .catch((error) => console.log(error));
+      .catch(error => console.log(error));
   }, [trainingId]);
 
   return {
     data,
     rejectedEvaluations,
-    pendingEvaluations
+    pendingEvaluations,
   };
 };
 

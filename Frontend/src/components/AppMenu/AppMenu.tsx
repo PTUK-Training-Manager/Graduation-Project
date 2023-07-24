@@ -1,10 +1,10 @@
-import { FC } from 'react';
-import List from '@mui/material/List';
+import React, { FC } from "react";
+import List from "@mui/material/List";
 
-import useStyles from './styles';
-import useAppMenuNavigation from 'src/routes/hooks/useAppMenuNavigation';
+import useStyles from "./styles";
+import useAppMenuNavigation from "src/routes/hooks/useAppMenuNavigation";
 
-import AppMenuItem from '../AppMenuItem';
+import AppMenuItem from "../AppMenuItem";
 
 interface AppMenuProps {}
 
@@ -22,13 +22,7 @@ const AppMenu: FC<AppMenuProps> = () => {
     >
       {appMenuItems.map((item, index) => {
         const hasSelectedChild = doesHaveSelectedChild(item);
-        return (
-          <AppMenuItem
-            {...item}
-            key={index}
-            hasSelectedChild={hasSelectedChild}
-          />
-        );
+        return <AppMenuItem {...item} key={index} hasSelectedChild={hasSelectedChild} />;
       })}
     </List>
   );

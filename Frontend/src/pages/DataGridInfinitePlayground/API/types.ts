@@ -1,14 +1,13 @@
 export interface FetchUsersInfiniteParams {
-    pageIndex: number;
-    pageSize: number;
+  pageIndex: number;
+  pageSize: number;
 }
 
-
 export interface UserData {
-    id: number;
-    name: string;
-    email: string;
-    body: string;
-    postId: number;
-    birthDate: string;
+  id: number;
+  name: string;
+  email: string;
+  body: string;
+  postId: number;
+  birthDate: string;
 }
