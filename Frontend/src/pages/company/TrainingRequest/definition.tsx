@@ -20,7 +20,6 @@ const uselogic = () => {
   const [rejectRequestDialogOpen, setRejectRequestDialogOpen] = useState(false);
 
   const [trainingId, setTrainingId] = useState("");
-  //   setData(rows);
   //@ts-ignore
   const handleAccept = (id: string) => {
     console.log(id);
@@ -33,12 +32,8 @@ const uselogic = () => {
         if (result.success === true) {
           setAcceptRequestDialogOpen(false);
           showSnackbar({ severity: "success", message: result.message });
-          const res = queryClient.getQueryData(["trainingRequests"]) as TrainingRequestsData[];
-          queryClient.setQueryData(
-            ["trainingRequests"],
-            res.filter(row => row.id !== id)
-          );
-          console.log(res);
+          //@ts-ignore
+          queryClient.invalidateQueries("trainingRequests");
         } else if (result.success === false) {
           console.log("error");
         }
@@ -76,11 +71,8 @@ const uselogic = () => {
         if (result.success === true) {
           setRejectRequestDialogOpen(false);
           showSnackbar({ severity: "success", message: result.message });
-          const res = queryClient.getQueryData(["trainingRequests"]) as TrainingRequestsData[];
-          queryClient.setQueryData(
-            ["trainingRequests"],
-            res.filter(row => row.id !== id)
-          );
+          //@ts-ignore
+          queryClient.invalidateQueries("trainingRequests");
           console.log("correct");
         } else if (result.success === false) {
           console.log("error");

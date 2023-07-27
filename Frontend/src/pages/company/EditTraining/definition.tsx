@@ -19,8 +19,6 @@ import React from "react";
 const uselogic = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [trainingId, setTrainingId] = useState("");
-  const [data, setData] = useState<RunningTraineesData[]>([]);
-  const [response, setReponse] = useState<Response>();
   const { showSnackbar } = useSnackbar();
   const [cancelId, setCanceledId] = useState<string>("");
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -47,11 +45,8 @@ const uselogic = () => {
         if (result.success === true) {
           setConfirmDialogOpen(false);
           showSnackbar({ severity: "success", message: result.message });
-          const res = queryClient.getQueryData(["EditTrainings"]) as RunningTraineesData[];
-          queryClient.setQueryData(
-            ["EditTrainings"],
-            res.filter(row => row.id !== trainingID)
-          );
+          //@ts-ignore
+          queryClient.invalidateQueries("EditTrainings");
           setCanceledId("");
         } else if (result.success === false) {
           showSnackbar({ severity: "warning", message: result.message });
@@ -188,21 +183,9 @@ const uselogic = () => {
         if (result.success === true) {
           const trainerName = result.data.name;
           console.log(trainerName);
-          const updatedData = data.map(row => {
-            if (row.id === trainingID) {
-              return {
-                ...row,
-                Trainer: {
-                  ...row.Trainer,
-                  name: trainerName,
-                },
-              };
-            }
-            return row;
-          });
-          setData(updatedData);
-
           showSnackbar({ severity: "success", message: result.message });
+          //@ts-ignore
+          queryClient.invalidateQueries("EditTrainings");
           handleVerifyCancel();
         } else if (result.success === false) {
           console.log("error");
@@ -239,7 +222,6 @@ const uselogic = () => {
     confirmDialogOpen,
     confirmEditOpen,
     handleVerifyJoin,
-    response,
   };
 };
 export default uselogic;

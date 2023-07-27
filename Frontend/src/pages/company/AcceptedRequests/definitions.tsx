@@ -71,12 +71,9 @@ const uselogic = () => {
         if (result.success === true) {
           setConfirmDialogOpen(false);
           setJoinDialogOpen(false);
-          showSnackbar({ severity: "success", message: result.message });
-          const res = queryClient.getQueryData(["aceeptedRequests"]) as AcceptedTrainingsData[];
-          queryClient.setQueryData(
-            ["aceeptedRequests"],
-            res.filter(row => row.id !== trainingID)
-          );
+          showSnackbar({ severity: 'success', message: result.message });
+           //@ts-ignore
+           queryClient.invalidateQueries("aceeptedRequests");
           setSelectedDate(null);
         } else if (result.success === false) {
           console.log("error");

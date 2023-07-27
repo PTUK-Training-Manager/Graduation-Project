@@ -1,26 +1,18 @@
-import React, { useState } from 'react';
-import { FinishedRequiredHoursData } from './api/types';
-import './Finished200Hours.css';
-import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
-import FirstPage from './components/FirstPage';
-import theme from 'src/styling/customTheme';
-import Typography from '@mui/material/Typography';
-import useFinishedRequiredHoursController from './hooks/useFinishedRequiredHoursController';
-import {
-  OnRowClick,
-  PageChangeParams,
-} from 'src/components/DataGridTanstack/types';
-import uselogic from './definition';
+import React, { useState } from "react";
+import { FinishedRequiredHoursData } from "./api/types";
+import "./Finished200Hours.css";
+import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
+import FirstPage from "./components/FirstPage";
+import theme from "src/styling/customTheme";
+import Typography from "@mui/material/Typography";
+import useFinishedRequiredHoursController from "./hooks/useFinishedRequiredHoursController";
+import { OnRowClick, PageChangeParams } from "src/components/DataGridTanstack/types";
+import uselogic from "./definition";
 
 const Finished200Hours: React.FC = () => {
-  const {
-    TraineesFinishedRequierHoursDataGrid,
-    handleCloseDialog,
-    isOpen,
-    trainingId,
-    response,
-  } = uselogic();
+  const { TraineesFinishedRequierHoursDataGrid, handleCloseDialog, isOpen, trainingId, response } =
+    uselogic();
 
   const { pageSize } = TraineesFinishedRequierHoursDataGrid.configs;
 
@@ -29,8 +21,7 @@ const Finished200Hours: React.FC = () => {
     pageSize,
   });
 
-  const { allRows, isFetching, fetchNextPage } =
-    useFinishedRequiredHoursController({ query });
+  const { allRows, isFetching, fetchNextPage } = useFinishedRequiredHoursController({ query });
 
   const handleOnRowClick: OnRowClick<FinishedRequiredHoursData> = (cell, row) =>
     console.log({ cell, row });
@@ -41,16 +32,16 @@ const Finished200Hours: React.FC = () => {
         container
         sx={{
           p: 3,
-          justifyContent: 'center',
-          alignItems: 'center',
+          justifyContent: "center",
+          alignItems: "center",
           height: `calc(100vh - ${theme.mixins.toolbar.height}px)`,
         }}
       >
         <Stack
           gap={1.5}
           sx={{
-            width: '100%',
-            height: '100%',
+            width: "100%",
+            height: "100%",
           }}
         >
           <Typography component="h1" variant="h5" fontWeight={500}>
@@ -61,7 +52,7 @@ const Finished200Hours: React.FC = () => {
             isFetching={isFetching}
             // totalPages={Math.floor(totalRows / pagination.pageSize)}
             // onFetch={(pagination) => setPagination(pagination)}
-            onFetch={(query) => fetchNextPage()}
+            onFetch={query => fetchNextPage()}
           >
             <TraineesFinishedRequierHoursDataGrid.Container>
               <TraineesFinishedRequierHoursDataGrid.Toolbar>
@@ -74,9 +65,7 @@ const Finished200Hours: React.FC = () => {
               </TraineesFinishedRequierHoursDataGrid.Toolbar>
               <TraineesFinishedRequierHoursDataGrid.Table>
                 <TraineesFinishedRequierHoursDataGrid.Head />
-                <TraineesFinishedRequierHoursDataGrid.Body
-                  onRowClick={handleOnRowClick}
-                />
+                <TraineesFinishedRequierHoursDataGrid.Body onRowClick={handleOnRowClick} />
                 {/*<TraineesFinishedRequierHoursDataGrid.Placeholder/>*/}
               </TraineesFinishedRequierHoursDataGrid.Table>
               <TraineesFinishedRequierHoursDataGrid.Footer />
@@ -85,7 +74,12 @@ const Finished200Hours: React.FC = () => {
           </TraineesFinishedRequierHoursDataGrid.Provider>
         </Stack>
       </Grid>
-      <FirstPage response={response} trainingID={trainingId} handleCloseDialog={handleCloseDialog} isOpen={isOpen} />
+      <FirstPage
+        response={response}
+        trainingID={trainingId}
+        handleCloseDialog={handleCloseDialog}
+        isOpen={isOpen}
+      />
       {/* <Dialog
         open={isOpen}
         onClose={handleCloseDialog}

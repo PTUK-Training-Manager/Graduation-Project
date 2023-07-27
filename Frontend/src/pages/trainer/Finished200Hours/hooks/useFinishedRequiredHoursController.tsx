@@ -1,13 +1,12 @@
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { getTraineesFinishedRequiredHours } from '../api';
-import { generateRandomDate } from 'src/components/DataGridTanstack/utils';
 import { UseInfiniteDataGridPlaygroundAPIProps } from '../types';
 
 const useFinishedRequiredHoursController = ({
   query,
 }: UseInfiniteDataGridPlaygroundAPIProps) => {
-  const { data, error, isFetching, status, fetchNextPage, isError, isSuccess } =
+  const { data, error, isFetching, fetchNextPage, isError, isSuccess } =
     useInfiniteQuery({
       queryKey: ['FinidhedRequiredHours'],
       queryFn: ({ pageParam = 0 }) => {
