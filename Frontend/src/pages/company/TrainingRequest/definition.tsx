@@ -1,3 +1,4 @@
+import React from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { createDataGrid } from "src/components/DataGridTanstack";
 import { TrainingRequestsData } from "./api/types";
@@ -10,7 +11,6 @@ import useSnackbar from "src/hooks/useSnackbar";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import React from "react";
 
 const uselogic = () => {
   const queryClient = useQueryClient();
@@ -89,7 +89,7 @@ const uselogic = () => {
 
   const Reject = t("Reject");
 
-  const columns: ColumnDef<TrainingRequestsData, any>[] = [
+  const columns: ColumnDef<TrainingRequestsData>[] = [
     {
       accessorKey: "studentId",
       header: StudentNumber,

@@ -19,7 +19,6 @@ import React from "react";
 const uselogic = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [trainingId, setTrainingId] = useState("");
-  const [data, setData] = useState<RunningTraineesData[]>([]);
   const { showSnackbar } = useSnackbar();
   const [cancelId, setCanceledId] = useState<string>("");
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
@@ -71,7 +70,7 @@ const uselogic = () => {
   };
   const handleJoinDialogOpen = async () => {
     try {
-      const result = await getTrainers({ pageIndex: 0, pageSize: 999 });
+      const result = await getTrainers();
       setAvailableTrainers(result.items);
     } catch (error) {
       console.log(error);
@@ -115,7 +114,6 @@ const uselogic = () => {
   const TrainerName = t("TrainerName");
   const CompanyBranch = t("CompanyBranch");
   const CancelTraining = t("CancelTraining");
-  CancelTraining;
 
   const columns: ColumnDef<RunningTraineesData, any>[] = [
     {

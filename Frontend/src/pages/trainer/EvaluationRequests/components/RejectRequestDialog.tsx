@@ -1,11 +1,6 @@
-import Dialog from '@mui/material/Dialog';
-import {
-  Button,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from '@mui/material';
-import { FC } from 'react';
+import React, { FC } from "react";
+import Dialog from "@mui/material/Dialog";
+import { Button, DialogActions, DialogContent, DialogTitle } from "@mui/material";
 
 interface DeleteTrainerDialogProps {
   openRejectRequestDialog: boolean;
@@ -26,9 +21,7 @@ const RejectRequestDialog: FC<DeleteTrainerDialogProps> = ({
       fullWidth
     >
       <DialogTitle>Reject Request</DialogTitle>
-      <DialogContent>
-        Are you sure you want to reject this Progress Request?
-      </DialogContent>
+      <DialogContent>Are you sure you want to reject this Progress Request?</DialogContent>
       <DialogActions>
         <Button onClick={handleRejectRequestClose} color="primary">
           Cancel

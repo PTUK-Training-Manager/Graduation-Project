@@ -1,8 +1,6 @@
 export interface SubmitRequestBody {
-    studentId: string;
-    type: string;
-    semester: string;
-    companyBranchId: string;
-  }
-
-  
+  studentId: string;
+  type: string;
+  semester: string;
+  companyBranchId: string;
+}

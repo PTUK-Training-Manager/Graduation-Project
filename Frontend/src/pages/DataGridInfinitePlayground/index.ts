@@ -1,1 +1,1 @@
-export {default} from "./DataGridInfinitePlayground";
+export { default } from "./DataGridInfinitePlayground";

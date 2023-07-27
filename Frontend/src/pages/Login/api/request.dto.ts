@@ -1,8 +1,8 @@
 export interface LoginRequestBody {
-    username: string;
-    password: string;
+  username: string;
+  password: string;
 }
 
 export interface ForgetPasswordRequestBody {
-    username: string;
+  username: string;
 }

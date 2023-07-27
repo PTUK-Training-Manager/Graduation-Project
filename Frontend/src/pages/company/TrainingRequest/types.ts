@@ -1,15 +1,14 @@
 import { BaseResponse } from "src/types";
 
 export interface HandleTrainingRequestBody {
-    trainingId: string;
-    status: string;
+  trainingId: string;
+  status: string;
 }
 
-
 export interface HandleTrainingRequestData {
-    id: string;
+  id: string;
 }
 
 export interface HandleTrainingRequestResponse extends BaseResponse {
-    data: HandleTrainingRequestData;
+  data: HandleTrainingRequestData;
 }
