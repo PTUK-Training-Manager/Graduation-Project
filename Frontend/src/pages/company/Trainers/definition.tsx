@@ -4,7 +4,7 @@ import { createDataGrid } from "src/components/DataGridTanstack";
 import { useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import ClearIcon from "@mui/icons-material/Clear";
-import { FieldData, TrainersData } from "./api/types";
+import { TrainersData } from "./api/types";
 import { deleteTrianer, updateFieldForTrianer } from "./api";
 import useSnackbar from "src/hooks/useSnackbar";
 import { useQueryClient } from "@tanstack/react-query";
@@ -27,11 +27,8 @@ const uselogic = () => {
       if (res.success === true) {
         setDeleteTrainerDialogOpen(false);
         showSnackbar({ severity: "success", message: res.message });
-        const result = queryClient.getQueryData(["Trainers"]) as TrainersData[];
-        queryClient.setQueryData(
-          ["Trainers"],
-          result.filter(row => row.id !== deleteId)
-        );
+        //@ts-ignore
+        queryClient.invalidateQueries("trainers");
         setDeleteId("");
       } else if (res.success === false) {
         showSnackbar({ severity: "warning", message: res.message });
@@ -65,12 +62,11 @@ const uselogic = () => {
       console.log(updatedTrainerID);
       console.log(newFieldId);
       if (res.success === true) {
-        const fieldName = res.data.Field.field;
-        showSnackbar({ severity: "success", message: res.message });
-        const result = queryClient.getQueryData(["trainers"]) as TrainersData[];
-        queryClient.setQueryData(["trainers"], result);
-        setUpdatedTrainerID("");
         setUpdateFieldForTrainerDialogOpen(false);
+        showSnackbar({ severity: "success", message: res.message });
+        //@ts-ignore
+        queryClient.invalidateQueries("trainers");
+        setUpdatedTrainerID("");
       } else if (res.success === false) {
         showSnackbar({ severity: "warning", message: res.message });
         setUpdatedTrainerID("");

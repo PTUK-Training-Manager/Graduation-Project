@@ -24,7 +24,6 @@ const uselogic = () => {
   );
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const [selectedDate, setSelectedDate] = useState<Dayjs | null>(dayjs(''));
-  const [data, setData] = useState<AcceptedTrainingsData[]>([]);
 
   const handleJoinClick = (id: string) => {
     setTrainingID(id);
@@ -75,13 +74,8 @@ const uselogic = () => {
           setConfirmDialogOpen(false);
           setJoinDialogOpen(false);
           showSnackbar({ severity: 'success', message: result.message });
-          const res = queryClient.getQueryData([
-            'aceeptedRequests',
-          ]) as AcceptedTrainingsData[];
-          queryClient.setQueryData(
-            ['aceeptedRequests'],
-            res.filter((row) => row.id !== trainingID)
-          );
+           //@ts-ignore
+           queryClient.invalidateQueries("aceeptedRequests");
           setSelectedDate(null);
         } else if (result.success === false) {
           console.log('error');

@@ -1,25 +1,19 @@
-import * as React from 'react';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
-import {
-  Button,
-  Card,
-  CardContent,
-  Radio,
-  RadioGroup,
-  TextField,
-} from '@mui/material';
-import './style.css';
-import { FormControlLabel } from '@mui/material';
-import { FC } from 'react';
-import { EvaluationData } from 'src/api/types';
-import { SubmitAnswersBody } from 'src/pages/trainer/Finished200Hours/types';
-import { submitAnswers } from 'src/pages/trainer/Finished200Hours/api';
-import useSnackbar from 'src/hooks/useSnackbar';
-import { QuestionsRequestData } from 'src/api/getQuestions';
-import RichTextEditor from 'src/containers/RichTextEditor';
-import { useTranslation } from 'react-i18next';
+import * as React from "react";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
+import { Button, Card, CardContent, Radio, RadioGroup } from "@mui/material";
+import "./style.css";
+import { FormControlLabel } from "@mui/material";
+import { FC } from "react";
+import { EvaluationData } from "src/api/types";
+import { SubmitAnswersBody } from "src/pages/trainer/Finished200Hours/types";
+import { submitAnswers } from "src/pages/trainer/Finished200Hours/api";
+import useSnackbar from "src/hooks/useSnackbar";
+import { QuestionsRequestData } from "src/api/getQuestions";
+import RichTextEditor from "src/containers/RichTextEditor";
+import { useTranslation } from "react-i18next";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface SecondPageProps {
   response: EvaluationData[];
@@ -27,7 +21,7 @@ interface SecondPageProps {
   question: QuestionsRequestData[];
 }
 
-const ThirdPage: FC<SecondPageProps> = ({ response, trainingId, question}) => {
+const ThirdPage: FC<SecondPageProps> = ({ response, trainingId, question }) => {
   const { showSnackbar } = useSnackbar();
   const [answers, setAnswers] = React.useState<SubmitAnswersBody>({
     trainingId: trainingId,
@@ -35,25 +29,30 @@ const ThirdPage: FC<SecondPageProps> = ({ response, trainingId, question}) => {
   });
   //@ts-ignore
   const { t } = useTranslation();
+
+  const queryClient = useQueryClient();
+
   const handleSubmitAnswers = () => {
     submitAnswers({
       trainingId: answers.trainingId,
       arrayData: answers.arrayData,
     }).then((res: { success: boolean; message: any }) => {
       if (res.success === true) {
-        showSnackbar({ severity: 'success', message: res.message });
+        showSnackbar({ severity: "success", message: res.message });
+        //@ts-ignore
+        queryClient.invalidateQueries("SubmittedTrainees");
       } else if (res.success === false) {
-        showSnackbar({ severity: 'warning', message: res.message });
+        showSnackbar({ severity: "warning", message: res.message });
       }
     });
   };
 
   return (
     <>
-      <Grid container sx={{ padding: '24px' }}>
+      <Grid container sx={{ padding: "24px" }}>
         <Stack gap={2}>
           <Typography variant="h6" gutterBottom>
-            {t('StudentBenefit')}
+            {t("StudentBenefit")}
           </Typography>
           {response[0]?.Answered_Questions?.map((item, index) => (
             <>
@@ -63,16 +62,14 @@ const ThirdPage: FC<SecondPageProps> = ({ response, trainingId, question}) => {
                     sx={{
                       minWidth: 275,
                       borderLeft: 6,
-                      borderColor: 'black',
+                      borderColor: "black",
                     }}
                   >
                     <CardContent>
                       <Stack spacing={2}>
-                        <Typography sx={{ fontWeight: '600' }}>
-                          Question {index + 1} :
-                        </Typography>
+                        <Typography sx={{ fontWeight: "600" }}>Question {index + 1} :</Typography>
                         <Stack gap={1.5} direction="row">
-                          <Typography sx={{ fontWeight: '600' }}>
+                          <Typography sx={{ fontWeight: "600" }}>
                             {item.Question.question}
                           </Typography>
                         </Stack>
@@ -115,9 +112,7 @@ const ThirdPage: FC<SecondPageProps> = ({ response, trainingId, question}) => {
                         )}
                         {item.Note?.note && (
                           <Stack gap={1.5} direction="row">
-                            <Typography sx={{ fontWeight: '600' }}>
-                              {t('Note')}:
-                            </Typography>
+                            <Typography sx={{ fontWeight: "600" }}>{t("Note")}:</Typography>
                             <RichTextEditor
                               editable={false}
                               //@ts-ignore
@@ -136,17 +131,15 @@ const ThirdPage: FC<SecondPageProps> = ({ response, trainingId, question}) => {
             sx={{
               minWidth: 275,
               borderLeft: 6,
-              borderColor: 'black',
+              borderColor: "black",
             }}
           >
             <CardContent>
               {question[0]?.isMultipleChoice == false && (
                 <Stack gap={1.5}>
-                  <Typography sx={{ fontWeight: '600' }}>
-                    {question[0]?.question}
-                  </Typography>
+                  <Typography sx={{ fontWeight: "600" }}>{question[0]?.question}</Typography>
                   <RichTextEditor
-                    onChange={(notee) => {
+                    onChange={notee => {
                       const updatedArrayData = [...answers.arrayData];
                       updatedArrayData[0] = {
                         ...updatedArrayData[0],
@@ -162,7 +155,7 @@ const ThirdPage: FC<SecondPageProps> = ({ response, trainingId, question}) => {
                         ...updatedArrayData[0],
                         questionId: questionId,
                       };
-                      setAnswers((prevState) => ({
+                      setAnswers(prevState => ({
                         ...prevState,
                         arrayData: updatedArrayData,
                       }));
@@ -172,12 +165,7 @@ const ThirdPage: FC<SecondPageProps> = ({ response, trainingId, question}) => {
               )}
             </CardContent>
           </Card>
-          <Button
-            size="small"
-            variant="contained"
-            color="primary"
-            onClick={handleSubmitAnswers}
-          >
+          <Button size="small" variant="contained" color="primary" onClick={handleSubmitAnswers}>
             Submit
           </Button>
         </Stack>

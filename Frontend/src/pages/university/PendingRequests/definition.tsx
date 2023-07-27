@@ -1,45 +1,40 @@
-import { ColumnDef } from '@tanstack/react-table';
-import { createDataGrid } from 'src/components/DataGridTanstack';
-import { PendingRequestsData } from './api/types';
-import ClearIcon from '@mui/icons-material/Clear';
-import { IconButton } from '@mui/material';
-import useSnackbar from 'src/hooks/useSnackbar';
-import { useState } from 'react';
-import { deleteRquest } from './api';
-import { useQueryClient } from '@tanstack/react-query';
-import { useTranslation } from 'react-i18next';
-import React from 'react';
+import { ColumnDef } from "@tanstack/react-table";
+import { createDataGrid } from "src/components/DataGridTanstack";
+import { PendingRequestsData } from "./api/types";
+import ClearIcon from "@mui/icons-material/Clear";
+import { IconButton } from "@mui/material";
+import useSnackbar from "src/hooks/useSnackbar";
+import { useState } from "react";
+import { deleteRquest } from "./api";
+import { useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
+import React from "react";
 
 const uselogic = () => {
-  const [deleteId, setDeleteId] = useState<string>('');
+  const [deleteId, setDeleteId] = useState<string>("");
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const { showSnackbar } = useSnackbar();
   const queryClient = useQueryClient();
 
   const handleDeleteRequest = () => {
     deleteRquest(deleteId)
-      .then((result) => {
+      .then(result => {
         if (result.success === true) {
           setConfirmDialogOpen(false);
 
-          showSnackbar({ severity: 'success', message: result.message });
+          showSnackbar({ severity: "success", message: result.message });
+          // Refetch data for 'PendingRequests' query after successful deletion
+          //@ts-ignore
+          queryClient.invalidateQueries("PendingRequests");
 
-          const res = queryClient.getQueryData([
-            'PendingRequests',
-          ]) as PendingRequestsData[];
-          queryClient.setQueryData(
-            ['PendingRequests'],
-            res.filter((row) => row.id !== deleteId)
-          );
-          console.log(res);
-          setDeleteId('');
+          setDeleteId("");
         } else if (result.success === false) {
-          showSnackbar({ severity: 'warning', message: result.message });
-          setDeleteId('');
+          showSnackbar({ severity: "warning", message: result.message });
+          setDeleteId("");
           setConfirmDialogOpen(false);
         }
       })
-      .catch((error) => console.log(error));
+      .catch(error => console.log(error));
   };
 
   const handleDeleteClick = (id: string) => {
@@ -52,35 +47,35 @@ const uselogic = () => {
   };
   //@ts-ignore
   const { t } = useTranslation();
-  const StudentNumber = t('StudentNumber');
-  const StudentName = t('StudentName');
-  const CompanyName = t('CompanyName');
-  const CompanyBranch = t('CompanyBranch');
-  const DeleteRequest = t('DeleteRequest');
+  const StudentNumber = t("StudentNumber");
+  const StudentName = t("StudentName");
+  const CompanyName = t("CompanyName");
+  const CompanyBranch = t("CompanyBranch");
+  const DeleteRequest = t("DeleteRequest");
   const columns: ColumnDef<PendingRequestsData, any>[] = [
     {
-      accessorKey: 'studentId',
+      accessorKey: "studentId",
       header: StudentNumber,
     },
     {
-      accessorKey: 'Student.name',
+      accessorKey: "Student.name",
       header: StudentName,
-      filterFn: 'arrIncludesSome',
+      filterFn: "arrIncludesSome",
     },
     {
-      accessorKey: 'CompanyBranch.Company.name',
+      accessorKey: "CompanyBranch.Company.name",
       header: CompanyName,
-      filterFn: 'arrIncludesSome',
+      filterFn: "arrIncludesSome",
     },
     {
-      accessorKey: 'CompanyBranch.location',
+      accessorKey: "CompanyBranch.location",
       header: CompanyBranch,
-      filterFn: 'arrIncludesSome',
+      filterFn: "arrIncludesSome",
     },
     {
       header: DeleteRequest,
       //@ts-ignore
-      cell: (props) => {
+      cell: props => {
         const {
           row: { original },
         } = props;
@@ -99,7 +94,7 @@ const uselogic = () => {
   ];
   const PendingRequestsDataGrid = React.useMemo(() => {
     return createDataGrid({
-      name: 'PendingRequestssDataGrid',
+      name: "PendingRequestssDataGrid",
       columns,
       shouldFlexGrowCells: true,
     });
