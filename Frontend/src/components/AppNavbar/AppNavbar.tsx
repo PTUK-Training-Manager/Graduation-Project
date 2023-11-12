@@ -79,7 +79,7 @@ const AppNavbar: FC = () => {
                 </Stack>
 
                 <Stack direction="row">
-                    <LanguageSelector/>
+                    {/* <LanguageSelector/> */}
                     {isLoggedIn ? (<AccountMenu/>) : <Box/>}
                 </Stack>
             </Toolbar>

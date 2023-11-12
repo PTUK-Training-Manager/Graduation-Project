@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useFormik } from 'formik';
 import { validationSchema } from '../schema';
 import { INITIAL_FORM_STATE } from '../constants';
@@ -17,6 +17,7 @@ const AddCompanyQueryKey = ['addCompany'];
 const useAddCompanyFormController = () => {
   const { showSnackbar } = useSnackbar();
   const [updatedata, setUpdateData] = useState<Row[]>([]);
+  const queryClient = useQueryClient();
 
   const formikProps = useFormik({
     initialValues: INITIAL_FORM_STATE,
@@ -36,6 +37,7 @@ const useAddCompanyFormController = () => {
         getCompanies({ pageIndex, pageSize })
           .then((result) => {
             setUpdateData((prevData) => [data.data, ...prevData]);
+            queryClient.invalidateQueries(["Companies"]);
             console.log(result.items);
           })
           .catch((error) => console.log(error));
@@ -44,8 +46,7 @@ const useAddCompanyFormController = () => {
       } else if (data.success === false) {
         showSnackbar({
           severity: 'warning',
-          message:
-            'The company has been added successfully. Login credentials have been sent to the provided email.',
+          message: data.message,
         });
       }
     },

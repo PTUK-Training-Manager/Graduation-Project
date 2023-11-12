@@ -44,6 +44,7 @@ const useAllTrainersController = () => {
                 'Trainers',
               ]) as TrainersData[];
               queryClient.setQueryData(['Trainers'], res);
+              queryClient.invalidateQueries(["Trainers"]);
               console.log(result.items);
             })
             .catch((error) => console.log(error));
@@ -52,8 +53,7 @@ const useAllTrainersController = () => {
         } else if (data.success === false) {
           showSnackbar({
             severity: 'warning',
-            message:
-              'The Traier has been added successfully. Login credentials have been sent to the provided email.',
+            message: data.message,
           });
         }
       },

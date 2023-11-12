@@ -115,7 +115,7 @@ const TrainingRequestForm: React.FC = () => {
   console.log(formikProps.errors);
 
   const navigateToAnotherPage = () => {
-    navigate('/add-company');
+    navigate('/me/companies');
   };
 
   return (

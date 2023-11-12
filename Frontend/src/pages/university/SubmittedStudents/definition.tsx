@@ -37,7 +37,7 @@ const uselogic = () => {
       filterFn: 'arrIncludesSome',
     },
     {
-      header: DeleteRequest,
+      header: 'Evaluation Form',
       //@ts-ignore
       cell: (props) => {
         const {
