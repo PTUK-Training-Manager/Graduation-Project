@@ -25,7 +25,6 @@ const uselogic = () => {
 
   const StudentNumber = t('StudentNumber');
   const StudentName = t('StudentName');
-  const DeleteRequest = t('DeleteRequest');
   const columns: ColumnDef<SubmittedTraineesData, any>[] = [
     {
       accessorKey: 'studentId',

@@ -14,7 +14,7 @@ const useLoginAPI = () => {
     const {mutate: resetPassword, isLoading: isSendingResetPasswordRequest} = useMutation({
         mutationKey: ["SendResetPasswordRequest"],
         mutationFn: sendResetPasswordRequest,
-        onSuccess: data => {
+        onSuccess: () => {
             showSnackbar({severity: "success", message: "A message has been sent to your email"});
         },
         onError: (error: AxiosBaseError) => {

@@ -15,7 +15,6 @@ import { DataGridFetchQuery } from 'src/components/DataGridTanstack/types';
 const AddTrainerQueryKey = ['addTrainerRequest'];
 
 const useAllTrainersController = () => {
-  const [totalRows, setTotalRows] = useState<number>(0);
   const [fieldOptions, setFieldOptions] = useState<FieldData[]>([]);
   const { showSnackbar } = useSnackbar();
 

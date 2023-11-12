@@ -87,7 +87,6 @@ const Companies: React.FC = () => {
   //@ts-ignore
   const { t } = useTranslation();
   const Close = t("Close");
-  const AddCompany = t("AddCompany");
   return (
     <>
       <Grid
