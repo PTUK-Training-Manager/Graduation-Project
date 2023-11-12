@@ -16,13 +16,19 @@ const ForgetPasswordDialog: FC = () => {
 
   const isOpen = openDialog === DialogType.FORGET_PASSWORD;
 
-  const sendResetPasswordRequest = () => resetPassword({ username: values.username });
+  const sendResetPasswordRequest = () => {
+    if (!values.username) {
+      return;
+    }
+      resetPassword({ username: values.username });
+  };
+  
 
   return (
     <Dialog open={isOpen} onClose={onCloseDialog} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog">Forgot Password</DialogTitle>
       <DialogContent sx={{ pt: "20px !important", pb: 0 }}>
-        <TextFieldWrapper name="username" label="Enter Your Username" required sx={{ mb: 2.5 }} />
+        <TextFieldWrapper  name="username" label="Enter Your Username" required sx={{ mb: 2.5 }} />
       </DialogContent>
       <DialogActions>
         <Button onClick={onCloseDialog} color="error">

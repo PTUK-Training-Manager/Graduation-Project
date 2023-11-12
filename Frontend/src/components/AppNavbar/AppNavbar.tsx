@@ -1,19 +1,17 @@
 import React, {FC} from 'react';
-import {AppBar, IconButton, Theme} from "@mui/material";
+import {AppBar, IconButton} from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
 import ImageListItem from "@mui/material/ImageListItem";
 import PTUK_CIRCLE from "src/images/assets/ptuk_logo_circle.png";
 import PTUK_TEXT from "src/images/assets/ptuk_text.png";
-import {DRAWER_WIDTH, NAVBAR_HEIGHT} from "src/constants";
+import {NAVBAR_HEIGHT} from "src/constants";
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import Stack from "@mui/material/Stack";
 import useAccountContext from "src/hooks/useAccountContext";
 import AccountMenu from "../AccountMenu";
-import LanguageSelector from '../Language/LanguageSelector';
 import {isEmptyToken} from "src/utils";
-import {useMediaQuery} from "@mui/material";
 
 const AppNavbar: FC = () => {
 
@@ -79,7 +77,7 @@ const AppNavbar: FC = () => {
                 </Stack>
 
                 <Stack direction="row">
-                    <LanguageSelector/>
+                    {/* <LanguageSelector/> */}
                     {isLoggedIn ? (<AccountMenu/>) : <Box/>}
                 </Stack>
             </Toolbar>

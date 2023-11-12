@@ -6,6 +6,7 @@ import useAppMenuNavigation from "src/routes/hooks/useAppMenuNavigation";
 
 import AppMenuItem from "../AppMenuItem";
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface AppMenuProps {}
 
 const AppMenu: FC<AppMenuProps> = () => {
