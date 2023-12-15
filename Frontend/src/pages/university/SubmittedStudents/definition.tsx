@@ -23,8 +23,8 @@ const uselogic = () => {
   const { t } = useTranslation();
   const onSetClosDialog = (isNeed: boolean) => setIsOpen(isNeed);
 
-  const StudentNumber = t('StudentNumber');
-  const StudentName = t('StudentName');
+  const StudentNumber = t('Student Number');
+  const StudentName = t('Student Name');
   const columns: ColumnDef<SubmittedTraineesData, any>[] = [
     {
       accessorKey: 'studentId',

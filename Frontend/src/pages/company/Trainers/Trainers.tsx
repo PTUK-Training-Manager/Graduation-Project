@@ -106,7 +106,7 @@ const Trainers: React.FC = () => {
                     <Form>
                       <Stack gap={1} spacing={1} alignItems="center">
                         <Typography component="h1" variant="h5">
-                          {t("AddTrainer")}
+                          {t("Add Trainer")}
                         </Typography>
                         <Grid
                           sx={{

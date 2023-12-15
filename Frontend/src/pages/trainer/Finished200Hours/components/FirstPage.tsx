@@ -73,7 +73,7 @@ const FirstPage: FC<FirstPageProps> = ({ response, trainingID, handleCloseDialog
               <Typography variant="h6" gutterBottom>
                 Student benefit from training:
               </Typography>
-              {response.slice(0, length - 1).map((question, index) => (
+              {response.map((question, index) => (
                 <>
                   <Stack gap={2} spacing={2}>
                     <Stack gap={5} spacing={2}>

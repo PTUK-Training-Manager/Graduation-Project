@@ -144,7 +144,7 @@ const TrainingRequestForm: React.FC = () => {
                 <Typography component="h1" variant="h5" fontWeight={500}>
                   {t('title')}
                 </Typography>
-                <TextFieldWrapper label={t('StudentNumber')} name="studentId" />
+                <TextFieldWrapper label={t('Student Number')} name="studentId" />
 
                 <FormControl fullWidth>
                   <InputLabel>{t('TrainingType')}</InputLabel>
@@ -194,7 +194,7 @@ const TrainingRequestForm: React.FC = () => {
                       <TextField
                         {...params}
                         name="companyId"
-                        label={t('CompanyName')}
+                        label={t('Company Name')}
                       />
                     )}
                   />

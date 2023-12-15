@@ -135,7 +135,7 @@ const ThirdPage: FC<SecondPageProps> = ({ response, trainingId, question }) => {
             }}
           >
             <CardContent>
-              {question[0]?.isMultipleChoice == false && (
+              {question[0].id == "8" && (
                 <Stack gap={1.5}>
                   <Typography sx={{ fontWeight: "600" }}>{question[0]?.question}</Typography>
                   <RichTextEditor

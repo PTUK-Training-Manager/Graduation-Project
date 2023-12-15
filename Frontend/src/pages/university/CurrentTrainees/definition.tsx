@@ -33,8 +33,8 @@ const uselogic = () => {
   };
   //@ts-ignore
   const { t } = useTranslation();
-  const StudentNumber = t("StudentNumber");
-  const StudentName = t("StudentName");
+  const StudentNumber = t("Student Number");
+  const StudentName = t("Student Name");
   const ProgressForm = t("ProgressForm");
   const columns: ColumnDef<RunningTraineesData>[] = [
     {

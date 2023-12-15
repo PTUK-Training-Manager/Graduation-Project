@@ -72,10 +72,10 @@ const uselogic = () => {
   const [trainingId, setTrainingId] = useState('');
  //@ts-ignore
   const {t}=useTranslation();
-  const ManegarName = t('ManegarName');
-  const PhoneNumber = t('PhoneNumber');
-const CompanyName=t('CompanyName');
-const Email=t('Email');
+  const ManegarName = t('Manegar Name');
+  const PhoneNumber = t('Phone Number');
+const CompanyName=t('Company Name');
+const Email=t('EmailT');
 const Branches=t('Branches');
 const CompanyId=t('CompanyId');
 

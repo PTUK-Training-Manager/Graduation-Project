@@ -18,6 +18,7 @@ import RejectRequestDialog from "./components/RejectRequestDialog";
 import WriteNoteForRejectionDialog from "./components/WriteNoteForRejectionDialog";
 import { LibraryAddCheck, DisabledByDefault } from "@mui/icons-material";
 import { Tooltip, IconButton, Box, Card, CardContent } from "@mui/material";
+import NumbersIcon from '@mui/icons-material/Numbers';
 
 const EvaluationRequests: React.FC = () => {
   const {
@@ -72,6 +73,16 @@ const EvaluationRequests: React.FC = () => {
                 >
                   <Stack spacing={2} gap={2} direction="row" alignItems="center">
                     <Stack spacing={2} gap={2} direction="row">
+
+                    <Stack direction="row">
+                        <Tooltip title={"Student Number"}>
+                          <NumbersIcon />
+                        </Tooltip>
+                        <Typography variant="body1" sx={{ fontWeight: "600" }}>
+                          {item.Training.StudentId}
+                        </Typography>
+                      </Stack>
+
                       <Stack direction="row">
                         <Tooltip title={"Student Name"}>
                           <PersonIcon />

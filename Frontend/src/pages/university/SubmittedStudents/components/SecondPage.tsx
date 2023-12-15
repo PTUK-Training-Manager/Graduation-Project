@@ -28,6 +28,7 @@ const SecondPage: React.FC<ThirdPageProps> = ({ response }) => {
   console.log(response);
   console.log(response[0]?.id);
   // console.log(isOpen);
+  //@ts-ignore
   const {t}=useTranslation();
 
   return (

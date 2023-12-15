@@ -1,7 +1,6 @@
 import axiosInstance from "src/api";
 import {AploadExcelFileBody, AddFacultyBody} from "./request.dto";
 import {AddFieldResponse, UploadFileResponse} from "./response.dto";
-import { File } from "buffer";
 
 
 
