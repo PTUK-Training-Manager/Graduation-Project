@@ -151,7 +151,7 @@ const Companies: React.FC = () => {
                     <Form>
                       <Stack gap={1} spacing={1} alignItems="center">
                         <Typography component="h1" variant="h5">
-                          {t("AddCompany")}
+                          {t("Add Company")}
                         </Typography>
                         <Grid
                           sx={{
@@ -165,19 +165,19 @@ const Companies: React.FC = () => {
                             <TextFieldWrapper label={t("Company Id")} name="id" autoFocus />
                           </Grid>
                           <Grid item xs={12} sm={6} md={1.9}>
-                            <TextFieldWrapper label={t("CompanyName")} name="name" />
+                            <TextFieldWrapper label={t("Company Name")} name="name" />
                           </Grid>
                           <Grid item xs={12} sm={6} md={1.9}>
-                            <TextFieldWrapper label={t("PhoneNumber")} name="phoneNumber" />
+                            <TextFieldWrapper label={t("Phone Number")} name="phoneNumber" />
                           </Grid>
                           <Grid item xs={12} sm={6} md={1.9}>
-                            <TextFieldWrapper label={t("Email")} type="email" name="email" />
+                            <TextFieldWrapper label={t("EmailT")} type="email" name="email" />
                           </Grid>
                           <Grid item xs={12} sm={6} md={1.9}>
                             <TextFieldWrapper label={t("Location")} name="location" />
                           </Grid>
                           <Grid item xs={12} sm={6} md={1.9}>
-                            <TextFieldWrapper label={t("ManegarName")} name="managerName" />
+                            <TextFieldWrapper label={t("Manegar Name")} name="managerName" />
                           </Grid>
                         </Grid>
                         <LoadingButton

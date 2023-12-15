@@ -6,4 +6,5 @@ export interface PanelButtonProps {
     label: string;
     link?: string;
     bgcolor?: string;
+    id?: string;
 }

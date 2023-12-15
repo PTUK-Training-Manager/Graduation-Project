@@ -47,10 +47,10 @@ const uselogic = () => {
   };
   //@ts-ignore
   const { t } = useTranslation();
-  const StudentNumber = t("StudentNumber");
-  const StudentName = t("StudentName");
-  const CompanyName = t("CompanyName");
-  const CompanyBranch = t("CompanyBranch");
+  const StudentNumber = t("Student Number");
+  const StudentName = t("Student Name");
+  const CompanyName = t("Company Name");
+  const CompanyBranch = t("Company Branch");
   const DeleteRequest = t("DeleteRequest");
   const columns: ColumnDef<PendingRequestsData, any>[] = [
     {

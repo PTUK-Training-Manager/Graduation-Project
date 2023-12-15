@@ -15,11 +15,11 @@ const uselogic = () => {
   };
   //@ts-ignore
   const { t } = useTranslation();
-  const StudentNumber = t('StudentNumber');
-  const StudentName = t('StudentName');
+  const StudentNumber = t('Student Number');
+  const StudentName = t('Student Name');
   const EvaluationReport = t('EvaluationReport');
-  const TrainerName = t('TrainerName');
-  const CompanyBranch = t('CompanyBranch');
+  const TrainerName = t('Trainer Name');
+  const CompanyBranch = t('Company Branch');
   const columns: ColumnDef<CompletedTraineesData, any>[] = [
     {
       accessorKey: 'studentId',

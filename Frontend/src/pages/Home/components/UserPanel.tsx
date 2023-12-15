@@ -45,6 +45,7 @@ const UserPanel: FC = () => {
                   label={t(button.label)}
                   Icon={button.Icon}
                   bgcolor={button.bgcolor}
+                  id={button.id}
                 />
               ))}
             </Grid>
@@ -62,6 +63,7 @@ const UserPanel: FC = () => {
                   label={t(button.label)}
                   Icon={button.Icon}
                   bgcolor={button.bgcolor}
+                  id={button.id}
                 />
               ))}
             </Grid>
@@ -79,6 +81,7 @@ const UserPanel: FC = () => {
                   label={t(button.label)}
                   Icon={button.Icon}
                   bgcolor={button.bgcolor}
+                  id={button.id}
                 />
               ))}
             </Grid>
@@ -96,6 +99,7 @@ const UserPanel: FC = () => {
                   label={t(button.label)}
                   Icon={button.Icon}
                   bgcolor={button.bgcolor}
+                  id={button.id}
                 />
               ))}
             </Grid>
@@ -113,6 +117,7 @@ const UserPanel: FC = () => {
                   label={t(button.label)}
                   Icon={button.Icon}
                   bgcolor={button.bgcolor}
+                  id={button.id}
                 />
               ))}
             </Grid>
